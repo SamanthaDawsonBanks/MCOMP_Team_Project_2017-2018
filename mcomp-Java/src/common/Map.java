@@ -7,12 +7,12 @@ package common;
  * @author David Avery
  *
  */
-public class LMap {
+public class Map {
 
   /**
    * 
    */
-  public LMap() {
+  public Map() {
     // TODO Auto-generated constructor stub
   }
 
