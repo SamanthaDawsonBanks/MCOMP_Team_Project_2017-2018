@@ -9,6 +9,6 @@ package common;
  */
 public interface LiDARable {
   //TODO currently a shim for the pass over to arduino... consider: wrapping serial?? refactoring??
-  LMap sense();//FIXME
+  Map sense();//FIXME
 
 }
