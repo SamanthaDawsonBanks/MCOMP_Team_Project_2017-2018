@@ -3,6 +3,8 @@
  */
 package common;
 
+
+
 /**
  * @author David Avery
  *
@@ -10,13 +12,15 @@ package common;
 
 public class Path {
 
-  private Waypoint head;
+  private PathItem head;
+  private PathItem lastItem;//TODO check
   private int length;
 
   public Path(Waypoint w) {
     // TODO make empty then fill or make with first
-    this.head = w; // reuse PQueue???
-    length = 1;
+    this.head = new PathItem(w);
+    this.lastItem = head;
+    this.length = 1;
   }
 
   /**
@@ -25,23 +29,30 @@ public class Path {
 
   void addNode(Waypoint w) {
     // TODO stub
-    length++;// want this yes/no??
+//    PathItem tempPointer = head;
+//    for (int i = 0; i < length; i++) {
+//      tempPointer = tempPointer.getNext();
+//    }
+    lastItem.setNext(new PathItem(w));
+    lastItem = lastItem.getNext();
+    length++;
   }
 
-  Waypoint getNext() {// getNext or pop? or get [i]
-    // TODO stub
-    return head;
+  Waypoint poll() {
+    // TODO check empty??
+    Waypoint res = head.getData();
+    head = head.getNext();//FIXME check null
+    length--;
+    return res;
   }
 
   int getLength() {
-    // TODO stub
-    // do we want this??
     return length;
   }
 
   boolean isDone() {
-    // TODO stub
-    return true;// check length??
+    return (length == 0);
   }
+
 
 }
