@@ -12,7 +12,6 @@ package common;
 
 public class Path {
 
-
   private PathItem destination;
   private PathItem head;
   private PathItem lastItem;
@@ -46,8 +45,7 @@ public class Path {
     Waypoint res = destination.getData(); // default to destination
     if (length > 0) {
       res = head.getData();
-      head = head.getNext();// FIXME last item garbage (LI points to old head in empty queues so GC
-                            // can't clean)
+      head = head.getNext();// FIXME LI points to old head in empty queues so GC can't clean
       if (head == null) {
         lastItem = null;// FIXME this cleans, but complicates??
       }
