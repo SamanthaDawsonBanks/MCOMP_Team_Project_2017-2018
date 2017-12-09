@@ -12,15 +12,17 @@ package common;
 
 public class Path {
 
+
+  private PathItem destination;
   private PathItem head;
-  private PathItem lastItem;//TODO check
+  private PathItem lastItem;
   private int length;
 
   public Path(Waypoint w) {
-    // TODO make empty then fill or make with first
-    this.head = new PathItem(w);
-    this.lastItem = head;
-    this.length = 1;
+    this.destination = new PathItem(w);
+    this.head = null;
+    this.lastItem = null;
+    this.length = 0;
   }
 
   /**
@@ -28,21 +30,29 @@ public class Path {
    */
 
   void addNode(Waypoint w) {
-    // TODO stub
-//    PathItem tempPointer = head;
-//    for (int i = 0; i < length; i++) {
-//      tempPointer = tempPointer.getNext();
-//    }
-    lastItem.setNext(new PathItem(w));
-    lastItem = lastItem.getNext();
+    // TODO test
+    if (length > 0) {
+      lastItem.setNext(new PathItem(w));
+      lastItem = lastItem.getNext();
+    } else {
+      head = new PathItem(w);
+      lastItem = head;
+    }
     length++;
   }
 
   Waypoint poll() {
-    // TODO check empty??
-    Waypoint res = head.getData();
-    head = head.getNext();//FIXME check null
-    length--;
+    // TODO test
+    Waypoint res = destination.getData(); // default to destination
+    if (length > 0) {
+      res = head.getData();
+      head = head.getNext();// FIXME last item garbage (LI points to old head in empty queues so GC
+                            // can't clean)
+      if (head == null) {
+        lastItem = null;// FIXME this cleans, but complicates??
+      }
+      length--;
+    }
     return res;
   }
 

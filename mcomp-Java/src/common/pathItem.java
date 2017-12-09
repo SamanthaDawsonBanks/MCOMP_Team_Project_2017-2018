@@ -7,6 +7,7 @@ public class PathItem {
     
     public PathItem(Waypoint data) {
         this.data = data;
+        this.next = null;
     }
     public Waypoint getData() {
         return data;
