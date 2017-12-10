@@ -11,7 +11,7 @@ import java.util.ArrayList;
  */
 public class Map {
   
-  private MapLayer amalgamatedMap;
+  private GriddedMap amalgamatedMap;
   private ArrayList<MapLayer> layers = new ArrayList<MapLayer>();
 
   /**
@@ -35,20 +35,20 @@ public class Map {
   public void addLayer(MapLayer layer) {
     //transform layer??
     layers.add(layer);
-    amalgamateLayers(layer);
+    amalgamateLayer(layer);
   }
 
-  private void amalgamateLayers(MapLayer layer) {
+  private void amalgamateLayer(MapLayer layer) {
     // TODO Auto-generated method stub
-    for (cell : layer) {
+    for (Waypoint w : layer) {
       //add cell info to amalgamatedMap in correct loc
+      amalgamatedMap.add(w);
     }
         
   }
 
-  public MapLayer getAmalgamatedMap() {
-    return amalgamatedMap;//FIXME possible NPE
-    
+  public GriddedMap getAmalgamatedMap() {
+    return amalgamatedMap;
   }
   
 }

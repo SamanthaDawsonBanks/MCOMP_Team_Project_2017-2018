@@ -3,43 +3,66 @@
  */
 package common;
 
+import java.util.Iterator;
+
 /**
  * @author David Avery
  *
  */
-public class MapLayer {// FIXME adjust for iterator??
+public class MapLayer implements Iterable<Waypoint> {// FIXME adjust for iterator??
 
-  private GridDesign gridDesign;
-
-  /**
-   * The default constructor for a MapLayer, with the value (TETRA | 4 | Square) for grid design
-   */
-  public MapLayer() {
-    this.gridDesign = new GridDesign();
-  }
+  private LiDARRead liDARRead = new LiDARread();//FIXME is this a different datatype or just a LL | AL???
 
   /**
-   * @return the gridDesign
+   * The default constructor for a MapLayer
    */
-  public GridDesign getGridDesign() {
-    return gridDesign;
-  }
+  public MapLayer(LiDARread l) {//FIXME what is input??
+    this.liDARRead = l;
 
+  }
 
   public void transform(int x, int y, int a) {
-    //calc trans and rot
-    //call rot
-    //call trans
+    // calc trans and rot
+    // x,y is a WP from the path so it is absolute and must be precalced?? before this call
+    // call rot
+    rotate(a);
+    // call trans
+    translate(x,y);
   }
-  
-  
-  private void rotate(int azimuth) {
-    //apply rotation by -ve of azimuth to bring map to be 'north' = 'top'
+
+
+  private void rotate(int a) {
+    // apply rotation by azimuth (Theta) to bring map to be 'north' = 'top'
+    
+    // precalc sin(a) and cos(a)
+    double sinA = Math.sin(a);
+    double cosA = Math.cos(a);
+    
+    for (Waypoint w : liDARRead) {//TODO refactor for threading
+      double  oldX = w.getX();
+      double  oldY = w.getY();
+      double newX = oldX * cosA - oldY * sinA;// FIXME fix cast
+      double newY = oldX * sinA + oldY * cosA;
+      w = new Waypoint(newX, newY);// FIXME does this put w back in liDARRead??
+    }
   }
 
 
   private void translate(int xOffset, int yOffset) {
-    //apply rotation by -ve of azimuth to bring map to be 'north' = 'top'
+    // apply translation -ve x and -ve y so 'centre' is map 'origin'
+    for (Waypoint w : liDARRead) {//TODO refactor for threading
+      double oldX = w.getX();
+      double oldY = w.getY();
+      double newX = oldX - xOffset;
+      double newY = oldY - yOffset;
+      w = new Waypoint(newX, newY);// FIXME does this put w back in liDARRead??
+    }
+  }
+
+  @Override
+  public Iterator<Waypoint> iterator() {//TODO write this
+    // TODO Auto-generated method stub
+    return null;
   }
 
 
