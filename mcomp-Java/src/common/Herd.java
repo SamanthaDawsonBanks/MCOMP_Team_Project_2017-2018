@@ -12,21 +12,20 @@ import java.util.ArrayList;
  *	Once created, a Herd must nominate a Leader. This will always 
  *	result in the Founding member beginning as the leader.
  *
- *	A Herd holds lists for all members and lists for members with
- *	certain abilities. The Lists will eventually hold the Public Key
- *	for that member as a unique identifier.
+ *	A Herd holds lists containing all members and lists for members with
+ *	certain abilities.
  *	
  */
 
 public class Herd {
 	private String herdID;
-	private String theLeader;
-	private ArrayList <String> herdMembers;
-	private ArrayList <String> herdDrivers;
-	private ArrayList <String> herdSensors;
-	private ArrayList <String> herdProcessors;
-	private ArrayList <String> herdViewers;
-	private ArrayList <String> herdDestSetters;
+	private Member theLeader;
+	private ArrayList <Member> herdMembers;
+	private ArrayList <Member> herdDrivers;
+	private ArrayList <Member> herdSensors;
+	private ArrayList <Member> herdProcessors;
+	private ArrayList <Member> herdViewers;
+	private ArrayList <Member> herdDestSetters;
 
 	/*
 	 * The Herd constructor.
@@ -40,44 +39,50 @@ public class Herd {
 	public Herd (Member a) {
 		//Storage Initialisation
 		herdID = "newHerd";
-		herdMembers = new ArrayList<String>();
-		herdDrivers = new ArrayList<String>();
-		herdSensors = new ArrayList<String>();
-		herdProcessors = new ArrayList<String>();
-		herdViewers = new ArrayList<String>();
-		herdDestSetters = new ArrayList<String>();
+		herdMembers = new ArrayList<Member>();
+		herdDrivers = new ArrayList<Member>();
+		herdSensors = new ArrayList<Member>();
+		herdProcessors = new ArrayList<Member>();
+		herdViewers = new ArrayList<Member>();
+		herdDestSetters = new ArrayList<Member>();
 
 		//Ability Querying
+		herdMembers.add(a);
 		for(String b : a.getAbilities()) {
 			switch (b) {
 			case "D":
-				herdDrivers.add(a.getPublicKey());
+				herdDrivers.add(a);
 				break;
 			case "P":
-				herdProcessors.add(a.getPublicKey());
+				herdProcessors.add(a);
 				break;
 			case "S":
-				herdSensors.add(a.getPublicKey());
+				herdSensors.add(a);
 				break;
 			case "V":
-				herdViewers.add(a.getPublicKey());
+				herdViewers.add(a);
 				break;
 			case "W":
-				herdDestSetters.add(a.getPublicKey());
+				herdDestSetters.add(a);
 				break;
 			}
 		}
 		//election
-		nominateLeader();
+		firstTimeElection(a);
 	}
 	
 	/*
 	 * The nomination process. The Leader variable is populated
-	 * by the Public Key of the elected leader.
+	 * by the Member Object of the Leader.
 	 */
-	public String nominateLeader() {
+	public Member nominateLeader() {
 		//Obviously the data type and nomination process needs refining!
 		theLeader = herdMembers.get(0);
+		return theLeader;
+	}
+	
+	public Member firstTimeElection(Member founder) {
+		theLeader = founder;
 		return theLeader;
 	}
 	
@@ -93,7 +98,7 @@ public class Herd {
 	 * List. Spreading the List like this should prevent Herd collapse in
 	 * the event that the Leader dies/disappears.
 	 */
-	public ArrayList<String> requestJoin(Member aspiringMember){
+	public ArrayList<Member> requestJoin(Member aspiringMember){
 		//TODO Find a test to validate the Key of a member
 		return herdMembers;
 		//Else return empty ArrayList
@@ -107,40 +112,40 @@ public class Herd {
 	 * 
 	 * A debate needs to be about transferring leadership, and what gets copied over.
 	 */
-	public ArrayList<String> requestLeave(Member leavingMember){
+	public ArrayList<Member> requestLeave(Member leavingMember){
 		//TODO There is 100% a smarter way to remove a member from the lists
 		String leaver = leavingMember.getPublicKey();
-		for(String id: herdMembers) {
-			if(id.equals(leaver)) {
-				herdMembers.remove(leaver);
+		for(Member a: herdMembers) {
+			if(a.getPublicKey().equals(leaver)) {
+				herdMembers.remove(leavingMember);
 			}
 		}
-		for(String id: herdDrivers) {
-			if(id.equals(leaver)) {
-				herdDrivers.remove(leaver);
+		for(Member a: herdDrivers) {
+			if(a.getPublicKey().equals(leaver)) {
+				herdDrivers.remove(leavingMember);
 			}
 		}
-		for(String id: herdSensors) {
-			if(id.equals(leaver)) {
-				herdSensors.remove(leaver);
+		for(Member a: herdSensors) {
+			if(a.getPublicKey().equals(leaver)) {
+				herdSensors.remove(leavingMember);
 			}
 		}
-		for(String id: herdProcessors) {
-			if(id.equals(leaver)) {
-				herdProcessors.remove(leaver);
+		for(Member a: herdProcessors) {
+			if(a.getPublicKey().equals(leaver)) {
+				herdProcessors.remove(leavingMember);
 			}
 		}
-		for(String id: herdViewers) {
-			if(id.equals(leaver)) {
-				herdViewers.remove(leaver);
+		for(Member a: herdViewers) {
+			if(a.getPublicKey().equals(leaver)) {
+				herdViewers.remove(leavingMember);
 			}
 		}
-		for(String id: herdDestSetters) {
-			if(id.equals(leaver)) {
-				herdDestSetters.remove(leaver);
+		for(Member a : herdDestSetters) {
+			if(a.getPublicKey().equals(leaver)) {
+				herdDestSetters.remove(leavingMember);
 			}
 		}
-		if(theLeader.equals(leavingMember.getPublicKey())){
+		if(theLeader.getPublicKey().equals(leavingMember.getPublicKey())){
 		   nominateLeader();
 		}
 		return herdMembers;
@@ -151,4 +156,12 @@ public class Herd {
 //		//TODO for each member in the herdMembers list publish the new list to them
 //		}
 //	}
+	
+	public String getHerdID () {
+		return herdID;
+	}
+	
+	public ArrayList<Member> getMembers(){
+		return herdMembers;
+	}
 }
