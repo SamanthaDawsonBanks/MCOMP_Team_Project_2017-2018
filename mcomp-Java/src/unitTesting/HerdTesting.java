@@ -46,6 +46,7 @@ public class HerdTesting {
 		ArrayList <Member> members = new ArrayList<Member>();
 		for (int i = 0; i < 5; i++) {
 			String [] abil = {"D", "P", "S"};
+			//TODO Fix the below function to produce various abilities for a Member
 /*			switch (i) {
 			case 0:
 				abil [0] = "D";
