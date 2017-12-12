@@ -95,6 +95,8 @@ public class Herd {
 	 */
 	public ArrayList<Member> requestJoin(Member aspiringMember){
 		//TODO Find a test to validate the Key of a member
+		//TODO Populate lists based on ability
+		herdMembers.add(aspiringMember);
 		return herdMembers;
 		//Else return empty ArrayList
 	}
