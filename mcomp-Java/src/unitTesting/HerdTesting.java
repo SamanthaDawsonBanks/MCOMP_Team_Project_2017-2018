@@ -30,7 +30,6 @@ public class HerdTesting {
 		assert(b.getMembers().size() > 0);
 		System.out.println(b.getHerdID());
 		System.out.println(b.getMembers());
-		
 	}
 	
 	

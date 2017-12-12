@@ -25,7 +25,7 @@ public class Herd {
 	private ArrayList <Member> herdSensors;
 	private ArrayList <Member> herdProcessors;
 	private ArrayList <Member> herdViewers;
-	private ArrayList <Member> herdDestSetters;
+	private Member herdDestSetters;
 
 	/*
 	 * The Herd constructor.
@@ -38,13 +38,12 @@ public class Herd {
 	 */
 	public Herd (Member a) {
 		//Storage Initialisation
-		herdID = "newHerd";
+		herdID = "newHerd"; //Needs to be a randomly generated name
 		herdMembers = new ArrayList<Member>();
 		herdDrivers = new ArrayList<Member>();
 		herdSensors = new ArrayList<Member>();
 		herdProcessors = new ArrayList<Member>();
 		herdViewers = new ArrayList<Member>();
-		herdDestSetters = new ArrayList<Member>();
 
 		//Ability Querying
 		herdMembers.add(a);
@@ -63,12 +62,12 @@ public class Herd {
 				herdViewers.add(a);
 				break;
 			case "W":
-				herdDestSetters.add(a);
+				herdDestSetters = a;
 				break;
 			}
 		}
 		//election
-		firstTimeElection(a);
+		theLeader = a;
 	}
 	
 	/*
@@ -81,10 +80,6 @@ public class Herd {
 		return theLeader;
 	}
 	
-	public Member firstTimeElection(Member founder) {
-		theLeader = founder;
-		return theLeader;
-	}
 	
 	/*
 	 * This is where requests to join the Herd are handled. In the
@@ -140,9 +135,9 @@ public class Herd {
 				herdViewers.remove(leavingMember);
 			}
 		}
-		for(Member a : herdDestSetters) {
-			if(a.getPublicKey().equals(leaver)) {
-				herdDestSetters.remove(leavingMember);
+		if(herdDestSetters != null) {
+			if (herdDestSetters.getPublicKey().equals(leaver)) {
+				herdDestSetters = null;
 			}
 		}
 		if(theLeader.getPublicKey().equals(leavingMember.getPublicKey())){
@@ -161,7 +156,42 @@ public class Herd {
 		return herdID;
 	}
 	
+	/*
+	 * Retrieve the list of all Members of the Herd
+	 */
 	public ArrayList<Member> getMembers(){
 		return herdMembers;
+	}
+	
+	/*
+	 * Retrieve a single member from the List
+	 */
+	public Member getMember(String theKey) {
+		for(Member a: herdMembers) {
+			if(a.getPublicKey().equals(theKey)) {
+				return a;
+			}
+		}
+		return null;
+	}
+	
+	public ArrayList<Member> getDrivers() {
+		return herdDrivers;
+	}
+	
+	public ArrayList<Member> getProcessors(){
+		return herdProcessors;
+	}
+	
+	public ArrayList<Member> getSensors(){
+		return herdSensors;
+	}
+	
+	public ArrayList<Member> getViewers(){
+		return herdViewers;
+	}
+	
+	public Member getDestSetter(){
+		return herdDestSetters;
 	}
 }
