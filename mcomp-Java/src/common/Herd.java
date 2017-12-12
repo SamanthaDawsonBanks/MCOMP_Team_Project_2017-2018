@@ -97,8 +97,29 @@ public class Herd {
 		//TODO Find a test to validate the Key of a member
 		//TODO Populate lists based on ability
 		herdMembers.add(aspiringMember);
+		for(String ability: aspiringMember.getAbilities()) {
+			switch (ability) {
+			case "D":
+				herdDrivers.add(aspiringMember);
+				break;
+			case "P":
+				herdProcessors.add(aspiringMember);
+				break;
+			case "S":
+				herdSensors.add(aspiringMember);
+				break;
+			case "V":
+				herdViewers.add(aspiringMember);
+				break;
+			case "W":
+				//TODO Need code to check the old destSetter and remove it if it only has the one ability.
+				herdDestSetters.getAbilities().remove("W");
+				herdDestSetters.leaveHerd(this);
+				herdDestSetters = aspiringMember;
+				break;
+			}
+		}
 		return herdMembers;
-		//Else return empty ArrayList
 	}
 	
 	/*
