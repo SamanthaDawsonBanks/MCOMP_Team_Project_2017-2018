@@ -3,6 +3,8 @@
  */
 package common;
 
+
+
 /**
  * @author David Avery
  *
@@ -10,13 +12,16 @@ package common;
 
 public class Path {
 
-  private Waypoint head;
+  private PathItem destination;
+  private PathItem head;
+  private PathItem lastItem;
   private int length;
 
   public Path(Waypoint w) {
-    // TODO make empty then fill or make with first
-    this.head = w; // reuse PQueue???
-    length = 1;
+    this.destination = new PathItem(w);
+    this.head = null;
+    this.lastItem = null;
+    this.length = 0;
   }
 
   /**
@@ -24,24 +29,38 @@ public class Path {
    */
 
   void addNode(Waypoint w) {
-    // TODO stub
-    length++;// want this yes/no??
+    // TODO test
+    if (length > 0) {
+      lastItem.setNext(new PathItem(w));
+      lastItem = lastItem.getNext();
+    } else {
+      head = new PathItem(w);
+      lastItem = head;
+    }
+    length++;
   }
 
-  Waypoint getNext() {// getNext or pop? or get [i]
-    // TODO stub
-    return head;
+  Waypoint poll() {
+    // TODO test
+    Waypoint res = destination.getData(); // default to destination
+    if (length > 0) {
+      res = head.getData();
+      head = head.getNext();// FIXME LI points to old head in empty queues so GC can't clean
+      if (head == null) {
+        lastItem = null;// FIXME this cleans, but complicates??
+      }
+      length--;
+    }
+    return res;
   }
 
   int getLength() {
-    // TODO stub
-    // do we want this??
     return length;
   }
 
   boolean isDone() {
-    // TODO stub
-    return true;// check length??
+    return (length == 0);
   }
+
 
 }
