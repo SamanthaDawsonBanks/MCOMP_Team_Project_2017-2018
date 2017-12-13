@@ -14,8 +14,11 @@ public class GriddedMap {
   /**
    * The default constructor for a MapLayer, with the value (TETRA | 4 | Square) for grid design
    */
-  public GriddedMap(LiDARRead l) {//input on constructor?
-    this.gridDesign = new GridDesign();
+  public GriddedMap(MapLayer layer, GridDesign grid) {//input on constructor?
+    this.gridDesign = grid;
+    for (Waypoint w : layer) {
+      this.add(w);
+    }
   }
 
   /**
@@ -23,6 +26,12 @@ public class GriddedMap {
    */
   public GridDesign getGridDesign() {
     return gridDesign;
+  }
+
+  public boolean add(Waypoint w) {
+    return true;
+    // TODO Auto-generated method stub
+    
   }
 
 
