@@ -9,23 +9,23 @@ package common;
  */
 
 public class Waypoint {
-  private int x;
-  private int y;
+  private double x;
+  private double y;
 
-  public Waypoint(int x, int y) {
-    this.x = x;
-    this.y = y;
+  public Waypoint(double newX, double newY) {
+    this.x = newX;
+    this.y = newY;
   }
 
   /**
    * Data Type definition
    */
 
-  public int getX() {
+  public double getX() {
     return x;
   }
 
-  public int getY() {
+  public double getY() {
     return y;
   }
 
