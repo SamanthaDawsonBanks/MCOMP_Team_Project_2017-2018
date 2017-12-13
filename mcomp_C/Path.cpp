@@ -1,19 +1,79 @@
-/*
- * Path.cpp
- *
- *  Created on: 26 Nov 2017
- *      Author: David Avery
- */
-
+#include <iostream>
+#include<string>
 #include "Path.h"
+#ifndef NULL
+#define NULL   ((void *) 0)
+#endif
 
 Path::Path() {
-  // TODO Auto-generated constructor stub
-  //FIXME implement this once data structure is defined in java land
+  PQueueItem head;
+  PQueueItem destination;
+  PQueueItem lastItem;
+  int *ptr = NULL;
+  this->destination = new PQueueItem(w);
+  this->head = NULL;
+  this->lastItem = NULL;
+  this->length = 0;
 
 }
 
 Path::~Path() {
   // TODO Auto-generated destructor stub
 }
+
+
+void Path::addNode(Waypoint w){
+
+	if(length > 0){
+		PQueueItem = new PQueueItem(w);
+		lastItem.setNext(PQueueItem(w));
+		lastItem = lastItem.getNext();
+	}
+	else {
+		head = new PQueueItem(w);
+		lastItem = head;
+	}
+
+	length++;
+}
+
+
+Waypoint Path::poll(){
+
+	Waypoint res = destination.getData();
+	if(length > 0){
+		res = head.getData();
+		head = head.getNext();
+
+	if(head == NULL){
+		lastItem = NULL;
+	}
+	length--;
+	}
+	return res;
+}
+
+
+
+int Path::getLength() {
+	int counter = 0;
+	PQueueItem head1 = head;
+	if(head == NULL){
+		return 0;
+	}
+	while (head1 != NULL){
+		counter++;
+		head1 = head1.getNext();
+	}
+	return counter;
+}
+
+
+bool Path::isDone() {
+     return true;
+	 return(length == 0);
+
+}
+
+
 

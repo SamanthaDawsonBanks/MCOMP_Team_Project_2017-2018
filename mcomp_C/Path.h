@@ -1,17 +1,26 @@
-/*
- * Path.h
- *
- *  Created on: 26 Nov 2017
- *      Author: David Avery
- */
+#include "Waypoint.h"
 
 #ifndef PATH_H_
 #define PATH_H_
 
 class Path {
- public:
+
+private:
+ PQueueItem head;
+ PQueueItem destination;
+ PQueueItem lastItem;
+
+
+public:
   Path();
   virtual ~Path();
+  void addNode(Waypoint);
+  Waypoint poll();
+  int getLength();
+  int length = 0;
+  bool isDone();
+
+
 };
 //FIXME implement this once data structure is defined in java land
 
