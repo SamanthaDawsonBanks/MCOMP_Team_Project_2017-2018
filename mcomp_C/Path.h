@@ -1,3 +1,4 @@
+#include "PQueueItem.h"
 #include "Waypoint.h"
 
 #ifndef PATH_H_
@@ -12,7 +13,7 @@ private:
 
 
 public:
-  Path();
+  Path(Waypoint w);
   virtual ~Path();
   void addNode(Waypoint);
   Waypoint poll();
