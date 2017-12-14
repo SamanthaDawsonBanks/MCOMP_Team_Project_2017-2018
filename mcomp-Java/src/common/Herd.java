@@ -49,19 +49,19 @@ public class Herd {
 		herdMembers.add(a);
 		for(String b : a.getAbilities()) {
 			switch (b) {
-			case "D":
+			case "Driver":
 				herdDrivers.add(a);
 				break;
-			case "P":
+			case "Processor":
 				herdProcessors.add(a);
 				break;
-			case "S":
+			case "Sensor":
 				herdSensors.add(a);
 				break;
-			case "V":
+			case "Viewer":
 				herdViewers.add(a);
 				break;
-			case "W":
+			case "DestSetter":
 				herdDestSetters = a;
 				break;
 			}
@@ -99,19 +99,19 @@ public class Herd {
 		herdMembers.add(aspiringMember);
 		for(String ability: aspiringMember.getAbilities()) {
 			switch (ability) {
-			case "D":
+			case "Driver":
 				herdDrivers.add(aspiringMember);
 				break;
-			case "P":
+			case "Proccessor":
 				herdProcessors.add(aspiringMember);
 				break;
-			case "S":
+			case "Sensor":
 				herdSensors.add(aspiringMember);
 				break;
-			case "V":
+			case "Viewer":
 				herdViewers.add(aspiringMember);
 				break;
-			case "W":
+			case "DestSetter":
 				//TODO Need code to check the old destSetter and remove it if it only has the one ability.
 				herdDestSetters.getAbilities().remove("W");
 				herdDestSetters.leaveHerd(this);

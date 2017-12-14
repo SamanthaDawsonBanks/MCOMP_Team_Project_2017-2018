@@ -26,8 +26,8 @@ public class HerdTesting {
 	@Test
 	public void create() {
 		String [] arr = new String [2];
-		arr [0] = "D";
-		arr [1] = "P";
+		arr [0] = "Driver";
+		arr [1] = "Processor";
 		Member a =  new Member(arr);
 		Herd b = new Herd (a);
 		assert(b.getMembers().size() == 1);
@@ -40,12 +40,12 @@ public class HerdTesting {
 	 * Need to change the type of Array that passes values to 
 	 */
 	public void addManyMembers() {
-		String [] arr = {"D", "P"};
+		String [] arr = {"Driver", "Processor"};
 		Member theMember = new Member(arr); 
 		Herd theHerd = new Herd(theMember);
 		ArrayList <Member> members = new ArrayList<Member>();
 		for (int i = 0; i < 5; i++) {
-			String [] abil = {"D", "P", "S"};
+			String [] abil = {"Driver", "Processor", "Sensor"};
 			//TODO Fix the below function to produce various abilities for a Member
 /*			switch (i) {
 			case 0:
