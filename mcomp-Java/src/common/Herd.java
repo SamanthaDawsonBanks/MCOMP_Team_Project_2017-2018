@@ -137,6 +137,7 @@ public class Herd {
 	 * A debate needs to be about transferring leadership, and what gets copied over.
 	 */
 	public ArrayList<Member> requestLeave(Member leavingMember){
+		herdMembers.remove(leavingMember);
 		for(String b : leavingMember.getAbilities()) {
 			switch (b) {
 			case "Driver":

@@ -57,6 +57,7 @@ public class HerdTesting {
 		}
 		String [] abil3 = {"DestSetter"};
 		members.add(new Member(abil3));
+		members.add(new Member(abil3));
 		for (Member a: members) {
 			a.joinHerd(theHerd);
 		}
