@@ -1,30 +1,30 @@
-#include "PQueueItem.h"
+#include "PathItem.h"
 
 
-PQueueItem::PQueueItem(Waypoint w) {
+PathItem::PathItem(Waypoint w) {
    this->data = w;
 }
 
 
 
-PQueueItem::~PQueueItem() {
+PathItem::~PathItem() {
   // TODO Auto-generated destructor stub
 }
 
 
 
-Waypoint PQueueItem::getData(){
+Waypoint PathItem::getData(){
 	return Waypoint;
 }
 
 
 
-PQueueItem PQueueItem::getNext(){
+PathItem PathItem::getNext(){
 	return next;
 }
 
 
 
-void PQueueItem::setNext(PQueueItem next){
+void PathItem::setNext(PathItem next){
 	this->next = next;
 }

@@ -4,11 +4,11 @@
 #endif
 
 Path::Path(Waypoint w) {
-  PQueueItem head;
-  PQueueItem destination;
-  PQueueItem lastItem;
+  PathItem head;
+  PathItem destination;
+  PathItem lastItem;
   int *ptr = NULL;
-  this->destination = new PQueueItem(w);
+  this->destination = new PathItem(w);
   this->head = NULL;
   this->lastItem = NULL;
   this->length = 0;
@@ -23,12 +23,12 @@ Path::~Path() {
 void Path::addNode(Waypoint w){
 
 	if(length > 0){
-		PQueueItem = new PQueueItem(w);
-		lastItem.setNext(PQueueItem(w));
+		PathItem = new PathItem(w);
+		lastItem.setNext(PathItem(w));
 		lastItem = lastItem.getNext();
 	}
 	else {
-		head = new PQueueItem(w);
+		head = new PathItem(w);
 		lastItem = head;
 	}
 
@@ -55,7 +55,7 @@ Waypoint Path::poll(){
 
 int Path::getLength() {
 	int counter = 0;
-	PQueueItem head1 = head;
+	PathItem head1 = head;
 	if(head == NULL){
 		return 0;
 	}

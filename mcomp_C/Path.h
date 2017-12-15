@@ -1,4 +1,4 @@
-#include "PQueueItem.h"
+#include "PathItem.h"
 #include "Waypoint.h"
 
 #ifndef PATH_H_
@@ -7,9 +7,9 @@
 class Path {
 
 private:
- PQueueItem head;
- PQueueItem destination;
- PQueueItem lastItem;
+ PathItem head;
+ PathItem destination;
+ PathItem lastItem;
 
 
 public:

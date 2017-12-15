@@ -1,25 +1,25 @@
-#ifndef PQUEUEITEM_H_
-#define PQUEUEITEM_H_
+#ifndef PathItem_H_
+#define PathItem_H_
 #include "Waypoint.h"
 
 
 
 
-class PQueueItem {
+class PathItem {
 
  private:
-  PQueueItem next;
+  PathItem next;
   Waypoint data;
 
  public:
-  PQueueItem(Waypoint);
-  ~PQueueItem();
+  PathItem(Waypoint);
+  ~PathItem();
 
 
 
   Waypoint getData();
-  PQueueItem getNext();
-  void setNext(PQueueItem next);
+  PathItem getNext();
+  void setNext(PathItem next);
 };
 
 
@@ -28,4 +28,4 @@ class PQueueItem {
 
 
 
-#endif /* PQUEUEITEM_H_ */
+#endif /* PathItem_H_ */
