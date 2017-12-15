@@ -1,11 +1,9 @@
-#include <iostream>
-#include<string>
 #include "Path.h"
 #ifndef NULL
 #define NULL   ((void *) 0)
 #endif
 
-Path::Path() {
+Path::Path(Waypoint w) {
   PQueueItem head;
   PQueueItem destination;
   PQueueItem lastItem;
