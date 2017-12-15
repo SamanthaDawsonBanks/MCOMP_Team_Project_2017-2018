@@ -34,7 +34,7 @@ public class Member {
 		if (can.length > 0) {
 			for(String a : can) {
 				switch (a) {
-				case "D": case "P": case "S": case "V": case "W":
+				case "Driver": case "Processor": case "Sensor": case "Viewer": case "DestSetter":
 					abilities.add(a);
 					break;
 				default: break;
