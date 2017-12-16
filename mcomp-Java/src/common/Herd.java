@@ -69,7 +69,7 @@ public class Herd {
 		//election
 		theLeader = a;
 	}
-	
+
 	/*
 	 * The nomination process. The Leader variable is populated
 	 * by the Member Object of the Leader.
@@ -79,8 +79,8 @@ public class Herd {
 		theLeader = herdMembers.get(0);
 		return theLeader;
 	}
-	
-	
+
+
 	/*
 	 * This is where requests to join the Herd are handled. In the
 	 * full implementation, a Herd can only be "merged" with another,
@@ -113,15 +113,21 @@ public class Herd {
 				break;
 			case "DestSetter":
 				//TODO Need code to check the old destSetter and remove it if it only has the one ability.
-				herdDestSetters.getAbilities().remove("W");
-				herdDestSetters.leaveHerd(this);
+				if(herdDestSetters != null) {
+					if(herdDestSetters.getAbilities().size() > 1) {
+						herdDestSetters.getAbilities().remove("DestSetter");
+					}
+					else {
+						herdDestSetters.leaveHerd(this);
+					}
+				}
 				herdDestSetters = aspiringMember;
 				break;
 			}
 		}
 		return herdMembers;
 	}
-	
+
 	/*
 	 * This where requests to leave the Herd are handled. In order to leave,
 	 * a member must removed from the Herds lists of specialists. All remaining
@@ -131,61 +137,46 @@ public class Herd {
 	 * A debate needs to be about transferring leadership, and what gets copied over.
 	 */
 	public ArrayList<Member> requestLeave(Member leavingMember){
-		//TODO There is 100% a smarter way to remove a member from the lists
-		String leaver = leavingMember.getPublicKey();
-		for(Member a: herdMembers) {
-			if(a.getPublicKey().equals(leaver)) {
-				herdMembers.remove(leavingMember);
-			}
-		}
-		for(Member a: herdDrivers) {
-			if(a.getPublicKey().equals(leaver)) {
+		herdMembers.remove(leavingMember);
+		for(String b : leavingMember.getAbilities()) {
+			switch (b) {
+			case "Driver":
 				herdDrivers.remove(leavingMember);
-			}
-		}
-		for(Member a: herdSensors) {
-			if(a.getPublicKey().equals(leaver)) {
-				herdSensors.remove(leavingMember);
-			}
-		}
-		for(Member a: herdProcessors) {
-			if(a.getPublicKey().equals(leaver)) {
-				herdProcessors.remove(leavingMember);
-			}
-		}
-		for(Member a: herdViewers) {
-			if(a.getPublicKey().equals(leaver)) {
-				herdViewers.remove(leavingMember);
-			}
-		}
-		if(herdDestSetters != null) {
-			if (herdDestSetters.getPublicKey().equals(leaver)) {
+				break;
+			case "Processor":
+				herdProcessors.add(leavingMember);
+				break;
+			case "Sensor":
+				herdSensors.add(leavingMember);
+				break;
+			case "Viewer":
+				herdViewers.add(leavingMember);
+				break;
+			case "DestSetter":
 				herdDestSetters = null;
+				break;
 			}
-		}
-		if(theLeader.getPublicKey().equals(leavingMember.getPublicKey())){
-		   nominateLeader();
 		}
 		return herdMembers;
 	}
-	
-//	public ArrayList<String> publishMembers() {
-//		for(String a: herdMembers){
-//		//TODO for each member in the herdMembers list publish the new list to them
-//		}
-//	}
-	
+
+	//	public ArrayList<String> publishMembers() {
+	//		for(String a: herdMembers){
+	//		//TODO for each member in the herdMembers list publish the new list to them
+	//		}
+	//	}
+
 	public String getHerdID () {
 		return herdID;
 	}
-	
+
 	/*
 	 * Retrieve the list of all Members of the Herd
 	 */
 	public ArrayList<Member> getMembers(){
 		return herdMembers;
 	}
-	
+
 	/*
 	 * Retrieve a single member from the List
 	 */
@@ -197,23 +188,23 @@ public class Herd {
 		}
 		return null;
 	}
-	
+
 	public ArrayList<Member> getDrivers() {
 		return herdDrivers;
 	}
-	
+
 	public ArrayList<Member> getProcessors(){
 		return herdProcessors;
 	}
-	
+
 	public ArrayList<Member> getSensors(){
 		return herdSensors;
 	}
-	
+
 	public ArrayList<Member> getViewers(){
 		return herdViewers;
 	}
-	
+
 	public Member getDestSetter(){
 		return herdDestSetters;
 	}
