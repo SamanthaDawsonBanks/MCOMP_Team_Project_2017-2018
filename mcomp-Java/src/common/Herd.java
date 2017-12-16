@@ -115,7 +115,7 @@ public class Herd {
 				//TODO Need code to check the old destSetter and remove it if it only has the one ability.
 				if(herdDestSetters != null) {
 					if(herdDestSetters.getAbilities().size() > 1) {
-						herdDestSetters.getAbilities().remove("W");
+						herdDestSetters.getAbilities().remove("DestSetter");
 					}
 					else {
 						herdDestSetters.leaveHerd(this);
