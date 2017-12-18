@@ -44,11 +44,10 @@
 // and Initialise I/O pins
 // eg. pinMode(RED, OUTPUT);
 
-void setup()
-{
+void setup() {
   // Add your initialisation code here
   // TODO method stub
-} //End Setup
+}  //End Setup
 
 //-----------------------------Functions / Subroutines-----------------------------
 
@@ -62,5 +61,5 @@ void setup()
 void loop() {
   // Add your repeated code here
   // TODO method stub
-} // End Loop
+}  // End Loop
 
