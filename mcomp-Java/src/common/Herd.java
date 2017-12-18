@@ -41,7 +41,7 @@ public class Herd {
 	 */
 	public Herd (Member a) {
 		//Storage Initialisation
-		herdID = "newHerd"; //Needs to be a randomly generated name
+		herdID = "newHerd"; //TODO Needs to be a randomly generated name
 		herdMembers = new ArrayList<Member>();
 		herdDrivers = new ArrayList<Member>();
 		herdSensors = new ArrayList<Member>();
@@ -82,6 +82,7 @@ public class Herd {
 	 */
 	public Member nominateLeader() {
 		//Obviously the data type and nomination process needs refining!
+		//TODO Implement a more robust election system, i.e check list has members
 		theLeader = herdMembers.get(0);
 		return theLeader;
 	} 
@@ -103,7 +104,7 @@ public class Herd {
 	 * @return The list of all current members in the Herd.
 	 */
 	public ArrayList<Member> requestJoin(Member aspiringMember){
-		//TODO Find a test to validate the Key of a member
+		//TODO Find a test to validate the Key of a Member/Herd
 		herdMembers.add(aspiringMember);
 		for(String ability: aspiringMember.getAbilities()) {
 			switch (ability) {
@@ -146,6 +147,14 @@ public class Herd {
 	 * @return The list of remaining members.
 	 */
 	public ArrayList<Member> requestLeave(Member leavingMember){
+		/*TODO Consider the return type.
+		 * If a member leaves, do they need returned the state of the herd?
+		 * Perhaps this should be a void, or return an enum. 
+		 */
+		/*TODO Implement a test for leave.
+		 * If a member is the last Herd member, should the Herd be destroyed?
+		 * What happens to it's discoveries about the surrounding world? 
+		 */
 		herdMembers.remove(leavingMember);
 		for(String b : leavingMember.getAbilities()) {
 			switch (b) {
@@ -168,7 +177,8 @@ public class Herd {
 		}
 		return herdMembers;
 	}
-
+	
+	//TODO Finish this
 	//	public ArrayList<String> publishMembers() {
 	//		for(String a: herdMembers){
 	//		//TODO for each member in the herdMembers list publish the new list to them
