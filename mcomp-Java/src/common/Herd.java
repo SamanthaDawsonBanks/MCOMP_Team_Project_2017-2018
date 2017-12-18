@@ -25,9 +25,9 @@ public class Herd {
 	private ArrayList <Member> herdSensors;
 	private ArrayList <Member> herdProcessors;
 	private ArrayList <Member> herdViewers;
-	private Member herdDestSetters;
+	private Member herdDestSetter;
 
-	/*
+	/**
 	 * The Herd constructor.
 	 * 
 	 * A new Herd is handed its founding member.
@@ -35,6 +35,9 @@ public class Herd {
 	 * member is queried for its abilities. It will
 	 * then populate the appropriate lists. An election
 	 * is then called.
+	 * 
+	 * @param A Member to be the founder of the Herd.
+	 * @return A new Herd object.
 	 */
 	public Herd (Member a) {
 		//Storage Initialisation
@@ -62,7 +65,7 @@ public class Herd {
 				herdViewers.add(a);
 				break;
 			case "DestSetter":
-				herdDestSetters = a;
+				herdDestSetter = a;
 				break;
 			}
 		}
@@ -70,32 +73,37 @@ public class Herd {
 		theLeader = a;
 	}
 
-	/*
-	 * The nomination process. The Leader variable is populated
-	 * by the Member Object of the Leader.
+	/**
+	 * The nomination process.
+	 * The Leader variable is populated by the Member Object of the Leader.
+	 * The election process picks the oldest member in the Herd.
+	 * 
+	 * @return The leader of the Herd.
 	 */
 	public Member nominateLeader() {
 		//Obviously the data type and nomination process needs refining!
 		theLeader = herdMembers.get(0);
 		return theLeader;
-	}
+	} 
 
 
 	/*
 	 * This is where requests to join the Herd are handled. In the
 	 * full implementation, a Herd can only be "merged" with another,
 	 * so this method will either change signature or be deprecated.
-	 * 
+	 */
+	
+	/**
 	 * A member requests to join the Herd by calling this method. The
 	 * Herd will request a Public Key and Abilities List. If the Public
-	 * Key is a valid Public Key (Maybe send a file and see if it returns
-	 * the correct answer?) Then the Herd will respond with the herdMembers
-	 * List. Spreading the List like this should prevent Herd collapse in
-	 * the event that the Leader dies/disappears.
+	 * Key is a valid Public Key then the Herd will respond with the herdMembers
+	 * List.
+	 * 
+	 * @param The Member object requesting to join the Herd.
+	 * @return The list of all current members in the Herd.
 	 */
 	public ArrayList<Member> requestJoin(Member aspiringMember){
 		//TODO Find a test to validate the Key of a member
-		//TODO Populate lists based on ability
 		herdMembers.add(aspiringMember);
 		for(String ability: aspiringMember.getAbilities()) {
 			switch (ability) {
@@ -113,28 +121,29 @@ public class Herd {
 				break;
 			case "DestSetter":
 				//TODO Need code to check the old destSetter and remove it if it only has the one ability.
-				if(herdDestSetters != null) {
-					if(herdDestSetters.getAbilities().size() > 1) {
-						herdDestSetters.getAbilities().remove("DestSetter");
+				if(herdDestSetter != null) {
+					if(herdDestSetter.getAbilities().size() > 1) {
+						herdDestSetter.getAbilities().remove("DestSetter");
 					}
 					else {
-						herdDestSetters.leaveHerd(this);
+						herdDestSetter.leaveHerd(this);
 					}
 				}
-				herdDestSetters = aspiringMember;
+				herdDestSetter = aspiringMember;
 				break;
 			}
 		}
 		return herdMembers;
 	}
 
-	/*
+	/**
 	 * This where requests to leave the Herd are handled. In order to leave,
-	 * a member must removed from the Herds lists of specialists. All remaining
+	 * a member must be removed from the Herds lists of specialists. All remaining
 	 * members must be notified of the new state of the Herd. If the leaving member
 	 * is a Leader, then an election must be held.
 	 * 
-	 * A debate needs to be about transferring leadership, and what gets copied over.
+	 * @param The member object leaving the Herd.
+	 * @return The list of remaining members.
 	 */
 	public ArrayList<Member> requestLeave(Member leavingMember){
 		herdMembers.remove(leavingMember);
@@ -153,7 +162,7 @@ public class Herd {
 				herdViewers.add(leavingMember);
 				break;
 			case "DestSetter":
-				herdDestSetters = null;
+				herdDestSetter = null;
 				break;
 			}
 		}
@@ -165,20 +174,30 @@ public class Herd {
 	//		//TODO for each member in the herdMembers list publish the new list to them
 	//		}
 	//	}
-
+	
+	/**
+	 * Retrieves the unique ID of the Herd.
+	 * 
+	 * @return The herd ID.
+	 */
 	public String getHerdID () {
 		return herdID;
 	}
 
-	/*
-	 * Retrieve the list of all Members of the Herd
+	/**
+	 * Retrieve the list of all Members of the Herd.
+	 * 
+	 * @return The list of Herd Members.
 	 */
 	public ArrayList<Member> getMembers(){
 		return herdMembers;
 	}
 
-	/*
+	/**
 	 * Retrieve a single member from the List
+	 * 
+	 * @param The Public Key of a member in the Herd.
+	 * @return The Member object if it exists, null if not.
 	 */
 	public Member getMember(String theKey) {
 		for(Member a: herdMembers) {
@@ -188,24 +207,49 @@ public class Herd {
 		}
 		return null;
 	}
-
+	
+	/**
+	 * Retrieve a list of all the Herds Drive-Capable Members.
+	 * 
+	 * @return The list of Drivers.
+	 */
 	public ArrayList<Member> getDrivers() {
 		return herdDrivers;
 	}
-
+	
+	/**
+	 * Retrieve a list of all the Herds Map-Processing-Capable Members.
+	 * 
+	 * @return The list of Processors.
+	 */
 	public ArrayList<Member> getProcessors(){
 		return herdProcessors;
 	}
-
+	
+	/**
+	 * Retrieve a list of all the Herds Sensor-Equipped Members.
+	 * 
+	 * @return The list of Sensors.
+	 */
 	public ArrayList<Member> getSensors(){
 		return herdSensors;
 	}
-
+	
+	/**
+	 * Retrieve a list of all the Herds GUI-Capable Members.
+	 * 
+	 * @return The list of Viewers.
+	 */
 	public ArrayList<Member> getViewers(){
 		return herdViewers;
 	}
-
+	
+	/**
+	 * Retrieve the Member of the Herd responsible for setting destinations.
+	 * 
+	 * @return The Destination Setter.
+	 */
 	public Member getDestSetter(){
-		return herdDestSetters;
+		return herdDestSetter;
 	}
 }
