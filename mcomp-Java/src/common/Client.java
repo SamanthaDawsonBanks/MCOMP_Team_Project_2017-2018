@@ -1,6 +1,7 @@
 package common;
 
 import java.rmi.Naming;
+import java.rmi.RemoteException;
 
 /**
  * 
@@ -15,9 +16,15 @@ public class Client {
 
 
   public void start() {
-    Server server = this.connect();
-
-    int result = server.add(1, 45);
+    Serverable server = this.connect();
+    int result = 0;
+    
+    try {
+      result = server.add(25, 5);
+    } catch (RemoteException e) {
+      e.printStackTrace();
+    }
+    
     System.out.println(result);
   }
 
@@ -26,11 +33,11 @@ public class Client {
    * 
    * @return The server object
    */
-  private Server connect() {
-    Server server = null;
+  private Serverable connect() {
+    Serverable server = null;
 
     try {
-      server = (common.Server) Naming.lookup("//localhost/Server");
+      server = (Serverable) Naming.lookup("//localhost/Server");
     } catch (Exception e) {
       e.printStackTrace();
     }

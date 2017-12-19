@@ -7,6 +7,6 @@ package common;
  */
 public class ServerMain {
   public static void main(String[] args) throws Exception {
-    new Server(1099, "Server");
+    new Server(1099, "Server").start();
   }
 }
