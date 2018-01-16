@@ -2,9 +2,8 @@ package unitTesting;
 import org.junit.Before;
 import org.junit.Test;
 import java.util.ArrayList;
-
-import common.Herd;
-import common.Member;
+import common.objects.Herd;
+import common.objects.Member;
 
 /**
  * 
