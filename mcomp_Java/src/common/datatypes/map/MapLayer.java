@@ -5,6 +5,7 @@ package common.datatypes.map;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import common.datatypes.Waypoint;
 
 /**
  * @author David Avery

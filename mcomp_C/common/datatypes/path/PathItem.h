@@ -1,24 +1,22 @@
 #ifndef PathItem_H_
 #define PathItem_H_
 
-#include "Path.h"
 #include "../Waypoint.h"
+#include "PathItemPtr.h"
 
 class PathItem {
 
  private:
-  PathItem next;
+  PathItemPtr next;
   Waypoint data;
 
  public:
   PathItem(Waypoint w);
   ~PathItem();
 
-
-
   Waypoint getData();
-  PathItem getNext();
-  void setNext(PathItem next);
+  PathItemPtr getNext();
+  bool setNext(PathItem next);
 };
 
 
