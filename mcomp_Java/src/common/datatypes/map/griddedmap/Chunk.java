@@ -8,7 +8,7 @@ public class Chunk {
     // TODO Auto-generated constructor stub
   }
 
-  private Vertex[][] data;
+  private Vertex[][] data = new Vertex[GriddedMap.gridSize][GriddedMap.gridSize];
 
   /**
    * 
@@ -21,8 +21,11 @@ public class Chunk {
 
 
   public boolean add(Waypoint w) {
-    return false;
     //TODO
+    //calc vertex
+    //call add/block on calced vertex
+    //rest of call in vertex
+    return true;
 
   }
 

@@ -25,6 +25,7 @@ public class Vertex {
     this.y = y;
     for (Vertex v : edges) {
         v = null;//FIXME how to check there is a datapoint adjencent?? minesweeper?
+        //TODO unused?
       }
   }
   

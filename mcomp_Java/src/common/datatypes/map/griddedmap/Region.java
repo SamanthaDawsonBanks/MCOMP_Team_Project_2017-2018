@@ -11,7 +11,7 @@ import common.datatypes.Waypoint;
  */
 public class Region {
   
-  private Chunk[][] data;;
+  private Chunk[][] data = new Chunk[GriddedMap.gridSize][GriddedMap.gridSize];
 
   /**
    * 
@@ -24,8 +24,11 @@ public class Region {
 
 
   public boolean add(Waypoint w) {
-    return false;
     //TODO
+    //calc which chunk
+    //call add on calced chunk
+    //rest of call in chunk
+    return true;
 
   }
 

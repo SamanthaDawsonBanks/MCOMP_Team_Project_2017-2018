@@ -12,11 +12,11 @@ import common.datatypes.map.MapLayer;
  */
 public class GriddedMap {
   
-  protected static GridDesign gridDesign;
-  protected int gridSize = 64; //TODO add to constructor for dynamic?
+  protected static GridDesign gridDesign;//TODO abstract both up to map??
+  protected static int gridSize = 64; //TODO add to constructor for dynamic?
   
   //TODO array or link set from origin???
-  private Region data;
+  private Region[][] data;
   
 
   /**
@@ -37,9 +37,19 @@ public class GriddedMap {
   }
 
   public boolean add(Waypoint w) {
-    return true;
     // TODO Auto-generated method stub
+
+    //calc which region
+    //call add on correct region
+    //rest of call in region
     
+    return true;
+    
+  }
+  
+  public Region[][] getGrid() {
+    //TODO cascade adjust for selected area??
+    return data;
   }
 
 
