@@ -11,8 +11,7 @@ import common.datatypes.Waypoint;
  */
 public class Region {
   
-  private int gridSize = 64;
-  private boolean[][] data = new boolean[gridSize][gridSize];
+  private Chunk[][] data;;
 
   /**
    * 
@@ -51,7 +50,7 @@ public class Region {
 // and we try again...
   
   
-boolean[][] getGrid() {//FIXME what do we want from this DS?
+Chunk[][] getGrid() {//FIXME what do we want from this DS?
   return data;
 }
   

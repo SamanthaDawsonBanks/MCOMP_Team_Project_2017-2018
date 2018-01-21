@@ -13,10 +13,10 @@ import common.datatypes.map.MapLayer;
 public class GriddedMap {
   
   protected static GridDesign gridDesign;
-  private int gridSize = 64; //TODO add to constructor for dynamic?
+  protected int gridSize = 64; //TODO add to constructor for dynamic?
   
   //TODO array or link set from origin???
-  private Region[][] data;
+  private Region data;
   
 
   /**

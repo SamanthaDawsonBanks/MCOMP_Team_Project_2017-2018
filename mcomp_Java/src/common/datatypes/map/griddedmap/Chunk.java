@@ -8,8 +8,7 @@ public class Chunk {
     // TODO Auto-generated constructor stub
   }
 
-  private int gridSize = 64;
-  private boolean[][] data = new boolean[gridSize][gridSize];
+  private Vertex[][] data;
 
   /**
    * 
@@ -48,7 +47,7 @@ public class Chunk {
 // and we try again...
   
   
-boolean[][] getGrid() {//FIXME what do we want from this DS?
+Vertex[][] getGrid() {//FIXME what do we want from this DS?
   return data;
 }
   
