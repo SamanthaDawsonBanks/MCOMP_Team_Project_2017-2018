@@ -19,8 +19,6 @@
 							<builder buildPath="${workspace_loc:/mcomp_C}/Release" id="io.sloeber.sketch.builder.1128624989" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Arduino sketch builder" superClass="io.sloeber.sketch.builder"/>
 							<tool id="io.sloeber.tool.sketch.compiler.cpp.784959867" name="Arduino C++ Compiler" superClass="io.sloeber.tool.sketch.compiler.cpp">
 								<option id="io.sloeber.compiler.cpp.sketch.option.incpath.648775080" name="Include Paths (-I)" superClass="io.sloeber.compiler.cpp.sketch.option.incpath" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/mcomp-C/core/core}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/mcomp-C/core/variant}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/mcomp_C/core/core}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/mcomp_C/core/variant}&quot;"/>
 								</option>
@@ -28,8 +26,6 @@
 							</tool>
 							<tool id="io.sloeber.tool.compiler.c.178843555" name="Arduino C Compiler" superClass="io.sloeber.tool.compiler.c">
 								<option id="io.sloeber.compiler.c.sketch.option.incpath.404779502" name="Include Paths (-I)" superClass="io.sloeber.compiler.c.sketch.option.incpath" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/mcomp-C/core/core}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/mcomp-C/core/variant}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/mcomp_C/core/core}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/mcomp_C/core/variant}&quot;"/>
 								</option>
@@ -37,8 +33,6 @@
 							</tool>
 							<tool id="io.sloeber.tool.sketch.compiler.s.770476077" name="Arduino Assembler" superClass="io.sloeber.tool.sketch.compiler.s">
 								<option id="io.sloeber.compiler.asm.sketch.option.incpath.1602619412" name="Include Paths (-I)" superClass="io.sloeber.compiler.asm.sketch.option.incpath" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/mcomp-C/core/core}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/mcomp-C/core/variant}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/mcomp_C/core/core}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/mcomp_C/core/variant}&quot;"/>
 								</option>
