@@ -3,6 +3,8 @@
  */
 package common.datatypes.map.griddedmap;
 
+import common.datatypes.Waypoint;
+
 /**
  * @author dma23
  *
@@ -19,17 +21,17 @@ public class Vertex {
   /**
    * 
    */
-  public Vertex(int x,int y) {
+  public Vertex(Waypoint w) {
     // TODO Auto-generated constructor stub
-    this.x = x;
-    this.y = y;
+    this.x = (int) w.getX();
+    this.y = (int) w.getY();
     for (Vertex v : edges) {
         v = null;//FIXME how to check there is a datapoint adjencent?? minesweeper?
         //TODO unused?
       }
   }
   
-  public void block() {
+  public void add(Waypoint w) {
     for (Vertex v : edges) {
       //FIXME check NPE??
       v.cut(this);//reach into vertex at other end, disconnect 'me'
