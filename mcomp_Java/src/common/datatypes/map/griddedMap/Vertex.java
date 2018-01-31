@@ -1,7 +1,7 @@
 /**
  * 
  */
-package common.datatypes.map.griddedmap;
+package common.datatypes.map.griddedMap;
 
 import common.datatypes.Waypoint;
 
@@ -26,7 +26,7 @@ public class Vertex {
     this.x = (int) w.getX();
     this.y = (int) w.getY();
     for (Vertex v : edges) {
-        v = null;//FIXME how to check there is a datapoint adjencent?? minesweeper?
+        v = null;//FIXME how to check there is a datapoint adjacent?? minesweeper?
         //TODO unused?
       }
   }

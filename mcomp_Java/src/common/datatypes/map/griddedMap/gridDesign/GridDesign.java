@@ -1,14 +1,11 @@
-/**
- * 
- */
-package common.datatypes.map.griddedmap;
+package common.datatypes.map.griddedMap.gridDesign;
 
 /**
  * @author David Avery
  *
  */
 public class GridDesign {
-
+//FIXME for better enum use (sides and array of relatives?)
   /**
    * Grid designs (Expand later for shapes and dimensions)
    */

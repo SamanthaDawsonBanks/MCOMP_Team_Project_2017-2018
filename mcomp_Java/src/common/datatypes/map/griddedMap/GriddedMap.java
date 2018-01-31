@@ -1,10 +1,11 @@
 /**
  * 
  */
-package common.datatypes.map.griddedmap;
+package common.datatypes.map.griddedMap;
 
 import common.datatypes.Waypoint;
 import common.datatypes.map.MapLayer;
+import common.datatypes.map.griddedMap.gridDesign.GridDesign;
 
 /**
  * @author David Avery

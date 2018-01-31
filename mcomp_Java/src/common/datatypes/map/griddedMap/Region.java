@@ -1,7 +1,7 @@
 /**
  * 
  */
-package common.datatypes.map.griddedmap;
+package common.datatypes.map.griddedMap;
 
 import common.datatypes.Waypoint;
 
