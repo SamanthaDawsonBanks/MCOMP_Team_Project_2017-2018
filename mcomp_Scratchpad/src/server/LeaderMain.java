@@ -1,5 +1,7 @@
 package server;
 
+import java.rmi.RemoteException;
+
 /**
  * 
  * @author Ryan Shoobert (15812407)
@@ -9,8 +11,13 @@ package server;
  * to set up a registry and bind behaviour for clients to access.
  * 
  */
-public class ServerMain {
-  public static void main(String[] args) throws Exception {
-    new Server(1099, "Server").start();
+public class LeaderMain {
+  public static void main(String[] args) {
+    try {
+      new Leader(1099, "Server").start();
+    } catch (RemoteException e) {
+      //TODO implement a method of handling a failed Leader creation 
+      e.printStackTrace();
+    }
   }
 }
