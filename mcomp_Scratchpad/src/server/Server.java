@@ -10,6 +10,10 @@ import common.interfaces.Serverable;
  * 
  * @author Ryan Shoobert (15812407)
  * 
+ * An instance of a server can be created by a client and will make behaviour
+ * available to it. The stubs for this (Serverable) are stored in a registry that can be 
+ * referenced by clients to trigger their corresponding implementations defined below.
+ * 
  */
 public class Server extends UnicastRemoteObject implements Serverable {
 
@@ -17,11 +21,23 @@ public class Server extends UnicastRemoteObject implements Serverable {
   private String serverName = "";
   private Registry r;
 
+  /**
+   * Constructor which handles assigning the port number and server name to 
+   * local values for local reference.
+   * 
+   * @param portNo the port number for the server
+   * @param serverName the name of the server instance i.e. "newServer"
+   * @throws RemoteException
+   */
   public Server(int portNo, String serverName) throws RemoteException {
     this.portNumber = portNo;
     this.serverName = serverName;
   }
 
+  /**
+   * Creates registry for sharing method stubs on the defined port. This then
+   * gets bound to the new instance to be created 
+   */
   public void start() {
     try {
       r = LocateRegistry.createRegistry(this.portNumber);

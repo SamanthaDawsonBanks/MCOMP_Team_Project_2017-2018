@@ -15,13 +15,17 @@ import common.interfaces.Serverable;
  */
 public class Client {
 
-
+  /**
+   * Main entry point for the client-server connection process. Creates an instance of 
+   * the serverable interface (where the stubs for methods on the server are stored) and attempts
+   * to begin the connection process. 
+   */
   public void start() {
     Serverable server = this.connect();
-    int result = 0;
+    int result = 0; //FIXME:: Only for example
     
     try {
-      result = server.add(25, 5);
+      result = server.add(25, 5); //FIXME:: Again for example, not relevant for further implementation
     } catch (RemoteException e) {
       e.printStackTrace();
     }
@@ -30,7 +34,9 @@ public class Client {
   }
 
   /**
-   * Establishes a connection with the target server for RMI
+   * Establishes a connection with the target server. Methods can then be invoked remotely
+   * once/if the connection is successful. If this fails, an error is printed to
+   * the console.
    * 
    * @return The server object
    */
@@ -40,6 +46,7 @@ public class Client {
     try {
       server = (Serverable) Naming.lookup("//localhost/Server");
     } catch (Exception e) {
+      //TODO a better way of handling a failed connection will be needed as the project develops
       e.printStackTrace();
     }
 
