@@ -5,7 +5,6 @@ package common.datatypes.map.griddedMap;
 
 import common.datatypes.Waypoint;
 import common.datatypes.map.MapLayer;
-import common.datatypes.map.griddedMap.gridDesign.GridDesign;
 
 /**
  * @author David Avery
@@ -24,7 +23,7 @@ public class GriddedMap {
    * The default constructor for a MapLayer, with the value (TETRA | 4 | Square) for grid design
    */
   public GriddedMap(MapLayer layer, GridDesign grid) {// input on constructor?
-    GriddedMap.gridDesign = grid;
+    gridDesign = grid;
     for (Waypoint w : layer) {
       this.add(w);
     }
