@@ -1,10 +1,12 @@
 package common.objects;
 
 import java.util.ArrayList;
+import common.datatypes.Ability;
 
 /**
  * 
  * @author Stephen Pope 15836791
+ * @author Ryan Shoobert (15812407)
  * 
  * A test Member Class.
  *
@@ -16,7 +18,7 @@ import java.util.ArrayList;
  */
 
 public class Member {
-	private ArrayList<String> abilities;
+	private ArrayList<Ability> abilities;
 	private String herdID = null;
 	private String publicKey;
 	private String privateKey;
@@ -33,22 +35,20 @@ public class Member {
 	 * @return A new Member object.
 	 */
 
-	public Member (String[] can) {
-		/*TODO Change from list of Strings to enum to ensure Member 
-		 *cannot be set without any valid abilities.
-		 */
-		abilities = new ArrayList<String>();
+	public Member (Ability[] can) {
+		abilities = new ArrayList<Ability>();
 		herdMembers = new ArrayList<Member>();
 		if (can.length > 0) {
-			for(String a : can) {
+			for(Ability a : can) {
 				switch (a) {
-				case "Driver": case "Processor": case "Sensor": case "Viewer": case "DestSetter":
+				case PROCESSOR: case DRIVER: case SENSOR: case VIEWER: case DEST_SETTER:
 					abilities.add(a);
 					break;
 				default: break;
 				}
 			}
 		}
+		
 		//TODO Generate a Public/Private Key Pair using Java Crypto Library.
 		publicKey = "Test";
 		privateKey = "Password123";
@@ -60,7 +60,7 @@ public class Member {
 	 * 
 	 * @return The ability list.
 	 */
-	public ArrayList<String> getAbilities(){
+	public ArrayList<Ability> getAbilities(){
 		return abilities;
 	}
 	

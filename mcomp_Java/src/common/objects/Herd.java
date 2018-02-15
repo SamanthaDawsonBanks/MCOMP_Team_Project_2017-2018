@@ -1,10 +1,12 @@
 package common.objects;
 
 import java.util.ArrayList;
+import common.datatypes.Ability;
 
 /**
  * 
  * @author Stephen Pope 15836791
+ * @author Ryan Shoobert (15812407)
  *
  *	A test class for a Herd.
  *
@@ -50,25 +52,26 @@ public class Herd {
 
 		//Ability Querying
 		herdMembers.add(a);
-		for(String b : a.getAbilities()) {
+		for(Ability b : a.getAbilities()) {
 			switch (b) {
-			case "Driver":
+			case DRIVER:
 				herdDrivers.add(a);
 				break;
-			case "Processor":
+			case PROCESSOR:
 				herdProcessors.add(a);
 				break;
-			case "Sensor":
+			case SENSOR:
 				herdSensors.add(a);
 				break;
-			case "Viewer":
+			case VIEWER:
 				herdViewers.add(a);
 				break;
-			case "DestSetter":
+			case DEST_SETTER:
 				herdDestSetter = a;
 				break;
 			}
 		}
+		
 		//election
 		theLeader = a;
 	}
@@ -106,21 +109,21 @@ public class Herd {
 	public ArrayList<Member> requestJoin(Member aspiringMember){
 		//TODO Find a test to validate the Key of a Member/Herd
 		herdMembers.add(aspiringMember);
-		for(String ability: aspiringMember.getAbilities()) {
-			switch (ability) {
-			case "Driver":
+		for(Ability a: aspiringMember.getAbilities()) {
+			switch (a) {
+			case DRIVER:
 				herdDrivers.add(aspiringMember);
 				break;
-			case "Proccessor":
+			case PROCESSOR:
 				herdProcessors.add(aspiringMember);
 				break;
-			case "Sensor":
+			case SENSOR:
 				herdSensors.add(aspiringMember);
 				break;
-			case "Viewer":
+			case VIEWER:
 				herdViewers.add(aspiringMember);
 				break;
-			case "DestSetter":
+			case DEST_SETTER:
 				//TODO Need code to check the old destSetter and remove it if it only has the one ability.
 				if(herdDestSetter != null) {
 					if(herdDestSetter.getAbilities().size() > 1) {
@@ -156,21 +159,21 @@ public class Herd {
 		 * What happens to it's discoveries about the surrounding world? 
 		 */
 		herdMembers.remove(leavingMember);
-		for(String b : leavingMember.getAbilities()) {
+		for(Ability b : leavingMember.getAbilities()) {
 			switch (b) {
-			case "Driver":
+			case DRIVER:
 				herdDrivers.remove(leavingMember);
 				break;
-			case "Processor":
+			case PROCESSOR:
 				herdProcessors.add(leavingMember);
 				break;
-			case "Sensor":
+			case SENSOR:
 				herdSensors.add(leavingMember);
 				break;
-			case "Viewer":
+			case VIEWER:
 				herdViewers.add(leavingMember);
 				break;
-			case "DestSetter":
+			case DEST_SETTER:
 				herdDestSetter = null;
 				break;
 			}
