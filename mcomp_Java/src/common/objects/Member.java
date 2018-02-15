@@ -36,12 +36,6 @@ public class Member {
 	 */
 
 	public Member (Ability[] can) {
-	    /*
-	     * Updated type of "abilities" to enum. Although this doesn't solve the
-	     * issue of no arguments being parsed in initially, it does allow for only
-	     * 'valid' abilities to be parsed in i.e. an argument before could have been penguin
-	     * (not added to the list obviously but still results in added robustness)??
-	     */
 		abilities = new ArrayList<Ability>();
 		herdMembers = new ArrayList<Member>();
 		if (can.length > 0) {

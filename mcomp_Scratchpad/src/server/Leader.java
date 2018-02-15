@@ -15,11 +15,14 @@ import common.interfaces.Serverable;
  * referenced by clients to trigger their corresponding implementations defined below.
  * 
  */
-public class Server extends UnicastRemoteObject implements Serverable {
+public class Leader extends UnicastRemoteObject implements Serverable {
 
   private int portNumber = -1;
   private String serverName = "";
   private Registry r;
+  
+  //TODO Hard coded for now - a method of obtaining IP adresses will be required
+  private final String IP_ADDRESS = "192.168.X.X";
 
   /**
    * Constructor which handles assigning the port number and server name to 
@@ -29,7 +32,7 @@ public class Server extends UnicastRemoteObject implements Serverable {
    * @param serverName the name of the server instance i.e. "newServer"
    * @throws RemoteException
    */
-  public Server(int portNo, String serverName) throws RemoteException {
+  public Leader(int portNo, String serverName) throws RemoteException {
     this.portNumber = portNo;
     this.serverName = serverName;
   }
@@ -42,7 +45,7 @@ public class Server extends UnicastRemoteObject implements Serverable {
     try {
       r = LocateRegistry.createRegistry(this.portNumber);
 
-      r.rebind(this.serverName, new Server(this.portNumber, this.serverName));
+      r.rebind(this.serverName, new Leader(this.portNumber, this.serverName));
 
       System.out.println(">>Server Running<<");           
     } catch (Exception e) {
@@ -50,6 +53,9 @@ public class Server extends UnicastRemoteObject implements Serverable {
     }   
   }
 
+  /**
+   * Ignore in terms of functionality. This is an example method which can be called by a Member.
+   */
   @Override
   public int add(int a, int b) {
     return a + b;
