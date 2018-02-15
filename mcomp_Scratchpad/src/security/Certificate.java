@@ -2,21 +2,28 @@ package security;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 
 public class Certificate {
+	private static Certificate theCert = new Certificate();
 	private KeyPairGenerator keyFactory;
-	private KeyPair leaderKey;
-	
+	private KeyPair leaderPair;
+	private PublicKey publicKey;
+	private PrivateKey privateKey;
+
 	private Certificate() {
-		leaderKey = keyFactory.generateKeyPair();
+		leaderPair = keyFactory.generateKeyPair();
+		publicKey = leaderPair.getPublic();
+		privateKey = leaderPair.getPrivate();
 	}
-	
-	public Certificate getInstance() {
-		if(leaderKey == null) {
-			return new Certificate();
-		}
-		else return this;
-		
+
+	public static Certificate getInstance() {
+		return theCert;
+	}
+
+	public PublicKey getPublicKey() {
+		return publicKey;		
 	}
 
 }
