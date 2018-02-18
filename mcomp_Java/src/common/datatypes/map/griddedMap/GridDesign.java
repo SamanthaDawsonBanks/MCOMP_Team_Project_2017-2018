@@ -22,7 +22,7 @@ package common.datatypes.map.griddedMap;
               new RelativeAddress(0, -1), new RelativeAddress(-1, 0)};
           return res;
         default:
-          throw new AssertionError("Unknown operations " + this);
+          throw new AssertionError("Unknown design " + this);
       }
     };// TODO some way of enumerating the relative pos
 
@@ -31,7 +31,7 @@ package common.datatypes.map.griddedMap;
         case TETRA:
           return 4;
         default:
-          throw new AssertionError("Unknown operations " + this);
+          throw new AssertionError("Unknown design " + this);
       }
     }
   }
