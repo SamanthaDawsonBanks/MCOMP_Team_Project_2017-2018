@@ -5,6 +5,8 @@ package common.datatypes;
 
 /**
  * @author David Avery
+ * 
+ * 
  *
  */
 
@@ -12,7 +14,12 @@ public class Waypoint {
   private double x;
   private double y;
 
-  public Waypoint(double newX, double newY) {
+  /**
+ * 
+ * @param newX
+ * @param newY
+ */
+    public Waypoint(double newX, double newY) {
     this.x = newX;
     this.y = newY;
   }
@@ -25,6 +32,10 @@ public class Waypoint {
     return x;
   }
 
+  /**
+   * 
+   * @return
+   */
   public double getY() {
     return y;
   }

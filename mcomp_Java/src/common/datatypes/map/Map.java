@@ -5,7 +5,7 @@ package common.datatypes.map;
 
 import java.util.ArrayList;
 import common.datatypes.Waypoint;
-import common.datatypes.map.griddedmap.GriddedMap;
+import common.datatypes.map.griddedMap.GriddedMap;
 
 /**
  * @author David Avery
