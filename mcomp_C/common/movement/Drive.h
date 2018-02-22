@@ -10,10 +10,12 @@
 #define DRIVE_H_
 
 class Drive{
+
  private:
+	double a, b, c, d, e, f, g, h;
 
  public:
-
+    Drive(double x, double y);
 };
 
 #endif /* DRIVE_H_ */
