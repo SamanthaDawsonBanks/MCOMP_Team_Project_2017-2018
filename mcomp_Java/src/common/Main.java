@@ -5,6 +5,10 @@ import common.datatypes.Ability;
 import common.objects.Member;
 import ui.View;
 
+/**
+ * @author Stephen Pope 15836791
+ * 
+ */
 public class Main {
 
 	public static void main (Ability [] args) {
