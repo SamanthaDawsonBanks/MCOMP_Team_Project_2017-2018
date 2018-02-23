@@ -105,55 +105,55 @@ public class Vertex {
   /**
    * @return
    */
-  public Vertex[] getAbsoluteNeighbours() {
-    if (null) {
-      // calc neighbour
-    }
-    if (blocked) {
-      // calc neighbour
-    }
-    if (!v.equals(blocked)) {// FIXME work out what what add to prevent NPE
-      res.add(v);
-    }
-    return (Vertex[]) res.toArray();// TODO check me
-  }
-
-  /**
-   * @return
-   */
-  public Vertex[] getNthNeighbour(int i) {
-    if (null) {
-      // calc neighbour
-    }
-    if (blocked) {
-      // calc neighbour
-    }
-    if (!v.equals(blocked)) {// FIXME work out what what add to prevent NPE
-      res.add(v);
-    }
-    return (Vertex[]) res.toArray();// TODO check me
-  }
-
-  /**
-   * @return the open Neighbours
-   */
-  public Vertex[] getOpenNeighbours() {
-    Collection<Vertex> res = new ArrayList<Vertex>();
-    for (Vertex v : edges) {
-      if (v != null) {
-        if (!v.equals(blocked)) {// FIXME work out what what add to prevent NPE
-          res.add(v);
-        }
-      } else {
-
-      }
-    }
-    return (Vertex[]) res.toArray();// TODO check me
-  }
-
-  public void add(Waypoint w) {
-    // TODO Auto-generated method stub
-
-  }
+//  public Vertex[] getAbsoluteNeighbours() {
+//    if (null) {
+//      // calc neighbour
+//    }
+//    if (blocked) {
+//      // calc neighbour
+//    }
+//    if (!v.equals(blocked)) {// FIXME work out what what add to prevent NPE
+//      res.add(v);
+//    }
+//    return (Vertex[]) res.toArray();// TODO check me
+//  }
+//
+//  /**
+//   * @return
+//   */
+//  public Vertex[] getNthNeighbour(int i) {
+//    if (null) {
+//      // calc neighbour
+//    }
+//    if (blocked) {
+//      // calc neighbour
+//    }
+//    if (!v.equals(blocked)) {// FIXME work out what what add to prevent NPE
+//      res.add(v);
+//    }
+//    return (Vertex[]) res.toArray();// TODO check me
+//  }
+//
+//  /**
+//   * @return the open Neighbours
+//   */
+//  public Vertex[] getOpenNeighbours() {
+//    Collection<Vertex> res = new ArrayList<Vertex>();
+//    for (Vertex v : edges) {
+//      if (v != null) {
+//        if (!v.equals(blocked)) {// FIXME work out what what add to prevent NPE
+//          res.add(v);
+//        }
+//      } else {
+//
+//      }
+//    }
+//    return (Vertex[]) res.toArray();// TODO check me
+//  }
+//
+//  public void add(Waypoint w) {
+//    // TODO Auto-generated method stub
+//
+//  }
 
 }
