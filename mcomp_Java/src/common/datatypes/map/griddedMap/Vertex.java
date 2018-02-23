@@ -41,10 +41,26 @@ public class Vertex {
     this.y = y;
   }
 
-  private void setBlocked(Waypoint w) {
+  public void setBlocked() {
     // check neighbours
-    //
-    // set neighbours pointers, that point back to me, to be blocked
+    for (int i = 0; i < GriddedMap.gridDesign.getShapeSides(); i++) {// change to forEach (needs
+                                                                     // relative i?)
+      Vertex v = edges[i];
+      if (v == null) {
+        v = new Vertex(this.x + GridDesign.TETRA.getNeighbourAddresses()[i].neighbourXOffset,
+            this.y + GridDesign.TETRA.getNeighbourAddresses()[i].neighbourYOffset); // FIXME this
+                                                                                    // needs
+                                                                                    // factoring out
+      }
+
+      for (Vertex b : v.edges) {
+        // set neighbours pointers, that point back to me, to be blocked
+        if (b == this) {
+          b = null;
+        }
+      }
+
+    }
     // set self to blocked
   }
 
@@ -133,6 +149,11 @@ public class Vertex {
       }
     }
     return (Vertex[]) res.toArray();// TODO check me
+  }
+
+  public void add(Waypoint w) {
+    // TODO Auto-generated method stub
+
   }
 
 }
