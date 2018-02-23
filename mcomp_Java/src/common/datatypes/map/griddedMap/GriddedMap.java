@@ -16,7 +16,7 @@ public class GriddedMap {
   protected static int gridSize = 64; // TODO add to constructor for dynamic?
 
   // TODO array or link set from origin???
-  private Region[][] data;
+  private Region[][] data = new Region[gridSize][gridSize];
 
 
   /**

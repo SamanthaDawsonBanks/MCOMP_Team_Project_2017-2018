@@ -5,6 +5,7 @@ package common.datatypes.map;
 
 import java.util.ArrayList;
 import common.datatypes.Waypoint;
+import common.datatypes.map.griddedMap.GridDesign;
 import common.datatypes.map.griddedMap.GriddedMap;
 
 /**
@@ -42,11 +43,14 @@ public class Map {
 
   private void amalgamateLayer(MapLayer layer) {
     // TODO Auto-generated method stub
+    if (amalgamatedMap == null) {
+      amalgamatedMap = new GriddedMap(layer, GridDesign.TETRA);
+    } else {
     for (Waypoint w : layer) {
       //add cell info to amalgamatedMap in correct loc
       amalgamatedMap.add(w);
     }
-        
+    }
   }
 
   public GriddedMap getAmalgamatedMap() {
