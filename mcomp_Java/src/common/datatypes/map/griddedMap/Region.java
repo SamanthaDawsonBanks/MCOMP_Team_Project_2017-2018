@@ -11,7 +11,7 @@ import common.datatypes.Waypoint;
  */
 public class Region {
 
-  private Chunk[][] data = new Chunk[GriddedMap.gridSize][GriddedMap.gridSize];
+  private Chunk[][] chunks = new Chunk[GriddedMap.gridSize][GriddedMap.gridSize];
 
   /**
    * 
@@ -27,10 +27,10 @@ public class Region {
     // TODO
     int ChunkX = (int) ((w.getX() / (GriddedMap.gridSize ^ 1)) % GriddedMap.gridSize);
     int ChunkY = (int) ((w.getY() / (GriddedMap.gridSize ^ 1)) % GriddedMap.gridSize);
-    if (data[ChunkX][ChunkY] == null) {
-      data[ChunkX][ChunkY] = new Chunk(w);
+    if (chunks[ChunkX][ChunkY] == null) {
+      chunks[ChunkX][ChunkY] = new Chunk(w);
     } else {
-      data[ChunkX][ChunkY].add(w);
+      chunks[ChunkX][ChunkY].add(w);
     }
 
     // calc which chunk
@@ -62,7 +62,7 @@ public class Region {
 
 
   Chunk[][] getGrid() {// FIXME what do we want from this DS?
-    return data;
+    return chunks;
   }
 
 

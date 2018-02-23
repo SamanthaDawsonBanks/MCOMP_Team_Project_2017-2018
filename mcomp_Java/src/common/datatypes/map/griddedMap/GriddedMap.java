@@ -16,7 +16,7 @@ public class GriddedMap {
   protected static int gridSize = 64; // TODO add to constructor for dynamic?
 
   // TODO array or link set from origin???
-  private Region[][] data;
+  private Region[][] regions = new Region[gridSize][gridSize];
 
 
   /**
@@ -40,10 +40,10 @@ public class GriddedMap {
     // TODO Auto-generated method stub
     int RegionX = (int) ((w.getX() / (gridSize ^ 2)) % gridSize);
     int RegionY = (int) ((w.getY() / (gridSize ^ 2)) % gridSize);
-    if (data[RegionX][RegionY] == null) {
-      data[RegionX][RegionY] = new Region(w);
+    if (regions[RegionX][RegionY] == null) {
+      regions[RegionX][RegionY] = new Region(w);
     } else {
-      data[RegionX][RegionY].add(w);
+      regions[RegionX][RegionY].add(w);
     }
 
     // calc which region
@@ -56,7 +56,7 @@ public class GriddedMap {
 
   public Region[][] getGrid() {
     // TODO cascade adjust for selected area??
-    return data;
+    return regions;
   }
 
 
