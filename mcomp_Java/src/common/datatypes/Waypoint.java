@@ -13,16 +13,27 @@ package common.datatypes;
 public class Waypoint {
   private double x;
   private double y;
+  private boolean toBeBlocked;
 
   /**
  * 
  * @param newX
  * @param newY
  */
-    public Waypoint(double newX, double newY) {
-    this.x = newX;
-    this.y = newY;
+    public Waypoint(double x, double y) {
+      this(x, y, true);
   }
+
+    /**
+     * 
+     * @param newX
+     * @param newY
+     */
+        public Waypoint(double x, double y, boolean b) {
+        this.x = x;
+        this.y = y;
+        this.toBeBlocked = b;
+      }
 
   /**
    * Data Type definition
@@ -38,6 +49,13 @@ public class Waypoint {
    */
   public double getY() {
     return y;
+  }
+
+  /**
+   * @return the toBeBlocked
+   */
+  public boolean getToBeBlocked() {
+    return toBeBlocked;
   }
 
   public String toString() {

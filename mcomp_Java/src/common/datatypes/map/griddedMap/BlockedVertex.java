@@ -3,6 +3,8 @@
  */
 package common.datatypes.map.griddedMap;
 
+import common.datatypes.Waypoint;
+
 /**
  * @author David Avery
  *
@@ -10,9 +12,9 @@ package common.datatypes.map.griddedMap;
 public class BlockedVertex extends Vertex {
   private static BlockedVertex instance = null;
 
-  public static BlockedVertex getInstance() {
+  public static BlockedVertex getInstance(GridDesign grid) {
      if(instance == null) {
-        instance = new BlockedVertex(0,0);
+        instance = new BlockedVertex(0,0, grid);
         for (int i = 0; i < instance.edges.length; i++) {
           instance.edges[i] = instance;
         }
@@ -24,8 +26,8 @@ public class BlockedVertex extends Vertex {
    * @param x
    * @param y
    */
-  private BlockedVertex(int x, int y) {
-    super(x, y);
+  private BlockedVertex(int x, int y, GridDesign grid) {
+    super(new Waypoint(x, y), grid);
   }
 
 }
