@@ -5,6 +5,7 @@ package unitTesting;
 
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import common.datatypes.Waypoint;
 import common.datatypes.map.Map;
@@ -17,11 +18,25 @@ import common.datatypes.map.MapLayer;
 class MapTesting {
 
   /**
-   * Test method for {@link common.datatypes.map.Map#Map(common.datatypes.map.MapLayer)}.
+   * @throws java.lang.Exception
+   */
+  @BeforeEach
+  void setUp() throws Exception {}
+
+  /**
+   * Test method for {@link common.datatypes.map.Map#addLayer(common.datatypes.map.MapLayer)}.
    */
   @Test
-  void testMap() {
+  void testAddLayer() {
+    Map m = new Map(new MapLayer(getPresentationMaze()));
     
+    System.out.printf(null);//breakpoint
+    
+    //fail("Not yet implemented");
+  }
+  
+  
+  private ArrayList<Waypoint> getPresentationMaze() {
     int y;
     ArrayList<Waypoint> l = new ArrayList<Waypoint>();
     y = 1;
@@ -201,37 +216,8 @@ class MapTesting {
     l.add(new Waypoint(y, 14));
     l.add(new Waypoint(y, 15));
 
-    MapLayer ml = new MapLayer(l);
+    return l;
 
-    common.datatypes.map.Map m = new common.datatypes.map.Map(ml);
-    System.out.printf(null);
-    
-
-    fail("Not yet implemented");
-  }
-
-  /**
-   * Test method for {@link common.datatypes.map.Map#getLayer(int)}.
-   */
-  @Test
-  void testGetLayer() {
-    fail("Not yet implemented");
-  }
-
-  /**
-   * Test method for {@link common.datatypes.map.Map#addLayer(common.datatypes.map.MapLayer)}.
-   */
-  @Test
-  void testAddLayer() {
-    fail("Not yet implemented");
-  }
-
-  /**
-   * Test method for {@link common.datatypes.map.Map#getAmalgamatedMap()}.
-   */
-  @Test
-  void testGetAmalgamatedMap() {
-    fail("Not yet implemented");
   }
 
 }
