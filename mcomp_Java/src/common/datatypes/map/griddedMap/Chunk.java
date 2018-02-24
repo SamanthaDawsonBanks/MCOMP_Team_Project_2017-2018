@@ -18,14 +18,16 @@ public class Chunk {
 
   public boolean add(Waypoint w) {
     // TODO
-    int VertexX = (int) ((w.getX() / (GriddedMap.gridSize ^ 0)) % GriddedMap.gridSize);
-    int VertexY = (int) ((w.getY() / (GriddedMap.gridSize ^ 0)) % GriddedMap.gridSize);
+    // int VertexX = (int) ((w.getX() / (GriddedMap.gridSize ^ 0)) % GriddedMap.gridSize);
+    // int VertexY = (int) ((w.getY() / (GriddedMap.gridSize ^ 0)) % GriddedMap.gridSize);
+    int VertexX = (int) (w.getX() % GriddedMap.gridSize);
+    int VertexY = (int) (w.getY() % GriddedMap.gridSize);
     if (vertices[VertexX][VertexY] == null) {
       vertices[VertexX][VertexY] = new Vertex(w);
     }
-    if (!vertices[VertexX][VertexY].equals(Vertex.blocked)) {
+    if (!vertices[VertexX][VertexY].equals(GriddedMap.blocked)) {
       vertices[VertexX][VertexY].setBlocked();
-      vertices[VertexX][VertexY] = Vertex.blocked;
+      vertices[VertexX][VertexY] = GriddedMap.blocked;
     }
     // calc vertex
     return true;

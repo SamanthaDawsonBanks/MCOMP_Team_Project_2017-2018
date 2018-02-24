@@ -1,0 +1,31 @@
+/**
+ * 
+ */
+package common.datatypes.map.griddedMap;
+
+/**
+ * @author David Avery
+ *
+ */
+public class BlockedVertex extends Vertex {
+  private static BlockedVertex instance = null;
+
+  public static BlockedVertex getInstance() {
+     if(instance == null) {
+        instance = new BlockedVertex(0,0);
+        for (int i = 0; i < instance.edges.length; i++) {
+          instance.edges[i] = instance;
+        }
+     }
+     return instance;
+  }
+  
+  /**
+   * @param x
+   * @param y
+   */
+  private BlockedVertex(int x, int y) {
+    super(x, y);
+  }
+
+}

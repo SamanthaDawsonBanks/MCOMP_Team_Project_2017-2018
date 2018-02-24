@@ -32,7 +32,6 @@ public class Region {
     } else {
       chunks[ChunkX][ChunkY].add(w);
     }
-
     // calc which chunk
     // call add on calced chunk
     // rest of call in chunk
@@ -40,31 +39,8 @@ public class Region {
 
   }
 
-
-  // boolean[] listTrue() {//FIXME this is a mess!!!
-  // ArrayList<Boolean> a = new ArrayList<Boolean>();
-  // for(boolean[] data2: data)
-  // {
-  // for(boolean b : data2)
-  // if (b) {
-  // a.add(b);
-  // }
-  // }
-  // int size = a.size();
-  // boolean[] temp = new boolean[size];
-  // for (int i = 0; i < size; i++) {
-  // temp[i] = a.get(i).booleanValue();//FIXME this is useless - OMG step away from the code!!!
-  // }
-  // return temp;
-  //
-  // }
-  // and we try again...
-
-
   Chunk[][] getGrid() {// FIXME what do we want from this DS?
     return chunks;
   }
-
-
-
+  
 }

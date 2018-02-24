@@ -14,6 +14,8 @@ public class GriddedMap {
 
   protected static GridDesign gridDesign;// TODO abstract both up to map??
   protected static int gridSize = 64; // TODO add to constructor for dynamic?
+  protected static BlockedVertex blocked = null;
+  
 
   // TODO array or link set from origin???
   private Region[][] regions = new Region[gridSize][gridSize];
@@ -24,6 +26,7 @@ public class GriddedMap {
    */
   public GriddedMap(MapLayer layer, GridDesign grid) {// input on constructor?
     gridDesign = grid;
+    blocked = BlockedVertex.getInstance();
     for (Waypoint w : layer) {
       this.add(w);
     }

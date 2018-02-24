@@ -29,13 +29,13 @@ class MapTesting {
   @Test
   void testAddLayer() {
     Map m = new Map(new MapLayer(getPresentationMaze()));
-    
-    System.out.printf(null);//breakpoint
-    
-    //fail("Not yet implemented");
+
+    System.out.printf(null);// breakpoint
+
+    // fail("Not yet implemented");
   }
-  
-  
+
+
   private ArrayList<Waypoint> getPresentationMaze() {
     int y;
     ArrayList<Waypoint> l = new ArrayList<Waypoint>();
