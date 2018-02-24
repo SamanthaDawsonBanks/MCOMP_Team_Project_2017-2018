@@ -13,15 +13,13 @@ import common.datatypes.Waypoint;
  */
 public class Vertex {
 
-  final static Vertex blocked = null;// FIXME should be dummy not null?
-  // TODO make an "empty" vertex
-  // TODO refactor to enum?
-
   private int x;
   private int y;
   private Vertex[] edges = new Vertex[GriddedMap.gridDesign.getShapeSides()];// FIXME scope this
                                                                              // right re-org
-
+  final static Vertex blocked = new Vertex(new Waypoint(0,0));// FIXME should be dummy not null?
+  // TODO make an "empty" vertex
+  // TODO refactor to enum?
 
   /**
    * 

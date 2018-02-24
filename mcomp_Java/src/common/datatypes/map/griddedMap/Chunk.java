@@ -4,10 +4,6 @@ import common.datatypes.Waypoint;
 
 public class Chunk {
 
-  public Chunk() {
-    // TODO Auto-generated constructor stub
-  }
-
   private Vertex[][] vertices = new Vertex[GriddedMap.gridSize][GriddedMap.gridSize];
 
   /**
