@@ -15,7 +15,8 @@ public class GriddedMap {
   protected BlockedVertex blocked;
 
   protected GridDesign gridDesign;// TODO abstract both up to map??
-  protected int gridSize;
+  int gridSize;
+  long gridOffset;
 
   private Region[][] regions;
 
@@ -26,6 +27,8 @@ public class GriddedMap {
   public GriddedMap(GridDesign grid, int gridSize, Map parent) {// input on constructor?
     gridDesign = grid;
     this.gridSize = gridSize;
+    this.gridOffset = (long) (Math.pow(gridSize, 3)/2);
+    
     regions = new Region[gridSize][gridSize];
     blocked = BlockedVertex.getInstance(grid);
   }
@@ -39,8 +42,8 @@ public class GriddedMap {
 
   public boolean add(Waypoint w) {
     // TODO Auto-generated method stub
-    int RegionX = ((int) ((w.getX() / Math.pow(gridSize, 2)) % gridSize))+(gridSize/2);
-    int RegionY = ((int) ((w.getY() / Math.pow(gridSize, 2)) % gridSize))+(gridSize/2);
+    int RegionX = (int) (((w.getX() + gridOffset) / Math.pow(gridSize, 2)) % gridSize);
+    int RegionY = (int) (((w.getY() + gridOffset) / Math.pow(gridSize, 2)) % gridSize);
     if (regions[RegionX][RegionY] == null) {
       regions[RegionX][RegionY] = new Region(gridSize, w, this);
     } else {
@@ -61,8 +64,8 @@ public class GriddedMap {
   }
 
   public Vertex getVertex(Waypoint w) {
-    int RegionX = ((int) ((w.getX() / Math.pow(gridSize, 2)) % gridSize))+(gridSize/2);
-    int RegionY = ((int) ((w.getY() / Math.pow(gridSize, 2)) % gridSize))+(gridSize/2);
+    int RegionX = (int) (((w.getX() + gridOffset) / Math.pow(gridSize, 2)) % gridSize);
+    int RegionY = (int) (((w.getY() + gridOffset) / Math.pow(gridSize, 2)) % gridSize);
     Vertex res = null;
     if (regions[RegionX][RegionY] != null) {
       res = regions[RegionX][RegionY].getVertex(w);

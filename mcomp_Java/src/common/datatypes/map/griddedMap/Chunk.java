@@ -7,6 +7,7 @@ public class Chunk {
   private Vertex[][] vertices;
   Region parent;
   private int gridSize;
+  private long gridOffset;
 
   /**
    * @param gridSize
@@ -18,6 +19,7 @@ public class Chunk {
     // TODO this is going to need some serious optimisation if accessed on a single point bases
     this.parent = parent;
     this.gridSize = gridSize;
+    this.gridOffset = parent.gridOffset;
     vertices = new Vertex[gridSize][gridSize];
     this.add(w);
   }
@@ -25,8 +27,8 @@ public class Chunk {
 
   public Vertex add(Waypoint w) {
     // TODO
-    int VertexX = (int) ((w.getX() / Math.pow(gridSize, 0)) % gridSize);
-    int VertexY = (int) ((w.getY() / Math.pow(gridSize, 0)) % gridSize);
+    int VertexX = (int) (((w.getX() + gridOffset) / Math.pow(gridSize, 0)) % gridSize);
+    int VertexY = (int) (((w.getY() + gridOffset) / Math.pow(gridSize, 0)) % gridSize);
     if (vertices[VertexX][VertexY] == null) {
       vertices[VertexX][VertexY] = new Vertex(w, this);
     }
@@ -46,8 +48,8 @@ public class Chunk {
 
 
   public Vertex getVertex(Waypoint w) {
-    int VertexX = (int) ((w.getX() / Math.pow(gridSize, 0)) % gridSize);
-    int VertexY = (int) ((w.getY() / Math.pow(gridSize, 0)) % gridSize);
+    int VertexX = (int) (((w.getX() + gridOffset) / Math.pow(gridSize, 0)) % gridSize);
+    int VertexY = (int) (((w.getY() + gridOffset) / Math.pow(gridSize, 0)) % gridSize);
     Vertex res = null;
     if (vertices[VertexX][VertexY] != null) {
       res = vertices[VertexX][VertexY];
