@@ -41,8 +41,8 @@ public class Vertex {
     // TODO Auto-generated method stub
     // check neighbours
     for (int i = 0; i < edges.length; i++) {
-      int xOffset = GridDesign.TETRA.getNeighbourAddresses()[i].neighbourXOffset;
-      int yOffset = GridDesign.TETRA.getNeighbourAddresses()[i].neighbourYOffset;
+      int xOffset = parent.parent.parent.gridDesign.getNeighbourAddresses()[i].neighbourXOffset;
+      int yOffset = parent.parent.parent.gridDesign.getNeighbourAddresses()[i].neighbourYOffset;
       Waypoint neighbourAddress = new Waypoint(this.x + xOffset,this.y + yOffset, false);
       edges[i] = parent.parent.parent.getVertex(neighbourAddress);
       if (edges[i] != null) {//FIXME and not blocked?
@@ -54,23 +54,20 @@ public class Vertex {
 
   public void setBlocked() {
     // check neighbours
-    for (int i = 0; i < parent.parent.parent.gridDesign.getShapeSides(); i++) {// change to forEach
-                                                                               // (needs
-      // relative i?)
-      Vertex v = edges[i];
-      if (v == null) {
-        v = parent
-            .add(new Waypoint(this.x + GridDesign.TETRA.getNeighbourAddresses()[i].neighbourXOffset,
-                this.y + GridDesign.TETRA.getNeighbourAddresses()[i].neighbourYOffset, false)); // FIXME
+    for (int i = 0; i < parent.parent.parent.gridDesign.getShapeSides(); i++) {
+      if (edges[i] == null) {
+        edges[i] = parent
+            .add(new Waypoint(this.x + parent.parent.parent.gridDesign.getNeighbourAddresses()[i].neighbourXOffset,
+                this.y + parent.parent.parent.gridDesign.getNeighbourAddresses()[i].neighbourYOffset, false)); // FIXME
                                                                                                 // this
         // needs
         // factoring out
       }
 
-      for (Vertex b : v.edges) {
+      for (int j = 0; j < parent.parent.parent.gridDesign.getShapeSides(); j++) {
         // set neighbours pointers, that point back to me, to be blocked
-        if (b == this) {
-          b = parent.parent.parent.blocked;
+        if (edges[i].edges[j] == this) {
+          edges[i].edges[j] = parent.parent.parent.blocked;
         }
       }
 
