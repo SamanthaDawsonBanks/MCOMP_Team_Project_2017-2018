@@ -5,6 +5,7 @@ package common.datatypes.map;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import common.datatypes.Waypoint;
 
 /**
@@ -74,9 +75,33 @@ public class MapLayer implements Iterable<Waypoint> {
   @Override
   public Iterator<Waypoint> iterator() {//TODO write this
     // TODO Auto-generated method stub
-    return null;
+    
+    return new LiDARIterator();
+    
+    //return null;
   }
 
+  class LiDARIterator implements Iterator<Waypoint> {
+    int current = 0;  // the current element we are looking at
 
+    // return whether or not there are more elements in the array that
+    // have not been iterated over.
+    public boolean hasNext() {
+        if (current < liDARRead.size()) {
+          return true;
+        } else {
+            return false;
+        }
+    }
+
+    // return the next element of the iteration and move the current
+    // index to the element after that.
+    public Waypoint next() {
+        if (!hasNext()) {
+            throw new NoSuchElementException();
+        }
+        return liDARRead.get(current++);
+    }
+}
 
 }

@@ -4,7 +4,7 @@
 package common.datatypes.map.griddedMap;
 
 import common.datatypes.Waypoint;
-import common.datatypes.map.MapLayer;
+import common.datatypes.map.Map;
 
 /**
  * @author David Avery
@@ -12,21 +12,25 @@ import common.datatypes.map.MapLayer;
  */
 public class GriddedMap {
 
-  protected static GridDesign gridDesign;// TODO abstract both up to map??
-  protected static int gridSize = 64; // TODO add to constructor for dynamic?
+  protected BlockedVertex blocked;
 
-  // TODO array or link set from origin???
-  private Region[][] data;
+  protected GridDesign gridDesign;// TODO abstract both up to map??
+  int gridSize;
+  long gridOffset;
+
+  private Region[][] regions;
 
 
   /**
    * The default constructor for a MapLayer, with the value (TETRA | 4 | Square) for grid design
    */
-  public GriddedMap(MapLayer layer, GridDesign grid) {// input on constructor?
+  public GriddedMap(GridDesign grid, int gridSize, Map parent) {// input on constructor?
     gridDesign = grid;
-    for (Waypoint w : layer) {
-      this.add(w);
-    }
+    this.gridSize = gridSize;
+    this.gridOffset = (long) (Math.pow(gridSize, 3)/2);
+    
+    regions = new Region[gridSize][gridSize];
+    blocked = BlockedVertex.getInstance(grid);
   }
 
   /**
@@ -38,12 +42,12 @@ public class GriddedMap {
 
   public boolean add(Waypoint w) {
     // TODO Auto-generated method stub
-    int RegionX = (int) ((w.getX() / (gridSize ^ 2)) % gridSize);
-    int RegionY = (int) ((w.getY() / (gridSize ^ 2)) % gridSize);
-    if (data[RegionX][RegionY] == null) {
-      data[RegionX][RegionY] = new Region(w);
+    int RegionX = (int) (((w.getX() + gridOffset) / Math.pow(gridSize, 2)) % gridSize);
+    int RegionY = (int) (((w.getY() + gridOffset) / Math.pow(gridSize, 2)) % gridSize);
+    if (regions[RegionX][RegionY] == null) {
+      regions[RegionX][RegionY] = new Region(gridSize, w, this);
     } else {
-      data[RegionX][RegionY].add(w);
+      regions[RegionX][RegionY].add(w);
     }
 
     // calc which region
@@ -56,7 +60,17 @@ public class GriddedMap {
 
   public Region[][] getGrid() {
     // TODO cascade adjust for selected area??
-    return data;
+    return regions;
+  }
+
+  public Vertex getVertex(Waypoint w) {
+    int RegionX = (int) (((w.getX() + gridOffset) / Math.pow(gridSize, 2)) % gridSize);
+    int RegionY = (int) (((w.getY() + gridOffset) / Math.pow(gridSize, 2)) % gridSize);
+    Vertex res = null;
+    if (regions[RegionX][RegionY] != null) {
+      res = regions[RegionX][RegionY].getVertex(w);
+    }
+    return res;
   }
 
 

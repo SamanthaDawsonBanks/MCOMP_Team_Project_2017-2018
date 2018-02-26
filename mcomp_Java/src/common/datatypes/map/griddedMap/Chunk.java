@@ -4,64 +4,57 @@ import common.datatypes.Waypoint;
 
 public class Chunk {
 
-  public Chunk() {
-    // TODO Auto-generated constructor stub
-  }
-
-  private Vertex[][] data = new Vertex[GriddedMap.gridSize][GriddedMap.gridSize];
+  private Vertex[][] vertices;
+  Region parent;
+  private int gridSize;
+  private long gridOffset;
 
   /**
+   * @param gridSize
+   * @param parent
    * 
    */
-  public Chunk(Waypoint w) {
+  public Chunk(int gridSize, Waypoint w, Region parent) {
     // TODO Auto-generated constructor stub
     // TODO this is going to need some serious optimisation if accessed on a single point bases
+    this.parent = parent;
+    this.gridSize = gridSize;
+    this.gridOffset = parent.gridOffset;
+    vertices = new Vertex[gridSize][gridSize];
     this.add(w);
   }
 
 
-  public boolean add(Waypoint w) {
+  public Vertex add(Waypoint w) {
     // TODO
-    int VertexX = (int) ((w.getX() / (GriddedMap.gridSize ^ 1)) % GriddedMap.gridSize);
-    int VertexY = (int) ((w.getY() / (GriddedMap.gridSize ^ 1)) % GriddedMap.gridSize);
-    if (data[VertexX][VertexY] == null) {
-      data[VertexX][VertexY] = new Vertex(w);
-    } else {
-      data[VertexX][VertexY].add(w);
+    int VertexX = (int) (((w.getX() + gridOffset) / Math.pow(gridSize, 0)) % gridSize);
+    int VertexY = (int) (((w.getY() + gridOffset) / Math.pow(gridSize, 0)) % gridSize);
+    if (vertices[VertexX][VertexY] == null) {
+      vertices[VertexX][VertexY] = new Vertex(w, this);
     }
-
+    if (w.getToBeBlocked()) {
+      if (!vertices[VertexX][VertexY].equals(parent.parent.blocked)) {
+        vertices[VertexX][VertexY].setBlocked();
+        vertices[VertexX][VertexY] = parent.parent.blocked;
+      }
+    }
     // calc vertex
-    // call add/block on calced vertex
-    // rest of call in vertex
-    return true;
-
+    return vertices[VertexX][VertexY];
   }
-
-
-  // boolean[] listTrue() {//FIXME this is a mess!!!
-  // ArrayList<Boolean> a = new ArrayList<Boolean>();
-  // for(boolean[] data2: data)
-  // {
-  // for(boolean b : data2)
-  // if (b) {
-  // a.add(b);
-  // }
-  // }
-  // int size = a.size();
-  // boolean[] temp = new boolean[size];
-  // for (int i = 0; i < size; i++) {
-  // temp[i] = a.get(i).booleanValue();//FIXME this is useless - OMG step away from the code!!!
-  // }
-  // return temp;
-  //
-  // }
-  // and we try again...
-
 
   Vertex[][] getGrid() {// FIXME what do we want from this DS?
-    return data;
+    return vertices;
   }
 
 
+  public Vertex getVertex(Waypoint w) {
+    int VertexX = (int) (((w.getX() + gridOffset) / Math.pow(gridSize, 0)) % gridSize);
+    int VertexY = (int) (((w.getY() + gridOffset) / Math.pow(gridSize, 0)) % gridSize);
+    Vertex res = null;
+    if (vertices[VertexX][VertexY] != null) {
+      res = vertices[VertexX][VertexY];
+    }
+    return res;
+  }
 
 }

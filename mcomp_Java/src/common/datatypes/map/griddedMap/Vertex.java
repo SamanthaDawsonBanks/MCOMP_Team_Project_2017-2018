@@ -3,8 +3,6 @@
  */
 package common.datatypes.map.griddedMap;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import common.datatypes.Waypoint;
 
 /**
@@ -13,64 +11,68 @@ import common.datatypes.Waypoint;
  */
 public class Vertex {
 
-  final static Vertex blocked = null;// FIXME should be dummy not null?
-  // TODO make an "empty" vertex
-  // TODO refactor to enum?
-
   private int x;
   private int y;
-  private Vertex[] edges = new Vertex[GriddedMap.gridDesign.getShapeSides()];// FIXME scope this
-                                                                             // right re-org
-
+  protected Vertex[] edges;
+  private Chunk parent;
 
   /**
+   * @param parent
    * 
    */
-  public Vertex(Waypoint w) {
+  public Vertex(Waypoint w, Chunk parent) {
     // TODO Auto-generated constructor stub
     this.x = (int) w.getX();
     this.y = (int) w.getY();
+    this.parent = parent;
+    edges = new Vertex[parent.parent.parent.gridDesign.getShapeSides()];// TODO not sure this is
+                                                                        // better?
+    connectNeighbours();
   }
 
-  /**
-   * 
-   */
-  private Vertex(int x, int y) {
+  protected Vertex(Waypoint w, GridDesign grid) {// only for blocked
     // TODO Auto-generated constructor stub
-    this.x = x;
-    this.y = y;
+    this.x = (int) w.getX();
+    this.y = (int) w.getY();
+    edges = new Vertex[grid.getShapeSides()];
   }
 
-  private void setBlocked(Waypoint w) {
+  private void connectNeighbours() {
+    // TODO Auto-generated method stub
     // check neighbours
-    //
-    // set neighbours pointers, that point back to me, to be blocked
-    // set self to blocked
+    for (int i = 0; i < edges.length; i++) {
+      int xOffset = parent.parent.parent.gridDesign.getNeighbourAddresses()[i].neighbourXOffset;
+      int yOffset = parent.parent.parent.gridDesign.getNeighbourAddresses()[i].neighbourYOffset;
+      Waypoint neighbourAddress = new Waypoint(this.x + xOffset,this.y + yOffset, false);
+      edges[i] = parent.parent.parent.getVertex(neighbourAddress);
+      if (edges[i] != null) {//FIXME and not blocked?
+        edges[i].edges[((i+(edges.length/2))%edges.length)] = this;
+      }
+
+    }
   }
 
+  public void setBlocked() {
+    // check neighbours
+    for (int i = 0; i < parent.parent.parent.gridDesign.getShapeSides(); i++) {
+      if (edges[i] == null) {
+        edges[i] = parent
+            .add(new Waypoint(this.x + parent.parent.parent.gridDesign.getNeighbourAddresses()[i].neighbourXOffset,
+                this.y + parent.parent.parent.gridDesign.getNeighbourAddresses()[i].neighbourYOffset, false)); // FIXME
+                                                                                                // this
+        // needs
+        // factoring out
+      }
 
-  // TODO clean this
-  // public void setBlocked(Waypoint w) {
-  // for (Vertex v : edges) {
-  // if (v != null) { //FIXME check NPE??
-  // v.cut(this);//reach into vertex at other end, disconnect 'me'
-  // v = blocked;//null or data point?
-  // }
-  // //FIXME blocked vs does not exist?
-  // }
-  // for (Vertex v : edges) {
-  // v = null;//FIXME how to check there is a datapoint adjacent?? minesweeper?
-  // //TODO unused?
-  // }
-  // }
-  //
-  // public void cut(Vertex vIn) {
-  // for (Vertex v : edges) {
-  // if (v.equals(vIn)) {
-  // v = blocked;
-  // }
-  // }
-  // }
+      for (int j = 0; j < parent.parent.parent.gridDesign.getShapeSides(); j++) {
+        // set neighbours pointers, that point back to me, to be blocked
+        if (edges[i].edges[j] == this) {
+          edges[i].edges[j] = parent.parent.parent.blocked;
+        }
+      }
+
+    }
+  }
 
   /**
    * @return the x
@@ -86,53 +88,6 @@ public class Vertex {
     return y;
   }
 
-  /**
-   * @return
-   */
-  public Vertex[] getAbsoluteNeighbours() {
-    if (null) {
-      // calc neighbour
-    }
-    if (blocked) {
-      // calc neighbour
-    }
-    if (!v.equals(blocked)) {// FIXME work out what what add to prevent NPE
-      res.add(v);
-    }
-    return (Vertex[]) res.toArray();// TODO check me
-  }
 
-  /**
-   * @return
-   */
-  public Vertex[] getNthNeighbour(int i) {
-    if (null) {
-      // calc neighbour
-    }
-    if (blocked) {
-      // calc neighbour
-    }
-    if (!v.equals(blocked)) {// FIXME work out what what add to prevent NPE
-      res.add(v);
-    }
-    return (Vertex[]) res.toArray();// TODO check me
-  }
-
-  /**
-   * @return the open Neighbours
-   */
-  public Vertex[] getOpenNeighbours() {
-    Collection<Vertex> res = new ArrayList<Vertex>();
-    for (Vertex v : edges) {
-      if (v != null) {
-        if (!v.equals(blocked)) {// FIXME work out what what add to prevent NPE
-          res.add(v);
-        }
-      } else {
-
-      }
-    }
-    return (Vertex[]) res.toArray();// TODO check me
-  }
 
 }
