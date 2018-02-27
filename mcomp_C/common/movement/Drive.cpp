@@ -19,7 +19,6 @@ Drive::Drive(double x, double y){
 	double toDeg = PI/180.0;
 
 	Waypoint robot(0, 0);
-
 	Waypoint target(-10, 5);
 
 	double targetX = (double)target.getX();
@@ -28,7 +27,10 @@ Drive::Drive(double x, double y){
 	double robotX = (double)robot.getX();
 	double robotY = (double)robot.getY();
 
+	dx = targetX - robotX;
+	dy = targetY - robotY;
 	distance = sqrt((dx*dx) + (dy*dy));
+
 
 	theta = atan2(dy,dx)*toDeg;
 	phi = 0.0;

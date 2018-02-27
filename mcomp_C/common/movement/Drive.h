@@ -23,6 +23,7 @@ class Drive{
 	double pulse;
 	double turnDistance;
 	double moveDistance;
+	double dx, dy;
 
  public:
     Drive(double x, double y);
