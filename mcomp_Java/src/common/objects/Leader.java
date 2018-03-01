@@ -10,7 +10,11 @@ public class Leader implements Leadable {
 	InetAddress[] addresses;
 	InetAddress loopback = InetAddress.getLoopbackAddress();
 
-	@Override
+	public Leader(int i, String string) {
+    // TODO Auto-generated constructor stub
+  }
+
+  @Override
 	public Membership nominateLeader() {
 		// TODO Auto-generated method stub
 		return null;
