@@ -127,7 +127,7 @@ public class Herd {
 				//TODO Need code to check the old destSetter and remove it if it only has the one ability.
 				if(herdDestSetter != null) {
 					if(herdDestSetter.getAbilities().size() > 1) {
-						herdDestSetter.getAbilities().remove("DestSetter");
+						herdDestSetter.getAbilities().remove(common.datatypes.Ability.DEST_SETTER);//why does this need to have FQN to be recognised?
 					}
 					else {
 						herdDestSetter.leaveHerd(this);
