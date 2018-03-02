@@ -3,6 +3,8 @@ package common.objects;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import common.datatypes.Ability;
+import common.interfaces.Leadable;
+import common.interfaces.Membership;
 import common.interfaces.Rmiable;
 
 /**
@@ -19,7 +21,7 @@ import common.interfaces.Rmiable;
  * 
  */
 
-public class Member implements Rmiable {
+public class Member implements Rmiable, Membership {
 	private ArrayList<Ability> abilities;
 	private String herdID = null;
 	private String publicKey;
@@ -110,16 +112,6 @@ public class Member implements Rmiable {
 		System.out.printf("%s has left the Herd %s \n",this, h.getHerdID());
 	}
 	
-	/**
-	 * Become the leader.
-	 * Handle the notification that this Member has been
-	 * elected as the leader of its Herd.
-	 */
-	public void becomeLeader() {
-		//TODO Needs to have access to Herd ID/IP?
-		//TODO Write this method.
-		//TODO Need to create a Leader Object?
-	}
 	
 	/**
 	 * Retrieves the HerdID of the Herd that this Member
@@ -150,6 +142,31 @@ public class Member implements Rmiable {
 	public int add(int a, int b) throws RemoteException {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+
+	@Override
+	public boolean joinHerd(Leadable h) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public boolean leaveHerd() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	/**
+	 * Become the leader.
+	 * Handle the notification that this Member has been
+	 * elected as the leader of its Herd.
+	 */
+	@Override
+	public boolean becomeLeader() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
 
