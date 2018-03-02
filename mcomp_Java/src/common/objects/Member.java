@@ -1,7 +1,9 @@
 package common.objects;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import common.datatypes.Ability;
+import common.interfaces.Rmiable;
 
 /**
  * 
@@ -17,7 +19,7 @@ import common.datatypes.Ability;
  * 
  */
 
-public class Member {
+public class Member implements Rmiable {
 	private ArrayList<Ability> abilities;
 	private String herdID = null;
 	private String publicKey;
@@ -141,6 +143,13 @@ public class Member {
 		 * the Herd is the only one able to change this.
 		 */
 		herdID = newID;
+	}
+
+
+	@Override
+	public int add(int a, int b) throws RemoteException {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }
 
