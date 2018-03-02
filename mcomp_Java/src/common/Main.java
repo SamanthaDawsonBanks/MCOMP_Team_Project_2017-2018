@@ -3,7 +3,6 @@ package common;
 import java.util.ArrayList;
 import common.datatypes.Ability;
 import common.objects.Member;
-import ui.View;
 
 /**
  * @author Stephen Pope 15836791
@@ -11,28 +10,36 @@ import ui.View;
  */
 public class Main {
 
-	public static void main (Ability [] args) {
-		Member me = new Member(args);
-		ArrayList<Ability> skills = me.getAbilities();
-		for(Ability a : skills) {
-				//TODO add RMI Registry publishing here or in member?
-				//TODO should this be a switch?
-				if (a.equals(common.datatypes.Ability.VIEWER)) {
-					View theObserver = new View(me);
-				}
-				if (a.equals(common.datatypes.Ability.DEST_SETTER)) {
-					//TODO Decorate the View with the DEST_Set options?
-				}
-				if(a.equals(common.datatypes.Ability.DRIVER)) {
-					//TODO Initialise a drive controller
-				}
-				if (a.equals(common.datatypes.Ability.PROCESSOR)) {
-					//TODO Make available for Parallel processing
-				}
-				if (a.equals(common.datatypes.Ability.SENSOR)) {
-					//TODO Initialise a sensor controller to handle incoming data.
-				}
+	public static void main (String [] args) {
+		ArrayList<Ability> skills = new ArrayList<Ability>();
+		for(String a : args) {
+			switch (a) {
+			case "PROCESSOR":
+				skills.add(common.datatypes.Ability.PROCESSOR);
+				break;
+			case "DRIVER":
+				skills.add(common.datatypes.Ability.DRIVER);
+				break;
+			case "SENSOR":
+				skills.add(common.datatypes.Ability.SENSOR);
+				break;
+			case "VIEWER":
+				skills.add(common.datatypes.Ability.VIEWER);
+				break;
+			case "DEST_SETTER":
+				skills.add(common.datatypes.Ability.DEST_SETTER);
+				break;
+			default: break;
 			}
 		}
+		if (skills.isEmpty()) {
+			System.out.println("Sorry, a Pathfinder needs to have at least one ability!");
+		}
+		else {
+			Ability [] abilities = (Ability[]) skills.toArray();  //FIXME list is already of type ability?
+			Member me = new Member(abilities);
+			System.out.println("Member started");
+		}
 	}
+}
 
