@@ -9,7 +9,21 @@ import common.objects.Member;
  * 
  */
 public class Main {
-
+	
+	/**
+	 * The Main Class.
+	 * 
+	 * Every instance of state in a Herd begins with a member being started.
+	 * 
+	 * Members have all kinds of abilities that contribute to the Herd, but all are contained
+	 * by a new member. The abilities are fed into the system for testing purposes (can ignore
+	 * an ability on a robot for testing)
+	 * 
+	 * Main filters the input from the arguments supplied and creates a new member with those
+	 * abilities. The member takes things from there (new Herd etc.)
+	 * 
+	 * @param The abilities of the member as a String
+	 */
 	public static void main (String [] args) {
 		ArrayList<Ability> skills = new ArrayList<Ability>();
 		for(String a : args) {
