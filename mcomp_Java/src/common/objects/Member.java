@@ -25,7 +25,6 @@ public class Member implements Rmiable, Membership {
 	private ArrayList<Ability> abilities;
 	private String herdID = null;
 	private String publicKey;
-	private String privateKey;
 
 	/**
 	 * The Constructor for a Member.
@@ -70,8 +69,6 @@ public class Member implements Rmiable, Membership {
 		
 		//TODO Generate a Public/Private Key Pair using Java Crypto Library.
 		publicKey = "Test";
-		privateKey = "Password123";
-
 	}
 	
 
