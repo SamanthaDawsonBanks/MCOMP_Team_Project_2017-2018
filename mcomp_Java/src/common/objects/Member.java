@@ -66,7 +66,6 @@ public class Member implements Rmiable, Membership {
 		}		
 	}
 
-
 	/**
 	 * Retrieves a list of the Members abilities.
 	 * 
@@ -91,7 +90,6 @@ public class Member implements Rmiable, Membership {
 		}
 		else return false;		
 	}
-
 
 	/**
 	 * Retrieves the Public Encryption Key of the Member.
@@ -127,5 +125,6 @@ public class Member implements Rmiable, Membership {
 		// TODO Auto-generated method stub
 
 	}
+
 }
 
