@@ -48,8 +48,15 @@ public class Member implements Rmiable, Membership {
 		if (can.length > 0) {
 			for(Ability a : can) {
 				switch (a) {
-				case PROCESSOR: case DRIVER: case SENSOR: case VIEWER: case DEST_SETTER:
-					abilities.add(a);
+				case PROCESSOR:
+					break;
+				case DRIVER:
+					break;
+				case SENSOR:
+					break;
+				case VIEWER:
+					break;
+				case DEST_SETTER:
 					break;
 				default: break;
 				}
