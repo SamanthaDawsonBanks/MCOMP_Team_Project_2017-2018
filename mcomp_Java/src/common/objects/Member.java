@@ -30,10 +30,14 @@ public class Member implements Rmiable, Membership {
 
 	/**
 	 * The Constructor for a Member.
-	 * 
+	 *
 	 * A new Member will come with a list of abilities.
-	 * These abilities will be queried by the Herd when
-	 * the member initiates a Join or creates a Herd.
+	 * 
+	 * These abilities are parsed by the constructor and
+	 * used to initialise the controllers for those abilities.
+	 * 
+	 * A member then initialises a Herd, becoming that Herds
+	 * first member.
 	 * 
 	 * @param The list containing the Members abilities.
 	 * @return A new Member object.
