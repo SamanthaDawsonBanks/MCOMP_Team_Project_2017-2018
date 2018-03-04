@@ -26,7 +26,6 @@ public class Member implements Rmiable, Membership {
 	private String herdID = null;
 	private String publicKey;
 	private String privateKey;
-	private ArrayList<Member> herdMembers;
 
 	/**
 	 * The Constructor for a Member.
@@ -45,7 +44,7 @@ public class Member implements Rmiable, Membership {
 
 	public Member (Ability[] can) {
 		abilities = new ArrayList<Ability>();
-		herdMembers = new ArrayList<Member>();
+
 		if (can.length > 0) {
 			for(Ability a : can) {
 				switch (a) {
@@ -95,10 +94,6 @@ public class Member implements Rmiable, Membership {
 		 * should be able to respond to this advertisement 
 		 * when appropriate. 
 		 */
-		herdMembers = h.requestJoin(this);
-		if (herdMembers.isEmpty() == true) {
-			System.out.println("Failed to join Herd!");
-		}
 	}
 	
 	/**
