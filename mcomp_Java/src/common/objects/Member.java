@@ -44,32 +44,30 @@ public class Member implements Rmiable, Membership {
 	public Member (Ability[] can) {
 		abilities = new ArrayList<Ability>();
 
-			for(Ability a : can) {
-				switch (a) {
-				case PROCESSOR:
-					abilities.add(a);
-					break;
-				case DRIVER:
-					abilities.add(a);
-					break;
-				case SENSOR:
-					abilities.add(a);
-					break;
-				case VIEWER:
-					abilities.add(a);
-					break;
-				case DEST_SETTER:
-					abilities.add(a);
-					break;
-				default: break;
-				}
+		for(Ability a : can) {
+			switch (a) {
+			case PROCESSOR:
+				abilities.add(a);
+				break;
+			case DRIVER:
+				abilities.add(a);
+				break;
+			case SENSOR:
+				abilities.add(a);
+				break;
+			case VIEWER:
+				abilities.add(a);
+				break;
+			case DEST_SETTER:
+				abilities.add(a);
+				break;
+			default: break;
 			}
-		
-		//publicKey = "Test";Public Key will be set by the leader when the Herd is created.
+		}		
 	}
-	
 
-  /**
+
+	/**
 	 * Retrieves a list of the Members abilities.
 	 * 
 	 * @return The ability list.
@@ -77,7 +75,21 @@ public class Member implements Rmiable, Membership {
 	public ArrayList<Ability> getAbilities(){
 		return abilities;
 	}
-	
+
+	/**
+	 * Sets the value of publicKey when handed by a leader.
+	 * 
+	 * @param The Public key of a leader.
+	 */
+	public boolean setPublicKey(String pk) {
+		if (isValidKey(pk)) {
+			publicKey = pk;
+			return true;
+		}
+		else return false;		
+	}
+
+
 	/**
 	 * Retrieves the Public Encryption Key of the Member.
 	 * 
@@ -87,6 +99,18 @@ public class Member implements Rmiable, Membership {
 		return publicKey;
 	}
 	
+	/**
+	 * Validates that the provided Public Key given by a leader
+	 * can be used to securely communicate with the leader.
+	 * 
+	 * @param pk
+	 * @return True if key is valid, false if not.
+	 */
+	private boolean isValidKey(String pk) {
+		// TODO RMI call leader, encrpyt String hello world to Leader, if leader returns Hello World then true.
+		return false;
+	}
+
 	/**
 	 * Attempt to Join a herd.
 	 * Sends a request to the Herd to gain membership.
@@ -101,7 +125,7 @@ public class Member implements Rmiable, Membership {
 		 * when appropriate. 
 		 */
 	}
-	
+
 	/**
 	 * Attempt to leave a Herd.
 	 * Sends a notification to the Herd informing it of
@@ -116,8 +140,8 @@ public class Member implements Rmiable, Membership {
 		h.requestLeave(this);
 		System.out.printf("%s has left the Herd %s \n",this, h.getHerdID());
 	}
-	
-	
+
+
 	/**
 	 * Retrieves the HerdID of the Herd that this Member
 	 * has joined.
@@ -127,7 +151,7 @@ public class Member implements Rmiable, Membership {
 	public String getHerdID() {
 		return herdID;
 	}
-	
+
 	/**
 	 * Sets the ID of the Herd this Member has joined.
 	 * 
@@ -178,7 +202,7 @@ public class Member implements Rmiable, Membership {
 
 	public void start() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
 
