@@ -114,31 +114,7 @@ public class Member implements Rmiable, Membership {
 		return false;
 	}
 
-	/**
-	 * Retrieves the HerdID of the Herd that this Member
-	 * has joined.
-	 * 
-	 * @return The HerdID.
-	 */
-	public String getHerdID() {
-		return herdID;
-	}
-
-	/**
-	 * Sets the ID of the Herd this Member has joined.
-	 * 
-	 * @param The new HerdID.
-	 */
-	public void setHerdID(String newID) {
-		/*TODO Write a check to ensure that the 
-		 * change of ID is valid. Perhaps contact
-		 * the Herd ID supplied. Perhaps ensure that
-		 * the Herd is the only one able to change this.
-		 */
-		herdID = newID;
-	}
-
-
+	
 	@Override
 	public int add(int a, int b) throws RemoteException {
 		// TODO Auto-generated method stub
