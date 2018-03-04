@@ -168,5 +168,11 @@ public class Member implements Rmiable, Membership {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+
+	public void start() {
+		// TODO Auto-generated method stub
+		
+	}
 }
 
