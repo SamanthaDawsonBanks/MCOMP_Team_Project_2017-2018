@@ -14,10 +14,10 @@ import common.interfaces.Rmiable;
  * 
  * A test Member Class.
  *
- * A Member must have a Public/Private Key pair.
+ * A Member must be handed a public Key from the leader of the Herd..
  * A Member must have a List of abilities that are of use to the Herd.
- * A Member can Join or Leave a Herd at any time.
- * A Member must be able to become the Leader of the Herd when nominated.
+ * A Member cannot join or leave a herd. A leader handles the transition.
+ * A Member must be able to start the Leader process when nominated.
  * 
  */
 
@@ -44,7 +44,6 @@ public class Member implements Rmiable, Membership {
 	public Member (Ability[] can) {
 		abilities = new ArrayList<Ability>();
 
-		if (can.length > 0) {
 			for(Ability a : can) {
 				switch (a) {
 				case PROCESSOR:
@@ -65,10 +64,8 @@ public class Member implements Rmiable, Membership {
 				default: break;
 				}
 			}
-		}
 		
-		//TODO Generate a Public/Private Key Pair using Java Crypto Library.
-		publicKey = "Test";
+		//publicKey = "Test";Public Key will be set by the leader when the Herd is created.
 	}
 	
 
