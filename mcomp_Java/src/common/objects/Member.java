@@ -141,6 +141,7 @@ public class Member implements Rmiable, Membership {
 	@Override
 	public int add(int a, int b) throws RemoteException {
 		// TODO Auto-generated method stub
+		//Leftover from RMIable testing.
 		return 0;
 	}
 

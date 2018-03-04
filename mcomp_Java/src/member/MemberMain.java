@@ -52,7 +52,7 @@ public class MemberMain {
 			}
 		}
 		if (skills.isEmpty()) {
-			System.out.println("Sorry, a Pathfinder needs to have at least one ability!");
+			System.out.println("Sorry, a Robot needs to have at least one ability!");
 		}
 		else {
 			Ability [] abilities = (Ability[]) skills.toArray();  //FIXME list is already of type ability?
