@@ -49,14 +49,19 @@ public class Member implements Rmiable, Membership {
 			for(Ability a : can) {
 				switch (a) {
 				case PROCESSOR:
+					abilities.add(a);
 					break;
 				case DRIVER:
+					abilities.add(a);
 					break;
 				case SENSOR:
+					abilities.add(a);
 					break;
 				case VIEWER:
+					abilities.add(a);
 					break;
 				case DEST_SETTER:
+					abilities.add(a);
 					break;
 				default: break;
 				}
