@@ -11,6 +11,16 @@ import common.interfaces.Leadable;
 import common.interfaces.Membership;
 import common.interfaces.Rmiable;
 
+/**
+ * 
+ * @author Ryan Shoobert (15812407)
+ * 
+ * DOCME  Add comment for this and generally update other comments where
+ *        relevant.
+ * TESTME update current tests for this class as much of the functionality has 
+ *        changed.
+ *
+ */
 public class Leader extends UnicastRemoteObject implements Leadable, Rmiable {
   private int portNumber = -1;
   private String serverName = "";
@@ -35,15 +45,23 @@ public class Leader extends UnicastRemoteObject implements Leadable, Rmiable {
   }
 
   /**
+   * DOCME: Update this is missing details
+   * 
    * Creates a registry for sharing method stubs with other members
    * of the herd. Once running, members will be able to call methods
    * implemented on the leader.
    */
   public void start() {
     try {
+      /*This will probably become LocateRegistry.getRegistry(this.portNumber) 
+      in line with the new idea of the registry running as a seperate process.*/
       r = LocateRegistry.createRegistry(this.portNumber);
-
       r.rebind(this.serverName, new Leader(this.portNumber, this.serverName));
+
+      //TODO::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+      //Switch Wifi to AdHoc Mode
+      //Some stuff with getting the IP Address
+      //Firing up DHCP server for distributing IPs
 
       System.out.println(">>The leader process started succesfully<<");           
     } catch (Exception e) {
@@ -83,5 +101,15 @@ public class Leader extends UnicastRemoteObject implements Leadable, Rmiable {
       //m.setLeaderIP(this bots IP)
     }
     return null;
+  }
+
+  @Override
+  public boolean joinHerd(Member m) {
+    return herdMembers.add(m);
+  }
+
+  @Override
+  public boolean leaveHerd(Member m) {
+    return herdMembers.remove(m);
   }
 }
