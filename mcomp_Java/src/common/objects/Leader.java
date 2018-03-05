@@ -6,27 +6,38 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import common.interfaces.Leadable;
 import common.interfaces.Membership;
 import common.interfaces.Rmiable;
-import leader.Leader;
 
 public class Leader extends UnicastRemoteObject implements Leadable, Rmiable {
   private int portNumber = -1;
   private String serverName = "";
   private Registry r;
 
+  private ArrayList <Member> herdMembers;
+
   InetAddress[] addresses;
   InetAddress loopback = InetAddress.getLoopbackAddress();
 
-  public Leader(int portNumber, String serverName) {
+  /**
+   * Constructor for the leader object. This will take a port number and
+   * a name and store these in local variables.
+   * 
+   * @param portNumber The port number that the leader will communicate on
+   * @param serverName The assigned name to the running instance
+   *        //This may later change to the HerdID
+   */
+  public Leader(int portNumber, String serverName) throws RemoteException {
     this.portNumber = portNumber;
     this.serverName = serverName;
   }
-  
+
   /**
-   * Creates registry for sharing method stubs on the defined port. This then
-   * gets bound to the new instance to be created 
+   * Creates a registry for sharing method stubs with other members
+   * of the herd. Once running, members will be able to call methods
+   * implemented on the leader.
    */
   public void start() {
     try {
@@ -34,9 +45,9 @@ public class Leader extends UnicastRemoteObject implements Leadable, Rmiable {
 
       r.rebind(this.serverName, new Leader(this.portNumber, this.serverName));
 
-      System.out.println(">>Server Running<<");           
+      System.out.println(">>The leader process started succesfully<<");           
     } catch (Exception e) {
-      System.err.printf(">>Server failed to start: %s<<", e.getMessage());
+      System.err.printf(">>Leader process failed to start: %s<<", e.getMessage());
     }   
   }
 
@@ -59,21 +70,18 @@ public class Leader extends UnicastRemoteObject implements Leadable, Rmiable {
   }
 
   @Override
-  public InetAddress publishAddress() {
-    // TODO For each member in Herd, RMI the address to each Member
-    return null;
-  }
-
-  @Override
   public Membership nominateLeader() {
     // TODO Auto-generated method stub
     return null;
   }
-  
-  @Override
-  public int add(int a, int b) throws RemoteException {
-    // TODO Auto-generated method stub
-    return 0;
-  }
 
+  @Override
+  public InetAddress publishAddress() {
+    // TODO For each member in Herd, RMI the address to each Member
+    for(Member m : herdMembers) {
+      //send the leaders IP
+      //m.setLeaderIP()
+    }
+    return null;
+  }
 }

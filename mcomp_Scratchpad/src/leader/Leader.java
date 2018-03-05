@@ -22,7 +22,7 @@ public class Leader extends UnicastRemoteObject implements Serverable {
   private int portNumber = -1;
   private String serverName = "";
   private Registry r;
-  
+
   /**
    * Constructor which handles assigning the port number and server name to 
    * local values for local reference.

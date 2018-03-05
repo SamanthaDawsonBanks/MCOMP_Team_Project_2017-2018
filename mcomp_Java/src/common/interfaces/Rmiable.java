@@ -3,6 +3,7 @@
  */
 package common.interfaces;
 
+import java.net.InetAddress;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
@@ -13,15 +14,6 @@ import java.rmi.RemoteException;
  */
 public interface Rmiable extends Remote {
 
-  /**
-   * 
-   * Example method
-   * 
-   * @param a The first Addend
-   * @param b The last Addend (number to be added to 'a')
-   * @return the result of adding the two numbers
-   * @throws RemoteException
-   */
-  int add(int a, int b) throws RemoteException;
+  InetAddress publishAddress();
   
 }
