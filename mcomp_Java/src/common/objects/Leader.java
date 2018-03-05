@@ -80,7 +80,7 @@ public class Leader extends UnicastRemoteObject implements Leadable, Rmiable {
     // TODO For each member in Herd, RMI the address to each Member
     for(Member m : herdMembers) {
       //send the leaders IP
-      //m.setLeaderIP()
+      //m.setLeaderIP(this bots IP)
     }
     return null;
   }
