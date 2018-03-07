@@ -99,6 +99,7 @@ public class Leader extends UnicastRemoteObject implements Leadable, Rmiable {
     for(Member m : herdMembers) {
       //send the leaders IP
       //m.setLeaderIP(this bots IP)
+      //addresses[0].getAddress() should get the leaders address??
     }
     return null;
   }
