@@ -3,6 +3,7 @@
  */
 package member;
 
+import common.objects.Herd;
 import common.objects.Member;
 import java.util.ArrayList;
 import common.datatypes.Ability;
@@ -59,6 +60,7 @@ public class MemberMain {
 			Member me = new Member(abilities);
 			me.start();
 			System.out.println("Member started");
+			Herd h = new Herd (me); //Here because Herd needs a constructed Member to add.
 		}
 	}
 
