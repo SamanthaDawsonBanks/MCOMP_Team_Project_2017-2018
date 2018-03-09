@@ -25,8 +25,8 @@ import java.security.Key;
 public class Member implements Rmiable, Membership {
 	private ArrayList<Ability> abilities;
 	private String herdID = null;
-	private Key publicKey;
-	private Key privateKey;
+	private Key myPublicKey;
+	private Key myPrivateKey;
 	private Key leaderPublicKey;
 
 	/**
@@ -89,7 +89,7 @@ public class Member implements Rmiable, Membership {
 	@Override
 	public boolean importLeaderKey(Key pk) {
 		if (isValidKey(pk)) {
-			publicKey = pk;
+			leaderPublicKey = pk;
 			return true;
 		}
 		else return false;		
