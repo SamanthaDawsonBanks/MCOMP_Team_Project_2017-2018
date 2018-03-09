@@ -23,6 +23,6 @@ import common.datatypes.Ability;
  */
 public interface Membership {
 	public ArrayList<Ability> getAbilities();
-	public boolean setPublicKey(Key pk);
+	public boolean importLeaderKey(Key pk);
 	public Key getPublicKey();  
 }

@@ -87,7 +87,7 @@ public class Member implements Rmiable, Membership {
 	 */
 	
 	@Override
-	public boolean setPublicKey(Key pk) {
+	public boolean importLeaderKey(Key pk) {
 		if (isValidKey(pk)) {
 			publicKey = pk;
 			return true;
