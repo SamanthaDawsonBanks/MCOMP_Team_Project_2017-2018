@@ -24,6 +24,7 @@ import java.security.Key;
 
 public class Member implements Rmiable, Membership {
 	private ArrayList<Ability> abilities;
+	private ArrayList <Member> herdMembers;
 	private Key myPublicKey;
 	private Key myPrivateKey;
 	private Key leaderPublicKey;
@@ -45,6 +46,7 @@ public class Member implements Rmiable, Membership {
 
 	public Member (Ability[] can) {
 		abilities = new ArrayList<Ability>();
+		herdMembers = new ArrayList<Member>();
 
 		for(Ability a : can) {
 			switch (a) {
