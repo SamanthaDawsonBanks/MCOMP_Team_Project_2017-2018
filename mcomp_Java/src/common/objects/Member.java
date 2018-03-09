@@ -81,7 +81,7 @@ public class Member implements Rmiable, Membership {
 	}
 
 	/**
-	 * Sets the value of publicKey when handed by a leader.
+	 * Sets the value of the Leaders publicKey when handed by a leader.
 	 * 
 	 * @param The Public key of a leader.
 	 */
@@ -102,7 +102,7 @@ public class Member implements Rmiable, Membership {
 	 * @return The Public Key.
 	 */
 	public Key getPublicKey() {
-		return publicKey; //TODO this needs to be of type Key once I work out ciphers.
+		return myPublicKey; //TODO this needs to be of type Key once I work out ciphers.
 	}
 	
 	/**
