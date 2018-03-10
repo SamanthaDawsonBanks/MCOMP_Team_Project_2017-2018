@@ -11,7 +11,6 @@
 #include "Arduino.h"
 #include "common/datatypes/path/Path.h"
 
-
 //-----------------------------------Definitions-----------------------------------
 // eg. #define RED 13
 // or, #define ON HIGH
@@ -37,6 +36,7 @@
 void setup() {
   // Add your initialisation code here
   // TODO method stub
+  //testWaypoint();
   testPath();
 }  //End Setup
 
@@ -56,29 +56,45 @@ void loop() {
 
 //--------------------------------------Tests--------------------------------------
 //TODO pull these out into a separate file?
-void testPath(){
+void testPath() {
   Serial.begin(9600);
- // Waypoint * d = new Waypoint(0,0);
-//  Path p = new Path(d);
-//  for (int i = 0; i <= 10; i++) {
-//    for (int j = 0; j <= 10; j++) {
-//      Waypoint w = Waypoint(i,j);
-//      p.addNode(w);
-//    }
-//  }
-//
-//  for (int i = 0; i <= 10; i++) {
-//    for (int j = 0; j <= 10; j++) {
-//      Serial.print(p.poll().getX() + " , " + p.poll().getY());
-//    }
-//  }
+  Waypoint * d = new Waypoint(100, 100);
+  Path p(*d);
+  for (int i = 0; i <= 10; i++) {
+    for (int j = 0; j <= 10; j++) {
+      Waypoint w = Waypoint(i, j);
+      p.addNode(w);
+    }
+  }
+
+  for (int i = 0; i <= 10; i++) {
+    for (int j = 0; j <= 10; j++) {
+      Serial.print(p.poll().getX());
+      Serial.print(",");
+      Serial.print(p.poll().getY());
+      Serial.println("");
+    }
+  }
 
   Serial.println("end of data");
-//  shared_ptr<Path> x = make_shared<Path>();
-//  Serial.println(p.poll().getX() + " , " + p.poll().getY());
-//  Serial.println(p.poll().getX() + " , " + p.poll().getY());
-//  Serial.println(p.poll().getX() + " , " + p.poll().getY());
-//  Serial.println(p.poll().getX() + " , " + p.poll().getY());
-//  Serial.println(p.poll().getX() + " , " + p.poll().getY());
+  Serial.print(p.poll().getX());
+  Serial.print(",");
+  Serial.print(p.poll().getY());
+  Serial.println("");
+  Serial.print(p.poll().getX());
+  Serial.print(",");
+  Serial.print(p.poll().getY());
+  Serial.println("");
+
+}
+
+void testWaypoint() {
+  Serial.begin(9600);
+  Waypoint t(0, 0);  // = new Waypoint(0,0);
+  Serial.println("end of data input");
+  Serial.print(t.getX());
+  Serial.print(",");
+  Serial.print(t.getY());
+  Serial.println("");
 
 }

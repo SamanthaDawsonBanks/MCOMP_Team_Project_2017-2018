@@ -8,25 +8,24 @@
 #include "PathItem.h"
 #include "../Waypoint.h"
 
-
 PathItem::PathItem(Waypoint w) {
-   this->data = w;
-   this->next = nullptr;
+  this->data = w;
+  this->next = nullptr;
 }
 
 PathItem::~PathItem() {
   // TODO Auto-generated destructor stub
 }
 
-Waypoint PathItem::getData(){
-	return data;
+Waypoint PathItem::getData() {
+  return data;
 }
 
-PathItem PathItem::getNext(){
-	return *next;
+PathItem PathItem::getNext() {
+  return *next;
 }
 
-bool PathItem::setNext(PathItem next){
-	this->next = &next;
-	return true;
+bool PathItem::setNext(PathItem next) {
+  this->next = &next;
+  return true;
 }

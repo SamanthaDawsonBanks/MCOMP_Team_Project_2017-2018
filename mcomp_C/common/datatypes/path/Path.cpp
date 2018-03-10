@@ -22,49 +22,41 @@ Path::~Path() {
   // TODO Auto-generated destructor stub
 }
 
+void Path::addNode(Waypoint w) {
 
-void Path::addNode(Waypoint w){
+  if (length > 0) {
+    (*lastItem).setNext(PathItem(w));
+    *lastItem = (*lastItem).getNext();
+  } else {
+    head = new PathItem(w);
+    lastItem = head;
+  }
 
-	if(length > 0){
-		(*lastItem).setNext(PathItem(w));
-		*lastItem = (*lastItem).getNext();
-	}
-	else {
-		head = new PathItem(w);
-		lastItem = head;
-	}
-
-	length++;
+  length++;
 }
 
+Waypoint Path::poll() {
 
-Waypoint Path::poll(){
+  Waypoint res = (*destination).getData();
+  if (length > 0) {
+    res = (*head).getData();
+    *head = (*head).getNext();
 
-	Waypoint res = (*destination).getData();
-	if(length > 0){
-		res = (*head).getData();
-		*head = (*head).getNext();
-
-	if(head == nullptr){
-		lastItem = nullptr;
-	}
-	length--;
-	}
-	return res;
+    if (head == nullptr) {
+      lastItem = nullptr;
+    }
+    length--;
+  }
+  return res;
 }
-
-
 
 int Path::getLength() {
-	return length;
+  return length;
 }
-
 
 bool Path::isDone() {
-     return true;
-	 return(length == 0);
+  return true;
+  return (length == 0);
 
 }
-
-
 
