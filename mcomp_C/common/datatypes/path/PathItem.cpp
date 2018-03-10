@@ -1,4 +1,5 @@
 #include "PathItem.h"
+#include "../Waypoint.h"
 
 
 PathItem::PathItem(Waypoint w) {

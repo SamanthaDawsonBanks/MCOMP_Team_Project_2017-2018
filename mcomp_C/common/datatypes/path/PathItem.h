@@ -3,7 +3,6 @@
 
 #include "../Waypoint.h"
 #include "PathItem.h"
-//#include "PathItemPtr.h"
 
 class PathItem {
 
@@ -12,7 +11,6 @@ class PathItem {
   Waypoint data;
 
  public:
-  PathItem();
   PathItem(Waypoint w);
   ~PathItem();
 
@@ -20,11 +18,5 @@ class PathItem {
   PathItem getNext();
   bool setNext(PathItem next);
 };
-
-
-
-
-
-
 
 #endif /* PathItem_H_ */
