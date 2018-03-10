@@ -3,7 +3,7 @@
 
 PathItem::PathItem(Waypoint w) {
    this->data = w;
-   this->next = "NULL";
+   this->next = this;
 }
 
 PathItem::~PathItem() {
@@ -15,10 +15,10 @@ Waypoint PathItem::getData(){
 }
 
 PathItem PathItem::getNext(){
-	return next;
+	return *next;
 }
 
 bool PathItem::setNext(PathItem next){
-	this->next = next;
+	this->next = &next;
 	return true;
 }

@@ -7,9 +7,9 @@
 class Path {
 
 private:
- PathItem head;
- PathItem destination;
- PathItem lastItem;
+ PathItem* head;
+ PathItem* destination;
+ PathItem* lastItem;
 
 
 public:

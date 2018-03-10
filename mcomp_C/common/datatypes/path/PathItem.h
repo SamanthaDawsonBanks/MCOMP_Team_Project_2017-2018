@@ -2,20 +2,22 @@
 #define PathItem_H_
 
 #include "../Waypoint.h"
-#include "PathItemPtr.h"
+#include "PathItem.h"
+//#include "PathItemPtr.h"
 
 class PathItem {
 
  private:
-  PathItemPtr next;
+  PathItem* next;
   Waypoint data;
 
  public:
+  PathItem();
   PathItem(Waypoint w);
   ~PathItem();
 
   Waypoint getData();
-  PathItemPtr getNext();
+  PathItem getNext();
   bool setNext(PathItem next);
 };
 

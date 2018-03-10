@@ -7,6 +7,11 @@
 
 #include "Waypoint.h"
 
+Waypoint::Waypoint() {
+  // TODO Auto-generated constructor stub
+  x = 0;
+  y = 0;
+}
 Waypoint::Waypoint(int xIn, int yIn) {
   // TODO Auto-generated constructor stub
   x = xIn;
