@@ -8,14 +8,12 @@
 #include "Path.h"
 #include "../Waypoint.h"
 
-PathItem* NULL = nullptr;
-
 int length;
 
 Path::Path(Waypoint w) {
   this->destination = new PathItem(w);
-  this->head = NULL;
-  this->lastItem = NULL;
+  this->head = nullptr;
+  this->lastItem = nullptr;
   this->length = 0;
 
 }
@@ -47,8 +45,8 @@ Waypoint Path::poll(){
 		res = (*head).getData();
 		*head = (*head).getNext();
 
-	if(head == NULL){
-		lastItem = NULL;
+	if(head == nullptr){
+		lastItem = nullptr;
 	}
 	length--;
 	}

@@ -11,7 +11,7 @@
 
 PathItem::PathItem(Waypoint w) {
    this->data = w;
-   this->next = this;
+   this->next = nullptr;
 }
 
 PathItem::~PathItem() {

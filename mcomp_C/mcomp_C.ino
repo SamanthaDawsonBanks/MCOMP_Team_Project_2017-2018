@@ -9,6 +9,8 @@
 //------------------------------------Includes-------------------------------------
 // any required libraries
 #include "Arduino.h"
+#include "common/datatypes/path/Path.h"
+
 
 //-----------------------------------Definitions-----------------------------------
 // eg. #define RED 13
@@ -35,6 +37,7 @@
 void setup() {
   // Add your initialisation code here
   // TODO method stub
+  testPath();
 }  //End Setup
 
 //-----------------------------Functions / Subroutines-----------------------------
@@ -53,3 +56,29 @@ void loop() {
 
 //--------------------------------------Tests--------------------------------------
 //TODO pull these out into a separate file?
+void testPath(){
+  Serial.begin(9600);
+ // Waypoint * d = new Waypoint(0,0);
+//  Path p = new Path(d);
+//  for (int i = 0; i <= 10; i++) {
+//    for (int j = 0; j <= 10; j++) {
+//      Waypoint w = Waypoint(i,j);
+//      p.addNode(w);
+//    }
+//  }
+//
+//  for (int i = 0; i <= 10; i++) {
+//    for (int j = 0; j <= 10; j++) {
+//      Serial.print(p.poll().getX() + " , " + p.poll().getY());
+//    }
+//  }
+
+  Serial.println("end of data");
+//  shared_ptr<Path> x = make_shared<Path>();
+//  Serial.println(p.poll().getX() + " , " + p.poll().getY());
+//  Serial.println(p.poll().getX() + " , " + p.poll().getY());
+//  Serial.println(p.poll().getX() + " , " + p.poll().getY());
+//  Serial.println(p.poll().getX() + " , " + p.poll().getY());
+//  Serial.println(p.poll().getX() + " , " + p.poll().getY());
+
+}
