@@ -1,3 +1,10 @@
+/*
+ * mcomp_C.ino
+ *
+ *  Created on: 26 Nov 2017
+ *      Author: David Avery 15823926
+ *
+ */
 #include "PathItem.h"
 #include "../Waypoint.h"
 

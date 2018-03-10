@@ -1,21 +1,9 @@
 /*
- * Author(s):
- * Name: David Avery
- * Email: d.avery1@uni.brighton.ac.uk
- * Email: David_Michael.Avery@yahoo.co.uk
- * Student Number: 15823926
- * Username: dma23
+ * mcomp_C.ino
  *
- * Explanation of Sketch:
- * --Base File Template--
+ *  Created on: 26 Nov 2017
+ *      Author: David Avery 15823926
  *
- * Date: 2017
- *
- * Licence of code:
- * Copyright [Authors] David Avery (code), All rights reserved. (Default)
- *
- * References
- * Alan Thomas UoB CEM [adapted from assignment template and structure]
  */
 
 //------------------------------------Includes-------------------------------------
@@ -63,3 +51,5 @@ void loop() {
   // TODO method stub
 }  // End Loop
 
+//--------------------------------------Tests--------------------------------------
+//TODO pull these out into a separate file?
