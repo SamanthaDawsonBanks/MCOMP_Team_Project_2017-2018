@@ -40,7 +40,8 @@ Waypoint Path::poll() {
   Waypoint res = (*destination).getData();
   if (length > 0) {
     res = (*head).getData();
-    *head = (*head).getNext();
+    PathItem next = ((*head).getNext());
+    head = (&(*head).getNext());
 
     if (head == nullptr) {
       lastItem = nullptr;

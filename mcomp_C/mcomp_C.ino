@@ -36,7 +36,7 @@
 void setup() {
   // Add your initialisation code here
   // TODO method stub
-  //testWaypoint();
+  testWaypoint();
   testPath();
 }  //End Setup
 
@@ -58,38 +58,93 @@ void loop() {
 //TODO pull these out into a separate file?
 void testPath() {
   Serial.begin(9600);
-  Waypoint * d = new Waypoint(100, 100);
-  Path p(*d);
-  for (int i = 0; i <= 10; i++) {
-    for (int j = 0; j <= 10; j++) {
-      Waypoint w = Waypoint(i, j);
-      p.addNode(w);
+  delay(1000);
+  Serial.println("Begin testPath");
+
+  Waypoint q;
+
+  Waypoint d(100, 100);
+  Path p(d);
+
+  q = p.poll();
+  Serial.print(q.getX());
+  Serial.print(",");
+  Serial.print(q.getY());
+  Serial.println("");
+
+  p.addNode(Waypoint(200, 200));
+
+  q = p.poll();
+  Serial.print(q.getX());
+  Serial.print(",");
+  Serial.print(q.getY());
+  Serial.println("");
+
+  q = p.poll();
+  Serial.print(q.getX());
+  Serial.print(",");
+  Serial.print(q.getY());
+  Serial.println("");
+
+  p.addNode(Waypoint(200, 200));
+  p.addNode(Waypoint(300, 300));
+
+  q = p.poll();
+  Serial.print(q.getX());
+  Serial.print(",");
+  Serial.print(q.getY());
+  Serial.println("");
+
+  q = p.poll();
+  Serial.print(q.getX());
+  Serial.print(",");
+  Serial.print(q.getY());
+  Serial.println("");
+
+  for (int i = 0; i < 2; i++) {
+    for (int j = 0; j < 2; j++) {
+      Waypoint x(i, j);
+      p.addNode(x);
     }
   }
 
-  for (int i = 0; i <= 10; i++) {
-    for (int j = 0; j <= 10; j++) {
-      Serial.print(p.poll().getX());
+  for (int k = 0; k < 2; k++) {
+    for (int l = 0; l < 2; l++) {
+      q = p.poll();
+      Serial.print(q.getX());
       Serial.print(",");
-      Serial.print(p.poll().getY());
+      Serial.print(q.getY());
       Serial.println("");
     }
   }
 
   Serial.println("end of data");
-  Serial.print(p.poll().getX());
+  q = p.poll();
+  Serial.print(q.getX());
   Serial.print(",");
-  Serial.print(p.poll().getY());
-  Serial.println("");
-  Serial.print(p.poll().getX());
-  Serial.print(",");
-  Serial.print(p.poll().getY());
+  Serial.print(q.getY());
   Serial.println("");
 
+  q = p.poll();
+  Serial.print(q.getX());
+  Serial.print(",");
+  Serial.print(q.getY());
+  Serial.println("");
+
+  q = p.poll();
+  Serial.print(q.getX());
+  Serial.print(",");
+  Serial.print(q.getY());
+  Serial.println("");
+
+  Serial.println("End testPath");
 }
 
 void testWaypoint() {
   Serial.begin(9600);
+  delay(1000);
+  Serial.println("Begin testWaypoint");
+
   Waypoint t(0, 0);  // = new Waypoint(0,0);
   Serial.println("end of data input");
   Serial.print(t.getX());
@@ -97,4 +152,5 @@ void testWaypoint() {
   Serial.print(t.getY());
   Serial.println("");
 
+  Serial.println("End testWaypoint");
 }
