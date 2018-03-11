@@ -39,6 +39,9 @@ void releaseMotors(){
 
 Waypoint driveTo(Waypoint w){
 	int numSteps;//worked out using maths;
+	/*
+	 * Maths part will need to be developed/go here.
+	 */
 	for(int i = numSteps; i > 0; i--){
 		leftMotor.step(1, FORWARD, DOUBLE); //motor.step(number of steps, FORWARD or BACKWARD, SINGLE DOUBLE or INTERLEAVED)
 		rightMotor.step(1, BACKWARD, DOUBLE);
