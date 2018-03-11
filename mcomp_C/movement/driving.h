@@ -15,7 +15,7 @@
 class driving {
 public:
 	driving();
-	virtual ~driving();
+	~driving();
 	Waypoint driveTo(Waypoint);
 	void unlockMotors();
 

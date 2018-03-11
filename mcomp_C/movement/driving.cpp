@@ -2,7 +2,7 @@
  * driving.cpp
  *
  *  Created on: 11 Mar 2018
- *      Author: Steve
+ *      Author: Stephen Pope 15836791
  */
 
 #include "driving.h"
@@ -23,6 +23,10 @@ driving::driving() {
 
 driving::~driving() {
 	// TODO Auto-generated destructor stub
+	//releaseMotors() ??;
+	delete leftMotor;
+	delete rightMotor;
+	delete AFMS;
 }
 
 void releaseMotors(){
