@@ -38,7 +38,9 @@ void releaseMotors(){
 }
 
 Waypoint driveTo(Waypoint w){
-
+	int numSteps;//worked out using maths;
+	leftMotor.step(1, FORWARD, DOUBLE); //motor.step(number of steps, FORWARD or BACKWARD, SINGLE DOUBLE or INTERLEAVED)
+	rightMotor.step(1, BACKWARD, DOUBLE);
 	return nullptr;
 }
 
