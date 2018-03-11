@@ -22,8 +22,8 @@ import common.interfaces.Rmiable;
  *
  */
 public class Leader extends UnicastRemoteObject implements Leadable, Rmiable {
-  private int portNumber = -1;
-  private String serverName = "";
+  private int portNumber;
+  private String serverName;
   private Registry r;
 
   private ArrayList <Member> herdMembers;
@@ -32,6 +32,8 @@ public class Leader extends UnicastRemoteObject implements Leadable, Rmiable {
   InetAddress loopback = InetAddress.getLoopbackAddress();
 
   /**
+   * DOCME update comment for the constructor 
+   * 
    * Constructor for the leader object. This will take a port number and
    * a name and store these in local variables.
    * 
@@ -42,16 +44,7 @@ public class Leader extends UnicastRemoteObject implements Leadable, Rmiable {
   public Leader(int portNumber, String serverName) throws RemoteException {
     this.portNumber = portNumber;
     this.serverName = serverName;
-  }
 
-  /**
-   * DOCME: Update this is missing details
-   * 
-   * Creates a registry for sharing method stubs with other members
-   * of the herd. Once running, members will be able to call methods
-   * implemented on the leader.
-   */
-  public void start() {
     try {
       /*This will probably become LocateRegistry.getRegistry(this.portNumber) 
       in line with the new idea of the registry running as a seperate process.*/
@@ -68,6 +61,8 @@ public class Leader extends UnicastRemoteObject implements Leadable, Rmiable {
       System.err.printf(">>Leader process failed to start: %s<<", e.getMessage());
     }   
   }
+
+  //start removed as not required
 
   /**
    * Polls the host of the Leader and collects the IP address of all 
