@@ -30,11 +30,15 @@ driving::~driving() {
 }
 
 void releaseMotors(){
+	//The purpose of this will be for safety when STOPPING the bot.
+	//When the robot finishes pulsing the motors, they remain locked.
+	//This will be used to allow us to transport the robot.
 	leftMotor.release();
 	rightMotor.release();
 }
 
 Waypoint driveTo(Waypoint w){
+
 	return nullptr;
 }
 
