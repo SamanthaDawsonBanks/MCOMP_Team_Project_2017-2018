@@ -16,17 +16,14 @@ import common.objects.Member;
 public interface Rmiable extends Remote {
 
   InetAddress publishAddress();
-  
+
   /**
-   * TODO I don't like these sigs very much but will leave them for now
-   *      I keep thinking there is a better way to do it <<BELOW>>
-   */
-  
-  /**
+   * NOTE: have left them but they will be moved to a different interface when 
+   *       discussed with group.
+   * 
    * A member 'm' will join the herd by registering with the leader.
    * Once added to the members list, the members will be able to invoke
-   * methods on the leader and the leader will be able to do the same with each
-   * of its members.
+   * methods on the leader.
    * 
    * @param m The member object to be added
    * @return True if the member was added successfully; False if it was not
