@@ -1,13 +1,20 @@
+/*
+ * mcomp_C.ino
+ *
+ *  Created on: 26 Nov 2017
+ *      Author: David Avery 15823926
+ *
+ */
 #ifndef PathItem_H_
 #define PathItem_H_
 
 #include "../Waypoint.h"
-#include "PathItemPtr.h"
+#include "PathItem.h"
 
 class PathItem {
 
  private:
-  PathItemPtr next;
+  PathItem* next;
   Waypoint data;
 
  public:
@@ -15,14 +22,8 @@ class PathItem {
   ~PathItem();
 
   Waypoint getData();
-  PathItemPtr getNext();
-  bool setNext(PathItem next);
+  PathItem* getNext();
+  bool setNext(PathItem* next);
 };
-
-
-
-
-
-
 
 #endif /* PathItem_H_ */

@@ -1,3 +1,10 @@
+/*
+ * mcomp_C.ino
+ *
+ *  Created on: 26 Nov 2017
+ *      Author: David Avery 15823926
+ *
+ */
 #include "PathItem.h"
 #include "../Waypoint.h"
 
@@ -6,13 +13,12 @@
 
 class Path {
 
-private:
- PathItem head;
- PathItem destination;
- PathItem lastItem;
+ private:
+  PathItem* head;
+  PathItem* destination;
+  PathItem* lastItem;
 
-
-public:
+ public:
   Path(Waypoint w);
   virtual ~Path();
   void addNode(Waypoint);
@@ -20,7 +26,6 @@ public:
   int getLength();
   int length = 0;
   bool isDone();
-
 
 };
 //FIXME implement this once data structure is defined in java land
