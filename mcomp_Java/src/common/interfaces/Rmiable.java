@@ -31,7 +31,7 @@ public interface Rmiable extends Remote {
    * @param m The member object to be added
    * @return True if the member was added successfully; False if it was not
    */
-  public boolean joinHerd(Member m);
+//  public boolean joinHerd(Member m);
   
   /**
    * When a member wants to leave the herd, it must notify the leader so that
@@ -40,6 +40,6 @@ public interface Rmiable extends Remote {
    * @param m The member that wants to leave
    * @return True if the member left successfully; False if it did not
    */
-  public boolean leaveHerd(Member m);
+//  public boolean leaveHerd(Member m);
   
 }

@@ -32,37 +32,31 @@ public class Leader extends UnicastRemoteObject implements Leadable, Rmiable {
   InetAddress loopback = InetAddress.getLoopbackAddress();
 
   /**
-   * DOCME update comment for the constructor 
-   * 
    * Constructor for the leader object. This will take a port number and
    * a name and store these in local variables.
    * 
+   * The leader then attempts to connect to the running registry where it 
+   * will be able to share it's method stubs with connected members.
+   * 
    * @param portNumber The port number that the leader will communicate on
    * @param serverName The assigned name to the running instance
-   *        //This may later change to the HerdID
+   *                   //This may later change to the HerdID
    */
   public Leader(int portNumber, String serverName) throws RemoteException {
     this.portNumber = portNumber;
     this.serverName = serverName;
 
     try {
-      /*This will probably become LocateRegistry.getRegistry(this.portNumber) 
-      in line with the new idea of the registry running as a seperate process.*/
-      r = LocateRegistry.createRegistry(this.portNumber);
+      r = LocateRegistry.getRegistry(this.portNumber);
       r.rebind(this.serverName, new Leader(this.portNumber, this.serverName));
 
-      //TODO::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-      //Switch Wifi to AdHoc Mode
-      //Some stuff with getting the IP Address
-      //Firing up DHCP server for distributing IPs
+      //Switch Wifi to infrastructure Mode - will probably set to infrastructure by default
 
       System.out.println(">>The leader process started succesfully<<");           
     } catch (Exception e) {
       System.err.printf(">>Leader process failed to start: %s<<", e.getMessage());
     }   
   }
-
-  //start removed as not required
 
   /**
    * Polls the host of the Leader and collects the IP address of all 
@@ -97,15 +91,5 @@ public class Leader extends UnicastRemoteObject implements Leadable, Rmiable {
       //addresses[0].getAddress() should get the leaders address??
     }
     return null;
-  }
-
-  @Override
-  public boolean joinHerd(Member m) {
-    return herdMembers.add(m);
-  }
-
-  @Override
-  public boolean leaveHerd(Member m) {
-    return herdMembers.remove(m);
   }
 }
