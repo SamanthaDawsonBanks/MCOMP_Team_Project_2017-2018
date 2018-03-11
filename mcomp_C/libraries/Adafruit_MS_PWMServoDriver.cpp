@@ -15,7 +15,8 @@
   BSD license, all text above must be included in any redistribution
  ****************************************************/
 
-#include <Adafruit_MS_PWMServoDriver.h>
+#include "../libraries/Adafruit_MS_PWMServoDriver.h"
+
 #include <Wire.h>
 #if defined(ARDUINO_SAM_DUE)
  #define WIRE Wire1

@@ -67,7 +67,7 @@ environment/project/io.sloeber.core.toolChain.release.935318736/A.BUILD.USB_MANU
 environment/project/io.sloeber.core.toolChain.release.935318736/A.BUILD.USB_MANUFACTURER/value="Unknown"
 environment/project/io.sloeber.core.toolChain.release.935318736/A.BUILD.VARIANT.PATH/delimiter=;
 environment/project/io.sloeber.core.toolChain.release.935318736/A.BUILD.VARIANT.PATH/operation=replace
-environment/project/io.sloeber.core.toolChain.release.935318736/A.BUILD.VARIANT.PATH/value=G\:\\PortableApps\\eclipse\\arduinoPlugin\\packages\\arduino\\hardware\\avr\\1.6.20\\variants\\mega
+environment/project/io.sloeber.core.toolChain.release.935318736/A.BUILD.VARIANT.PATH/value=G\:\\PortableApps\\eclipse\\arduinoPlugin\\packages\\arduino\\hardware\\avr\\1.6.21\\variants\\mega
 environment/project/io.sloeber.core.toolChain.release.935318736/A.BUILD.VARIANT/delimiter=;
 environment/project/io.sloeber.core.toolChain.release.935318736/A.BUILD.VARIANT/operation=replace
 environment/project/io.sloeber.core.toolChain.release.935318736/A.BUILD.VARIANT/value=mega
@@ -163,10 +163,10 @@ environment/project/io.sloeber.core.toolChain.release.935318736/A.EXTRA.TIME.DTS
 environment/project/io.sloeber.core.toolChain.release.935318736/A.EXTRA.TIME.DTS/value=0
 environment/project/io.sloeber.core.toolChain.release.935318736/A.EXTRA.TIME.LOCAL/delimiter=;
 environment/project/io.sloeber.core.toolChain.release.935318736/A.EXTRA.TIME.LOCAL/operation=replace
-environment/project/io.sloeber.core.toolChain.release.935318736/A.EXTRA.TIME.LOCAL/value=1516565898
+environment/project/io.sloeber.core.toolChain.release.935318736/A.EXTRA.TIME.LOCAL/value=1520779726
 environment/project/io.sloeber.core.toolChain.release.935318736/A.EXTRA.TIME.UTC/delimiter=;
 environment/project/io.sloeber.core.toolChain.release.935318736/A.EXTRA.TIME.UTC/operation=replace
-environment/project/io.sloeber.core.toolChain.release.935318736/A.EXTRA.TIME.UTC/value=1516565898
+environment/project/io.sloeber.core.toolChain.release.935318736/A.EXTRA.TIME.UTC/value=1520779726
 environment/project/io.sloeber.core.toolChain.release.935318736/A.EXTRA.TIME.ZONE/delimiter=;
 environment/project/io.sloeber.core.toolChain.release.935318736/A.EXTRA.TIME.ZONE/operation=replace
 environment/project/io.sloeber.core.toolChain.release.935318736/A.EXTRA.TIME.ZONE/value=0
@@ -316,10 +316,10 @@ environment/project/io.sloeber.core.toolChain.release.935318736/A.RUNTIME.IDE.VE
 environment/project/io.sloeber.core.toolChain.release.935318736/A.RUNTIME.IDE.VERSION/value=10802
 environment/project/io.sloeber.core.toolChain.release.935318736/A.RUNTIME.PLATFORM.PATH/delimiter=;
 environment/project/io.sloeber.core.toolChain.release.935318736/A.RUNTIME.PLATFORM.PATH/operation=replace
-environment/project/io.sloeber.core.toolChain.release.935318736/A.RUNTIME.PLATFORM.PATH/value=${eclipse_home}/arduinoPlugin/packages/arduino/hardware/avr/1.6.20
+environment/project/io.sloeber.core.toolChain.release.935318736/A.RUNTIME.PLATFORM.PATH/value=${eclipse_home}/arduinoPlugin/packages/arduino/hardware/avr/1.6.21
 environment/project/io.sloeber.core.toolChain.release.935318736/A.RUNTIME.REFERENCED.PLATFORM.PATH/delimiter=;
 environment/project/io.sloeber.core.toolChain.release.935318736/A.RUNTIME.REFERENCED.PLATFORM.PATH/operation=replace
-environment/project/io.sloeber.core.toolChain.release.935318736/A.RUNTIME.REFERENCED.PLATFORM.PATH/value=${eclipse_home}/arduinoPlugin/packages/arduino/hardware/avr/1.6.20
+environment/project/io.sloeber.core.toolChain.release.935318736/A.RUNTIME.REFERENCED.PLATFORM.PATH/value=${eclipse_home}/arduinoPlugin/packages/arduino/hardware/avr/1.6.21
 environment/project/io.sloeber.core.toolChain.release.935318736/A.RUNTIME.TOOLS.ARDUINOOTA-1.1.1.PATH/delimiter=;
 environment/project/io.sloeber.core.toolChain.release.935318736/A.RUNTIME.TOOLS.ARDUINOOTA-1.1.1.PATH/operation=replace
 environment/project/io.sloeber.core.toolChain.release.935318736/A.RUNTIME.TOOLS.ARDUINOOTA-1.1.1.PATH/value=${eclipse_home}/arduinoPlugin/packages/arduino/tools/arduinoOTA/1.1.1
@@ -457,7 +457,7 @@ environment/project/io.sloeber.core.toolChain.release.935318736/A.UPLOAD.USBID/o
 environment/project/io.sloeber.core.toolChain.release.935318736/A.UPLOAD.USBID/value=no_altID
 environment/project/io.sloeber.core.toolChain.release.935318736/A.VERSION/delimiter=;
 environment/project/io.sloeber.core.toolChain.release.935318736/A.VERSION/operation=replace
-environment/project/io.sloeber.core.toolChain.release.935318736/A.VERSION/value=1.6.20
+environment/project/io.sloeber.core.toolChain.release.935318736/A.VERSION/value=1.6.21
 environment/project/io.sloeber.core.toolChain.release.935318736/A.VID.0/delimiter=;
 environment/project/io.sloeber.core.toolChain.release.935318736/A.VID.0/operation=replace
 environment/project/io.sloeber.core.toolChain.release.935318736/A.VID.0/value=0x2341
@@ -481,7 +481,7 @@ environment/project/io.sloeber.core.toolChain.release.935318736/JANTJE.ARCHITECT
 environment/project/io.sloeber.core.toolChain.release.935318736/JANTJE.ARCHITECTURE_ID/value=avr
 environment/project/io.sloeber.core.toolChain.release.935318736/JANTJE.BOARDS_FILE/delimiter=;
 environment/project/io.sloeber.core.toolChain.release.935318736/JANTJE.BOARDS_FILE/operation=replace
-environment/project/io.sloeber.core.toolChain.release.935318736/JANTJE.BOARDS_FILE/value=G\:\\PortableApps\\eclipse\\arduinoPlugin\\packages\\arduino\\hardware\\avr\\1.6.20\\boards.txt
+environment/project/io.sloeber.core.toolChain.release.935318736/JANTJE.BOARDS_FILE/value=G\:\\PortableApps\\eclipse\\arduinoPlugin\\packages\\arduino\\hardware\\avr\\1.6.21\\boards.txt
 environment/project/io.sloeber.core.toolChain.release.935318736/JANTJE.BOARD_ID/delimiter=;
 environment/project/io.sloeber.core.toolChain.release.935318736/JANTJE.BOARD_ID/operation=replace
 environment/project/io.sloeber.core.toolChain.release.935318736/JANTJE.BOARD_ID/value=mega
@@ -535,7 +535,7 @@ environment/project/io.sloeber.core.toolChain.release.935318736/JANTJE.PROJECT_N
 environment/project/io.sloeber.core.toolChain.release.935318736/JANTJE.PROJECT_NAME/value=mcomp_C
 environment/project/io.sloeber.core.toolChain.release.935318736/JANTJE.SELECTED.PLATFORM/delimiter=;
 environment/project/io.sloeber.core.toolChain.release.935318736/JANTJE.SELECTED.PLATFORM/operation=replace
-environment/project/io.sloeber.core.toolChain.release.935318736/JANTJE.SELECTED.PLATFORM/value=${eclipse_home}/arduinoPlugin/packages/arduino/hardware/avr/1.6.20
+environment/project/io.sloeber.core.toolChain.release.935318736/JANTJE.SELECTED.PLATFORM/value=${eclipse_home}/arduinoPlugin/packages/arduino/hardware/avr/1.6.21
 environment/project/io.sloeber.core.toolChain.release.935318736/JANTJE.SIZE.SWITCH/delimiter=;
 environment/project/io.sloeber.core.toolChain.release.935318736/JANTJE.SIZE.SWITCH/operation=replace
 environment/project/io.sloeber.core.toolChain.release.935318736/JANTJE.SIZE.SWITCH/value=${A.RECIPE.SIZE.PATTERN}

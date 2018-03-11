@@ -7,10 +7,10 @@
 
 #ifndef MOVEMENT_DRIVING_H_
 #define MOVEMENT_DRIVING_H_
-#include "Waypoint.h"
+#include "../common/datatypes/Waypoint.h"
 #include <Wire.h>
-#include <Adafruit_MotorShield.h>
-#include <Adafruit_PWMServoDriver.h>
+#include "../libraries/Adafruit_MS_PWMServoDriver.h"
+#include "../libraries/Adafruit_MotorShield.h"
 
 class driving {
 public:

@@ -19,7 +19,7 @@
 
 #include <inttypes.h>
 #include <Wire.h>
-#include "utility/Adafruit_MS_PWMServoDriver.h"
+#include "../libraries/Adafruit_MS_PWMServoDriver.h"
 
 //#define MOTORDEBUG
 
