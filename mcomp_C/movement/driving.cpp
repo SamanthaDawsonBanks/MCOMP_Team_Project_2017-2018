@@ -34,3 +34,7 @@ void releaseMotors(){
 	rightMotor.release();
 }
 
+Waypoint driveTo(Waypoint w){
+	return nullptr;
+}
+
