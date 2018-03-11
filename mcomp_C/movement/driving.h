@@ -18,6 +18,8 @@ public:
 	virtual ~driving();
 	Waypoint driveTo(Waypoint);
 	void unlockMotors();
+
 };
+
 
 #endif /* MOVEMENT_DRIVING_H_ */
