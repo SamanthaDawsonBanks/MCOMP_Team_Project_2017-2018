@@ -10,7 +10,7 @@
 
 driving::driving() {
 	Adafruit_MotorShield AFMS = Adafruit_MotorShield();
-
+int x;
 }
 
 driving::~driving() {
