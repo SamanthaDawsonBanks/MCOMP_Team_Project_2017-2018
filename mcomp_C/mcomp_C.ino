@@ -86,8 +86,8 @@ void testPath() {
   Serial.print(q.getY());
   Serial.println("");
 
-  p.addNode(Waypoint(200, 200));
-  p.addNode(Waypoint(300, 300));
+  p.addNode(Waypoint(250, 250));
+  p.addNode(Waypoint(350, 350));
 
   q = p.poll();
   Serial.print(q.getX());
@@ -101,15 +101,15 @@ void testPath() {
   Serial.print(q.getY());
   Serial.println("");
 
-  for (int i = 0; i < 2; i++) {
-    for (int j = 0; j < 2; j++) {
+  for (int i = 0; i < 10; i++) {
+    for (int j = 0; j < 10; j++) {
       Waypoint x(i, j);
       p.addNode(x);
     }
   }
 
-  for (int k = 0; k < 2; k++) {
-    for (int l = 0; l < 2; l++) {
+  for (int k = 0; k < 10; k++) {
+    for (int l = 0; l < 10; l++) {
       q = p.poll();
       Serial.print(q.getX());
       Serial.print(",");

@@ -11,10 +11,10 @@
 int length;
 
 Path::Path(Waypoint w) {
-  this->destination = new PathItem(w);
-  this->head = nullptr;
-  this->lastItem = nullptr;
-  this->length = 0;
+  destination = new PathItem(w);
+  head = nullptr;
+  lastItem = nullptr;
+  length = 0;
 
 }
 
@@ -25,8 +25,8 @@ Path::~Path() {
 void Path::addNode(Waypoint w) {
 
   if (length > 0) {
-    (*lastItem).setNext(PathItem(w));
-    *lastItem = (*lastItem).getNext();
+    (*lastItem).setNext(new PathItem(w));
+    lastItem = (*lastItem).getNext();
   } else {
     head = new PathItem(w);
     lastItem = head;
@@ -40,8 +40,7 @@ Waypoint Path::poll() {
   Waypoint res = (*destination).getData();
   if (length > 0) {
     res = (*head).getData();
-    PathItem next = ((*head).getNext());
-    head = (&(*head).getNext());
+    head = (*head).getNext();
 
     if (head == nullptr) {
       lastItem = nullptr;

@@ -9,8 +9,8 @@
 #include "../Waypoint.h"
 
 PathItem::PathItem(Waypoint w) {
-  this->data = w;
-  this->next = nullptr;
+  data = w;
+  next = nullptr;
 }
 
 PathItem::~PathItem() {
@@ -21,11 +21,11 @@ Waypoint PathItem::getData() {
   return data;
 }
 
-PathItem PathItem::getNext() {
-  return *next;
+PathItem* PathItem::getNext() {
+  return next;
 }
 
-bool PathItem::setNext(PathItem nextItem) {
-  next = &nextItem;
+bool PathItem::setNext(PathItem* nextItem) {
+  next = nextItem;
   return true;
 }
