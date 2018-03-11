@@ -25,7 +25,7 @@ PathItem PathItem::getNext() {
   return *next;
 }
 
-bool PathItem::setNext(PathItem next) {
-  this->next = &next;
+bool PathItem::setNext(PathItem nextItem) {
+  next = &nextItem;
   return true;
 }
