@@ -6,13 +6,10 @@
  */
 
 #include "driving.h"
-#include <Wire.h>
-#include <Adafruit_MotorShield.h>
-#include "utility/Adafruit_PWMServoDriver.h"
 
 
 driving::driving() {
-	// TODO Auto-generated constructor stub
+	Adafruit_MotorShield AFMS = Adafruit_MotorShield();
 
 }
 
