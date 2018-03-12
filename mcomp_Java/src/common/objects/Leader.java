@@ -7,6 +7,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.Collection;
 import common.interfaces.Leadable;
 import common.interfaces.Membership;
 import common.interfaces.Rmiable;
@@ -89,5 +90,16 @@ public class Leader extends UnicastRemoteObject implements Leadable, Rmiable {
       //send the leaders IP
     }
     return null;
+  }
+
+  /**
+   * When called this method will return a list of all registered members
+   * currently known to the leader of the herd.
+   * 
+   * @return The current state of the members list
+   */
+  @Override
+  public Collection<Member> getMemebers() {
+    return this.herdMembers;
   }
 }

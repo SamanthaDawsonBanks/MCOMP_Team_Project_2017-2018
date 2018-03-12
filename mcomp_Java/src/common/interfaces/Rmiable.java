@@ -6,6 +6,7 @@ package common.interfaces;
 import java.net.InetAddress;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.Collection;
 import common.objects.Member;
 
 /**
@@ -16,6 +17,9 @@ import common.objects.Member;
 public interface Rmiable extends Remote {
 
   InetAddress publishAddress();
+  
+  //As called by the members, I will assume for now that this belongs in Rmiable
+  Collection<Member> getMemebers();
 
   /**
    * NOTE: have left them but they will be moved to a different interface when 
