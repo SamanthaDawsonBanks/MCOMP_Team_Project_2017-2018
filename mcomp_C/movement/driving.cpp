@@ -39,9 +39,7 @@ void releaseMotors(){
 Waypoint driveTo(Waypoint w){
 	int numForwardSteps;//worked out using maths;
 	bool ultraSoundTest = true;
-	/*
-	 * Maths part will need to be developed/go here.
-	 */
+	//TODO Maths needs to be merged in.
 
 	/*
 	 * The robot must turn first, then move in a straight line. This will be handled
@@ -63,6 +61,12 @@ Waypoint driveTo(Waypoint w){
 	/*
 	 * This loop controls the forward movement. As the robot is now moving in an area bigger than
 	 * its own dimensions, we need to check that there are not any obstacles.
+	 *
+	 * The maths for this needs explaining. As we have already turned, the Waypoint returned in
+	 * the event of an interruption by the Ultra Sound sensor is
+	 * the target x and y values multiplied by the % of steps we have taken on the way.
+	 * This is because as we have turned, we are effectively looking at the ratio as if it is a
+	 * straight line.
 	 */
 	for(int i = numForwardSteps; i > 0; i--){
 		if(ultraSoundTest == true){
