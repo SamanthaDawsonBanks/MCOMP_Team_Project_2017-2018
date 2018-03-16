@@ -46,9 +46,9 @@ Waypoint driveTo(Waypoint w){
 	 * by two seperate loops. The maths will have worked out how many turn pulses need to happen.
 	 */
 	int turnPulses;//Again from Harrys code
-
+	double theta; //TODO temp value delete me when merged with Maths.
 	for(int i = 0; i > 0; i--){
-		if (){
+		if (theta> 0){ //Circle theory left is negative?
 			leftMotor.onestep(FORWARD, DOUBLE); //Turns the bot right
 			rightMotor.onestep(BACKWARD, DOUBLE);
 		}
@@ -71,7 +71,7 @@ Waypoint driveTo(Waypoint w){
 	 * straight line.
 	 */
 	for(int i = numForwardSteps; i > 0; i--){
-		if(ultraSoundTest == true){
+		if(ultraSoundTest == true){ //TODO Obviously this needs to change!
 			return new Waypoint((w.getX()*(numForwardSteps/i)),(w.getY()*(numForwardSteps/i)));
 		}
 		leftMotor.onestep(FORWARD, DOUBLE); //motor.step(number of steps, FORWARD or BACKWARD, SINGLE DOUBLE or INTERLEAVED)
