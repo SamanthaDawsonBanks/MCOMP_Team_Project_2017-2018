@@ -28,8 +28,6 @@
 								<option id="io.sloeber.compiler.c.sketch.option.incpath.404779502" name="Include Paths (-I)" superClass="io.sloeber.compiler.c.sketch.option.incpath" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/mcomp_C/core/core}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/mcomp_C/core/variant}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/mcomp_C/libraries/Wire}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/mcomp_C/libraries/Wire/src}&quot;"/>
 								</option>
 								<inputType id="io.sloeber.compiler.c.sketch.input.343958297" name="C Source Files" superClass="io.sloeber.compiler.c.sketch.input"/>
 							</tool>
