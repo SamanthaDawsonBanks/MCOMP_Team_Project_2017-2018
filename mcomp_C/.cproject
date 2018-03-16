@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?fileVersion 4.0.0?><cproject storage_type_id="org.eclipse.cdt.core.XmlProjectDescriptionStorage">
 	<storageModule moduleId="org.eclipse.cdt.core.settings">
 		<cconfiguration id="io.sloeber.core.toolChain.release.935318736">
@@ -21,8 +21,6 @@
 								<option id="io.sloeber.compiler.cpp.sketch.option.incpath.648775080" name="Include Paths (-I)" superClass="io.sloeber.compiler.cpp.sketch.option.incpath" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/mcomp_C/core/core}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/mcomp_C/core/variant}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/mcomp_C/libraries/Wire}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/mcomp_C/libraries/Wire/src}&quot;"/>
 								</option>
 								<inputType id="io.sloeber.compiler.cpp.sketch.input.167443714" name="CPP source files" superClass="io.sloeber.compiler.cpp.sketch.input"/>
 							</tool>
