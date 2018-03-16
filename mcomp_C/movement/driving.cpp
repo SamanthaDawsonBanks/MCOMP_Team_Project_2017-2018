@@ -38,16 +38,27 @@ void releaseMotors(){
 }
 
 Waypoint driveTo(Waypoint w){
-	int numSteps;//worked out using maths;
+	int numForwardSteps;//worked out using maths;
+	bool ultraSoundTest = true;
 	/*
 	 * Maths part will need to be developed/go here.
 	 */
-	for(int i = numSteps; i > 0; i--){
+
+	/*
+	 * The robot must turn first, then move in a straight line. This will be handled
+	 * by two seperate loops. The maths will have worked out how many turn pulses need to happen.
+	 */
+
+	/*
+	 * This loop controls the forward movement. As the robot is now moving in an area bigger than
+	 * its own dimensions, we need to check that there are not any obstacles.
+	 */
+	for(int i = numForwardSteps; i > 0; i--){
+		if(ultraSoundTest == true){
+			return new Waypoint(0,0);
+		}
 		leftMotor.step(1, FORWARD, DOUBLE); //motor.step(number of steps, FORWARD or BACKWARD, SINGLE DOUBLE or INTERLEAVED)
 		rightMotor.step(1, BACKWARD, DOUBLE);
-		//if(Not sure how Ultrasound will interrupt just yet){
-			//return current waypoint
-		//}
 	}
 	return w;
 }
