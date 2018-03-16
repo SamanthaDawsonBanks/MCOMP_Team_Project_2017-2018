@@ -58,6 +58,8 @@ Waypoint driveTo(Waypoint w){
 		}
 	}
 
+	//TODO Maybe validate that there has been a correct turn using the compass?
+
 	/*
 	 * This loop controls the forward movement. As the robot is now moving in an area bigger than
 	 * its own dimensions, we need to check that there are not any obstacles.
