@@ -229,13 +229,13 @@ environment/project/io.sloeber.core.toolChain.release.935318736/A.RECIPE.C.COMBI
 environment/project/io.sloeber.core.toolChain.release.935318736/A.RECIPE.C.COMBINE.PATTERN.2/value=\ 
 environment/project/io.sloeber.core.toolChain.release.935318736/A.RECIPE.C.COMBINE.PATTERN.3/delimiter=;
 environment/project/io.sloeber.core.toolChain.release.935318736/A.RECIPE.C.COMBINE.PATTERN.3/operation=replace
-environment/project/io.sloeber.core.toolChain.release.935318736/A.RECIPE.C.COMBINE.PATTERN.3/value=\ "-LC\:\\CI390\\Team_Project\\mcomp_C/Release" -lm
+environment/project/io.sloeber.core.toolChain.release.935318736/A.RECIPE.C.COMBINE.PATTERN.3/value=\ "-LG\:\\Dropbox\\MCOMP_Comp_Sci\\CI390-Team_Project\\Team_Project\\mcomp_C/Release" -lm
 environment/project/io.sloeber.core.toolChain.release.935318736/A.RECIPE.C.COMBINE.PATTERN/delimiter=;
 environment/project/io.sloeber.core.toolChain.release.935318736/A.RECIPE.C.COMBINE.PATTERN/operation=replace
 environment/project/io.sloeber.core.toolChain.release.935318736/A.RECIPE.C.COMBINE.PATTERN/value="${A.COMPILER.PATH}${A.COMPILER.C.ELF.CMD}" ${A.COMPILER.C.ELF.FLAGS} -mmcu\=${A.BUILD.MCU} ${A.COMPILER.C.ELF.EXTRA_FLAGS} -o "${A.BUILD.PATH}/${A.BUILD.PROJECT_NAME}.elf" ${A.OBJECT_FILES} "${A.BUILD.PATH}/${A.ARCHIVE_FILE}" "-L${A.BUILD.PATH}" -lm
 environment/project/io.sloeber.core.toolChain.release.935318736/A.RECIPE.C.O.PATTERN.1/delimiter=;
 environment/project/io.sloeber.core.toolChain.release.935318736/A.RECIPE.C.O.PATTERN.1/operation=replace
-environment/project/io.sloeber.core.toolChain.release.935318736/A.RECIPE.C.O.PATTERN.1/value="C\:\\eclipse\\/arduinoPlugin/packages/arduino/tools/avr-gcc/4.9.2-atmel3.5.4-arduino2/bin/avr-gcc" -c -g -Os -Wall -Wextra -std\=gnu11 -ffunction-sections -fdata-sections -flto -fno-fat-lto-objects -mmcu\=atmega2560 -DF_CPU\=16000000L -DARDUINO\=10802 -DARDUINO_AVR_MEGA2560 -DARDUINO_ARCH_AVR  
+environment/project/io.sloeber.core.toolChain.release.935318736/A.RECIPE.C.O.PATTERN.1/value="G\:\\PortableApps\\eclipse\\/arduinoPlugin/packages/arduino/tools/avr-gcc/4.9.2-atmel3.5.4-arduino2/bin/avr-gcc" -c -g -Os -Wall -Wextra -std\=gnu11 -ffunction-sections -fdata-sections -flto -fno-fat-lto-objects -mmcu\=atmega2560 -DF_CPU\=16000000L -DARDUINO\=10802 -DARDUINO_AVR_MEGA2560 -DARDUINO_ARCH_AVR  
 environment/project/io.sloeber.core.toolChain.release.935318736/A.RECIPE.C.O.PATTERN.2/delimiter=;
 environment/project/io.sloeber.core.toolChain.release.935318736/A.RECIPE.C.O.PATTERN.2/operation=replace
 environment/project/io.sloeber.core.toolChain.release.935318736/A.RECIPE.C.O.PATTERN.2/value=\ -o 
@@ -247,7 +247,7 @@ environment/project/io.sloeber.core.toolChain.release.935318736/A.RECIPE.C.O.PAT
 environment/project/io.sloeber.core.toolChain.release.935318736/A.RECIPE.C.O.PATTERN/value="${A.COMPILER.PATH}${A.COMPILER.C.CMD}" ${A.COMPILER.C.FLAGS} -mmcu\=${A.BUILD.MCU} -DF_CPU\=${A.BUILD.F_CPU} -DARDUINO\=${A.RUNTIME.IDE.VERSION} -DARDUINO_${A.BUILD.BOARD} -DARDUINO_ARCH_${A.BUILD.ARCH} ${A.COMPILER.C.EXTRA_FLAGS} ${A.BUILD.EXTRA_FLAGS} ${A.INCLUDES} "${A.SOURCE_FILE}" -o "${A.OBJECT_FILE}"
 environment/project/io.sloeber.core.toolChain.release.935318736/A.RECIPE.CPP.O.PATTERN.1/delimiter=;
 environment/project/io.sloeber.core.toolChain.release.935318736/A.RECIPE.CPP.O.PATTERN.1/operation=replace
-environment/project/io.sloeber.core.toolChain.release.935318736/A.RECIPE.CPP.O.PATTERN.1/value="C\:\\eclipse\\/arduinoPlugin/packages/arduino/tools/avr-gcc/4.9.2-atmel3.5.4-arduino2/bin/avr-g++" -c -g -Os -Wall -Wextra -std\=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -flto -mmcu\=atmega2560 -DF_CPU\=16000000L -DARDUINO\=10802 -DARDUINO_AVR_MEGA2560 -DARDUINO_ARCH_AVR  
+environment/project/io.sloeber.core.toolChain.release.935318736/A.RECIPE.CPP.O.PATTERN.1/value="G\:\\PortableApps\\eclipse\\/arduinoPlugin/packages/arduino/tools/avr-gcc/4.9.2-atmel3.5.4-arduino2/bin/avr-g++" -c -g -Os -Wall -Wextra -std\=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -flto -mmcu\=atmega2560 -DF_CPU\=16000000L -DARDUINO\=10802 -DARDUINO_AVR_MEGA2560 -DARDUINO_ARCH_AVR 
 environment/project/io.sloeber.core.toolChain.release.935318736/A.RECIPE.CPP.O.PATTERN.2/delimiter=;
 environment/project/io.sloeber.core.toolChain.release.935318736/A.RECIPE.CPP.O.PATTERN.2/operation=replace
 environment/project/io.sloeber.core.toolChain.release.935318736/A.RECIPE.CPP.O.PATTERN.2/value=\ -o 
@@ -259,7 +259,7 @@ environment/project/io.sloeber.core.toolChain.release.935318736/A.RECIPE.CPP.O.P
 environment/project/io.sloeber.core.toolChain.release.935318736/A.RECIPE.CPP.O.PATTERN/value="${A.COMPILER.PATH}${A.COMPILER.CPP.CMD}" ${A.COMPILER.CPP.FLAGS} -mmcu\=${A.BUILD.MCU} -DF_CPU\=${A.BUILD.F_CPU} -DARDUINO\=${A.RUNTIME.IDE.VERSION} -DARDUINO_${A.BUILD.BOARD} -DARDUINO_ARCH_${A.BUILD.ARCH} ${A.COMPILER.CPP.EXTRA_FLAGS} ${A.BUILD.EXTRA_FLAGS} ${A.INCLUDES} "${A.SOURCE_FILE}" -o "${A.OBJECT_FILE}"
 environment/project/io.sloeber.core.toolChain.release.935318736/A.RECIPE.OBJCOPY.EEP.PATTERN.1/delimiter=;
 environment/project/io.sloeber.core.toolChain.release.935318736/A.RECIPE.OBJCOPY.EEP.PATTERN.1/operation=replace
-environment/project/io.sloeber.core.toolChain.release.935318736/A.RECIPE.OBJCOPY.EEP.PATTERN.1/value="C\:\\eclipse\\/arduinoPlugin/packages/arduino/tools/avr-gcc/4.9.2-atmel3.5.4-arduino2/bin/avr-objcopy" -O ihex -j .eeprom --set-section-flags\=.eeprom\=alloc,load --no-change-warnings --change-section-lma .eeprom\=0 "C\:\\CI390\\Team_Project\\mcomp_C/Release/mcomp_C.elf" "C\:\\CI390\\Team_Project\\mcomp_C/Release/mcomp_C.eep"
+environment/project/io.sloeber.core.toolChain.release.935318736/A.RECIPE.OBJCOPY.EEP.PATTERN.1/value="G\:\\PortableApps\\eclipse\\/arduinoPlugin/packages/arduino/tools/avr-gcc/4.9.2-atmel3.5.4-arduino2/bin/avr-objcopy" -O ihex -j .eeprom --set-section-flags\=.eeprom\=alloc,load --no-change-warnings --change-section-lma .eeprom\=0 "G\:\\Dropbox\\MCOMP_Comp_Sci\\CI390-Team_Project\\Team_Project\\mcomp_C/Release/mcomp_C.elf" "G\:\\Dropbox\\MCOMP_Comp_Sci\\CI390-Team_Project\\Team_Project\\mcomp_C/Release/mcomp_C.eep"
 environment/project/io.sloeber.core.toolChain.release.935318736/A.RECIPE.OBJCOPY.EEP.PATTERN/delimiter=;
 environment/project/io.sloeber.core.toolChain.release.935318736/A.RECIPE.OBJCOPY.EEP.PATTERN/operation=replace
 environment/project/io.sloeber.core.toolChain.release.935318736/A.RECIPE.OBJCOPY.EEP.PATTERN/value="${A.COMPILER.PATH}${A.COMPILER.OBJCOPY.CMD}" ${A.COMPILER.OBJCOPY.EEP.FLAGS} ${A.COMPILER.OBJCOPY.EEP.EXTRA_FLAGS} "${A.BUILD.PATH}/${A.BUILD.PROJECT_NAME}.elf" "${A.BUILD.PATH}/${A.BUILD.PROJECT_NAME}.eep"
