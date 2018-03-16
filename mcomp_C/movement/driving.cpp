@@ -22,7 +22,6 @@ driving::driving() {
 }
 
 driving::~driving() {
-	// TODO Auto-generated destructor stub
 	//releaseMotors() ??;
 	delete leftMotor;
 	delete rightMotor;
@@ -67,10 +66,10 @@ Waypoint driveTo(Waypoint w){
 	 */
 	for(int i = numForwardSteps; i > 0; i--){
 		if(ultraSoundTest == true){
-			return new Waypoint((w.getX()-i),(w.getY()-i)); //TODO this isn't the right maths.
+			return new Waypoint((w.getX()*(numForwardSteps/i)),(w.getY()*(numForwardSteps/i)));
 		}
 		leftMotor.onestep(FORWARD, DOUBLE); //motor.step(number of steps, FORWARD or BACKWARD, SINGLE DOUBLE or INTERLEAVED)
-		rightMotor.onestep(FORWARD, DOUBLE);
+		rightMotor.onestep(FORWARD, DOUBLE);//motor.onestep(Direction, Type);
 	}
 	return w;
 }
