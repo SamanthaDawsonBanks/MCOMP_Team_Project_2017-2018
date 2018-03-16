@@ -67,7 +67,7 @@ environment/project/io.sloeber.core.toolChain.release.935318736/A.BUILD.USB_MANU
 environment/project/io.sloeber.core.toolChain.release.935318736/A.BUILD.USB_MANUFACTURER/value="Unknown"
 environment/project/io.sloeber.core.toolChain.release.935318736/A.BUILD.VARIANT.PATH/delimiter=;
 environment/project/io.sloeber.core.toolChain.release.935318736/A.BUILD.VARIANT.PATH/operation=replace
-environment/project/io.sloeber.core.toolChain.release.935318736/A.BUILD.VARIANT.PATH/value=G\:\\PortableApps\\eclipse\\arduinoPlugin\\packages\\arduino\\hardware\\avr\\1.6.20\\variants\\mega 
+environment/project/io.sloeber.core.toolChain.release.935318736/A.BUILD.VARIANT.PATH/value=G\:\\PortableApps\\eclipse\\arduinoPlugin\\packages\\arduino\\hardware\\avr\\1.6.20\\variants\\mega
 environment/project/io.sloeber.core.toolChain.release.935318736/A.BUILD.VARIANT/delimiter=;
 environment/project/io.sloeber.core.toolChain.release.935318736/A.BUILD.VARIANT/operation=replace
 environment/project/io.sloeber.core.toolChain.release.935318736/A.BUILD.VARIANT/value=mega
