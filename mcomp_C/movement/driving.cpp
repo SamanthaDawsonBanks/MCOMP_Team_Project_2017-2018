@@ -48,6 +48,18 @@ Waypoint driveTo(Waypoint w){
 	 * The robot must turn first, then move in a straight line. This will be handled
 	 * by two seperate loops. The maths will have worked out how many turn pulses need to happen.
 	 */
+	int turnPulses;//Again from Harrys code
+
+	for(int i = 0; i > 0; i--){
+		if (){
+			leftMotor.onestep(FORWARD, DOUBLE); //Turns the bot right
+			rightMotor.onestep(BACKWARD, DOUBLE);
+		}
+		else{
+			leftMotor.onestep(BACKWARD, DOUBLE); //Turns the bot left
+			rightMotor.onestep(FORWARD, DOUBLE);
+		}
+	}
 
 	/*
 	 * This loop controls the forward movement. As the robot is now moving in an area bigger than
@@ -55,10 +67,10 @@ Waypoint driveTo(Waypoint w){
 	 */
 	for(int i = numForwardSteps; i > 0; i--){
 		if(ultraSoundTest == true){
-			return new Waypoint((w.getX()+i),(w.getY()+i)); //TODO this isn't the right maths.
+			return new Waypoint((w.getX()-i),(w.getY()-i)); //TODO this isn't the right maths.
 		}
-		leftMotor.step(1, FORWARD, DOUBLE); //motor.step(number of steps, FORWARD or BACKWARD, SINGLE DOUBLE or INTERLEAVED)
-		rightMotor.step(1, BACKWARD, DOUBLE);
+		leftMotor.onestep(FORWARD, DOUBLE); //motor.step(number of steps, FORWARD or BACKWARD, SINGLE DOUBLE or INTERLEAVED)
+		rightMotor.onestep(FORWARD, DOUBLE);
 	}
 	return w;
 }
