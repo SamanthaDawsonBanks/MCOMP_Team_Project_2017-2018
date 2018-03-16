@@ -211,7 +211,7 @@ environment/project/io.sloeber.core.toolChain.release.935318736/A.PREPROC.MACROS
 environment/project/io.sloeber.core.toolChain.release.935318736/A.PREPROC.MACROS.FLAGS/value=-w -x c++ -E -CC
 environment/project/io.sloeber.core.toolChain.release.935318736/A.RECIPE.AR.PATTERN.1/delimiter=;
 environment/project/io.sloeber.core.toolChain.release.935318736/A.RECIPE.AR.PATTERN.1/operation=replace
-environment/project/io.sloeber.core.toolChain.release.935318736/A.RECIPE.AR.PATTERN.1/value="G\:\\PortableApps\\eclipse\\/arduinoPlugin/packages/arduino/tools/avr-gcc/4.9.2-atmel3.5.4-arduino2/bin/avr-gcc-ar" rcs
+environment/project/io.sloeber.core.toolChain.release.935318736/A.RECIPE.AR.PATTERN.1/value="G\:\\PortableApps\\eclipse\\/arduinoPlugin/packages/arduino/tools/avr-gcc/4.9.2-atmel3.5.4-arduino2/bin/avr-gcc-ar" rcs 
 environment/project/io.sloeber.core.toolChain.release.935318736/A.RECIPE.AR.PATTERN.2/delimiter=;
 environment/project/io.sloeber.core.toolChain.release.935318736/A.RECIPE.AR.PATTERN.2/operation=replace
 environment/project/io.sloeber.core.toolChain.release.935318736/A.RECIPE.AR.PATTERN.2/value=\ 
