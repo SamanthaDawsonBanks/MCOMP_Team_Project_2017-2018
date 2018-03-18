@@ -30,7 +30,6 @@ public class Heuristic {
     //Takes in start node and goal node (a and b)
     //Find non negative difference in x values and y values between nodes;
     //Calculate hx using Diagonal distance heuristic.
-    //
     public Double DiagonalHeuristic(Waypoint a, Waypoint b){
         double xDiff = Math.abs(a.x - b.x);
         double yDiff = Math.abs(a.y - b.y);
