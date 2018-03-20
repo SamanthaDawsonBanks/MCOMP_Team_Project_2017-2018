@@ -56,11 +56,10 @@ public class MemberMain {
       System.out.println("Sorry, a Robot needs to have at least one ability!");
     }
     else {
-      Object [] abilitiesO = skills.toArray();  //FIXME list is already of type ability?
-      Ability [] abilities = new Ability[abilitiesO.length];
-
-      for(int i = 0; i < abilitiesO.length; i++) {
-        abilities[i] = (Ability) abilitiesO[i];
+      Ability[] abilities = new Ability[skills.size()];
+      
+      for(int i = 0; i < skills.size(); i++) {
+        abilities[i] = (Ability) skills.get(i);
       }
 
       Member me = new Member(abilities);
