@@ -30,38 +30,44 @@ import common.datatypes.Ability;
  */
 public class MemberMain {
 
-	public static void main (String [] args) {
-		ArrayList<Ability> skills = new ArrayList<Ability>();
-		for(String a : args) {
-			switch (a) {
-			case "PROCESSOR":
-				skills.add(common.datatypes.Ability.PROCESSOR);
-				break;
-			case "DRIVER":
-				skills.add(common.datatypes.Ability.DRIVER);
-				break;
-			case "SENSOR":
-				skills.add(common.datatypes.Ability.SENSOR);
-				break;
-			case "VIEWER":
-				skills.add(common.datatypes.Ability.VIEWER);
-				break;
-			case "DEST_SETTER":
-				skills.add(common.datatypes.Ability.DEST_SETTER);
-				break;
-			default: break;
-			}
-		}
-		if (skills.isEmpty()) {
-			System.out.println("Sorry, a Robot needs to have at least one ability!");
-		}
-		else {
-			Ability [] abilities = (Ability[]) skills.toArray();  //FIXME list is already of type ability?
-			Member me = new Member(abilities);
-			me.start();
-			System.out.println("Member started");
-			Herd h = new Herd (me); //Here because Herd needs a constructed Member to add.
-		}
-	}
+  public static void main (String [] args) {
+    ArrayList<Ability> skills = new ArrayList<Ability>();
+    for(String a : args) {
+      switch (a) {
+        case "PROCESSOR":
+          skills.add(common.datatypes.Ability.PROCESSOR);
+          break;
+        case "DRIVER":
+          skills.add(common.datatypes.Ability.DRIVER);
+          break;
+        case "SENSOR":
+          skills.add(common.datatypes.Ability.SENSOR);
+          break;
+        case "VIEWER":
+          skills.add(common.datatypes.Ability.VIEWER);
+          break;
+        case "DEST_SETTER":
+          skills.add(common.datatypes.Ability.DEST_SETTER);
+          break;
+        default: break;
+      }
+    }
+    if (skills.isEmpty()) {
+      System.out.println("Sorry, a Robot needs to have at least one ability!");
+    }
+    else {
+      Object [] abilitiesO = skills.toArray();  //FIXME list is already of type ability?
+      Ability [] abilities = new Ability[abilitiesO.length];
+
+      for(int i = 0; i < abilitiesO.length; i++) {
+        abilities[i] = (Ability) abilitiesO[i];
+      }
+
+      Member me = new Member(abilities);
+      me.start();
+      System.out.println("Member started");
+      Herd h = new Herd (me); //Here because Herd needs a constructed Member to add.
+    }
+  }
 
 }
