@@ -72,8 +72,11 @@ public class Herd {
 			}
 		}
 		
-		//election
-		theLeader = a;
+		//startup election
+		theLeader = nominateLeader();
+		
+		//on that robot, start start the leader process
+		theLeader.startLeader();
 	}
 
 	/**

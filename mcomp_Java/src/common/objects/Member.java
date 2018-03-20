@@ -2,6 +2,8 @@ package common.objects;
 
 import java.net.InetAddress;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.Collection;
 import common.datatypes.Ability;
@@ -123,6 +125,14 @@ public class Member implements Rmiable, Membership {
 	public void start() {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public void startLeader() {
+	  //start RMI registry
+	  Registry r = LocateRegistry.createRegistry(1111);
+	  
+	  //start leader process
+	  Leader leader = new Leader(1111, "HerdLeader");
 	}
 }
 

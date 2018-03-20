@@ -47,22 +47,21 @@ public class Leader extends UnicastRemoteObject implements Leadable, Rmiable {
     this.portNumber = portNumber;
     this.serverName = serverName;
     
-    //Try to shut down a server and do nothing if it fails as there isn't one operating
+    //Try to shut down a server and do nothing if it fails as there isn't one running
     try {
       r.unbind(this.serverName);
-      unexportObject(r, true);
-      System.exit(0);      
+      unexportObject(r, true);     
     } catch(Exception e) {}
 
     try {
-      r = LocateRegistry.createRegistry(this.portNumber);
-      r.rebind(this.serverName, new Leader(this.portNumber, this.serverName));
+      r = LocateRegistry.getRegistry(this.portNumber);
+      r.rebind(this.serverName, this);
 
       //Switch Wifi to infrastructure Mode - will probably set to infrastructure by default
 
       System.out.println(">>The leader process started succesfully<<");           
     } catch (Exception e) {
-      System.err.printf(">>Leader process failed to start:<<");
+      System.err.println(">>Leader process failed to start:<<");
       e.printStackTrace();
     }   
   }
