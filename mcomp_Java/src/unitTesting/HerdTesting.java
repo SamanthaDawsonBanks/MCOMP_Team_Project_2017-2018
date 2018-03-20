@@ -60,7 +60,8 @@ public class HerdTesting {
     members.add(new Member(abil3));
     members.add(new Member(abil3));
     for (Member a: members) {
-      a.joinHerd(theHerd);
+      //FIXME
+      //a.joinHerd(theHerd);
     }
 
     assert(theHerd.getMembers().size() == 102);

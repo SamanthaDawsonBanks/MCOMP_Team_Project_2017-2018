@@ -46,16 +46,24 @@ public class Leader extends UnicastRemoteObject implements Leadable, Rmiable {
   public Leader(int portNumber, String serverName) throws RemoteException {
     this.portNumber = portNumber;
     this.serverName = serverName;
+    
+    //Try to shut down a server and do nothing if it fails as there isn't one operating
+    try {
+      r.unbind(this.serverName);
+      unexportObject(r, true);
+      System.exit(0);      
+    } catch(Exception e) {}
 
     try {
-      r = LocateRegistry.getRegistry(this.portNumber);
+      r = LocateRegistry.createRegistry(this.portNumber);
       r.rebind(this.serverName, new Leader(this.portNumber, this.serverName));
 
       //Switch Wifi to infrastructure Mode - will probably set to infrastructure by default
 
       System.out.println(">>The leader process started succesfully<<");           
     } catch (Exception e) {
-      System.err.printf(">>Leader process failed to start: %s<<", e.getMessage());
+      System.err.printf(">>Leader process failed to start:<<");
+      e.printStackTrace();
     }   
   }
 
@@ -98,7 +106,6 @@ public class Leader extends UnicastRemoteObject implements Leadable, Rmiable {
    * 
    * @return The current state of the members list
    */
-  @Override
   public Collection<Member> getMemebers() {
     return this.herdMembers;
   }

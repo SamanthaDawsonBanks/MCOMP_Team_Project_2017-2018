@@ -1,7 +1,9 @@
 package common.objects;
 
+import java.net.InetAddress;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Collection;
 import common.datatypes.Ability;
 import common.interfaces.Leadable;
 import common.interfaces.Membership;
@@ -117,15 +119,6 @@ public class Member implements Rmiable, Membership {
 		// TODO RMI call leader, encrpyt String hello world to Leader, if leader returns Hello World then true.
 		return false;
 	}
-	
-
-	@Override
-	public int add(int a, int b) throws RemoteException {
-		// TODO Auto-generated method stub
-		//Leftover from RMIable testing.
-		return 0;
-	}
-
 
 	public void start() {
 		// TODO Auto-generated method stub

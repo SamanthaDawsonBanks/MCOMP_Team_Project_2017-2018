@@ -15,12 +15,6 @@ import common.objects.Member;
  *
  */
 public interface Rmiable extends Remote {
-
-  InetAddress publishAddress();
-  
-  //As called by the members, I will assume for now that this belongs in Rmiable
-  Collection<Member> getMemebers();
-
   /**
    * NOTE: have left them but they will be moved to a different interface when 
    *       discussed with group.
