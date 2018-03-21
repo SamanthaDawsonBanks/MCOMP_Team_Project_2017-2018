@@ -13,7 +13,7 @@ package common.interfaces;
  * 
  */
 
-public interface Notifyable {
+public interface Notifiable {
 
   public void notifyOfChange();
 

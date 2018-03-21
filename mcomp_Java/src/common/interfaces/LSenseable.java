@@ -2,9 +2,9 @@ package common.interfaces;
 
 /**
  * @author Stephen Pope 15836791
- * @author David Avery
+ * @author David Avery 15823926 
  * @author Ryan Shoobert 15812407
- * @author Harry Jackson
+ * @author Harry Jackson 14812630
  *
  *         Senseable interface
  * 

@@ -17,7 +17,7 @@ import common.interfaces.Driveable;
 import common.interfaces.LSenseable;
 import common.interfaces.Leadable;
 import common.interfaces.Membership;
-import common.interfaces.Notifyable;
+import common.interfaces.Notifiable;
 import common.interfaces.Promotable;
 import common.interfaces.Rmiable;
 import common.interfaces.Transferable;
@@ -37,7 +37,7 @@ import java.security.Key;
  * 
  */
 
-public class Member implements LSenseable, Driveable, Drawable, Directable, Bossable, Transferable, Promotable, Notifyable {
+public class Member implements LSenseable, Driveable, Drawable, Directable, Bossable, Transferable, Promotable, Notifiable {
 	private ArrayList<Ability> abilities;
 	private ArrayList <Member> herdMembers;
 	private Key myPublicKey;
