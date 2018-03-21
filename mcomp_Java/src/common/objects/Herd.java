@@ -269,4 +269,22 @@ public class Herd implements Joinable, Organisable {
   public Member getDestSetter() {
     return herdDestSetter;
   }
+
+  @Override
+  public Member electLeader() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public boolean acceptMember(Member m) {
+    // TODO Auto-generated method stub
+    return false;
+  }
+
+  @Override
+  public boolean notifyJoin() {
+    // TODO Auto-generated method stub
+    return false;
+  }
 }

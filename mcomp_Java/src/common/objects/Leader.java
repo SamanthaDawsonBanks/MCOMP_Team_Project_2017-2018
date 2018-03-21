@@ -8,6 +8,8 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Collection;
+import common.datatypes.Waypoint;
+import common.datatypes.path.Path;
 import common.interfaces.Connectable;
 import common.interfaces.Contactable;
 import common.interfaces.Instructable;
@@ -110,5 +112,35 @@ public class Leader extends UnicastRemoteObject
    */
   public Collection<Member> getMemebers() {
     return this.herdMembers;
+  }
+
+  @Override
+  public void leaderDiscussMerge() {
+    // TODO Auto-generated method stub
+    
+  }
+
+  @Override
+  public void updateModel() {
+    // TODO Auto-generated method stub
+    
+  }
+
+  @Override
+  public void register() {
+    // TODO Auto-generated method stub
+    
+  }
+
+  @Override
+  public void deregister() {
+    // TODO Auto-generated method stub
+    
+  }
+
+  @Override
+  public Path pathfind(Waypoint w) {
+    // TODO Auto-generated method stub
+    return null;
   }
 }
