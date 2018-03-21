@@ -72,8 +72,11 @@ public class Herd {
 			}
 		}
 		
-		//election
-		theLeader = a;
+		//startup election
+		theLeader = nominateLeader();
+		
+		//on that robot, start start the leader process
+		theLeader.startLeader();
 	}
 
 	/**
@@ -130,7 +133,8 @@ public class Herd {
 						herdDestSetter.getAbilities().remove(common.datatypes.Ability.DEST_SETTER);//why does this need to have FQN to be recognised?
 					}
 					else {
-						herdDestSetter.leaveHerd(this);
+					  //No longer a leave method
+					  //herdDestSetter.leaveHerd(this);
 					}
 				}
 				herdDestSetter = aspiringMember;

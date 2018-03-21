@@ -1,11 +1,16 @@
 package common.objects;
 
+import java.net.InetAddress;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.ArrayList;
+import java.util.Collection;
 import common.datatypes.Ability;
 import common.interfaces.Leadable;
 import common.interfaces.Membership;
 import common.interfaces.Rmiable;
+import java.security.Key;
 
 /**
  * 
@@ -23,17 +28,21 @@ import common.interfaces.Rmiable;
 
 public class Member implements Rmiable, Membership {
 	private ArrayList<Ability> abilities;
-	private String herdID = null;
-	private String publicKey;
-	private String privateKey;
-	private ArrayList<Member> herdMembers;
+	private ArrayList <Member> herdMembers;
+	private Key myPublicKey;
+	private Key myPrivateKey;
+	private Key leaderPublicKey;
 
 	/**
 	 * The Constructor for a Member.
-	 * 
+	 *
 	 * A new Member will come with a list of abilities.
-	 * These abilities will be queried by the Herd when
-	 * the member initiates a Join or creates a Herd.
+	 * 
+	 * These abilities are parsed by the constructor and
+	 * used to initialise the controllers for those abilities.
+	 * 
+	 * A member then initialises a Herd, becoming that Herds
+	 * first member.
 	 * 
 	 * @param The list containing the Members abilities.
 	 * @return A new Member object.
@@ -42,138 +51,88 @@ public class Member implements Rmiable, Membership {
 	public Member (Ability[] can) {
 		abilities = new ArrayList<Ability>();
 		herdMembers = new ArrayList<Member>();
-		if (can.length > 0) {
-			for(Ability a : can) {
-				switch (a) {
-				case PROCESSOR: case DRIVER: case SENSOR: case VIEWER: case DEST_SETTER:
-					abilities.add(a);
-					break;
-				default: break;
-				}
+
+		for(Ability a : can) {
+			switch (a) {
+			case PROCESSOR:
+				abilities.add(a);
+				break;
+			case DRIVER:
+				abilities.add(a);
+				break;
+			case SENSOR:
+				abilities.add(a);
+				break;
+			case VIEWER:
+				abilities.add(a);
+				break;
+			case DEST_SETTER:
+				abilities.add(a);
+				break;
+			default: break;
 			}
-		}
-		
-		//TODO Generate a Public/Private Key Pair using Java Crypto Library.
-		publicKey = "Test";
-		privateKey = "Password123";
-
+		}		
 	}
-	
 
-  /**
+
+	/**
 	 * Retrieves a list of the Members abilities.
 	 * 
 	 * @return The ability list.
 	 */
+	@Override
 	public ArrayList<Ability> getAbilities(){
 		return abilities;
 	}
+
+	/**
+	 * Sets the value of the Leaders publicKey when handed by a leader.
+	 * 
+	 * @param The Public key of a leader.
+	 */
 	
+	@Override
+	public boolean importLeaderKey(Key pk) {
+		if (isValidKey(pk)) {
+			leaderPublicKey = pk;
+			return true;
+		}
+		else return false;		
+	}
+
+
 	/**
 	 * Retrieves the Public Encryption Key of the Member.
 	 * 
 	 * @return The Public Key.
 	 */
-	public String getPublicKey() {
-		return publicKey;
+	public Key getPublicKey() {
+		return myPublicKey; //TODO this needs to be of type Key once I work out ciphers.
 	}
 	
 	/**
-	 * Attempt to Join a herd.
-	 * Sends a request to the Herd to gain membership.
+	 * Validates that the provided Public Key given by a leader
+	 * can be used to securely communicate with the leader.
 	 * 
-	 * @param The Herd object being joined.
+	 * @param pk
+	 * @return True if key is valid, false if not.
 	 */
-	public void joinHerd(Herd h) {
-		/*TODO Find a sufficient replacement for handing the
-		 * Herd object to this method. We need a method that
-		 * allows the Herd to "advertise" itself. The Member
-		 * should be able to respond to this advertisement 
-		 * when appropriate. 
-		 */
-		herdMembers = h.requestJoin(this);
-		if (herdMembers.isEmpty() == true) {
-			System.out.println("Failed to join Herd!");
-		}
-	}
-	
-	/**
-	 * Attempt to leave a Herd.
-	 * Sends a notification to the Herd informing it of
-	 * this members intention to leave.
-	 * 
-	 * @param The Herd being left.
-	 */
-	public void leaveHerd(Herd h) {
-		/*TODO Will need to replace the Herd object
-		 * param with an IP or similar.
-		 */
-		h.requestLeave(this);
-		System.out.printf("%s has left the Herd %s \n",this, h.getHerdID());
-	}
-	
-	
-	/**
-	 * Retrieves the HerdID of the Herd that this Member
-	 * has joined.
-	 * 
-	 * @return The HerdID.
-	 */
-	public String getHerdID() {
-		return herdID;
-	}
-	
-	/**
-	 * Sets the ID of the Herd this Member has joined.
-	 * 
-	 * @param The new HerdID.
-	 */
-	public void setHerdID(String newID) {
-		/*TODO Write a check to ensure that the 
-		 * change of ID is valid. Perhaps contact
-		 * the Herd ID supplied. Perhaps ensure that
-		 * the Herd is the only one able to change this.
-		 */
-		herdID = newID;
-	}
-
-
-	@Override
-	public int add(int a, int b) throws RemoteException {
-		// TODO Auto-generated method stub
-		//Leftover from RMIable testing.
-		return 0;
-	}
-
-
-	@Override
-	public boolean joinHerd(Leadable h) {
-		// TODO Auto-generated method stub
+	private boolean isValidKey(Key pk) {
+		// TODO RMI call leader, encrpyt String hello world to Leader, if leader returns Hello World then true.
 		return false;
 	}
-
-
-	@Override
-	public boolean leaveHerd() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	/**
-	 * Become the leader.
-	 * Handle the notification that this Member has been
-	 * elected as the leader of its Herd.
-	 */
-	@Override
-	public boolean becomeLeader() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 
 	public void start() {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public void startLeader() {
+	  //start RMI registry
+	  Registry r = LocateRegistry.createRegistry(1111);
+	  
+	  //start leader process
+	  Leader leader = new Leader(1111, "HerdLeader");
 	}
 }
 
