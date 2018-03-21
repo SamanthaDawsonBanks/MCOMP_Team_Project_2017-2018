@@ -4,6 +4,7 @@
 package common.datatypes.map.griddedMap;
 
 import common.datatypes.Waypoint;
+import pathfinding.Heuristic;
 
 /**
  * @author David Avery
@@ -13,8 +14,41 @@ public class Vertex {
 
   private int x;
   private int y;
-  protected Vertex[] edges;
-  private Chunk parent;
+  public Vertex[] edges;
+  private Chunk parent;  public double fx;
+  public double hx;
+  public double gx;
+  public double cost;
+  public Vertex parente;
+  
+  public double getG()
+  {
+      return gx;
+  }
+
+  public void setG(double gx)
+  {
+      this.gx = gx;
+  }
+
+  public double getH()
+  {
+      return hx;
+  }
+
+
+  public double getF()
+  {
+      return fx;
+  }
+
+  public void calcF(Waypoint current, Waypoint dest)
+  {
+      Heuristic h = new Heuristic();
+      this.hx = h.manhattanHeuristic(current, dest);
+      this.fx = hx + gx;
+  }
+  
 
   /**
    * @param parent
