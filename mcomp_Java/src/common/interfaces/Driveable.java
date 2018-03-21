@@ -1,16 +1,21 @@
-/**
- * 
- */
 package common.interfaces;
 
-import common.datatypes.path.Path;
+import common.datatypes.Waypoint;
 
 /**
- * @author David Avery
- *
+ * @author Stephen Pope 15836791
+ * @author David Avery 15823926
+ * @author Ryan Shoobert 15812407
+ * @author Harry Jackson 14812630
+ * 
+ *         Driveable interface
+ * 
+ *         A driveable object can take a given Waypoint relative to its position and drive to that
+ *         location.
  */
-public interface Driveable {//facade
-  //TODO currently a shim for the pass over to arduino... consider: wrapping serial?? refactoring??
-  Path drive(Path p);
+
+public interface Driveable {
+
+  public Waypoint drive(Waypoint w);
 
 }

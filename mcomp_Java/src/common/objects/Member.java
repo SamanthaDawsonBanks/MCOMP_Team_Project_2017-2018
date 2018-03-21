@@ -7,9 +7,17 @@ import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.Collection;
 import common.datatypes.Ability;
-import common.interfaces.Leadable;
-import common.interfaces.Membership;
-import common.interfaces.Rmiable;
+import common.datatypes.Waypoint;
+import common.datatypes.map.Map;
+import common.datatypes.path.Path;
+import common.interfaces.Bossable;
+import common.interfaces.Directable;
+import common.interfaces.Drawable;
+import common.interfaces.Driveable;
+import common.interfaces.LSenseable;
+import common.interfaces.Notifiable;
+import common.interfaces.Promotable;
+import common.interfaces.Transferable;
 import java.security.Key;
 
 /**
@@ -26,7 +34,7 @@ import java.security.Key;
  * 
  */
 
-public class Member implements Rmiable, Membership {
+public class Member implements LSenseable, Driveable, Drawable, Directable, Bossable, Transferable, Promotable, Notifiable {
 	private ArrayList<Ability> abilities;
 	private ArrayList <Member> herdMembers;
 	private Key myPublicKey;
@@ -134,5 +142,54 @@ public class Member implements Rmiable, Membership {
 	  //start leader process
 	  Leader leader = new Leader(1111, "HerdLeader");
 	}
+
+
+  @Override
+  public void notifyOfChange() {
+    // TODO Auto-generated method stub
+    
+  }
+
+
+  @Override
+  public Leader becomeLeader() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+
+  @Override
+  public Map processMapLump(Map m) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+
+  @Override
+  public Path processPathLump(Path p) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+
+  @Override
+  public boolean setDestination(Waypoint w) {
+    // TODO Auto-generated method stub
+    return false;
+  }
+
+
+  @Override
+  public Waypoint drive(Waypoint w) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+
+  @Override
+  public void lSense() {
+    // TODO Auto-generated method stub
+    
+  }
 }
 
