@@ -10,9 +10,9 @@ import common.datatypes.path.*;
  * 
  * Bossable interface
  * 
- * A bossable object is one that can receive instructions from the leader of a herd
- * to process a section of a particular item, either a segment of a map to be augmented
- * or a path to be analysed.
+ * A bossable object is one that can receive instructions from the Leader of a Herd
+ * to process a section of a particular item, either a segment of a Map to be augmented
+ * or a Path to be analysed.
  * 
  */
 public interface Bossable {
