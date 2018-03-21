@@ -1,5 +1,8 @@
 package interfaces_march_2018;
 
+import common.interfaces.Waypoint;
+import common.interfaces.map.griddedMap.Vertex;
+
 /**
  * @author Stephen Pope 15836791
  * @author David Avery
