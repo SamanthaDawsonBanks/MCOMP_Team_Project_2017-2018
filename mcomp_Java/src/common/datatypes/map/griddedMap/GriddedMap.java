@@ -12,7 +12,7 @@ import common.datatypes.map.Map;
  */
 public class GriddedMap {
 
-  protected BlockedVertex blocked;
+  public BlockedVertex blocked;
 
   protected GridDesign gridDesign;// TODO abstract both up to map??
   int gridSize;
