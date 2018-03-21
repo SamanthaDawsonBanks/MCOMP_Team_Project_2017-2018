@@ -7,9 +7,17 @@ import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.Collection;
 import common.datatypes.Ability;
+import common.interfaces.Bossable;
+import common.interfaces.Directable;
+import common.interfaces.Drawable;
+import common.interfaces.Driveable;
+import common.interfaces.LSenseable;
 import common.interfaces.Leadable;
 import common.interfaces.Membership;
+import common.interfaces.Notifyable;
+import common.interfaces.Promotable;
 import common.interfaces.Rmiable;
+import common.interfaces.Transferable;
 import java.security.Key;
 
 /**
@@ -26,7 +34,7 @@ import java.security.Key;
  * 
  */
 
-public class Member implements Rmiable, Membership {
+public class Member implements LSenseable, Driveable, Drawable, Directable, Bossable, Transferable, Promotable, Notifyable {
 	private ArrayList<Ability> abilities;
 	private ArrayList <Member> herdMembers;
 	private Key myPublicKey;
