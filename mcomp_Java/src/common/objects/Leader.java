@@ -13,9 +13,6 @@ import common.datatypes.path.Path;
 import common.interfaces.Connectable;
 import common.interfaces.Contactable;
 import common.interfaces.Instructable;
-import common.interfaces.Leadable;
-import common.interfaces.Membership;
-import common.interfaces.Rmiable;
 import common.interfaces.Updateable;
 
 /**
