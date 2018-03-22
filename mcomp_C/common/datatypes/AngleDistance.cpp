@@ -23,3 +23,11 @@ AngleDistance::~AngleDistance() {
   // TODO Auto-generated destructor stub
 }
 
+double AngleDistance::getTheta() {
+  return theta;
+}
+
+long AngleDistance::getDistance() {
+  return distance;
+}
+
