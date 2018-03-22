@@ -9,6 +9,7 @@
 #define COMMON_MATHS_FORWARD_H_
 
 #include "..\config\robot_config.h";
+#include <math.h>;
 
 class Forward {
 public:
