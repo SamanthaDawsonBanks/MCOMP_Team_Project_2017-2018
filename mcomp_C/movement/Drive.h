@@ -8,7 +8,7 @@
 #ifndef COMMON_MOVEMENT_DRIVE_H_
 #define COMMON_MOVEMENT_DRIVE_H_
 
-#include common.datatypes.Waypoint.h;
+#include "..\common\datatypes\Waypoint.h";
 
 class Drive {
 public:
