@@ -18,8 +18,23 @@ import common.objects.Member;
 
 public interface Connectable {
 
-  public void register(Member joiningMember);
+  /**
+   * When a member joins a herd, it must register itself with the leader of that herd so that it can
+   * Receive instructions from it.
+   * 
+   * @param joiningMember The member of the herd that is registering itself with the leader
+   * @return Returns true if the member was registered successfully, False if it did not
+   */
+  public boolean register(Member joiningMember);
 
-  public void deregister(Member leavingMember);
+  /**
+   * When leaving a herd (normally in a herd merge), the member must first unregister itself with
+   * the current leader so that it can no longer recieve instruction from it.
+   * 
+   * @param leavingMember The member of the herd that is leaving and this unregistering with the
+   *        leader.
+   * @return Returns true if the member unregistered with the leader, False if it did not
+   */
+  public boolean deregister(Member leavingMember);
 
 }
