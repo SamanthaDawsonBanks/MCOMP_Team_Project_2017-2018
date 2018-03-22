@@ -63,7 +63,7 @@ Waypoint driveTo(Waypoint w){
 	 */
 	for(int i = numForwardSteps; i > 0; i--){
 		if(ultraSoundTest == true){ //TODO Obviously this needs to change!
-			return new Waypoint((w.getX()*(numForwardSteps/i)),(w.getY()*(numForwardSteps/i)));
+			return new Waypoint((w.getX()*(i/numForwardSteps)),(w.getY()*(i/numForwardSteps)));
 		}
 		leftMotor.onestep(FORWARD, DOUBLE); //motor.step(number of steps, FORWARD or BACKWARD, SINGLE DOUBLE or INTERLEAVED)
 		rightMotor.onestep(FORWARD, DOUBLE);//motor.onestep(Direction, Type);
