@@ -2,17 +2,15 @@
  * Drive.cpp
  *
  *  Created on: 22 Mar 2018
- *      Author: Steve
+ *      Author: Stephen Pope 15836791
  */
 
 #include "Drive.h"
 
-Drive::Drive() {
-	// TODO Auto-generated constructor stub
-
-}
-
-Drive::~Drive() {
-	// TODO Auto-generated destructor stub
+Waypoint Drive (Waypoint w){
+	double theta = atan2(w.getY(),w.getX());
+	turn(theta);
+	forward(hypot(w.getX(),w.getY()));
+	return nullptr;
 }
 
