@@ -10,7 +10,7 @@
 
 class Rotate {
 public:
-	double turn ()
+	double rotate (double theta);
 };
 
 #endif /* COMMON_MATHS_TURN_H_ */

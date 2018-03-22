@@ -7,8 +7,9 @@
 
 #include "Rotate.h"
 
-Rotate::Rotate() {
-	// TODO Auto-generated constructor stub
+double rotate (double theta){
+
+}
 
 }
 
