@@ -8,10 +8,9 @@
 #ifndef COMMON_MATHS_TURN_H_
 #define COMMON_MATHS_TURN_H_
 
-class Turn {
+class Rotate {
 public:
-	Turn();
-	virtual ~Turn();
+	double turn ()
 };
 
 #endif /* COMMON_MATHS_TURN_H_ */

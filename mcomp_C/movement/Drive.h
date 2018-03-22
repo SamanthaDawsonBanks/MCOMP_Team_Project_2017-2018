@@ -10,8 +10,8 @@
 
 #include "..\common\datatypes\Waypoint.h";
 #include "..\maths\Forward.h";
-#include "..\maths\Turn.h";
 #include <math.h>
+#include "../maths/Rotate.h"
 
 class Drive {
 public:

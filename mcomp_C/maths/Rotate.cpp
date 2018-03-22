@@ -5,14 +5,14 @@
  *      Author: Stephen Pope 15836791
  */
 
-#include "Turn.h"
+#include "Rotate.h"
 
-Turn::Turn() {
+Rotate::Rotate() {
 	// TODO Auto-generated constructor stub
 
 }
 
-Turn::~Turn() {
+Rotate::~Rotate() {
 	// TODO Auto-generated destructor stub
 }
 
