@@ -1,5 +1,7 @@
 package common.interfaces;
 
+import common.objects.Member;
+
 /**
  * @author Stephen Pope 15836791
  * @author David Avery 15823926
@@ -16,8 +18,8 @@ package common.interfaces;
 
 public interface Connectable {
 
-  public void register();
+  public void register(Member joiningMember);
 
-  public void deregister();
+  public void deregister(Member leavingMember);
 
 }
