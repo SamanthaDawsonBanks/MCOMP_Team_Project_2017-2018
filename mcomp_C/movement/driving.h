@@ -9,7 +9,6 @@
 #define MOVEMENT_DRIVING_H_
 #include "../common/datatypes/Waypoint.h"
 #include <Wire.h>
-#include "../libraries/Adafruit_MS_PWMServoDriver.h"
 #include "../libraries/Adafruit_MotorShield.h"
 
 class driving {
