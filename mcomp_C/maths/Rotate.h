@@ -8,6 +8,8 @@
 #ifndef COMMON_MATHS_TURN_H_
 #define COMMON_MATHS_TURN_H_
 
+#include "..\config\robot_config.h";
+
 class Rotate {
 public:
 	double rotate (double theta);

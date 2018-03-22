@@ -8,6 +8,8 @@
 #ifndef COMMON_MATHS_FORWARD_H_
 #define COMMON_MATHS_FORWARD_H_
 
+#include "..\config\robot_config.h";
+
 class Forward {
 public:
 	long forward(long distance);
