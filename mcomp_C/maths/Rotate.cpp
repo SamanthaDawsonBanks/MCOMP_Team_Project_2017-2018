@@ -9,8 +9,8 @@
 
 double rotate (double theta){
 
-
-
+	double bodyRotation = ((2 * M_PI) * (wheelTrack/2)) * (theta/360);
+	double pulseDistance = ((2 * M_PI) * wheelSize) * (stepsInRev/360);
 }
 
 }
