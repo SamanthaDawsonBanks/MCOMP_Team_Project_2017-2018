@@ -8,10 +8,11 @@
 #ifndef COMMON_MOVEMENT_DRIVE_H_
 #define COMMON_MOVEMENT_DRIVE_H_
 
+#include common.datatypes.Waypoint.h;
+
 class Drive {
 public:
-	Drive();
-	virtual ~Drive();
+	Waypoint drive (Waypoint w);
 };
 
 #endif /* COMMON_MOVEMENT_DRIVE_H_ */
