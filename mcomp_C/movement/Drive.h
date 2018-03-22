@@ -11,7 +11,8 @@
 #include "..\common\datatypes\Waypoint.h";
 #include "..\maths\Forward.h";
 #include <math.h>
-#include "../maths/Rotate.h"
+#include "..\maths\Rotate.h"
+#include "..\common\datatypes\AngleDistance.h"
 
 class Drive {
 public:

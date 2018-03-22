@@ -8,9 +8,15 @@
 #include "Drive.h"
 
 Waypoint Drive (Waypoint w){
-	double theta = atan2(w.getY(),w.getX());
-	turn(theta);
-	forward(hypot(w.getX(),w.getY()));
-	return nullptr;
+	AngleDistance movement(atan2(w.getY(),w.getX()),hypot(w.getX(),w.getY()));
+	double rotate(movement.getTheta());
+	if (rotate == movement.getTheta()){
+		long forward(movement.getDistance());
+		if (forward == movement.getDistance()){
+			return w;
+		}
+		else return Waypoint(forward/w.getX(), forward/w.getY());
+	}
+	else return Waypoint (0,0);
 }
 
