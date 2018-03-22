@@ -36,8 +36,13 @@
 void setup() {
   // Add your initialisation code here
   // TODO method stub
-  testWaypoint();
-  testPath();
+//  testWaypoint();
+//  testPath();
+
+  //setup serial to pi 115200??
+  //setup serial to LiDAR BAUD? //TODO refactor into sense()
+
+
 }  //End Setup
 
 //-----------------------------Functions / Subroutines-----------------------------
@@ -52,4 +57,18 @@ void setup() {
 void loop() {
   // Add your repeated code here
   // TODO method stub
+
+
+  //if serial avalible
+  //read serial
+  //base64 decode
+  //eval read to command/data
+  //switch (sense)
+  //switch (drive-data)
+
+  //if data waiting
+  //encode 64
+  //serial write
+
+
 }  // End Loop
