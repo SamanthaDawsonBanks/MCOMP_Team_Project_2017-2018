@@ -10,8 +10,7 @@
 
 class Forward {
 public:
-	Forward();
-	virtual ~Forward();
+	long forward(long distance);
 };
 
 #endif /* COMMON_MATHS_FORWARD_H_ */

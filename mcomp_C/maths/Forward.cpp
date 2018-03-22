@@ -7,12 +7,7 @@
 
 #include "Forward.h"
 
-Forward::Forward() {
-	// TODO Auto-generated constructor stub
+long forward (long distance){
 
-}
-
-Forward::~Forward() {
-	// TODO Auto-generated destructor stub
 }
 
