@@ -9,6 +9,8 @@
 #define COMMON_MOVEMENT_DRIVE_H_
 
 #include "..\common\datatypes\Waypoint.h";
+#include "..\maths\Forward.h";
+#include "..\maths\Turn.h";
 #include <math.h>
 
 class Drive {
