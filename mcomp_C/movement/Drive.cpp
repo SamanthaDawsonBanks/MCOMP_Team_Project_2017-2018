@@ -8,7 +8,7 @@
 #include "Drive.h"
 
 Waypoint Drive (Waypoint w){
-	AngleDistance movement(atan2(w.getY(),w.getX()),hypot(w.getX(),w.getY()));
+	AngleDistance movement((atan2(w.getY(),w.getX())) * (180 / M_PI) , hypot(w.getX(),w.getY())); //TODO CHECK ATAN2 RETURN VALUE
 	double rotate(movement.getTheta());
 	if (rotate == movement.getTheta()){
 		long forward(movement.getDistance());
