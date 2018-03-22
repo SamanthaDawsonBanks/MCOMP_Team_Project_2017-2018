@@ -2,7 +2,7 @@
  * Forward.h
  *
  *  Created on: 22 Mar 2018
- *      Author: Steve
+ *      Author: Stephen Pope 15836791
  */
 
 #ifndef COMMON_MATHS_FORWARD_H_
