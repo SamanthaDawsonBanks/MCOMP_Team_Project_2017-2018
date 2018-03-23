@@ -3,6 +3,10 @@
  *
  *  Created on: 22 Mar 2018
  *      Author: Stephen Pope 15836791
+ *
+ * Forward Method
+ *
+ * The Drive method hands this method a distance that must be t
  */
 
 #include "Forward.h"

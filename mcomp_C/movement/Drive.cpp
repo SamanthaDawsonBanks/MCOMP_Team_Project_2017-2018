@@ -25,15 +25,16 @@
 #include "Drive.h"
 
 Waypoint Drive (Waypoint w){
-	AngleDistance movement((atan2(w.getY(),w.getX())) * (180 / M_PI) , hypot(w.getX(),w.getY())); //TODO CHECK ATAN2 RETURN VALUE
+	/**
+	 * atan2 values, 0 = East (Positive X axis), M_PI/2 = North (Positive Y Axis)
+	 * 				 Negative M_PI/2 = South (Negative Y Axis)
+	 * 				 M_PI = West (Negative X Axis)
+	 * See http://en.cppreference.com/w/cpp/numeric/math/atan2 for more.
+	 * Values returned are in Radians, so value * 180/pi = degrees
+	 */
+	AngleDistance movement((atan2(w.getY(),w.getX())) * (180 / M_PI) , hypot(w.getX(),w.getY()));
 	double rotate(movement.getTheta());
-	if (rotate == movement.getTheta()){
-		long forward(movement.getDistance());
-		if (forward == movement.getDistance()){
-			return w;
-		}
-		else return Waypoint(forward/w.getX(), forward/w.getY());
+	long forward(movement.getDistance());
+    return Waypoint((forward/movement.getDistance()) * w.getX(), (forward/movement.getDistance()) * w.getY());
 	}
-	else return Waypoint (0,0);
-}
 
