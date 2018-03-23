@@ -5,8 +5,11 @@
  *      Author: David Avery
  */
 
+
 #ifndef WAYPOINT_H_
 #define WAYPOINT_H_
+
+#include "AngleDistance.h"
 
 class Waypoint {
  private:
@@ -19,6 +22,7 @@ class Waypoint {
   virtual ~Waypoint();
   int getX();
   int getY();
+  AngleDistance toAngleDistance();
 
 };
 
