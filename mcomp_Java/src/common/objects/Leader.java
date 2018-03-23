@@ -30,7 +30,7 @@ public class Leader extends UnicastRemoteObject implements Instructable, Connect
   private String serverName;
   private Registry r;
 
-  private ArrayList<Member> herdMembers;
+  private ArrayList<Member> herdMembers; //FIXME when a leader is first established, it should collect herd information from the member that spawned it
 
   InetAddress[] addresses;
   InetAddress loopback = InetAddress.getLoopbackAddress();
@@ -94,17 +94,6 @@ public class Leader extends UnicastRemoteObject implements Instructable, Connect
    * @return
    */
   @Override
-  public Membership nominateLeader() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  /**
-   * DOCME
-   * 
-   * @return
-   */
-  @Override
   public InetAddress publishAddress() {
     // TODO For each member in Herd, RMI the address to each Member
     for (Member m : herdMembers) {
@@ -120,6 +109,7 @@ public class Leader extends UnicastRemoteObject implements Instructable, Connect
    * @return The current state of the members list
    */
   public Collection<Member> getMemebers() {
+    //potentially depreciated
     return herdMembers;
   }
 
@@ -131,7 +121,8 @@ public class Leader extends UnicastRemoteObject implements Instructable, Connect
   @Override
   public void leaderDiscussMerge() {
     // TODO Auto-generated method stub
-    //
+    // Will be related to herd merging
+    throw new UnsupportedOperationException("method not implemented");
   }
 
   /**
@@ -140,15 +131,17 @@ public class Leader extends UnicastRemoteObject implements Instructable, Connect
   @Override
   public void updateModel() {
     // TODO Auto-generated method stub
-    //
+    // Won't be update model
   }
 
   /**
    * DOCME
    */
   @Override
-  public void register() {
+  public boolean register(Member m) {
+    return false;
     // TODO Auto-generated method stub
+    // used to register a client for server/client/mvc
     // Likely to take a member and add them to the 'registered' list??
   }
 
@@ -156,7 +149,8 @@ public class Leader extends UnicastRemoteObject implements Instructable, Connect
    * DOCME
    */
   @Override
-  public void deregister() {
+  public boolean deregister(Member m) {
+    return false;
     // TODO Auto-generated method stub
     // As with register but removing??
   }
