@@ -10,6 +10,7 @@
 
 #include "..\config\robot_config.h";
 #include <math.h>;
+#include "..\mcomp_C.ino";
 
 class Rotate {
 public:
