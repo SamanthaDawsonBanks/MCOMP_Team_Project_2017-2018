@@ -4,9 +4,8 @@
 package common.datatypes;
 
 /**
- * @author David Avery
- * 
- * 
+ * @author David Avery 15823926
+ * @author Stephen Pope 15836791
  *
  */
 
