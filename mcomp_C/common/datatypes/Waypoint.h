@@ -2,7 +2,7 @@
  * Waypoint.h
  *
  *  Created on: 26 Nov 2017
- *      Author: David Avery
+ *      Author: David Avery 15823926
  */
 
 
@@ -13,15 +13,15 @@
 
 class Waypoint {
  private:
-  int x;
-  int y;
+  double x;
+  double y;
 
  public:
   Waypoint();
-  Waypoint(int, int);
+  Waypoint(double, double);
   virtual ~Waypoint();
-  int getX();
-  int getY();
+  double getX();
+  double getY();
   AngleDistance toAngleDistance();
 
 };
