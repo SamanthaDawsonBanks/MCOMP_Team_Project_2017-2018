@@ -19,6 +19,7 @@ class Waypoint {
  public:
   Waypoint();
   Waypoint(int xIn, int yIn);
+  Waypoint(AngleDistance);
   virtual ~Waypoint();
   int getX();
   int getY();
