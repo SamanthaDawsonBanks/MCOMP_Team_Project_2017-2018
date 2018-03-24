@@ -19,7 +19,7 @@ class Path {
   PathItem* lastItem;
 
  public:
-  Path(Waypoint w);
+  Path(Waypoint);
   virtual ~Path();
   void addNode(Waypoint);
   Waypoint poll();
