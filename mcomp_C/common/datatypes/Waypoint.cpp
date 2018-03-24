@@ -2,7 +2,7 @@
  * Waypoint.cpp
  *
  *  Created on: 26 Nov 2017
- *      Author: David Avery
+ *      Author: David Avery 15823926
  */
 
 #include "Waypoint.h"
@@ -14,7 +14,7 @@ Waypoint::Waypoint() {
   y = 0;
 }
 
-Waypoint::Waypoint(int xIn, int yIn) {
+Waypoint::Waypoint(double xIn, double yIn) {
   // TODO Auto-generated constructor stub
   x = xIn;
   y = yIn;
@@ -24,11 +24,11 @@ Waypoint::~Waypoint() {
   // TODO Auto-generated destructor stub
 }
 
-int Waypoint::getX() {
+double Waypoint::getX() {
   return x;
 }
 
-int Waypoint::getY() {
+double Waypoint::getY() {
   return y;
 }
 
