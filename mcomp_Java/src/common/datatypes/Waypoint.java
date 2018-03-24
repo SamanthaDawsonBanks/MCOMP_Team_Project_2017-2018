@@ -52,6 +52,14 @@ public class Waypoint {
   }
 
   /**
+   * 
+   * @return
+   */
+  AngleDistance toAngleDistance() {
+    return new AngleDistance(Math.atan2(y,x) * (180 / Math.PI) , (long) Math.hypot(x,y)); //TODO CHECK ATAN2 RETURN VALUE
+  }
+
+  /**
    * @return the toBeBlocked
    */
   public boolean getToBeBlocked() {
