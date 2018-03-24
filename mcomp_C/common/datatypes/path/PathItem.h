@@ -18,7 +18,7 @@ class PathItem {
   Waypoint data;
 
  public:
-  PathItem(Waypoint w);
+  PathItem(Waypoint);
   ~PathItem();
 
   Waypoint getData();
