@@ -23,7 +23,7 @@ class PathItem {
 
   Waypoint getData();
   PathItem* getNext();
-  bool setNext(PathItem* next);
+  bool setNext(PathItem*);
 };
 
 #endif /* PathItem_H_ */
