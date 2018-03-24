@@ -7,6 +7,11 @@
 
 #include "getLSense.h"
 
+
 void getLSense() {
+  //call for LiDAR
+  //store LiDAR data
+  //convert from AD[] to WP[]
+  //return list
 
 }
