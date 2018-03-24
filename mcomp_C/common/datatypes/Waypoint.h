@@ -18,7 +18,7 @@ class Waypoint {
 
  public:
   Waypoint();
-  Waypoint(int xIn, int yIn);
+  Waypoint(int, int);
   virtual ~Waypoint();
   int getX();
   int getY();
