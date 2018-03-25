@@ -4,6 +4,7 @@
 package common.datatypes.path;
 
 import common.datatypes.Waypoint;
+import common.datatypes.LinkedItem.PathItem;
 
 /**
  * @author David Avery
