@@ -17,14 +17,15 @@ class LSensor {
   int currentRPM;
   //some form of state?
   //shared buffer or data being passed?
+  //incoming buffer? object or in method? UART?
 
   void sync(); //blocking or ready?
 
   void storeLiDAR(); //method or buff?
 
-  void decodeReturn();
+  void decodeReturn(); //90 packets to 360 AD reads
 
-  void convertRetrun(); //method or just part of?
+  void convertRetrun(); //method or just part of decode? AD>rWP
 
 
  public:
