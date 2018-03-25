@@ -18,7 +18,7 @@ class LiDARRead {
   int length;
 
  public:
-  LiDARRead(Waypoint w);
+  LiDARRead();
   virtual ~LiDARRead();
   void addNode(Waypoint w);
   Waypoint poll();

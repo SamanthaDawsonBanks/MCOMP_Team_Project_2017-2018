@@ -8,9 +8,8 @@
 #include "LiDARRead.h"
 
 LiDARRead::LiDARRead() {
-  // TODO Auto-generated constructor stub
-  head* nullptr;
-  lastItem* nullptr;
+  head = nullptr;
+  lastItem = nullptr;
   length = 0;
 }
 
@@ -18,14 +17,24 @@ LiDARRead::~LiDARRead() {
   // TODO Auto-generated destructor stub
 }
 
-void addNode(Waypoint) {
+void LiDARRead::addNode(Waypoint) {
 
 }
 
-Waypoint poll() {
-  return head;
+Waypoint LiDARRead::poll() {
+  Waypoint res = nullptr;
+  if (length > 0) {
+    res = (*head).getData();
+    head = (*head).getNext();
+
+    if (head == nullptr) {
+      lastItem = nullptr;
+    }
+    length--;
+  }
+  return res;
 }
 
-int getLength() {
+int LiDARRead::getLength() {
 
 }
