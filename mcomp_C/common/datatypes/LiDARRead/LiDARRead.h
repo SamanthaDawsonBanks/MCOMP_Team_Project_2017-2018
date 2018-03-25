@@ -15,12 +15,12 @@ class LiDARRead {
  private:
   LinkedItem* head;
   LinkedItem* lastItem;
-  int length = 0;
+  int length;
 
  public:
   LiDARRead(Waypoint w);
   virtual ~LiDARRead();
-  void addNode(Waypoint);
+  void addNode(Waypoint w);
   Waypoint poll();
   int getLength();
 

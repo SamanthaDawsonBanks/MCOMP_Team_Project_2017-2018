@@ -18,12 +18,12 @@ class Path {
   LinkedItem* head;
   LinkedItem* destination;
   LinkedItem* lastItem;
-  int length = 0;
+  int length;
 
  public:
   Path(Waypoint w);
   virtual ~Path();
-  void addNode(Waypoint);
+  void addNode(Waypoint w);
   Waypoint poll();
   int getLength();
 

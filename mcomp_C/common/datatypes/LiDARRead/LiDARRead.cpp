@@ -9,10 +9,23 @@
 
 LiDARRead::LiDARRead() {
   // TODO Auto-generated constructor stub
-
+  head* nullptr;
+  lastItem* nullptr;
+  length = 0;
 }
 
 LiDARRead::~LiDARRead() {
   // TODO Auto-generated destructor stub
 }
 
+void addNode(Waypoint) {
+
+}
+
+Waypoint poll() {
+  return head;
+}
+
+int getLength() {
+
+}
