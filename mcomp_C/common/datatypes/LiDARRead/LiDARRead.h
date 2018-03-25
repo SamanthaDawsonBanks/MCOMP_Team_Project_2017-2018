@@ -14,8 +14,8 @@
 class LiDARRead {
  private:
   LinkedItem* head;
-  LinkedItem* destination;
   LinkedItem* lastItem;
+  int length = 0;
 
  public:
   LiDARRead(Waypoint w);
@@ -23,8 +23,6 @@ class LiDARRead {
   void addNode(Waypoint);
   Waypoint poll();
   int getLength();
-  int length = 0;
-  bool isDone();
 
  public:
 };

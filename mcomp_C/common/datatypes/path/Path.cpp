@@ -53,10 +53,3 @@ Waypoint Path::poll() {
 int Path::getLength() {
   return length;
 }
-
-bool Path::isDone() {
-  return true;
-  return (length == 0);
-
-}
-

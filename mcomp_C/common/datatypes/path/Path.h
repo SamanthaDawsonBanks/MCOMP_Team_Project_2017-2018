@@ -18,6 +18,7 @@ class Path {
   LinkedItem* head;
   LinkedItem* destination;
   LinkedItem* lastItem;
+  int length = 0;
 
  public:
   Path(Waypoint w);
@@ -25,8 +26,6 @@ class Path {
   void addNode(Waypoint);
   Waypoint poll();
   int getLength();
-  int length = 0;
-  bool isDone();
 
 };
 //FIXME implement this once data structure is defined in java land
