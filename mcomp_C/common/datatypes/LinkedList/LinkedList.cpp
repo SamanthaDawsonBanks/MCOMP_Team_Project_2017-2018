@@ -5,19 +5,19 @@
  *      Author: David Avery 15823926
  */
 
-#include "LiDARRead.h"
+#include "LinkedList.h"
 
-LiDARRead::LiDARRead() {
+LinkedList::LinkedList() {
   head = nullptr;
   lastItem = nullptr;
   length = 0;
 }
 
-LiDARRead::~LiDARRead() {
+LinkedList::~LinkedList() {
   // TODO Auto-generated destructor stub
 }
 
-void LiDARRead::addNode(Waypoint w) {
+void LinkedList::addNode(Waypoint w) {
 
   if (length > 0) {
     (*lastItem).setNext(new LinkedItem(w));
@@ -31,7 +31,7 @@ void LiDARRead::addNode(Waypoint w) {
 
 }
 
-Waypoint LiDARRead::poll() {
+Waypoint LinkedList::poll() {
   Waypoint res = nullptr;
   if (length > 0) {
     res = (*head).getData();
@@ -45,6 +45,6 @@ Waypoint LiDARRead::poll() {
   return res;
 }
 
-int LiDARRead::getLength() {
+int LinkedList::getLength() {
   return length;
 }
