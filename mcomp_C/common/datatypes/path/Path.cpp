@@ -11,7 +11,7 @@
 int length;
 
 Path::Path(Waypoint w) {
-  destination = new PathItem(w);
+  destination = new LinkedItem(w);
   head = nullptr;
   lastItem = nullptr;
   length = 0;
@@ -25,10 +25,10 @@ Path::~Path() {
 void Path::addNode(Waypoint w) {
 
   if (length > 0) {
-    (*lastItem).setNext(new PathItem(w));
+    (*lastItem).setNext(new LinkedItem(w));
     lastItem = (*lastItem).getNext();
   } else {
-    head = new PathItem(w);
+    head = new LinkedItem(w);
     lastItem = head;
   }
 

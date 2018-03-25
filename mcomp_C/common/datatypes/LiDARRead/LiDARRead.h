@@ -1,34 +1,32 @@
 /*
- * mcomp_C.ino
+ * LiDARRead.h
  *
- *  Created on: 26 Nov 2017
+ *  Created on: 25 Mar 2018
  *      Author: David Avery 15823926
- *
  */
 
-#ifndef PATH_H_
-#define PATH_H_
+#ifndef COMMON_DATATYPES_LIDARREAD_LIDARREAD_H_
+#define COMMON_DATATYPES_LIDARREAD_LIDARREAD_H_
 
 #include "../Waypoint.h"
 #include "../LinkedItem/LinkedItem.h"
 
-class Path {
-
+class LiDARRead {
  private:
   LinkedItem* head;
   LinkedItem* destination;
   LinkedItem* lastItem;
 
  public:
-  Path(Waypoint w);
-  virtual ~Path();
+  LiDARRead(Waypoint w);
+  virtual ~LiDARRead();
   void addNode(Waypoint);
   Waypoint poll();
   int getLength();
   int length = 0;
   bool isDone();
 
+ public:
 };
-//FIXME implement this once data structure is defined in java land
 
-#endif /* PATH_H_ */
+#endif /* COMMON_DATATYPES_LIDARREAD_LIDARREAD_H_ */

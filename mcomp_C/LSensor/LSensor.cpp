@@ -16,11 +16,7 @@ LSensor::~LSensor() {
   // TODO Auto-generated destructor stub
 }
 
-
-
-
-
-void getLSense() {
+void takeRead() {
   //call for LiDAR
   //sync to SPIN
   //store LiDAR data
@@ -29,9 +25,6 @@ void getLSense() {
   //return list
 
 }
-
-
-
 
 AngleDistance * readLiDAR() {
   // TODO Auto-generated stub
@@ -44,22 +37,16 @@ AngleDistance * readLiDAR() {
 
     for (int rCount = 0; rCount < 4; pCount++) {
 
-
       //grabDATA
-
 
       //format is: <start> <index> <speed_L> <speed_H> [Data 0] [Data 1] [Data 2] [Data 3] <checksum_L> <checksum_H>
 
-
     }
-
 
   }
 
   return nullptr;
 }
-
-
 
 //some form of checksum method
 

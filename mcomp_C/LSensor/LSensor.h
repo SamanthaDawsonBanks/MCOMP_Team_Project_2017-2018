@@ -19,24 +19,23 @@ class LSensor {
   //shared buffer or data being passed?
   //incoming buffer? object or in method? UART?
 
-  void sync(); //blocking or ready?
+  void sync();  //blocking or ready?
 
-  void storeLiDAR(); //method or buff?
+  void storeLiDAR();  //method or buff?
 
-  void decodeReturn(); //90 packets to 360 AD reads
+  void decodeReturn();  //90 packets to 360 AD reads //also RPM data and error data
 
-  void convertRetrun(); //method or just part of decode? AD>rWP
-
+  void convertRetrun();  //method or just part of decode? AD>rWP
 
  public:
   LSensor();
   virtual ~LSensor();
 
-  bool isGood(); //better name?
+  bool isGood();  //better name?
 
-  void processCommand(); //do we need?
+  void processCommand();  //do we need?
 
-  void takeRead(); //overall?
+  void takeRead();  //overall?
 
 };
 
