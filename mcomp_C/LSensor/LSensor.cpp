@@ -1,17 +1,40 @@
 /*
- * readLiDAR.cpp
+ * LSensor.cpp
  *
- *  Created on: 24 Mar 2018
+ *  Created on: 25 Mar 2018
  *      Author: David Avery 15823926
  */
 
-#include "readLiDAR.h"
-#include "Arduino.h"
+#include "LSensor.h"
+
+LSensor::LSensor() {
+  // TODO Auto-generated constructor stub
+
+}
+
+LSensor::~LSensor() {
+  // TODO Auto-generated destructor stub
+}
+
+
+
+
+
+void getLSense() {
+  //call for LiDAR
+  //sync to SPIN
+  //store LiDAR data
+  //decode packets
+  //convert from AD[] to WP[]
+  //return list
+
+}
+
+
+
 
 AngleDistance * readLiDAR() {
   // TODO Auto-generated stub
-
-  //sync to SPIN
 
   //Loop through packets
 
