@@ -17,7 +17,17 @@ LiDARRead::~LiDARRead() {
   // TODO Auto-generated destructor stub
 }
 
-void LiDARRead::addNode(Waypoint) {
+void LiDARRead::addNode(Waypoint w) {
+
+  if (length > 0) {
+    (*lastItem).setNext(new LinkedItem(w));
+    lastItem = (*lastItem).getNext();
+  } else {
+    head = new LinkedItem(w);
+    lastItem = head;
+  }
+
+  length++;
 
 }
 
@@ -36,5 +46,5 @@ Waypoint LiDARRead::poll() {
 }
 
 int LiDARRead::getLength() {
-
+  return length;
 }
