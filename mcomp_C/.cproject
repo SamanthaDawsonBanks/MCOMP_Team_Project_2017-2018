@@ -21,6 +21,8 @@
 								<option id="io.sloeber.compiler.cpp.sketch.option.incpath.648775080" name="Include Paths (-I)" superClass="io.sloeber.compiler.cpp.sketch.option.incpath" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/mcomp_C/core/core}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/mcomp_C/core/variant}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/mcomp_C/libraries/Wire}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/mcomp_C/libraries/Wire/src}&quot;"/>
 								</option>
 								<inputType id="io.sloeber.compiler.cpp.sketch.input.167443714" name="CPP source files" superClass="io.sloeber.compiler.cpp.sketch.input"/>
 							</tool>
@@ -28,6 +30,8 @@
 								<option id="io.sloeber.compiler.c.sketch.option.incpath.404779502" name="Include Paths (-I)" superClass="io.sloeber.compiler.c.sketch.option.incpath" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/mcomp_C/core/core}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/mcomp_C/core/variant}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/mcomp_C/libraries/Wire}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/mcomp_C/libraries/Wire/src}&quot;"/>
 								</option>
 								<inputType id="io.sloeber.compiler.c.sketch.input.343958297" name="C Source Files" superClass="io.sloeber.compiler.c.sketch.input"/>
 							</tool>
@@ -35,6 +39,8 @@
 								<option id="io.sloeber.compiler.asm.sketch.option.incpath.1602619412" name="Include Paths (-I)" superClass="io.sloeber.compiler.asm.sketch.option.incpath" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/mcomp_C/core/core}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/mcomp_C/core/variant}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/mcomp_C/libraries/Wire}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/mcomp_C/libraries/Wire/src}&quot;"/>
 								</option>
 								<inputType id="io.sloeber.compiler.S.sketch.input.936675905" name="Assembly source files" superClass="io.sloeber.compiler.S.sketch.input"/>
 							</tool>
