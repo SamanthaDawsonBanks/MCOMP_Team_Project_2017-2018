@@ -23,6 +23,9 @@
  */
 
 #include "Drive.h"
+#include "Forward.h"
+#include "Rotate.h"
+#include "..\common\datatypes\AngleDistance.h"
 
 Waypoint Drive (Waypoint w){
 	/**

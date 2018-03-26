@@ -8,12 +8,7 @@
 #ifndef COMMON_MOVEMENT_DRIVE_H_
 #define COMMON_MOVEMENT_DRIVE_H_
 
-#include "..\common\datatypes\Waypoint.h";
-#include "..\maths\Forward.h";
-#include <math.h>
-#include "..\maths\Rotate.h"
-#include "..\common\datatypes\AngleDistance.h"
-#include "..\mcomp_C.ino";
+#include "..\common\datatypes\Waypoint.h"
 
 class Drive {
 public:
