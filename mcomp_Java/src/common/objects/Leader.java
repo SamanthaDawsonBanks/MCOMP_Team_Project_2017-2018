@@ -133,14 +133,20 @@ public class Leader extends UnicastRemoteObject implements Instructable, Connect
     // TODO Auto-generated method stub
     // Won't be update model
   }
+  
+  @Override
+  public void getState() {
+    // TODO Auto-generated method stub
+    // bundle up all state and send it to the client
+    // displayable needs current map and destination
+  }
 
   /**
    * DOCME
    */
   @Override
   public boolean register(Member m) {
-    return false;
-    // TODO Auto-generated method stub
+    return this.herdMembers.add(m);
     // used to register a client for server/client/mvc
     // Likely to take a member and add them to the 'registered' list??
   }
@@ -150,8 +156,7 @@ public class Leader extends UnicastRemoteObject implements Instructable, Connect
    */
   @Override
   public boolean deregister(Member m) {
-    return false;
-    // TODO Auto-generated method stub
+    return this.herdMembers.remove(m);  //not sure that's right - will look into
     // As with register but removing??
   }
 
