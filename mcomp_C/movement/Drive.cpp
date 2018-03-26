@@ -35,9 +35,9 @@ Waypoint Drive (Waypoint w){
 	 * See http://en.cppreference.com/w/cpp/numeric/math/atan2 for more.
 	 * Values returned are in Radians, so value * 180/pi = degrees
 	 */
-	AngleDistance movement(w.toAngleDistance()); //TODO factor out with #133
-	double rotate(movement.getTheta());
-	long forward(movement.getDistance());
+	AngleDistance movement = w.toAngleDistance();
+	double rotate = movement.getTheta();
+	long forward = movement.getDistance();
     return Waypoint((forward/movement.getDistance()) * w.getX(), (forward/movement.getDistance()) * w.getY());
 	}
 
