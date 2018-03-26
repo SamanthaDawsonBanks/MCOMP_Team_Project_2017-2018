@@ -11,10 +11,6 @@ import java.util.Base64.Encoder;
  */
 public class Pipe {
 
-  // There is an argument to suggest that this could include the encode/decode stuff as it is the
-  // only known usage of it as of yet. Probably a 'SOLID' discussion here. I really need to revise
-  // this.
-
   public Pipe() {
     // TODO Constructor/setup related code
   }
@@ -22,18 +18,38 @@ public class Pipe {
   /**
    * Checks that status of the serial buffer
    * 
-   * @return True if the pipe is empty/available for use; False if there is still stuff to be
-   *         processed
+   * @return 0 if the serial is empty; > 0 if there is still data waiting to be processed
    */
-  public boolean available() {
-    return false;
+  public int available() {
+    return 0;
   }
 
   public void send() {
 
+    // at some point in the process
+    this.encode(/* some method, some data */);
+
   }
 
   public void read() {
+
+    // at some point in the process
+    this.encode(/* some method, some data */);
+
+  }
+
+
+  // There is an argument to suggest that this could include the encode/decode stuff as it is the
+  // only known usage of it as of yet. Probably a 'SOLID' discussion here. I really need to revise
+  // this.
+
+  // Will also for now be private as no need for outside access??
+
+  private void encode() {
+
+  }
+
+  private void decode() {
 
   }
 }
