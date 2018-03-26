@@ -4,9 +4,8 @@
 package common.datatypes;
 
 /**
- * @author David Avery
- * 
- * 
+ * @author David Avery 15823926
+ * @author Stephen Pope 15836791
  *
  */
 
@@ -49,6 +48,14 @@ public class Waypoint {
    */
   public double getY() {
     return y;
+  }
+
+  /**
+   * 
+   * @return
+   */
+  AngleDistance toAngleDistance() {
+    return new AngleDistance(Math.atan2(y,x) * (180 / Math.PI) , (long) Math.hypot(x,y)); //TODO CHECK ATAN2 RETURN VALUE
   }
 
   /**

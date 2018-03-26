@@ -18,12 +18,12 @@ class PathItem {
   Waypoint data;
 
  public:
-  PathItem(Waypoint w);
+  PathItem(Waypoint);
   ~PathItem();
 
   Waypoint getData();
   PathItem* getNext();
-  bool setNext(PathItem* next);
+  bool setNext(PathItem*);
 };
 
 #endif /* PathItem_H_ */
