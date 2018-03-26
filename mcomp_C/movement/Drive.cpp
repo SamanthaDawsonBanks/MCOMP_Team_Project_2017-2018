@@ -36,9 +36,11 @@ Waypoint Drive (Waypoint w){
 	 * Values returned are in Radians, so value * 180/pi = degrees
 	 */
 	AngleDistance movement = w.toAngleDistance();
-	double rotate = movement.getTheta();
-	long forward = movement.getDistance();
-    return Waypoint((forward/movement.getDistance()) * w.getX(), (forward/movement.getDistance()) * w.getY());
+	double theta = movement.getTheta();
+	//rotate(theta); Requires refactor to make rotate not a class!
+	long distance = movement.getDistance();
+	//forward(getDistance); Same as above
+    return Waypoint((distance/movement.getDistance()) * w.getX(), (distance/movement.getDistance()) * w.getY());
 	}
 
 
@@ -46,8 +48,8 @@ void releaseMotors(){
 	//The purpose of this will be for safety when STOPPING the bot.
 	//When the robot finishes pulsing the motors, they remain locked.
 	//This will be used to allow us to transport the robot.
-	leftMotor.release();
-	rightMotor.release();
+	(*leftMotor).release();
+	(*rightMotor).release();
 
 }
 
