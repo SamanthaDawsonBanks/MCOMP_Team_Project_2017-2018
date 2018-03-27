@@ -3,6 +3,7 @@
  *
  *  Created on: 26 Mar 2018
  *      Author: Stephen Pope 15836791
+ *      Author: David Avery 15823926
  */
 
 #ifndef MOVEMENT_PROPULSION_H_
