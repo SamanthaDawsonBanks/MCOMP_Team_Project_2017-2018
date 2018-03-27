@@ -1,33 +1,30 @@
 /*
- * mcomp_C.ino
+ * LinkedList.h
  *
- *  Created on: 26 Nov 2017
+ *  Created on: 25 Mar 2018
  *      Author: David Avery 15823926
- *
  */
 
-#ifndef PATH_H_
-#define PATH_H_
+#ifndef COMMON_DATATYPES_LINKEDLIST_LINKEDLIST_H_
+#define COMMON_DATATYPES_LINKEDLIST_LINKEDLIST_H_
 
 #include "../Waypoint.h"
 #include "../LinkedItem/LinkedItem.h"
 
-class Path {
-
+class LinkedList {
  private:
   LinkedItem* head;
-  LinkedItem* destination;
   LinkedItem* lastItem;
   int length;
 
  public:
-  Path(Waypoint w);
-  virtual ~Path();
+  LinkedList();
+  virtual ~LinkedList();
   void addNode(Waypoint w);
   Waypoint poll();
   int getLength();
 
+ public:
 };
-//FIXME implement this once data structure is defined in java land
 
-#endif /* PATH_H_ */
+#endif /* COMMON_DATATYPES_LINKEDLIST_LINKEDLIST_H_ */

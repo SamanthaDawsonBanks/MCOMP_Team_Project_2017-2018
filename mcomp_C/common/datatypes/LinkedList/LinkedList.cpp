@@ -1,28 +1,23 @@
 /*
- * mcomp_C.ino
+ * LiDARRead.cpp
  *
- *  Created on: 26 Nov 2017
+ *  Created on: 25 Mar 2018
  *      Author: David Avery 15823926
- *
  */
-#include "Path.h"
-#include "../Waypoint.h"
 
-int length;
+#include "LinkedList.h"
 
-Path::Path(Waypoint w) {
-  destination = new LinkedItem(w);
+LinkedList::LinkedList() {
   head = nullptr;
   lastItem = nullptr;
   length = 0;
-
 }
 
-Path::~Path() {
+LinkedList::~LinkedList() {
   // TODO Auto-generated destructor stub
 }
 
-void Path::addNode(Waypoint w) {
+void LinkedList::addNode(Waypoint w) {
 
   if (length > 0) {
     (*lastItem).setNext(new LinkedItem(w));
@@ -33,11 +28,11 @@ void Path::addNode(Waypoint w) {
   }
 
   length++;
+
 }
 
-Waypoint Path::poll() {
-
-  Waypoint res = (*destination).getData();
+Waypoint LinkedList::poll() {
+  Waypoint res = (*head).getData();
   if (length > 0) {
     res = (*head).getData();
     head = (*head).getNext();
@@ -50,6 +45,6 @@ Waypoint Path::poll() {
   return res;
 }
 
-int Path::getLength() {
+int LinkedList::getLength() {
   return length;
 }

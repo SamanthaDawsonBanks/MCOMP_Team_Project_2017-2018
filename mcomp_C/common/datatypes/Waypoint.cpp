@@ -22,6 +22,13 @@ Waypoint::Waypoint(double xIn, double yIn) {
   y = yIn;
 }
 
+Waypoint::Waypoint(AngleDistance a) {
+  // TODO Auto-generated constructor stub
+  a.getDistance();
+  y = a.getDistance() * sin(a.getTheta());
+  x = a.getDistance() * cos(a.getTheta());
+}
+
 Waypoint::~Waypoint() {
   // TODO Auto-generated destructor stub
 }
@@ -35,5 +42,5 @@ double Waypoint::getY() {
 }
 
 AngleDistance Waypoint::toAngleDistance() {
-  return AngleDistance(atan2(y,x) * (180 / M_PI) , hypot(x,y)); //TODO CHECK ATAN2 RETURN VALUE
+  return AngleDistance(atan2(y, x) * (180 / M_PI), hypot(x, y));  //TODO CHECK ATAN2 RETURN VALUE
 }
