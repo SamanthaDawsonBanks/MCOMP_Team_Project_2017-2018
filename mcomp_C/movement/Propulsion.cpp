@@ -22,7 +22,11 @@ Propulsion::Propulsion() {
 }
 
 Propulsion::~Propulsion() {
-  // TODO Auto-generated destructor stub
+  releaseMotors();
+  delete leftMotor;
+  delete rightMotor;
+  delete AFMS;
+  delete currentHeading;
 }
 
 Waypoint Propulsion::Drive (Waypoint w){
