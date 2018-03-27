@@ -3,6 +3,7 @@
  *
  *  Created on: 26 Mar 2018
  *      Author: Stephen Pope 15836791
+
  *      Author: David Avery 15823926
  *
  * Propulsion class
@@ -11,7 +12,6 @@
  * Currently, only methods that involve driving are implemented but it would be
  * possible to extend this class to include methods for powering flight motors etc.
  */
-
 
 #include "Propulsion.h"
 #include "..\common\datatypes\AngleDistance.h"
@@ -28,7 +28,6 @@ Propulsion::Propulsion() {
   currentHeading = 0; //TODO Constructor may need to take a starting angle.
 }
 
-//Propulsion destructor
 
 Propulsion::~Propulsion() {
   releaseMotors();
@@ -56,6 +55,7 @@ Propulsion::~Propulsion() {
 * its new location relative to where it started the current drive call.
 */
 
+
 Waypoint Propulsion::Drive (Waypoint w){
   /**
    * atan2 values, 0 = East (Positive X axis), M_PI/2 = North (Positive Y Axis)
@@ -72,6 +72,7 @@ Waypoint Propulsion::Drive (Waypoint w){
   return Waypoint((distance/movement.getDistance()) * w.getX(), (distance/movement.getDistance()) * w.getY());
 }
 
+
 /**
  * Rotate method
  *
@@ -81,6 +82,7 @@ Waypoint Propulsion::Drive (Waypoint w){
  * Total turn is calculated from 0 and the robot may never face that way, so we rotate
  * by the difference between theta and current heading.
  */
+
 double Propulsion::rotate (double theta){
 
   double bodyRotation = ((2 * M_PI) * (wheelTrack/2)) * (theta/360);
@@ -108,6 +110,7 @@ double Propulsion::rotate (double theta){
  * moves within its own length, there is no net movement forward.) so we need to be
  * aware of any returns from the Ultrasound sensors when we attempt to move forward.
  */
+
 long Propulsion::forward (long distance){
   bool ultraSoundTest = false;
   double pulseTravel = wheelSize / stepsInRev;
@@ -133,6 +136,8 @@ void Propulsion::releaseMotors(){
 
 }
 
+
 double Propulsion::getHeading(){
   return currentHeading();
 }
+
