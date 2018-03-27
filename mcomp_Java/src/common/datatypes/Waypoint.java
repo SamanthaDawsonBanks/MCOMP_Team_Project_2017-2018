@@ -43,8 +43,8 @@ public class Waypoint {
   public Waypoint(AngleDistance a) {
     // TODO Auto-generated constructor stub
     a.getDistance();
-    y = a.getDistance() * sin(a.getTheta());
-    x = a.getDistance() * cos(a.getTheta());
+    y = a.getDistance() * Math.sin(a.getTheta());
+    x = a.getDistance() * Math.cos(a.getTheta());
   }
 
   /**
