@@ -45,11 +45,13 @@ public class Pipe {
 
   // Will also for now be private as no need for outside access??
 
-  private void encode() {
-
+  private String encode(String input) {
+    Encoder e;
+    return "encoded data";
   }
 
-  private void decode() {
-
+  private String decode(byte[] input) {
+    Decoder de;
+    return new String(de.decode(input));
   }
 }
