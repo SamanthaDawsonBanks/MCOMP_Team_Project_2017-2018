@@ -13,6 +13,7 @@ public class Pipe {
 
   public Pipe() {
     // TODO Constructor/setup related code
+    //Set up serial connection bits
   }
 
   /**
@@ -27,14 +28,14 @@ public class Pipe {
   public void send() {
 
     // at some point in the process
-    this.encode(/* some method, some data */);
+    //this.encode(/* some method, some data */);
 
   }
 
   public void read() {
 
     // at some point in the process
-    this.encode(/* some method, some data */);
+    //this.encode(/* some method, some data */);
 
   }
 
@@ -46,12 +47,15 @@ public class Pipe {
   // Will also for now be private as no need for outside access??
 
   private String encode(String input) {
-    Encoder e;
-    return "encoded data";
+    Encoder e = null;
+    
+    byte[] meh = input.getBytes();
+    
+    return e.encodeToString(meh);
   }
 
   private String decode(byte[] input) {
     Decoder de;
-    return new String(de.decode(input));
+    return "decoded data";
   }
 }
