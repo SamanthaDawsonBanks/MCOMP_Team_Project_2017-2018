@@ -32,7 +32,7 @@ void LinkedList::addNode(Waypoint w) {
 }
 
 Waypoint LinkedList::poll() {
-  Waypoint res = (*head).getData();
+  Waypoint res = (*head).getData();//FIXME NPE
   if (length > 0) {
     res = (*head).getData();
     head = (*head).getNext();
