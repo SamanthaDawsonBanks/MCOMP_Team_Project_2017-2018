@@ -4,7 +4,14 @@
  *  Created on: 26 Mar 2018
  *      Author: Stephen Pope 15836791
  *      Author: David Avery 15823926
+ *
+ * Propulsion class
+ *
+ * This class handles how a robot is able to move itself around the world.
+ * Currently, only methods that involve driving are implemented but it would be
+ * possible to extend this class to include methods for powering flight motors etc.
  */
+
 
 #include "Propulsion.h"
 #include "..\common\datatypes\AngleDistance.h"
@@ -21,6 +28,8 @@ Propulsion::Propulsion() {
   currentHeading = 0; //TODO Constructor may need to take a starting angle.
 }
 
+//Propulsion destructor
+
 Propulsion::~Propulsion() {
   releaseMotors();
   delete leftMotor;
@@ -29,6 +38,24 @@ Propulsion::~Propulsion() {
   delete currentHeading;
 }
 
+/**
+* Drive method
+*
+* This method allows a robot to drive from its current position (assumed to be 0,0) to
+* the location handed to it. The position relative to the first call to drive is handled
+* in this application, so that the robot can work out how much it must turn by.
+*
+* In order to drive to the next point along a Path, the robot needs to assess the angle
+* it needs to turn by to point at the Waypoint provided, then how far it needs to travel
+* to reach it. As a Path is split into small sections by the Java code, we can assume
+* that only one rotation and forward movement are required.
+*
+* If the journey is successful and the robot reaches its destination, it returns the
+* Waypoint it was handed. If the robot becomes blocked along its path, then the robot
+* returns a Waypoint with a value representing how far it was able to travel, effectively
+* its new location relative to where it started the current drive call.
+*/
+
 Waypoint Propulsion::Drive (Waypoint w){
   /**
    * atan2 values, 0 = East (Positive X axis), M_PI/2 = North (Positive Y Axis)
@@ -36,6 +63,8 @@ Waypoint Propulsion::Drive (Waypoint w){
    *         M_PI = West (Negative X Axis)
    * See http://en.cppreference.com/w/cpp/numeric/math/atan2 for more.
    * Values returned are in Radians, so value * 180/pi = degrees
+   *
+   * This has now been factored out to datatype AngleDistance
    */
   AngleDistance movement = w.toAngleDistance();
   currentHeading += rotate(movement.getTheta()-currentHeading);
@@ -43,7 +72,15 @@ Waypoint Propulsion::Drive (Waypoint w){
   return Waypoint((distance/movement.getDistance()) * w.getX(), (distance/movement.getDistance()) * w.getY());
 }
 
-
+/**
+ * Rotate method
+ *
+ * A correct rotation will move by the smallest amount possible to arrive at the required
+ * angle. (Left if amount required to turn left is smaller than required right turn etc.)
+ * To do this, the drive method subtracts the current heading from the total turn angle.
+ * Total turn is calculated from 0 and the robot may never face that way, so we rotate
+ * by the difference between theta and current heading.
+ */
 double Propulsion::rotate (double theta){
 
   double bodyRotation = ((2 * M_PI) * (wheelTrack/2)) * (theta/360);
@@ -63,7 +100,14 @@ double Propulsion::rotate (double theta){
   return theta;
 }
 
-
+/**
+ * Forward method
+ *
+ * Once the robot has rotated we can move forward.
+ * Moving forward means moving outside the dimensions of the robot body (rotation
+ * moves within its own length, there is no net movement forward.) so we need to be
+ * aware of any returns from the Ultrasound sensors when we attempt to move forward.
+ */
 long Propulsion::forward (long distance){
   bool ultraSoundTest = false;
   double pulseTravel = wheelSize / stepsInRev;
