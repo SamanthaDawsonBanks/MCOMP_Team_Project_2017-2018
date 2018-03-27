@@ -1,5 +1,6 @@
 package member.coms;
 
+import java.util.Base64;
 // encoder/decoder imports
 import java.util.Base64.Decoder;
 import java.util.Base64.Encoder;
@@ -22,14 +23,16 @@ public class Pipe {
    * @return 0 if the serial is empty; > 0 if there is still data waiting to be processed
    */
   public int available() {
-    return 0;
+    //where is the buffer?
+    throw new UnsupportedOperationException("This method is not implemented yet!");
   }
 
   public void send() {
 
     // at some point in the process
     //this.encode(/* some method, some data */);
-
+    
+    throw new UnsupportedOperationException("This method is not implemented yet!");
   }
 
   public void read() {
@@ -37,6 +40,7 @@ public class Pipe {
     // at some point in the process
     //this.encode(/* some method, some data */);
 
+    throw new UnsupportedOperationException("This method is not implemented yet!");
   }
 
 
@@ -46,16 +50,26 @@ public class Pipe {
 
   // Will also for now be private as no need for outside access??
 
+  /**
+   * 
+   * --NOT SURE THIS WILL STAY A STRING BUT FOR THE BASIC IMPLEMENTATION--
+   * 
+   * @param input The data to be encoded into Base64
+   * @return The encoded version of the input as a string
+   */
   private String encode(String input) {
-    Encoder e = null;
-    
-    byte[] meh = input.getBytes();
-    
-    return e.encodeToString(meh);
+    String encodedOutput = Base64.getEncoder().encodeToString(input.getBytes());
+    return encodedOutput;
   }
 
+  /**
+   * 
+   * @param input The incoming data to be 
+   * @return
+   */
   private String decode(byte[] input) {
-    Decoder de;
-    return "decoded data";
+    byte[] decodedBytes = Base64.getDecoder().decode(input);
+    String decodedOutput = new String(decodedBytes);
+    return decodedOutput;
   }
 }
