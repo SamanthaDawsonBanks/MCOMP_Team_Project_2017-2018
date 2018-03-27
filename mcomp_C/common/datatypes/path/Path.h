@@ -21,7 +21,7 @@ class Path {
   int length;
 
  public:
-  Path(Waypoint w);
+  Path(Waypoint);
   virtual ~Path();
   void addNode(Waypoint w);
   Waypoint poll();

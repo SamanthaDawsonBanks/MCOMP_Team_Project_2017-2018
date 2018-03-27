@@ -15,7 +15,7 @@ class AngleDistance {
 
  public:
   AngleDistance();
-  AngleDistance(double theta, long distance);
+  AngleDistance(double, long);
   virtual ~AngleDistance();
   double getTheta();
   long getDistance();
