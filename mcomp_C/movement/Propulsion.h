@@ -18,6 +18,7 @@ class Propulsion {
   virtual ~Propulsion();
   Waypoint Drive (Waypoint);
   double getHeading();
+  void releaseMotors();
 
  private:
   Adafruit_MotorShield AFMS;
@@ -26,7 +27,6 @@ class Propulsion {
   double currentHeading;
   double rotate(double);
   long forward(long);
-  void releaseMotors();
 };
 
 #endif /* MOVEMENT_PROPULSION_H_ */
