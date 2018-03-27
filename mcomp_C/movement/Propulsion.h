@@ -3,7 +3,9 @@
  *
  *  Created on: 26 Mar 2018
  *      Author: Stephen Pope 15836791
- */
+
+ *      Author: David Avery 15823926
+
 
 #ifndef MOVEMENT_PROPULSION_H_
 #define MOVEMENT_PROPULSION_H_
@@ -17,6 +19,10 @@ class Propulsion {
   virtual ~Propulsion();
   Waypoint Drive (Waypoint);
 
+  double getHeading();
+  void releaseMotors();
+
+
  private:
   Adafruit_MotorShield AFMS;
   Adafruit_StepperMotor leftMotor;
@@ -24,7 +30,6 @@ class Propulsion {
   double currentHeading;
   double rotate(double);
   long forward(long);
-  void releaseMotors();
 };
 
 #endif /* MOVEMENT_PROPULSION_H_ */
