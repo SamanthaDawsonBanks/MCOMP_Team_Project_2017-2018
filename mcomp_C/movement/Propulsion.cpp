@@ -31,10 +31,6 @@ Propulsion::Propulsion() {
 
 Propulsion::~Propulsion() {
   releaseMotors();
-  delete leftMotor;
-  delete rightMotor;
-  delete AFMS;
-  delete currentHeading;
 }
 
 /**
@@ -138,6 +134,6 @@ void Propulsion::releaseMotors(){
 
 
 double Propulsion::getHeading(){
-  return currentHeading();
+  return currentHeading;
 }
 
