@@ -17,6 +17,7 @@ class Propulsion {
   Propulsion();
   virtual ~Propulsion();
   Waypoint Drive (Waypoint);
+  double getHeading();
 
  private:
   Adafruit_MotorShield AFMS;

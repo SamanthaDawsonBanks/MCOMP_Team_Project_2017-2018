@@ -89,3 +89,6 @@ void Propulsion::releaseMotors(){
 
 }
 
+double Propulsion::getHeading(){
+  return currentHeading();
+}
