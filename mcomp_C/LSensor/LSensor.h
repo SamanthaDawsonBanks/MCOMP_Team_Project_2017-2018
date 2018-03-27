@@ -5,7 +5,7 @@
  *      Author: David Avery 15823926
  */
 
-#include "AngleDistance.h"
+#include "../common/datatypes/AngleDistance.h"
 
 #ifndef LSENSOR_LSENSOR_H_
 #define LSENSOR_LSENSOR_H_

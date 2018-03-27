@@ -32,7 +32,7 @@ void LinkedList::addNode(Waypoint w) {
 }
 
 Waypoint LinkedList::poll() {
-  Waypoint res = nullptr;
+  Waypoint res = (*head).getData();
   if (length > 0) {
     res = (*head).getData();
     head = (*head).getNext();
