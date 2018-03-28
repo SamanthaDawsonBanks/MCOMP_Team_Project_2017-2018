@@ -5,7 +5,7 @@
  *      Author: Stephen Pope 15836791
  */
 
-#include "Propulsion.h"
+#include "../movement/Propulsion.h"
 
 void PropulsionTest(){
 
