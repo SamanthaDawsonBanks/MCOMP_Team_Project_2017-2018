@@ -7,7 +7,7 @@ import common.datatypes.map.Map;
 import common.datatypes.map.griddedMap.Vertex;
 import common.datatypes.path.Path;
 
-public class SearchMap {
+public class searchMap {
 
   ArrayList<Vertex> path = new ArrayList<Vertex>();
   ArrayList<Vertex> openList = new ArrayList<Vertex>();
