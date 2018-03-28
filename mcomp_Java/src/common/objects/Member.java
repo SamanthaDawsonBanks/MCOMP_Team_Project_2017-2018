@@ -27,6 +27,7 @@ import java.security.Key;
  * 
  * @author Stephen Pope 15836791
  * @author Ryan Shoobert (15812407)
+ * @author David Avery 15823926
  * 
  *         A test Member Class.
  *

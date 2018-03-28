@@ -18,6 +18,7 @@ import common.interfaces.Updateable;
 /**
  * 
  * @author Ryan Shoobert (15812407)
+ * @author David Avery 15823926
  * 
  *         DOCME Still needs work but is a rough draft 
  *         A leader must be able to pathfind on a map collated by its members 
