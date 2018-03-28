@@ -18,11 +18,14 @@ import common.objects.Leader;
  */
 public class LeaderMain {
   public static void main(String[] args) {
+    System.out.println("Leader Started");
     try {
       new Leader(1099, "HerdLeader");
     } catch (RemoteException e) {
       System.err.println("The leader process failed to start");
       e.printStackTrace();
+    }
+    while (true) { // loop to keep process running for testing
     }
   }
 }

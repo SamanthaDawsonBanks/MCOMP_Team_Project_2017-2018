@@ -127,12 +127,7 @@ public class Herd implements Joinable, Organisable {
           // ability.
           if (herdDestSetter != null) {
             if (herdDestSetter.getAbilities().size() > 1) {
-              herdDestSetter.getAbilities().remove(common.datatypes.Ability.DEST_SETTER);// why does
-                                                                                         // this
-                                                                                         // need to
-                                                                                         // have FQN
-                                                                                         // to be
-                                                                                         // recognised?
+              herdDestSetter.getAbilities().remove(Ability.DEST_SETTER);
             } else {
               // No longer a leave method
               // herdDestSetter.leaveHerd(this);

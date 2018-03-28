@@ -78,30 +78,30 @@ public class Leader extends UnicastRemoteObject implements Instructable, Connect
    * 
    * @return The array of IP addresses
    */
-  @Override
-  public InetAddress[] getAddress() {
-    try {
-      addresses = InetAddress.getAllByName(InetAddress.getLocalHost().getHostName());
-    } catch (UnknownHostException e) {
-      e.printStackTrace();
-      addresses[0] = loopback;
-    }
-    return addresses;
-  }
+//  @Override
+//  public InetAddress[] getAddress() {
+//    try {
+//      addresses = InetAddress.getAllByName(InetAddress.getLocalHost().getHostName());
+//    } catch (UnknownHostException e) {
+//      e.printStackTrace();
+//      addresses[0] = loopback;
+//    }
+//    return addresses;
+//  }
 
   /**
    * DOCME
    * 
    * @return
    */
-  @Override
-  public InetAddress publishAddress() {
-    // TODO For each member in Herd, RMI the address to each Member
-    for (Member m : herdMembers) {
-      // send the leaders IP
-    }
-    return null;
-  }
+//  @Override
+//  public InetAddress publishAddress() {
+//    // TODO For each member in Herd, RMI the address to each Member
+//    for (Member m : herdMembers) {
+//      // send the leaders IP
+//    }
+//    return null;
+//  }
 
   /**
    * When called this method will return a list of all registered members currently known to the

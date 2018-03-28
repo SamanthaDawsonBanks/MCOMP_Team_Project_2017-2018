@@ -103,14 +103,14 @@ public class Member implements LSenseable, Driveable, Drawable, Directable, Boss
    * @param The Public key of a leader.
    */
 
-  @Override
-  public boolean importLeaderKey(Key pk) {
-    if (isValidKey(pk)) {
-      leaderPublicKey = pk;
-      return true;
-    } else
-      return false;
-  }
+//  @Override
+//  public boolean importLeaderKey(Key pk) {
+//    if (isValidKey(pk)) {
+//      leaderPublicKey = pk;
+//      return true;
+//    } else
+//      return false;
+//  }
 
 
   /**
@@ -135,10 +135,10 @@ public class Member implements LSenseable, Driveable, Drawable, Directable, Boss
     return false;
   }
 
-  public void start() {
-    // TODO Auto-generated method stub
-
-  }
+//  public void start() {
+//    // TODO Auto-generated method stub
+//
+//  }
 
   //will be part of the aftermath of a successful election
   public void startLeader() {
@@ -146,7 +146,8 @@ public class Member implements LSenseable, Driveable, Drawable, Directable, Boss
       // start/create RMI registry
       Registry r = LocateRegistry.createRegistry(1111);
       // start leader process
-      ProcessBuilder builder = new ProcessBuilder("cd ../", "cd leader", "javac LeaderMain.java"); //commands to launch 
+      System.out.println("Starting a Leader");
+      ProcessBuilder builder = new ProcessBuilder("java", "leader.LeaderMain"); //commands to launch 
       builder.redirectErrorStream(true);
       Process p = builder.start();
     } catch (RemoteException e) {

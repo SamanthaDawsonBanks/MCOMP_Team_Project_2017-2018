@@ -63,10 +63,14 @@ public class MemberMain {
       }
 
       Member me = new Member(abilities);
-      me.start();
+      //me.start();
       System.out.println("Member started");
       Herd h = new Herd (me); //Here because Herd needs a constructed Member to add.
     }
+    while (true) {// loop to keep process running for testing
+      
+    }
+
   }
 
 }
