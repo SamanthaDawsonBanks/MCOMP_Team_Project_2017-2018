@@ -1,7 +1,7 @@
 package interfaces_march_2018;
 
-import common.interfaces.Waypoint;
-import common.interfaces.map.griddedMap.Vertex;
+import common.datatypes.Waypoint;
+import common.datatypes.map.griddedMap.Vertex;
 
 /**
  * @author Stephen Pope 15836791

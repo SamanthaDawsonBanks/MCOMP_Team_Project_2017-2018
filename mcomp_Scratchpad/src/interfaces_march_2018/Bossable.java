@@ -17,7 +17,7 @@ import common.datatypes.path.*;
  */
 public interface Bossable {
 
-	public Map processMapLump(Map);
-	public Path processPathLump(Path);	
+	public Map processMapLump(Map m);
+	public Path processPathLump(Path p);	
 
 }

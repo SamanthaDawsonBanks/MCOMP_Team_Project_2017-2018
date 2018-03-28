@@ -46,7 +46,7 @@ public class AStar {
       
       for(Vertex v: m.getAmalgamatedMap().getVertex(current).edges) {
         Waypoint tempCurrent = new Waypoint(v.getX(), v.getY());        
-        if(tempCurrent.x == 0 && tempCurrent.y == 0) {
+        if(tempCurrent.getX() == 0 && tempCurrent.getY() == 0) {
           System.out.println("(" + v.getX() + "," + v.getY() + ") " + ": Blocked");
           blockedList.add(tempCurrent);
         }
@@ -120,7 +120,7 @@ public class AStar {
     for(Vertex v: m.getAmalgamatedMap().getVertex(current).edges) {
       Waypoint tempCurrent = new Waypoint(v.getX(), v.getY());
 
-      if(tempCurrent.x == 0 && tempCurrent.y == 0) {
+      if(tempCurrent.getX() == 0 && tempCurrent.getY() == 0) {
         System.out.println("(" + v.getX() + "," + v.getY() + ") " + ": Blocked");
         blockedList.add(tempCurrent);
       }

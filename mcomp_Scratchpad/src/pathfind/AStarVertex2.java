@@ -55,15 +55,15 @@ public class AStarVertex2 {
   
   
   public int compare(Waypoint a, Waypoint b) {
-    if(a.getF() < b.getF()) {
-      return -1;
-    }
-    else if(a.getF() > b.getF()) {
-      return 1;
-    }
-    else {
+//    if(a.getF() < b.getF()) {
+//      return -1;
+//    }
+//    else if(a.getF() > b.getF()) {
+//      return 1;
+//    }
+//    else {
       return 0;
-    }
+//    }
   }
   
 
