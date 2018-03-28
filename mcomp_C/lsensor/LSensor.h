@@ -25,7 +25,7 @@ class LSensor {
 
   AngleDistance decodeReturn();  //90 packets to 360 AD reads //also RPM data and error data //NOTE this will return a pointer to the top of a 360 element array
 
-  Waypoint convertRetrun();  //method or just part of decode? AD>rWP //NOTE this will return a pointer to the top of a 360 element array
+  Waypoint convertReturn();  //method or just part of decode? AD>rWP //NOTE this will return a pointer to the top of a 360 element array
 
  public:
   LSensor();
