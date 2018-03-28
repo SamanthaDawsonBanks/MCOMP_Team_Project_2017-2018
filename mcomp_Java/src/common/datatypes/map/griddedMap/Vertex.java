@@ -42,11 +42,12 @@ public class Vertex {
       return fx;
   }
 
-  public void calcF(Waypoint current, Waypoint dest)
+  public double calcF(Waypoint current, Waypoint dest)
   {
       Heuristic h = new Heuristic();
       this.hx = h.manhattanHeuristic(current, dest);
       this.fx = hx + gx;
+      return fx;    
   }
   
 
