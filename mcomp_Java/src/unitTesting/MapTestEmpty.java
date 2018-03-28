@@ -10,9 +10,7 @@ import org.junit.jupiter.api.Test;
 import common.datatypes.Waypoint;
 import common.datatypes.map.Map;
 import common.datatypes.map.MapLayer;
-import common.datatypes.path.Path;
 import pathfinding.AStar;
-import pathfinding.AStarMain2;
 import pathfinding.SearchMap;
 
 /**
@@ -46,7 +44,7 @@ class MapTestEmpty
     Waypoint start = new Waypoint(2,2);
     Waypoint dest = new Waypoint(5,5);
 
-    AStarMain2 a = new AStarMain2();
+    AStar a = new AStar();
     a.pathfind(start, dest, m);
     
     SearchMap b = new SearchMap();
