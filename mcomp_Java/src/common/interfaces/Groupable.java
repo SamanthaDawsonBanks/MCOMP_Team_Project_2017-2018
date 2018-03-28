@@ -1,5 +1,7 @@
 package common.interfaces;
 
+import java.util.ArrayList;
+import common.datatypes.Ability;
 import common.objects.Herd;
 
 /**
@@ -13,4 +15,6 @@ import common.objects.Herd;
  */
 public interface Groupable {
   public boolean joinHerd(Herd h);
+
+  ArrayList<Ability> getAbilities();
 }

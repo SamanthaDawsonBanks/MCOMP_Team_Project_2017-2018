@@ -287,4 +287,10 @@ public class Herd implements Joinable, Organisable {
     // TODO Auto-generated method stub
     return false;
   }
+
+  @Override
+  public boolean removeMember(Member m) {
+    // TODO Auto-generated method stub
+    return false;
+  }
 }
