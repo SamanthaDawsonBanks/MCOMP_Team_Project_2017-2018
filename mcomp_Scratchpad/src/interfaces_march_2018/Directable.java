@@ -1,6 +1,6 @@
 package interfaces_march_2018;
 
-import common.datatpyes.Waypoint;
+import common.datatypes.Waypoint;
 
 /**
  * @author Stephen Pope 15836791
