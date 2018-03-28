@@ -2,23 +2,28 @@
  * Waypoint.h
  *
  *  Created on: 26 Nov 2017
- *      Author: David Avery
+ *      Author: David Avery 15823926
  */
+
 
 #ifndef WAYPOINT_H_
 #define WAYPOINT_H_
 
+#include "AngleDistance.h"
+
 class Waypoint {
  private:
-  int x;
-  int y;
+  double x;
+  double y;
 
  public:
   Waypoint();
-  Waypoint(int xIn, int yIn);
+  Waypoint(double xIn, double yIn);
+  Waypoint(AngleDistance a);
   virtual ~Waypoint();
-  int getX();
-  int getY();
+  double getX();
+  double getY();
+  AngleDistance toAngleDistance();
 
 };
 

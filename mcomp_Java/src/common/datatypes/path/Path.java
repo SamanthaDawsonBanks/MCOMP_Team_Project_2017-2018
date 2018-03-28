@@ -4,6 +4,7 @@
 package common.datatypes.path;
 
 import common.datatypes.Waypoint;
+import common.datatypes.LinkedItem.PathItem;
 
 /**
  * @author David Avery
@@ -40,7 +41,7 @@ public class Path {
     length++;
   }
 
-  Waypoint poll() {
+  public Waypoint poll() {
     // TODO test
     Waypoint res = destination.getData(); // default to destination
     if (length > 0) {
@@ -57,6 +58,7 @@ public class Path {
   public int getLength() {
     return length;
   }
+
 
   boolean isDone() {
     return (length == 0);

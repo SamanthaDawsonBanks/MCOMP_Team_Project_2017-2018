@@ -3,7 +3,7 @@
  *
  *  Created on: 26 Nov 2017
  *      Author: David Avery 15823926
- *
+ *      Author: Stephen Pope 15836791
  */
 
 //------------------------------------Includes-------------------------------------
@@ -23,6 +23,7 @@
 // Remember you ONLY have 2k system RAM
 // eg. boolean personWaiting = true;
 
+
 //----------------------------Global Volatile Variables----------------------------
 // Volatile variables used by interrupts
 // eg. volatile boolean personWaiting = true; // volatile interrupt
@@ -36,8 +37,13 @@
 void setup() {
   // Add your initialisation code here
   // TODO method stub
-  testWaypoint();
-  testPath();
+//  testWaypoint();
+//  testPath();
+
+  //setup serial to pi 115200??
+  //setup serial to LiDAR BAUD? //TODO refactor into sense()
+
+
 }  //End Setup
 
 //-----------------------------Functions / Subroutines-----------------------------
@@ -52,4 +58,18 @@ void setup() {
 void loop() {
   // Add your repeated code here
   // TODO method stub
+
+
+  //if serial avalible
+  //read serial
+  //base64 decode
+  //eval read to command/data
+  //switch (sense)
+  //switch (drive-data)
+
+  //if data waiting
+  //encode 64
+  //serial write
+
+
 }  // End Loop

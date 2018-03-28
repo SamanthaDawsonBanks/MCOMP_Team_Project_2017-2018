@@ -3,10 +3,11 @@
  */
 package common.datatypes;
 
+import common.datatypes.AngleDistance;
+
 /**
- * @author David Avery
- * 
- * 
+ * @author David Avery 15823926
+ * @author Stephen Pope 15836791
  *
  */
 
@@ -17,24 +18,35 @@ public class Waypoint {
   public Waypoint parent;
 
   /**
- * 
- * @param newX
- * @param newY
- */
-    public Waypoint(double x, double y) {
-      this(x, y, true);
+   * 
+   * @param newX
+   * @param newY
+   */
+  public Waypoint(double x, double y) {
+    this(x, y, true);
   }
 
-    /**
-     * 
-     * @param newX
-     * @param newY
-     */
-        public Waypoint(double x, double y, boolean b) {
-        this.x = x;
-        this.y = y;
-        this.toBeBlocked = b;
-      }
+  /**
+   * 
+   * @param newX
+   * @param newY
+   */
+  public Waypoint(double x, double y, boolean b) {
+    this.x = x;
+    this.y = y;
+    this.toBeBlocked = b;
+  }
+
+  /**
+   * 
+   * @param AngleDistance a
+   */
+  public Waypoint(AngleDistance a) {
+    // TODO Auto-generated constructor stub
+    a.getDistance();
+    y = a.getDistance() * Math.sin(a.getTheta());
+    x = a.getDistance() * Math.cos(a.getTheta());
+  }
 
   /**
    * Data Type definition
@@ -50,6 +62,14 @@ public class Waypoint {
    */
   public double getY() {
     return y;
+  }
+
+  /**
+   * 
+   * @return
+   */
+  AngleDistance toAngleDistance() {
+    return new AngleDistance(Math.atan2(y,x) * (180 / Math.PI) , (long) Math.hypot(x,y)); //TODO CHECK ATAN2 RETURN VALUE
   }
 
   /**
