@@ -15,6 +15,7 @@ public class Waypoint {
   private double x;
   private double y;
   private boolean toBeBlocked;
+  public Waypoint parent;
 
   /**
    * 
@@ -80,7 +81,7 @@ public class Waypoint {
 
   public String toString() {
     // TODO do we want this?
-    return String.format("(%d,%d)", x, y);
+    return String.format("(%.1f,%.1f)", x, y);
   }
 
 }

@@ -1,4 +1,4 @@
-package pathfinding;
+package pathfind;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,16 +7,16 @@ import common.datatypes.map.Map;
 import common.datatypes.map.griddedMap.Vertex;
 import common.datatypes.path.Path;
 
-public class AStar {
+public class searchMap {
 
-  private Heuristic h = new Heuristic();
-  private ArrayList<Vertex> path = new ArrayList<Vertex>();
-  private ArrayList<Vertex> openList = new ArrayList<Vertex>();
-  private ArrayList<Vertex> closedList = new ArrayList<Vertex>();
-  private Path p = new Path(null);
+  ArrayList<Vertex> path = new ArrayList<Vertex>();
+  ArrayList<Vertex> openList = new ArrayList<Vertex>();
+  ArrayList<Vertex> closedList = new ArrayList<Vertex>();
 
-  public void pathfind(Waypoint start, Waypoint dest, Map m) {
+  Heuristic h = new Heuristic();
+  int pathCounter = 0;
 
+  public void search(Waypoint start, Waypoint dest, Map m) {
 
     m.getAmalgamatedMap().getVertex(start).gx = 0.0;
     m.getAmalgamatedMap().getVertex(start).hx = h.euclideanHeuristic(start, dest);
@@ -56,13 +56,11 @@ public class AStar {
 
 
       if(current.getX() == dest.getX() && current.getY() == dest.getY()) {
-        System.out.print("goal reached");
-        returnPath(start, dest, m);
-        PathOptimisation p = new PathOptimisation();
-        p.numOfTurns(path);
-        p.shortenPath(path);        
-        break;
+        returnPath(start, dest, m); 
+        System.out.println();
+        anotherPath(start, dest, m);
       }
+
 
 
       openList.remove(m.getAmalgamatedMap().getVertex(current));
@@ -109,12 +107,20 @@ public class AStar {
 
   }
 
+  private void anotherPath(Waypoint start, Waypoint dest, Map m) {
+    for(Vertex v: m.getAmalgamatedMap().getVertex(start).edges) {
+      if(!closedList.contains(v) && !v.equals(m.getAmalgamatedMap().blocked)) {
+        System.out.println();
+        System.out.println(v.getX() + "," + v.getY());
+      }
+    }
+  }
 
   public Path returnPath(Waypoint start, Waypoint dest, Map m) {
     Path p = new Path(dest);
     Waypoint current = dest;
     Vertex v = m.getAmalgamatedMap().getVertex(current);      
-    path.add(m.getAmalgamatedMap().getVertex(dest));
+
     while(v.parente!=m.getAmalgamatedMap().getVertex(start)) {
       p.addNode(new Waypoint(v.getX(), v.getY()));
       v = v.parente;
@@ -131,64 +137,4 @@ public class AStar {
     return p;
   }
 
-  
-
-  /** 
-  public int numOfTurns(ArrayList<Vertex> path) {
-    int counter = 2;
-    int turnCounter = 0;
-    for(Vertex v: path) {
-      if(counter < path.size()) {
-        Vertex future = path.get(counter);
-        if(future.getX() != v.getX() && future.getY() != v.getY()) {
-          turnCounter++;
-        }
-        counter++;
-      }
-    }
-    System.out.printf("\n" + "turns in route: %d" ,turnCounter);
-    return turnCounter;
-  }
-
-
-  public ArrayList<Vertex> shortenPath(ArrayList<Vertex> path){
-    System.out.println();
-
-    for(int i = 0; i < path.size()-1; i++) {
-      Vertex current = path.get(i);
-      Vertex next  = path.get(i+1);
-      if(i!=0) {
-        Vertex prev = path.get(i-1);
-        if(prev.getX() != next.getX() && prev.getY() != next.getY()) {
-          ArrayList<Vertex> newPath = new ArrayList<Vertex>();
-          newPath.add(current);
-          for(Vertex w: newPath) {
-            System.out.printf("(%d,%d) ", w.getX(), w.getY());
-          } 
-        }
-      }
-    }
-    return path;
-
-  }
-
-  public Path shortenPath2(Path p){
-    for(int i = 0; i < p.getLength(); i++) {
-      Vertex current = path.get(i);
-      Vertex next  = path.get(i+1);
-      if(i!=0) {
-        Vertex prev = path.get(i-1);
-        if(prev.getX() != next.getX() && prev.getY() != next.getY()) {
-          p.addNode(new Waypoint(current.getX(), current.getY()));
-        }
-      }
-    }
-    System.out.print(p.getLength());
-    return p;
-
-  }
-  **/
-  
-
 }
-

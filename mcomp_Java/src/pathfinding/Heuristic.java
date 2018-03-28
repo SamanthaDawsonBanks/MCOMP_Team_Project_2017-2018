@@ -10,8 +10,8 @@ public class Heuristic {
     //If we set D and D1 = 1 we are using the Chebyshev distance/metric
     //If we set D = 1 and D2 = sqrt(2) we are using the octile distance/metric
     //----TO DO: REFACTOR D/D2----
-    double D = 1.5;
-    double D2 = 1;
+    double D = 1;
+    double D2 = 1.5;
     
     
     //Manhattan Distance Heuristic
@@ -19,8 +19,8 @@ public class Heuristic {
     //Find non negative difference in x values and y values between nodes;
     //Calculate hx using Manhattan distance heuristic.
     public Double manhattanHeuristic(Waypoint a, Waypoint b){
-        double xDiff = Math.abs(a.x - b.x);
-        double yDiff = Math.abs(a.y - b.y);
+        double xDiff = Math.abs(a.getX() - b.getX());
+        double yDiff = Math.abs(a.getY() - b.getY());
         
         double hx = D * (xDiff + yDiff);
         return hx;
@@ -31,8 +31,8 @@ public class Heuristic {
     //Find non negative difference in x values and y values between nodes;
     //Calculate hx using Diagonal distance heuristic.
     public Double DiagonalHeuristic(Waypoint a, Waypoint b){
-        double xDiff = Math.abs(a.x - b.x);
-        double yDiff = Math.abs(a.y - b.y);
+        double xDiff = Math.abs(a.getX() - b.getX());
+        double yDiff = Math.abs(a.getY() - b.getY());
         
         double hx = ((xDiff + yDiff) + (D2 - 2 * D) * Math.min(xDiff, yDiff));
         return hx;
@@ -43,8 +43,8 @@ public class Heuristic {
     //Find non negative difference in x values and y values between nodes;
     //Calculate hx using Euclidean distance heuristic.
     public Double euclideanHeuristic(Waypoint a, Waypoint b){
-        double xDiff = Math.abs(a.x - b.x);
-        double yDiff = Math.abs(a.y - b.y);
+        double xDiff = Math.abs(a.getX() - b.getX());
+        double yDiff = Math.abs(a.getY() - b.getY());
         
         double hx = D * Math.sqrt((xDiff * xDiff) + (yDiff * yDiff));
         return hx;
@@ -52,12 +52,12 @@ public class Heuristic {
     
         
     public Double distanceX(Waypoint a, Waypoint b){
-        double xDiff = Math.abs(a.x - b.x);
+        double xDiff = Math.abs(a.getX() - b.getX());
         return xDiff;
     }
     
     public Double distanceY(Waypoint a, Waypoint b){
-        double yDiff = Math.abs(a.y - b.y);
+        double yDiff = Math.abs(a.getY() - b.getY());
         return yDiff;
     }
 

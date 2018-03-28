@@ -59,4 +59,9 @@ public class Path {
     return length;
   }
 
+
+  boolean isDone() {
+    return (length == 0);
+  }
+  
 }
