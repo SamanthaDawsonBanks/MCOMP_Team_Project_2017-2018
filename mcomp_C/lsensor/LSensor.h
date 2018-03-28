@@ -6,6 +6,8 @@
  */
 
 #include "../common/datatypes/AngleDistance.h"
+#include "../common/datatypes/Waypoint.h"
+
 
 #ifndef LSENSOR_LSENSOR_H_
 #define LSENSOR_LSENSOR_H_
@@ -19,13 +21,11 @@ class LSensor {
   //shared buffer or data being passed?
   //incoming buffer? object or in method? UART?
 
-  void sync();  //blocking or ready?
+  void syncAndStoreLiDAR();  //blocking or ready? //NOTE this will return a pointer to the top of a 90 element array
 
-  void storeLiDAR();  //method or buff?
+  AngleDistance decodeReturn();  //90 packets to 360 AD reads //also RPM data and error data //NOTE this will return a pointer to the top of a 360 element array
 
-  void decodeReturn();  //90 packets to 360 AD reads //also RPM data and error data
-
-  void convertRetrun();  //method or just part of decode? AD>rWP
+  Waypoint convertRetrun();  //method or just part of decode? AD>rWP //NOTE this will return a pointer to the top of a 360 element array
 
  public:
   LSensor();
@@ -35,7 +35,7 @@ class LSensor {
 
   void processCommand();  //do we need?
 
-  void takeRead();  //overall?
+  Waypoint takeRead();  //overall? //NOTE this will return a pointer to the top of a 360 element array
 
 };
 
