@@ -169,14 +169,6 @@ public class Member implements LSenseable, Driveable, Drawable, Directable, Boss
 
 
   @Override
-  public Leader becomeLeader() {
-    // TODO Auto-generated method stub
-    //
-    return null;
-  }
-
-
-  @Override
   public Map processMapLump(Map m) {
     // TODO Auto-generated method stub
     return null;
@@ -233,6 +225,20 @@ public class Member implements LSenseable, Driveable, Drawable, Directable, Boss
     // TODO Auto-generated method stub
     // 
     return false;
+  }
+
+
+  @Override
+  public boolean updateLocalHerdInfo(Herd h) {
+    // TODO Auto-generated method stub
+    return false;
+  }
+
+
+  @Override
+  public Leader becomeLeader(Herd h) {
+    // TODO Auto-generated method stub
+    return null;
   }
 }
 
