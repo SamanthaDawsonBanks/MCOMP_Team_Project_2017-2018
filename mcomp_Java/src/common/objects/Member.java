@@ -65,9 +65,11 @@ public class Member implements LSenseable, Driveable, Drawable, Directable, Boss
    */
 
   public Member(Ability[] can) {
+    LOGGER.log(Level.INFO, "Member Starting");
     abilities = new ArrayList<Ability>();
+    LOGGER.log(Level.INFO, "Calling Herd Constructor");
     herd = new Herd(this);
-    LOGGER.log( Level.INFO, "Herd Constructed");
+    LOGGER.log(Level.INFO, "Herd Constructed");
     for (Ability a : can) {
       switch (a) {
         case PROCESSOR:
@@ -108,14 +110,14 @@ public class Member implements LSenseable, Driveable, Drawable, Directable, Boss
    * @param The Public key of a leader.
    */
 
-//  @Override
-//  public boolean importLeaderKey(Key pk) {
-//    if (isValidKey(pk)) {
-//      leaderPublicKey = pk;
-//      return true;
-//    } else
-//      return false;
-//  }
+  // @Override
+  // public boolean importLeaderKey(Key pk) {
+  // if (isValidKey(pk)) {
+  // leaderPublicKey = pk;
+  // return true;
+  // } else
+  // return false;
+  // }
 
 
   /**
@@ -140,19 +142,19 @@ public class Member implements LSenseable, Driveable, Drawable, Directable, Boss
     return false;
   }
 
-//  public void start() {
-//    // TODO Auto-generated method stub
-//
-//  }
+  // public void start() {
+  // // TODO Auto-generated method stub
+  //
+  // }
 
-  //will be part of the aftermath of a successful election
+  // will be part of the aftermath of a successful election
   public void startLeader() {
     try {
       // start/create RMI registry
-      Registry r = LocateRegistry.createRegistry(1111);
+      // Registry r = LocateRegistry.createRegistry(1111);
       // start leader process
-      System.out.println("Starting a Leader");
-      ProcessBuilder builder = new ProcessBuilder("java", "leader.LeaderMain"); //commands to launch 
+      LOGGER.log(Level.INFO, "EXECing LeaderMain");
+      ProcessBuilder builder = new ProcessBuilder("java", "-cp", ".", "leader.LeaderMain");
       builder.redirectErrorStream(true);
       Process p = builder.start();
     } catch (RemoteException e) {
@@ -160,6 +162,9 @@ public class Member implements LSenseable, Driveable, Drawable, Directable, Boss
       e.printStackTrace();
     } catch (IOException e) {
       // TODO error for output stuff
+      e.printStackTrace();
+    } catch (Exception e) {
+      // TODO Auto-generated catch block
       e.printStackTrace();
     }
 
@@ -190,7 +195,8 @@ public class Member implements LSenseable, Driveable, Drawable, Directable, Boss
   @Override
   public boolean setDestination(Waypoint w) {
     // TODO Auto-generated method stub
-    // This method will have been called as part of an onclick even from the gui or from the command line
+    // This method will have been called as part of an onclick even from the gui or from the command
+    // line
     // Inform leader that the new destination is 'w'
     // return success/failure
     return false;
@@ -200,13 +206,13 @@ public class Member implements LSenseable, Driveable, Drawable, Directable, Boss
   @Override
   public Waypoint drive(Waypoint w) {
     // TODO Auto-generated method stub
-    //Assume there is already a serial connection
-    //serial.send() drive command 
-      //pipe.send(encode("drive", w))
-    //wait for response
-      //while(!pipe.available())
-    //return whatever given
-      //return decode(pipe.read())
+    // Assume there is already a serial connection
+    // serial.send() drive command
+    // pipe.send(encode("drive", w))
+    // wait for response
+    // while(!pipe.available())
+    // return whatever given
+    // return decode(pipe.read())
     return null;
   }
 
@@ -214,13 +220,13 @@ public class Member implements LSenseable, Driveable, Drawable, Directable, Boss
   @Override
   public MapLayer lSense() {
     // TODO Auto-generated method stub
-    //Assume there is already a serial connection
-    //serial.send() l sense command 
-      //pipe.send(encode("lsense", null))
-    //wait for response
-      //while(!pipe.available())
-    //return whatever given
-      //return decode(pipe.read())
+    // Assume there is already a serial connection
+    // serial.send() l sense command
+    // pipe.send(encode("lsense", null))
+    // wait for response
+    // while(!pipe.available())
+    // return whatever given
+    // return decode(pipe.read())
     return null;
   }
 
@@ -228,7 +234,7 @@ public class Member implements LSenseable, Driveable, Drawable, Directable, Boss
   @Override
   public boolean joinHerd(Herd newHerd) {
     // TODO Auto-generated method stub
-    // 
+    //
     return false;
   }
 
@@ -243,12 +249,13 @@ public class Member implements LSenseable, Driveable, Drawable, Directable, Boss
   @Override
   public Leader becomeLeader(Herd h) {
     // TODO Auto-generated method stub
-    //start the leader
-    //wait?
-    //connect to rmi
-    //wait
-    //send the RMI leader the herd info
-    //return the leader on the RMI link
+    startLeader();
+    // start the leader
+    // wait?
+    // connect to rmi
+    // wait
+    // send the RMI leader the herd info
+    // return the leader on the RMI link
     return null;
   }
 }

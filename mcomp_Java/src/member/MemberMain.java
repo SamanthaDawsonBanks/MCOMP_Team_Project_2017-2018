@@ -3,7 +3,6 @@
  */
 package member;
 
-import common.objects.Herd;
 import common.objects.Member;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -69,11 +68,13 @@ public class MemberMain {
         abilities[i] = skills.get(i);
       }
 
+      LOGGER.log(Level.INFO, "Calling Member Constructor");
       me = new Member(abilities);
-      LOGGER.log( Level.INFO, "Member Constructed");
+      LOGGER.log(Level.INFO, "Member Constructed");
 
-    }
-    while (true) {// loop to keep process running for testing
+      while (true) {// loop to keep process running for testing
+      } // only loop in there were ablitites
+
     }
 
   }

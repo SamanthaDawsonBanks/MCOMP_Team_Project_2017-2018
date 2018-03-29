@@ -8,6 +8,7 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import common.datatypes.Waypoint;
 import common.datatypes.path.Path;
@@ -35,11 +36,11 @@ public class Leader extends UnicastRemoteObject implements Instructable, Connect
   private String serverName;
   private Registry r;
 
-  private ArrayList<Member> herdMembers; //FIXME when a leader is first established, it should collect herd information from the member that spawned it
-
   InetAddress[] addresses;
-  InetAddress loopback = InetAddress.getLoopbackAddress();
-
+  InetAddress loopback;
+  
+  private ArrayList<Member> herdMembers; //FIXME when a leader is first established, it should collect herd information from the member that spawned it
+  
   /**
    * Constructor for the leader object. This will take a port number and a name and store these in
    * local variables.
@@ -55,27 +56,50 @@ public class Leader extends UnicastRemoteObject implements Instructable, Connect
     this.portNumber = portNumber;
     this.serverName = serverName;
 
-    // Try to shut down a server and do nothing if it fails as there isn't one running
-    // May be factored into separate shutdownServer() method for neatness/outside access
-    try {
-      r.unbind(this.serverName);
-      unexportObject(r, true);
-    } catch (Exception e) {
-    }
 
+    // Switch Wifi to infrastructure Mode - will probably set to infrastructure by default
+
+//    InetAddress[] addresses;
+//    InetAddress loopback = InetAddress.getLoopbackAddress();
+    
+    // Try to shut down a server and do nothing if it fails as there isn't one running
+    shutdownRMIRegistery();
+    startRMIRegistery();
+    
+  }
+
+  private boolean startRMIRegistery() {
+    //should always be proceeded by a shutdown reg call //TODO add as inline call?
+    LOGGER.log( Level.INFO, "Starting RMI Registery Server");
     try {
       r = LocateRegistry.getRegistry(this.portNumber);
       r.rebind(this.serverName, this);
-
-      // Switch Wifi to infrastructure Mode - will probably set to infrastructure by default
-
-      System.out.println(">>The leader process started succesfully<<");
+      LOGGER.log( Level.INFO, "RMI Registery Server Started");
+      return true;
     } catch (Exception e) {
-      System.err.println(">>Leader process failed to start:<<");
+      LOGGER.log( Level.SEVERE, "RMI Registery Server Failed to Start");
       e.printStackTrace();
+      return false;
+    }
+
+  }
+  
+  private boolean shutdownRMIRegistery() {
+    LOGGER.log( Level.INFO, "Closing RMI Registery Server");
+    try {
+      r.unbind(this.serverName);
+      unexportObject(r, true);
+      LOGGER.log( Level.INFO, "RMI Registery Server Closed");
+      return true;
+    } catch (Exception e) {
+      LOGGER.log( Level.INFO, "No RMI Registery Server Found");
+      return false;
     }
   }
-
+  
+  
+  
+  
   /**
    * Polls the host of the Leader and collects the IP address of all reachable interfaces. If an
    * address cannot be reached, return the loopback address.

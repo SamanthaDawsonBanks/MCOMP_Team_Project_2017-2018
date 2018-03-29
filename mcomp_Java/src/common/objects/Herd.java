@@ -1,6 +1,7 @@
 package common.objects;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import common.datatypes.Ability;
 import common.interfaces.Joinable;
@@ -24,7 +25,7 @@ import common.interfaces.Organisable;
 
 public class Herd implements Joinable, Organisable {
   private static final Logger LOGGER = Logger.getLogger(Herd.class.getName());
-  
+
   private String herdID;
   private Member theLeader;
   private ArrayList<Member> herdMembers;
@@ -45,6 +46,8 @@ public class Herd implements Joinable, Organisable {
    * @return A new Herd object.
    */
   public Herd(Member a) {
+    LOGGER.log(Level.INFO, "Herd Starting");
+
     // Storage Initialisation
     herdID = "newHerd"; // TODO Needs to be a randomly generated name
     herdMembers = new ArrayList<Member>();
@@ -76,7 +79,7 @@ public class Herd implements Joinable, Organisable {
     }
 
     // startup election
-    theLeader = nominateLeader();
+    theLeader = electLeader();
 
     // on that robot, start start the leader process
     theLeader.becomeLeader(this);
@@ -88,17 +91,17 @@ public class Herd implements Joinable, Organisable {
    * 
    * @return The leader of the Herd.
    */
-  public Member nominateLeader() {
-    // Obviously the data type and nomination process needs refining!
-    // TODO Implement a more robust election system, i.e check list has members
-    theLeader = herdMembers.get(0);//TODO get oldist from all or subtype?
+  @Override
+  public Member electLeader() {
+    // TODO Auto-generated method stub
+    theLeader = herdMembers.get(0);// TODO get oldist from all or subtype?
     return theLeader;
   }
 
   /*
    * This is where requests to join the Herd are handled. In the full implementation, a Herd can
    * only be "merged" with another, so this method will either change signature or be deprecated.
-  
+   * 
    */
 
   /**
@@ -267,13 +270,6 @@ public class Herd implements Joinable, Organisable {
    */
   public Member getDestSetter() {
     return herdDestSetter;
-  }
-
-  @Override
-  public Member electLeader() {
-    // TODO Auto-generated method stub
-    theLeader = herdMembers.get(0);//TODO get oldist from all or subtype?
-    return theLeader;
   }
 
   @Override
