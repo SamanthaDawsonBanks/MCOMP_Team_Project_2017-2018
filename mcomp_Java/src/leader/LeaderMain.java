@@ -4,11 +4,15 @@
 package leader;
 
 import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import common.objects.Leader;
+import member.MemberMain;
 
 /**
  * 
  * @author Ryan Shoobert (15812407)
+ * @author David Avery 15823926
  * 
  * Main entry point for starting an instance of the leader process. 
  * To create this, a port number and a name for the instance must 
@@ -17,8 +21,10 @@ import common.objects.Leader;
  * 
  */
 public class LeaderMain {
+  private static final Logger LOGGER = Logger.getLogger(LeaderMain.class.getName());
+
   public static void main(String[] args) {
-    System.out.println("Leader Started");
+    LOGGER.log( Level.INFO, "LeaderMain starting");
     try {
       new Leader(1099, "HerdLeader");
     } catch (RemoteException e) {
