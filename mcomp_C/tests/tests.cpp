@@ -108,5 +108,16 @@ void testWaypoint() {
   Serial.println("End testWaypoint");
 }
 
-
+void testMove(){
+  Serial.begin(9600);
+  delay(1000);
+  Serial.println("Begin testMove");
+  Serial.println("Calling Drive...");
+  Waypoint target = Waypoint(10000000.1, 10000000.0);
+  Propulsion p = Propulsion();
+  Waypoint result = p.Drive(target);
+  Serial.print(result.getX());
+  Serial.print(" , ");
+  Serial.print(result.getY());
+}
 
