@@ -1,10 +1,15 @@
+package member.coms;
+
 import java.io.PrintWriter;
 import java.util.Scanner;
 import java.util.ArrayList;
+
 // encoder/decoder imports
 import java.util.Base64;
 // serial communication library import
+
 import com.fazecast.jSerialComm.*;
+import common.datatypes.Waypoint;
 
 /**
  * 
@@ -102,12 +107,20 @@ public class Pipe {
 
   /**
    * 
-   * @param input The data to be encoded into Base64
+   * @param methodName The data to be encoded into Base64
    * @return The encoded version of the input as a string
    */
-  private byte[] encode(String input) {
-    byte[] encodedOutput = Base64.getEncoder().encode(input.getBytes());
+  private byte[] encode(String methodName) {
+    byte[] encodedOutput = Base64.getEncoder().encode(methodName.getBytes());
     return encodedOutput;
+  }
+  
+  private byte[] encode(String methodName, Waypoint w) {
+    
+    //probably call normal encode for methodName
+    //will need to research sending objects - may just have to get x and y out of 'w' and encode
+    
+    throw new UnsupportedOperationException("Overloaded version of this method not implemented yet!");
   }
 
   /**
