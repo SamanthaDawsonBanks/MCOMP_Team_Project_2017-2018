@@ -17,4 +17,5 @@ public interface Groupable {
   public boolean joinHerd(Herd h);
 
   ArrayList<Ability> getAbilities();
+  boolean updateLocalHerdInfo(Herd h);
 }
