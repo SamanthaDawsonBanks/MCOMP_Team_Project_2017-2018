@@ -63,36 +63,36 @@ public class Leader extends UnicastRemoteObject implements Instructable, Connect
 //    InetAddress loopback = InetAddress.getLoopbackAddress();
     
     // Try to shut down a server and do nothing if it fails as there isn't one running
-    shutdownRMIRegistery();
-    startRMIRegistery();
+    unbindFromRMIServer();
+    bindToRMIServer();
     
   }
 
-  private boolean startRMIRegistery() {
+  private boolean bindToRMIServer() {
     //should always be proceeded by a shutdown reg call //TODO add as inline call?
-    LOGGER.log( Level.INFO, "Starting RMI Registery Server");
+    LOGGER.log( Level.INFO, "Binding to  RMI Registery Server");
     try {
       r = LocateRegistry.getRegistry(this.portNumber);
       r.rebind(this.serverName, this);
-      LOGGER.log( Level.INFO, "RMI Registery Server Started");
+      LOGGER.log( Level.INFO, "RMI Registery Server Bound");
       return true;
     } catch (Exception e) {
-      LOGGER.log( Level.SEVERE, "RMI Registery Server Failed to Start");
+      LOGGER.log( Level.SEVERE, "RMI Registery Server Failed to Bind");
       e.printStackTrace();
       return false;
     }
 
   }
   
-  private boolean shutdownRMIRegistery() {
-    LOGGER.log( Level.INFO, "Closing RMI Registery Server");
+  private boolean unbindFromRMIServer() {
+    LOGGER.log( Level.INFO, "UnBinding from RMI Registery Server");
     try {
       r.unbind(this.serverName);
       unexportObject(r, true);
-      LOGGER.log( Level.INFO, "RMI Registery Server Closed");
+      LOGGER.log( Level.INFO, "RMI Registery Server UnBound");
       return true;
     } catch (Exception e) {
-      LOGGER.log( Level.INFO, "No RMI Registery Server Found");
+      LOGGER.log( Level.INFO, "No RMI Registery Server was Bound");
       return false;
     }
   }
