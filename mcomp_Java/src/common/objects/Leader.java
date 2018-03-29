@@ -8,12 +8,14 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.logging.Logger;
 import common.datatypes.Waypoint;
 import common.datatypes.path.Path;
 import common.interfaces.Connectable;
 import common.interfaces.Contactable;
 import common.interfaces.Instructable;
 import common.interfaces.Updateable;
+import leader.LeaderMain;
 
 /**
  * 
@@ -27,6 +29,8 @@ import common.interfaces.Updateable;
  *
  */
 public class Leader extends UnicastRemoteObject implements Instructable, Connectable, Updateable, Contactable {
+  private static final Logger LOGGER = Logger.getLogger(LeaderMain.class.getName());
+  
   private int portNumber;
   private String serverName;
   private Registry r;

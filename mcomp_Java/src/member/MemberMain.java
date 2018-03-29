@@ -34,7 +34,6 @@ import common.datatypes.Ability;
 public class MemberMain {
   private static final Logger LOGGER = Logger.getLogger(MemberMain.class.getName());
   private static Member me;
-  private static Herd h;
 
   public static void main(String[] args) {
     ArrayList<Ability> skills = new ArrayList<Ability>();
@@ -72,8 +71,6 @@ public class MemberMain {
 
       me = new Member(abilities);
       LOGGER.log( Level.INFO, "Member Constructed");
-      h = new Herd(me); // Here because Herd needs a constructed Member to add.
-      LOGGER.log( Level.INFO, "Herd Constructed");
 
     }
     while (true) {// loop to keep process running for testing

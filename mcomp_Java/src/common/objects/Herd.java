@@ -1,6 +1,7 @@
 package common.objects;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 import common.datatypes.Ability;
 import common.interfaces.Joinable;
 import common.interfaces.Organisable;
@@ -9,6 +10,7 @@ import common.interfaces.Organisable;
  * 
  * @author Stephen Pope 15836791
  * @author Ryan Shoobert (15812407)
+ * @author David Avery 15823926
  *
  *         A test class for a Herd.
  *
@@ -21,6 +23,8 @@ import common.interfaces.Organisable;
  */
 
 public class Herd implements Joinable, Organisable {
+  private static final Logger LOGGER = Logger.getLogger(Herd.class.getName());
+  
   private String herdID;
   private Member theLeader;
   private ArrayList<Member> herdMembers;
@@ -75,7 +79,7 @@ public class Herd implements Joinable, Organisable {
     theLeader = nominateLeader();
 
     // on that robot, start start the leader process
-    theLeader.startLeader();
+    theLeader.becomeLeader(this);
   }
 
   /**
@@ -87,14 +91,14 @@ public class Herd implements Joinable, Organisable {
   public Member nominateLeader() {
     // Obviously the data type and nomination process needs refining!
     // TODO Implement a more robust election system, i.e check list has members
-    theLeader = herdMembers.get(0);
+    theLeader = herdMembers.get(0);//TODO get oldist from all or subtype?
     return theLeader;
   }
-
 
   /*
    * This is where requests to join the Herd are handled. In the full implementation, a Herd can
    * only be "merged" with another, so this method will either change signature or be deprecated.
+  
    */
 
   /**
@@ -268,7 +272,8 @@ public class Herd implements Joinable, Organisable {
   @Override
   public Member electLeader() {
     // TODO Auto-generated method stub
-    return null;
+    theLeader = herdMembers.get(0);//TODO get oldist from all or subtype?
+    return theLeader;
   }
 
   @Override

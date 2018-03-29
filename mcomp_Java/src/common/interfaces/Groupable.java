@@ -14,8 +14,8 @@ import common.objects.Herd;
  *
  */
 public interface Groupable {
-  public boolean joinHerd(Herd h);
+  public boolean joinHerd(Herd newHerd);
 
   ArrayList<Ability> getAbilities();
-  boolean updateLocalHerdInfo(Herd h);
+  Herd updateLocalHerdInfo(Herd leaderHerd);
 }

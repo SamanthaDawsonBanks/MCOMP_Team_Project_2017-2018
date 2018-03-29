@@ -7,6 +7,8 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import common.datatypes.Ability;
 import common.datatypes.Waypoint;
 import common.datatypes.map.Map;
@@ -21,6 +23,7 @@ import common.interfaces.LSenseable;
 import common.interfaces.Notifiable;
 import common.interfaces.Promotable;
 import common.interfaces.Transferable;
+import member.MemberMain;
 import java.security.Key;
 
 /**
@@ -39,8 +42,10 @@ import java.security.Key;
 
 public class Member implements LSenseable, Driveable, Drawable, Directable, Bossable, Transferable,
     Promotable, Notifiable, Groupable {
+  private static final Logger LOGGER = Logger.getLogger(Member.class.getName());
+
   private ArrayList<Ability> abilities;
-  private ArrayList<Member> herdMembers;
+  private Herd herd;
   private Key myPublicKey;
   private Key myPrivateKey;
   private Key leaderPublicKey;
@@ -61,8 +66,8 @@ public class Member implements LSenseable, Driveable, Drawable, Directable, Boss
 
   public Member(Ability[] can) {
     abilities = new ArrayList<Ability>();
-    herdMembers = new ArrayList<Member>();
-
+    herd = new Herd(this);
+    LOGGER.log( Level.INFO, "Herd Constructed");
     for (Ability a : can) {
       switch (a) {
         case PROCESSOR:
@@ -221,7 +226,7 @@ public class Member implements LSenseable, Driveable, Drawable, Directable, Boss
 
 
   @Override
-  public boolean joinHerd(Herd h) {
+  public boolean joinHerd(Herd newHerd) {
     // TODO Auto-generated method stub
     // 
     return false;
@@ -229,15 +234,21 @@ public class Member implements LSenseable, Driveable, Drawable, Directable, Boss
 
 
   @Override
-  public boolean updateLocalHerdInfo(Herd h) {
+  public Herd updateLocalHerdInfo(Herd leaderHerd) {
     // TODO Auto-generated method stub
-    return false;
+    return herd;
   }
 
 
   @Override
   public Leader becomeLeader(Herd h) {
     // TODO Auto-generated method stub
+    //start the leader
+    //wait?
+    //connect to rmi
+    //wait
+    //send the RMI leader the herd info
+    //return the leader on the RMI link
     return null;
   }
 }
