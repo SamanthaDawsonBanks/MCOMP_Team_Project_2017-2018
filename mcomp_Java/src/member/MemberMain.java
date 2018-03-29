@@ -71,10 +71,6 @@ public class MemberMain {
       LOGGER.log(Level.INFO, "Calling Member Constructor");
       me = new Member(abilities);
       LOGGER.log(Level.INFO, "Member Constructed");
-
-      while (true) {// loop to keep process running for testing
-      } // only loop in there were ablitites
-
     }
 
   }

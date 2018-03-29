@@ -29,14 +29,11 @@ public class LeaderMain {
       LOGGER.log(Level.INFO, "Calling Leader Constructor");
       l = new Leader(1099, "HerdLeader");
       LOGGER.log(Level.INFO, "Leader Constructed");
-
-      while (true) { // loop to keep process running for testing
-      } // only loop in start correctly
-
     } catch (RemoteException e) {
       LOGGER.log(Level.SEVERE, "Leader RMI Error");
-      System.err.println("The leader object priduced and error on start");
+      System.err.println("The leader object produced and error on start");
       e.printStackTrace();
     }
+    LOGGER.log(Level.INFO, "End of LeaderMain");
   }
 }

@@ -56,7 +56,6 @@ public class Leader extends UnicastRemoteObject implements Instructable, Connect
     this.portNumber = portNumber;
     this.serverName = serverName;
 
-
     // Switch Wifi to infrastructure Mode - will probably set to infrastructure by default
 
 //    InetAddress[] addresses;

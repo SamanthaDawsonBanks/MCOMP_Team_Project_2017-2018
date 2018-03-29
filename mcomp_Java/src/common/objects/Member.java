@@ -1,6 +1,8 @@
 package common.objects;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -154,9 +156,26 @@ public class Member implements LSenseable, Driveable, Drawable, Directable, Boss
       // Registry r = LocateRegistry.createRegistry(1111);
       // start leader process
       LOGGER.log(Level.INFO, "EXECing LeaderMain");
-      ProcessBuilder builder = new ProcessBuilder("java", "-cp", ".", "leader.LeaderMain");
+      ProcessBuilder builder = new ProcessBuilder("java", "-cp", "./bin/", "leader.LeaderMain");
       builder.redirectErrorStream(true);
       Process p = builder.start();
+
+      BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
+      String output = "";
+
+      String line;
+      output = output + "\n >>>>>> BEGIN process output <<<<<< \n\n";
+      while ((line = br.readLine()) != null) {
+        output = output + line + "\n";
+//        System.out.println(line);
+        if (line.equals("INFO: End of LeaderMain")) {//line is never null in this context
+          break;
+        }
+      }
+      output = output + "\n >>>>>> END process output <<<<<<" + "\n";
+      
+      LOGGER.log(Level.INFO, output);
+
     } catch (RemoteException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
@@ -249,6 +268,11 @@ public class Member implements LSenseable, Driveable, Drawable, Directable, Boss
   @Override
   public Leader becomeLeader(Herd h) {
     // TODO Auto-generated method stub
+    LOGGER.log(Level.INFO, "Becoming Leader");
+
+    // change WiFi mode (ready to become leader)
+
+    // exec the RMI Process -
     startLeader();
     // start the leader
     // wait?

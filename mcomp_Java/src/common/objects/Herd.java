@@ -94,6 +94,7 @@ public class Herd implements Joinable, Organisable {
   @Override
   public Member electLeader() {
     // TODO Auto-generated method stub
+    LOGGER.log(Level.INFO, "Choosing Leader");
     theLeader = herdMembers.get(0);// TODO get oldist from all or subtype?
     return theLeader;
   }
