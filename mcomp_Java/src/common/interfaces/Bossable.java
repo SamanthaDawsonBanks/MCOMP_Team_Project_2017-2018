@@ -1,7 +1,7 @@
 package common.interfaces;
 
-import common.datatypes.map.*; // TODO these wont work until we move into the MCOMP Java folder
-import common.datatypes.path.*;
+import common.datatypes.map.Map;
+import common.datatypes.path.Path;
 
 /**
  * @author Stephen Pope 15836791
