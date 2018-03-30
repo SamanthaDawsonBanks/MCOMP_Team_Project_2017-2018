@@ -152,28 +152,33 @@ public class Member implements LSenseable, Driveable, Drawable, Directable, Boss
   // will be part of the aftermath of a successful election
   public void startLeader() {
     try {
-      // start/create RMI registry
-      // Registry r = LocateRegistry.createRegistry(1111);
-      // start leader process
-      LOGGER.log(Level.INFO, "EXECing LeaderMain");
-      ProcessBuilder builder = new ProcessBuilder("java", "-cp", "./bin/", "leader.LeaderMain");
-      builder.redirectErrorStream(true);
-      Process p = builder.start();
+      // build and start/create RMI registry
+      LOGGER.log(Level.INFO, "EXECing RmiRegistry");
+      ProcessBuilder rmiRegistryPB = new ProcessBuilder("rmiregistry");
+      rmiRegistryPB.redirectErrorStream(true);
+      @SuppressWarnings("unused")
+      Process rmiRegistryP = rmiRegistryPB.start();
 
-      BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
+      // build and start leader process
+      LOGGER.log(Level.INFO, "EXECing LeaderMain");
+      ProcessBuilder leaderMainPB =
+          new ProcessBuilder("java", "-cp", "./bin/", "leader.LeaderMain");
+      leaderMainPB.redirectErrorStream(true);
+      Process leaderMainP = leaderMainPB.start();
+
+      BufferedReader br = new BufferedReader(new InputStreamReader(leaderMainP.getInputStream()));
       String output = "";
 
       String line;
       output = output + "\n >>>>>> BEGIN process output <<<<<< \n\n";
       while ((line = br.readLine()) != null) {
         output = output + line + "\n";
-//        System.out.println(line);
-        if (line.equals("INFO: End of LeaderMain")) {//line is never null in this context
+        if (line.equals("INFO: End of LeaderMain")) {// line is never null in this context
           break;
         }
       }
       output = output + "\n >>>>>> END process output <<<<<<" + "\n";
-      
+
       LOGGER.log(Level.INFO, output);
 
     } catch (RemoteException e) {
