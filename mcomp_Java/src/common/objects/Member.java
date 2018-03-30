@@ -127,7 +127,8 @@ public class Member implements LSenseable, Driveable, Drawable, Directable, Boss
    * 
    * @return The Public Key.
    */
-  public Key getPublicKey() {
+  @Override
+  public Key getPublicKey() { // FIXME if this is needed then it should be specified in an interface
     return myPublicKey; // TODO this needs to be of type Key once I work out ciphers.
   }
 
@@ -138,7 +139,9 @@ public class Member implements LSenseable, Driveable, Drawable, Directable, Boss
    * @param pk
    * @return True if key is valid, false if not.
    */
-  private boolean isValidKey(Key pk) {
+  @Override
+  private boolean isValidKey(Key pk) {// FIXME if this is needed then it should be specified in an
+                                      // interface
     // TODO RMI call leader, encrpyt String hello world to Leader, if leader returns Hello World
     // then true.
     return false;
@@ -150,7 +153,7 @@ public class Member implements LSenseable, Driveable, Drawable, Directable, Boss
   // }
 
   // will be part of the aftermath of a successful election
-  public void startLeader() {
+  private void startLeader() {
     try {
       // build and start/create RMI registry
       LOGGER.log(Level.INFO, "EXECing RmiRegistry");
