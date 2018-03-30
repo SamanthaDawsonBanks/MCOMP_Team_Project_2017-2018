@@ -36,6 +36,8 @@ public class Leader extends UnicastRemoteObject implements Instructable, Connect
   
   private static final Logger LOGGER = Logger.getLogger(LeaderMain.class.getName());
   
+  private Herd herd;
+  
   private int portNumber;
   private String serverName;
   private Registry r;
@@ -209,6 +211,14 @@ public class Leader extends UnicastRemoteObject implements Instructable, Connect
     // TODO Auto-generated method stub
     // actual method that makes bots drive through the path calc'ed
     // for each reg'ed bot //FIXME needs some form of 'queue' so that bots can follow (or all bots will go to the first WP and crash)
+    for (RemoteMember cb : ConnectedMembers) { //TODO RM or drivable and in regMem or h.drivers
+      while (herd.path.getLength() > 0) {//TODO GT or GT|E
+        Waypoint w = herd.path.poll();
+        if (!cb.drive(w).equals(w)) {
+          //FIXME do something!! //ultrasound blocked
+        };
+      }
+    }
       // for each wp in path
         //drive that bot to that wp
     //return "it got there"
