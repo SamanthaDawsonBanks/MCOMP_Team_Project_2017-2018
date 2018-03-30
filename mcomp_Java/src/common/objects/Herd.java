@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import common.datatypes.Ability;
+import common.datatypes.Waypoint;
+import common.datatypes.map.Map;
+import common.datatypes.path.Path;
 import common.interfaces.Joinable;
 import common.interfaces.Organisable;
 
@@ -34,6 +37,10 @@ public class Herd implements Joinable, Organisable {
   private ArrayList<Member> herdProcessors;
   private ArrayList<Member> herdViewers;
   private Member herdDestSetter;
+
+  protected Map map;
+  protected Waypoint dest;
+  protected Path path;
 
   /**
    * The Herd constructor.
