@@ -15,6 +15,7 @@ import common.datatypes.path.Path;
 import common.interfaces.Connectable;
 import common.interfaces.Contactable;
 import common.interfaces.Instructable;
+import common.interfaces.RemoteMember;
 import common.interfaces.Updateable;
 import leader.LeaderMain;
 
@@ -30,6 +31,9 @@ import leader.LeaderMain;
  *
  */
 public class Leader extends UnicastRemoteObject implements Instructable, Connectable, Updateable, Contactable {
+  
+  private ArrayList<RemoteMember> ConnectedMembers = new ArrayList<RemoteMember>(); //FIXME refactor this into herd? as herd.members? or herdmembers?
+  
   private static final Logger LOGGER = Logger.getLogger(LeaderMain.class.getName());
   
   private int portNumber;
@@ -40,6 +44,7 @@ public class Leader extends UnicastRemoteObject implements Instructable, Connect
   InetAddress loopback;
   
   private ArrayList<Member> herdMembers; //FIXME when a leader is first established, it should collect herd information from the member that spawned it
+  //TODO why a list of members and not a herd object?
   
   /**
    * Constructor for the leader object. This will take a port number and a name and store these in
@@ -173,8 +178,8 @@ public class Leader extends UnicastRemoteObject implements Instructable, Connect
    * DOCME
    */
   @Override
-  public boolean register(Member m) {
-    return this.herdMembers.add(m);
+  public boolean register(RemoteMember joiningMember) {
+    return this.ConnectedMembers.add(joiningMember);
     // used to register a client for server/client/mvc
     // Likely to take a member and add them to the 'registered' list??
   }
@@ -183,8 +188,8 @@ public class Leader extends UnicastRemoteObject implements Instructable, Connect
    * DOCME
    */
   @Override
-  public boolean deregister(Member m) {
-    return this.herdMembers.remove(m);  //not sure that's right - will look into
+  public boolean deregister(RemoteMember leavingMember) {
+    return this.ConnectedMembers.remove(leavingMember);  //not sure that's right - will look into
     // As with register but removing??
   }
 
