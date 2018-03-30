@@ -3,7 +3,6 @@
  */
 package common.datatypes.path;
 
-import java.util.Iterator;
 import common.datatypes.Waypoint;
 import common.datatypes.LinkedItem.PathItem;
 
@@ -12,7 +11,7 @@ import common.datatypes.LinkedItem.PathItem;
  *
  */
 
-public class Path implements Iterable<Waypoint> {
+public class Path {
 
   private PathItem destination;
   private PathItem head;
@@ -63,13 +62,6 @@ public class Path implements Iterable<Waypoint> {
 
   boolean isDone() {
     return (length == 0);
-  }
-
-  @Override
-  public Iterator<Waypoint> iterator() {
-    // TODO Auto-generated method stub
-    //FIXME implement
-    return null;
   }
   
 }
