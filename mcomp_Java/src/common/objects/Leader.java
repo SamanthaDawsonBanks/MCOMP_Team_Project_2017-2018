@@ -211,11 +211,16 @@ public class Leader extends UnicastRemoteObject implements Instructable, Connect
     // TODO Auto-generated method stub
     // actual method that makes bots drive through the path calc'ed
     // for each reg'ed bot //FIXME needs some form of 'queue' so that bots can follow (or all bots will go to the first WP and crash)
-    for (RemoteMember cb : ConnectedMembers) { //TODO RM or drivable and in regMem or h.drivers
+    for (RemoteMember cb : ConnectedMembers) { //TODO RM should be drivable and in h.drivers
       while (herd.path.getLength() > 0) {//TODO GT or GT|E
         Waypoint w = herd.path.poll();
-        if (!cb.drive(w).equals(w)) {
-          //FIXME do something!! //ultrasound blocked
+        try {
+          if (!cb.drive(w).equals(w)) {
+            //FIXME do something!! //ultrasound blocked
+          }
+        } catch (RemoteException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
         };
       }
     }
