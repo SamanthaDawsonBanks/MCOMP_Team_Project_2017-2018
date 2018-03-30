@@ -96,7 +96,6 @@ public class View extends Application {
 		lidarBtn.setOnAction(event ->{
 			if(lidarBtn.isSelected()) {
 				toggleOnStyle(lidarBtn);
-
 			}else {
 				toggleOffStyle(lidarBtn);
 			}
@@ -133,7 +132,6 @@ public class View extends Application {
 		randomBtn.setOnAction(event ->{
 			if(randomBtn.isSelected()) {
 				toggleOnStyle(randomBtn);
-
 			}else {
 				toggleOffStyle(randomBtn);
 			}
