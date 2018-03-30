@@ -19,5 +19,7 @@ import common.datatypes.path.Path;
 public interface Instructable {
 
   public Path pathfind(Waypoint w); // Not sure where we decide on representing success or failure.
+  
+  public Boolean go();//FIXME needs better name and better sig
 
 }

@@ -202,4 +202,16 @@ public class Leader extends UnicastRemoteObject implements Instructable, Connect
     // An internal call to actual pathfinding
     return null;
   }
+
+  @Override
+  public Boolean go() {
+    //if there is a dest and path //else clean up 
+    // TODO Auto-generated method stub
+    // actual method that makes bots drive through the path calc'ed
+    // for each reg'ed bot //FIXME needs some form of 'queue' so that bots can follow (or all bots will go to the first WP and crash)
+      // for each wp in path
+        //drive that bot to that wp
+    //return "it got there"
+    return null;
+  }
 }
