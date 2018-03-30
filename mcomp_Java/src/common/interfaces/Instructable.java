@@ -1,5 +1,6 @@
 package common.interfaces;
 
+import java.rmi.RemoteException;
 import common.datatypes.Waypoint;
 import common.datatypes.path.Path;
 
@@ -18,8 +19,8 @@ import common.datatypes.path.Path;
 
 public interface Instructable {
 
-  public Path pathfind(Waypoint w); // Not sure where we decide on representing success or failure.
+  public Path pathfind(Waypoint w) throws RemoteException; // Not sure where we decide on representing success or failure.
   
-  public Boolean go();//FIXME needs better name and better sig
+  public Boolean go() throws RemoteException;//FIXME needs better name and better sig
 
 }

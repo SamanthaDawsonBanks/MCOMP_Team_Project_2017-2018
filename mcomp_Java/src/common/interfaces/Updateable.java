@@ -1,5 +1,7 @@
 package common.interfaces;
 
+import java.rmi.RemoteException;
+
 /**
  * @author Stephen Pope 15836791
  * @author David Avery 15823926
@@ -14,11 +16,11 @@ package common.interfaces;
 
 public interface Updateable {
 
-  public void updateModel(); //FIXME this probably takes some info
+  public void updateModel() throws RemoteException; //FIXME this probably takes some info
   
   //there will be many methods that will do the updates
     //e.g robot is now at this location
   
-  public void getState(); //returns the current state
+  public void getState() throws RemoteException; //returns the current state
 
 }
