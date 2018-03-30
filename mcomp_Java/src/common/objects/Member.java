@@ -24,6 +24,7 @@ import common.interfaces.Groupable;
 import common.interfaces.LSenseable;
 import common.interfaces.Notifiable;
 import common.interfaces.Promotable;
+import common.interfaces.RemoteMember;
 import common.interfaces.Transferable;
 import member.MemberMain;
 import java.security.Key;
@@ -42,7 +43,7 @@ import java.security.Key;
  * 
  */
 
-public class Member implements LSenseable, Driveable, Drawable, Directable, Bossable, Transferable,
+public class Member implements RemoteMember, LSenseable, Driveable, Drawable, Directable, Bossable, Transferable,
     Promotable, Notifiable, Groupable {
   private static final Logger LOGGER = Logger.getLogger(Member.class.getName());
 
@@ -127,7 +128,7 @@ public class Member implements LSenseable, Driveable, Drawable, Directable, Boss
    * 
    * @return The Public Key.
    */
-  @Override
+  //@Override
   public Key getPublicKey() { // FIXME if this is needed then it should be specified in an interface
     return myPublicKey; // TODO this needs to be of type Key once I work out ciphers.
   }
@@ -139,7 +140,7 @@ public class Member implements LSenseable, Driveable, Drawable, Directable, Boss
    * @param pk
    * @return True if key is valid, false if not.
    */
-  @Override
+  //@Override
   private boolean isValidKey(Key pk) {// FIXME if this is needed then it should be specified in an
                                       // interface
     // TODO RMI call leader, encrpyt String hello world to Leader, if leader returns Hello World
@@ -155,13 +156,6 @@ public class Member implements LSenseable, Driveable, Drawable, Directable, Boss
   // will be part of the aftermath of a successful election
   private void startLeader() {
     try {
-      // build and start/create RMI registry
-      LOGGER.log(Level.INFO, "EXECing RmiRegistry");
-      ProcessBuilder rmiRegistryPB = new ProcessBuilder("rmiregistry");
-      rmiRegistryPB.redirectErrorStream(true);
-      @SuppressWarnings("unused")
-      Process rmiRegistryP = rmiRegistryPB.start();
-
       // build and start leader process
       LOGGER.log(Level.INFO, "EXECing LeaderMain");
       ProcessBuilder leaderMainPB =
@@ -173,15 +167,14 @@ public class Member implements LSenseable, Driveable, Drawable, Directable, Boss
       String output = "";
 
       String line;
-      output = output + "\n >>>>>> BEGIN process output <<<<<< \n\n";
+      output = output + "\n >>>>>> BEGIN LeaderMain process output <<<<<< \n\n";
       while ((line = br.readLine()) != null) {
         output = output + line + "\n";
         if (line.equals("INFO: End of LeaderMain")) {// line is never null in this context
           break;
         }
       }
-      output = output + "\n >>>>>> END process output <<<<<<" + "\n";
-
+      output = output + "\n >>>>>> END LeaderMain process output <<<<<<" + "\n";
       LOGGER.log(Level.INFO, output);
 
     } catch (RemoteException e) {
