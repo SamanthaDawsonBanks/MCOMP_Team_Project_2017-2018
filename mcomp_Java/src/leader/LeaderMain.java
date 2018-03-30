@@ -31,53 +31,49 @@ public class LeaderMain {
   private static RemoteLeader l;
 
   private static int portNumber = 1099;
-  private static String serverName = "LeaderRMIServer";
+  private static String serverName = "HerdLeader";
   private static Registry registry;
 
-  public static void main(String[] args) throws AccessException, RemoteException, NotBoundException, MalformedURLException {
+  public static void main(String[] args)
+      throws AccessException, RemoteException, NotBoundException, MalformedURLException {
 
     LOGGER.log(Level.INFO, "LeaderMain starting");
 
     try {
+      LOGGER.log(Level.INFO, "Creating RMI Registry");
       registry = java.rmi.registry.LocateRegistry.createRegistry(portNumber);
     } catch (RemoteException e) {
-      LOGGER.log(Level.WARNING, "Registery already exists - Getting");
+      LOGGER.log(Level.WARNING, "Registry already exists - Getting");
       registry = java.rmi.registry.LocateRegistry.getRegistry(portNumber);
     }
 
-    LOGGER.log(Level.INFO, "Calling Leader Constructor");
+    LOGGER.log(Level.INFO, "Constructing Leader");
     l = new Leader();// args - 1099, "HerdLeader");
-    LOGGER.log(Level.INFO, "Leader Constructed");
 
-    LOGGER.log(Level.INFO, "Leader Constructed");
+    LOGGER.log(Level.INFO, "Binding l as: {0}", serverName);
     Naming.rebind(serverName, l);
-    LOGGER.log(Level.INFO, "Leader Constructed");
-    
-    
-    listAllBoundRMINames(registry);
-    
-    
-    //only for testing??
-    LOGGER.log(Level.INFO, "Leader Constructed");
-    UnicastRemoteObject.unexportObject(l, true);
-    registry.unbind(serverName);
-    LOGGER.log(Level.INFO, "Leader Constructed");
 
-    
+
+    listAllBoundRMINames(registry);
+
+    // only for testing??
+//     LOGGER.log(Level.INFO, "unexporting Leader l");
+//     UnicastRemoteObject.unexportObject(l, true);
+//     LOGGER.log(Level.INFO, "unbinding HerdLeader");
+//     registry.unbind(serverName);
+
+
     LOGGER.log(Level.INFO, "End of LeaderMain");
   }
 
 
   private static void listAllBoundRMINames(Registry r) throws AccessException, RemoteException {
-    String[] boundNames;
-      LOGGER.log(Level.INFO, "Attempting to list bound names");
-      boundNames = r.list();
-
-      String namesOutput = "";
-      for (final String name : boundNames) {
-        namesOutput = namesOutput + name + "\n";
-      }
-      LOGGER.log(Level.INFO, namesOutput);
+    LOGGER.log(Level.INFO, "Attempting to list bound names");
+    StringBuilder namesOutput = new StringBuilder();
+    for (final String name : r.list()) {
+      namesOutput.append("\n").append(name);
+    }
+    LOGGER.log(Level.INFO, namesOutput.toString());
   }
 
 }
