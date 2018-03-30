@@ -15,6 +15,7 @@ import common.datatypes.path.Path;
 import common.interfaces.Connectable;
 import common.interfaces.Contactable;
 import common.interfaces.Instructable;
+import common.interfaces.RemoteLeader;
 import common.interfaces.RemoteMember;
 import common.interfaces.Updateable;
 import leader.LeaderMain;
@@ -30,7 +31,7 @@ import leader.LeaderMain;
  *         A leader must be able to respond to method calls from its members         
  *
  */
-public class Leader extends UnicastRemoteObject implements Instructable, Connectable, Updateable, Contactable {
+public class Leader extends UnicastRemoteObject implements RemoteLeader, Instructable, Connectable, Updateable, Contactable {
   
   private ArrayList<RemoteMember> ConnectedMembers = new ArrayList<RemoteMember>(); //FIXME refactor this into herd? as herd.members? or herdmembers?
   
@@ -38,9 +39,9 @@ public class Leader extends UnicastRemoteObject implements Instructable, Connect
   
   private Herd herd;
   
-  private int portNumber;
-  private String serverName;
-  private Registry r;
+//  private int portNumber;
+//  private String serverName;
+//  private Registry r;
 
   InetAddress[] addresses;
   InetAddress loopback;
@@ -59,9 +60,9 @@ public class Leader extends UnicastRemoteObject implements Instructable, Connect
    * @param serverName The assigned name to the running instance //This may later change to the
    *        HerdID
    */
-  public Leader(int portNumber, String serverName) throws RemoteException {
-    this.portNumber = portNumber;
-    this.serverName = serverName;
+  public Leader() throws RemoteException{ // args - int portNumber, String serverName) { - maybe herd?
+//    this.portNumber = portNumber;
+//    this.serverName = serverName;
 
     // Switch Wifi to infrastructure Mode - will probably set to infrastructure by default
 
@@ -69,40 +70,40 @@ public class Leader extends UnicastRemoteObject implements Instructable, Connect
 //    InetAddress loopback = InetAddress.getLoopbackAddress();
     
     // Try to shut down a server and do nothing if it fails as there isn't one running
-    unbindFromRMIServer();
-    bindToRMIServer();
+//    unbindFromRMIServer();
+//    bindToRMIServer();
     
   }
 
-  private boolean bindToRMIServer() {
-    //should always be proceeded by a shutdown reg call //TODO add as inline call?
-    LOGGER.log( Level.INFO, "Binding to  RMI Registery Server");
-    try {
-      r = LocateRegistry.getRegistry(this.portNumber);
-      r.rebind(this.serverName, this);
-      LOGGER.log( Level.INFO, "RMI Registery Server Bound");
-      return true;
-    } catch (Exception e) {
-      LOGGER.log( Level.SEVERE, "RMI Registery Server Failed to Bind");
-      e.printStackTrace();
-      return false;
-    }
-
-  }
-  
-  private boolean unbindFromRMIServer() {
-    LOGGER.log( Level.INFO, "UnBinding from RMI Registery Server");
-    try {
-      r.unbind(this.serverName);
-      unexportObject(r, true);
-      LOGGER.log( Level.INFO, "RMI Registery Server UnBound");
-      return true;
-    } catch (Exception e) {
-      LOGGER.log( Level.INFO, "No RMI Registery Server was Bound");
-      return false;
-    }
-  }
-  
+//  private boolean bindToRMIServer() {
+//    //should always be proceeded by a shutdown reg call //TODO add as inline call?
+//    LOGGER.log( Level.INFO, "Binding to  RMI Registery Server");
+//    try {
+//      r = LocateRegistry.getRegistry(this.portNumber);
+//      r.rebind(this.serverName, this);
+//      LOGGER.log( Level.INFO, "RMI Registery Server Bound");
+//      return true;
+//    } catch (Exception e) {
+//      LOGGER.log( Level.SEVERE, "RMI Registery Server Failed to Bind");
+//      e.printStackTrace();
+//      return false;
+//    }
+//
+//  }
+//  
+//  private boolean unbindFromRMIServer() {
+//    LOGGER.log( Level.INFO, "UnBinding from RMI Registery Server");
+//    try {
+//      r.unbind(this.serverName);
+//      unexportObject(r, true);
+//      LOGGER.log( Level.INFO, "RMI Registery Server UnBound");
+//      return true;
+//    } catch (Exception e) {
+//      LOGGER.log( Level.INFO, "No RMI Registery Server was Bound");
+//      return false;
+//    }
+//  }
+//  
   
   
   
