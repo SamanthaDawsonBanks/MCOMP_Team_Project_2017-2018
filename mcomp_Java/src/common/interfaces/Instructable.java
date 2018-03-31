@@ -19,7 +19,7 @@ import common.datatypes.path.Path;
 
 public interface Instructable {
 
-  public Path pathfind(Waypoint w) throws RemoteException; // Not sure where we decide on representing success or failure.
+  public boolean pathfind() throws RemoteException; // Not sure where we decide on representing success or failure.
   
   public Boolean go() throws RemoteException;//FIXME needs better name and better sig
 

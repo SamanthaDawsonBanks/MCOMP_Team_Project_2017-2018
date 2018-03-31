@@ -208,6 +208,9 @@ public class Member implements RemoteMember, LSenseable, Driveable, Drawable, Di
   @Override
   public Path processPathLump(Herd h) {
     // TODO Auto-generated method stub
+    
+    //FIXME some form of call to AStart Path find??
+    
     return null;
   }
 
