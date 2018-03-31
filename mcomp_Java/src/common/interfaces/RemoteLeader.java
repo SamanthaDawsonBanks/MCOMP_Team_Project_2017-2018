@@ -34,7 +34,7 @@ public interface RemoteLeader extends Remote, Instructable, Connectable, Updatea
   public void updateModel() throws RemoteException; //FIXME this probably takes some info
   
   @Override
-  public void getState() throws RemoteException; //returns the current state
+  public void getHerdState() throws RemoteException; //returns the current state
 
   
   //Contactable

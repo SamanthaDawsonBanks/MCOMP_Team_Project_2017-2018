@@ -21,6 +21,6 @@ public interface Updateable {
   //there will be many methods that will do the updates
     //e.g robot is now at this location
   
-  public void getState() throws RemoteException; //returns the current state
+  public void getHerdState() throws RemoteException; //returns the current state
 
 }
