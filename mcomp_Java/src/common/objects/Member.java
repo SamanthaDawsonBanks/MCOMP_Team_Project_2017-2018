@@ -231,7 +231,12 @@ public class Member implements RemoteMember, LSenseable, Driveable, Drawable, Di
     // This method will have been called as part of an onclick even from the gui or from the command
     // line
     // Inform leader that the new destination is 'w'
-    l.setDestination(w);
+    try {
+      l.setDestination(w);
+    } catch (RemoteException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
     // return success/failure
     return true;//TODO some logic
   }
