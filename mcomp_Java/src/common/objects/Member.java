@@ -24,6 +24,7 @@ import common.interfaces.Groupable;
 import common.interfaces.LSenseable;
 import common.interfaces.Notifiable;
 import common.interfaces.Promotable;
+import common.interfaces.RemoteLeader;
 import common.interfaces.RemoteMember;
 import common.interfaces.Transferable;
 import member.MemberMain;
@@ -48,7 +49,8 @@ public class Member implements RemoteMember, LSenseable, Driveable, Drawable, Di
   private static final Logger LOGGER = Logger.getLogger(Member.class.getName());
 
   private ArrayList<Ability> abilities;
-  private Herd herd;
+  private Herd localHerdData;
+  private RemoteLeader l;
   private Key myPublicKey;
   private Key myPrivateKey;
   private Key leaderPublicKey;
@@ -71,7 +73,7 @@ public class Member implements RemoteMember, LSenseable, Driveable, Drawable, Di
     LOGGER.log(Level.INFO, "Member Starting");
     abilities = new ArrayList<Ability>();
     LOGGER.log(Level.INFO, "Calling Herd Constructor");
-    herd = new Herd(this);
+    localHerdData = new Herd(this);
     LOGGER.log(Level.INFO, "Herd Constructed");
     for (Ability a : can) {
       switch (a) {
@@ -195,6 +197,14 @@ public class Member implements RemoteMember, LSenseable, Driveable, Drawable, Di
   public void notifyOfChange() {
     // TODO Auto-generated method stub
     // model.getData()
+    try {
+      localHerdData = l.getHerdState();
+    } catch (RemoteException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    //TODO and do something with it (probably paint it)
+    //TODO split method so this can be refactored to be used for herd sync?
   }
 
 
@@ -221,8 +231,9 @@ public class Member implements RemoteMember, LSenseable, Driveable, Drawable, Di
     // This method will have been called as part of an onclick even from the gui or from the command
     // line
     // Inform leader that the new destination is 'w'
+    l.setDestination(w);
     // return success/failure
-    return false;
+    return true;//TODO some logic
   }
 
 
@@ -265,7 +276,7 @@ public class Member implements RemoteMember, LSenseable, Driveable, Drawable, Di
   @Override
   public Herd updateLocalHerdInfo(Herd leaderHerd) {
     // TODO Auto-generated method stub
-    return herd;
+    return localHerdData;
   }
 
 

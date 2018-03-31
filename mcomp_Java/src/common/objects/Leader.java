@@ -14,7 +14,10 @@ import common.datatypes.Waypoint;
 import common.datatypes.path.Path;
 import common.interfaces.Connectable;
 import common.interfaces.Contactable;
+import common.interfaces.Directable;
+import common.interfaces.Driveable;
 import common.interfaces.Instructable;
+import common.interfaces.LSenseable;
 import common.interfaces.RemoteLeader;
 import common.interfaces.RemoteMember;
 import common.interfaces.Updateable;
@@ -31,13 +34,16 @@ import leader.LeaderMain;
  *         A leader must be able to respond to method calls from its members         
  *
  */
-public class Leader extends UnicastRemoteObject implements RemoteLeader, Instructable, Connectable, Updateable, Contactable {
-  
-  private ArrayList<RemoteMember> ConnectedMembers = new ArrayList<RemoteMember>(); //FIXME refactor this into herd? as herd.members? or herdmembers?
+public class Leader extends UnicastRemoteObject implements RemoteLeader, Instructable, Connectable, Directable, Updateable, Contactable {
   
   private static final Logger LOGGER = Logger.getLogger(LeaderMain.class.getName());
   
-  private Herd herd;
+  protected Herd herd;
+  
+  private ArrayList<RemoteMember> ConnectedMembers = new ArrayList<RemoteMember>(); //FIXME refactor this into herd? as herd.members? or herdmembers?
+  
+  private ArrayList<Member> herdMembers; //FIXME when a leader is first established, it should collect herd information from the member that spawned it
+  //TODO why a list of members and not a herd object?
   
 //  private int portNumber;
 //  private String serverName;
@@ -45,9 +51,6 @@ public class Leader extends UnicastRemoteObject implements RemoteLeader, Instruc
 
   InetAddress[] addresses;
   InetAddress loopback;
-  
-  private ArrayList<Member> herdMembers; //FIXME when a leader is first established, it should collect herd information from the member that spawned it
-  //TODO why a list of members and not a herd object?
   
   /**
    * Constructor for the leader object. This will take a port number and a name and store these in
@@ -60,7 +63,8 @@ public class Leader extends UnicastRemoteObject implements RemoteLeader, Instruc
    * @param serverName The assigned name to the running instance //This may later change to the
    *        HerdID
    */
-  public Leader() throws RemoteException{ // args - int portNumber, String serverName) { - maybe herd?
+  public Leader() throws RemoteException{ //FIXME needs initialisation loop form member process via RMI
+    // args - int portNumber, String serverName) { - maybe herd?
 //    this.portNumber = portNumber;
 //    this.serverName = serverName;
 
@@ -144,7 +148,7 @@ public class Leader extends UnicastRemoteObject implements RemoteLeader, Instruc
    * 
    * @return The current state of the members list
    */
-  public Collection<Member> getMemebers() {
+  public Collection<Member> getMemebers() {//TODO refactor to herd
     //potentially depreciated
     return herdMembers;
   }
@@ -155,7 +159,7 @@ public class Leader extends UnicastRemoteObject implements RemoteLeader, Instruc
    * current members from the "old" one.
    */
   @Override
-  public void leaderDiscussMerge() {
+  public void leaderDiscussMerge() {//TODO send herd data so decision can be made?
     // TODO Auto-generated method stub
     // Will be related to herd merging
     throw new UnsupportedOperationException("method not implemented");
@@ -165,7 +169,7 @@ public class Leader extends UnicastRemoteObject implements RemoteLeader, Instruc
    * DOCME
    */
   @Override
-  public void updateModel() {
+  public void updateModel() {//TODO is the input a herd DT?
     // TODO Auto-generated method stub
     // Won't be update model
   }
@@ -221,12 +225,15 @@ public class Leader extends UnicastRemoteObject implements RemoteLeader, Instruc
     // TODO Auto-generated method stub
     // actual method that makes bots drive through the path calc'ed
     // for each reg'ed bot //FIXME needs some form of 'queue' so that bots can follow (or all bots will go to the first WP and crash)
-    for (RemoteMember cb : ConnectedMembers) { //TODO RM should be drivable and in h.drivers
+    for (Driveable cb : herd.getDrivers()) { //TODO RM should be drivable and in h.drivers
       while (herd.path.getLength() > 0) {//TODO GT or GT|E
         Waypoint w = herd.path.poll();
         try {
           if (!cb.drive(w).equals(w)) {
             //FIXME do something!! //ultrasound blocked
+          }
+          if (herd.getSensors().contains(cb)) {//FIXME unsafe cast!
+            herd.map.addLayer(((LSenseable) cb).lSense());//take LiDAR Read 
           }
         } catch (RemoteException e) {
           // TODO Auto-generated catch block
@@ -238,5 +245,12 @@ public class Leader extends UnicastRemoteObject implements RemoteLeader, Instruc
         //drive that bot to that wp
     //return "it got there"
     return null;
+  }
+
+  @Override
+  public boolean setDestination(Waypoint w) {
+    // TODO Auto-generated method stub
+    herd.dest = w;
+    return true;//TODO some logic
   }
 }

@@ -13,7 +13,7 @@ import common.objects.Herd;
  * @author David Avery 15823926
  *
  */
-public interface RemoteLeader extends Remote, Instructable, Connectable, Updateable, Contactable {
+public interface RemoteLeader extends Remote, Instructable, Connectable, Directable, Updateable, Contactable {
 
   //Instructable
   @Override
