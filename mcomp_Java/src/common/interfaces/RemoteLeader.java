@@ -17,7 +17,7 @@ public interface RemoteLeader extends Remote, Instructable, Connectable, Updatea
 
   //Instructable
   @Override
-  public Path pathfind(Waypoint w) throws RemoteException;
+  public boolean pathfind() throws RemoteException;
   
   @Override
   public Boolean go() throws RemoteException;

@@ -183,7 +183,7 @@ public class Leader extends UnicastRemoteObject implements RemoteLeader, Instruc
    */
   @Override
   public boolean register(RemoteMember joiningMember) {
-    return this.ConnectedMembers.add(joiningMember);
+    return this.ConnectedMembers.add(joiningMember);//FIXME adjust for herd
     // used to register a client for server/client/mvc
     // Likely to take a member and add them to the 'registered' list??
   }
@@ -193,7 +193,8 @@ public class Leader extends UnicastRemoteObject implements RemoteLeader, Instruc
    */
   @Override
   public boolean deregister(RemoteMember leavingMember) {
-    return this.ConnectedMembers.remove(leavingMember);  //not sure that's right - will look into
+    return this.ConnectedMembers.remove(leavingMember);//FIXME adjust for herd
+    //not sure that's right - will look into
     // As with register but removing??
   }
 
@@ -201,10 +202,17 @@ public class Leader extends UnicastRemoteObject implements RemoteLeader, Instruc
    * DOCME
    */
   @Override
-  public Path pathfind(Waypoint w) {
+  public boolean pathfind() {//doenst take a WP ad dest should already be set
+    //sanity check (herd has a dest and map)
+    //stub for splitting work for parallel
+    
+    herd.path = herd.getProcessors().get(0).processPathLump(herd);//dumbly get first until parallel
+    if (herd.path != null) {
+      return true;
+    }
+    return false;
     // TODO Auto-generated method stub
     // An internal call to actual pathfinding
-    return null;
   }
 
   @Override

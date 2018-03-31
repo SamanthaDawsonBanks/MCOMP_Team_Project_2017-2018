@@ -199,14 +199,14 @@ public class Member implements RemoteMember, LSenseable, Driveable, Drawable, Di
 
 
   @Override
-  public Map processMapLump(Map m) {
+  public Map processMapLump(Herd h) {
     // TODO Auto-generated method stub
     return null;
   }
 
 
   @Override
-  public Path processPathLump(Path p) {
+  public Path processPathLump(Herd h) {
     // TODO Auto-generated method stub
     return null;
   }
@@ -283,5 +283,6 @@ public class Member implements RemoteMember, LSenseable, Driveable, Drawable, Di
     // return the leader on the RMI link
     return null;
   }
+
 }
 
