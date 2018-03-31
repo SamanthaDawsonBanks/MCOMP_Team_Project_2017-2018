@@ -7,8 +7,14 @@ import common.datatypes.Ability;
 import common.datatypes.Waypoint;
 import common.datatypes.map.Map;
 import common.datatypes.path.Path;
+import common.interfaces.Bossable;
+import common.interfaces.Directable;
+import common.interfaces.Driveable;
 import common.interfaces.Joinable;
+import common.interfaces.LSenseable;
+import common.interfaces.Notifiable;
 import common.interfaces.Organisable;
+import common.interfaces.RemoteMember;
 
 /**
  * 
@@ -30,13 +36,13 @@ public class Herd implements Joinable, Organisable {
   private static final Logger LOGGER = Logger.getLogger(Herd.class.getName());
 
   private String herdID;
-  private Member theLeader;
+  private RemoteMember theLeader;
   private ArrayList<Member> herdMembers;
-  private ArrayList<Member> herdDrivers;
-  private ArrayList<Member> herdSensors;
-  private ArrayList<Member> herdProcessors;
-  private ArrayList<Member> herdViewers;
-  private Member herdDestSetter;
+  private ArrayList<Driveable> herdDrivers;
+  private ArrayList<LSenseable> herdSensors;
+  private ArrayList<Bossable> herdProcessors;
+  private ArrayList<Notifiable> herdViewers;
+  private Directable herdDestSetter;
 
   protected Map map;
   protected Waypoint dest;
@@ -58,10 +64,10 @@ public class Herd implements Joinable, Organisable {
     // Storage Initialisation
     herdID = "newHerd"; // TODO Needs to be a randomly generated name
     herdMembers = new ArrayList<Member>();
-    herdDrivers = new ArrayList<Member>();
-    herdSensors = new ArrayList<Member>();
-    herdProcessors = new ArrayList<Member>();
-    herdViewers = new ArrayList<Member>();
+    herdDrivers = new ArrayList<Driveable>();
+    herdSensors = new ArrayList<LSenseable>();
+    herdProcessors = new ArrayList<Bossable>();
+    herdViewers = new ArrayList<Notifiable>();
 
     // Ability Querying
     herdMembers.add(a);
@@ -99,7 +105,7 @@ public class Herd implements Joinable, Organisable {
    * @return The leader of the Herd.
    */
   @Override
-  public Member electLeader() {
+  public RemoteMember electLeader() {
     // TODO Auto-generated method stub
     LOGGER.log(Level.INFO, "Choosing Leader");
     theLeader = herdMembers.get(0);// TODO get oldist from all or subtype?
@@ -140,15 +146,15 @@ public class Herd implements Joinable, Organisable {
         case DEST_SETTER:
           // TODO Need code to check the old destSetter and remove it if it only has the one
           // ability.
-          if (herdDestSetter != null) {
-            if (herdDestSetter.getAbilities().size() > 1) {
-              herdDestSetter.getAbilities().remove(Ability.DEST_SETTER);
-            } else {
-              // No longer a leave method
-              // herdDestSetter.leaveHerd(this);
-            }
+          if (herdDestSetter == null) { // first wins
+            // if (herdDestSetter.getAbilities().size() > 1) {
+            // herdDestSetter.getAbilities().remove(Ability.DEST_SETTER);
+            // } else {
+            // // No longer a leave method
+            // // herdDestSetter.leaveHerd(this);
+            // }
+            herdDestSetter = aspiringMember;
           }
-          herdDestSetter = aspiringMember;
           break;
       }
     }
@@ -240,7 +246,7 @@ public class Herd implements Joinable, Organisable {
    * 
    * @return The list of Drivers.
    */
-  public ArrayList<Member> getDrivers() {
+  public ArrayList<Driveable> getDrivers() {
     return herdDrivers;
   }
 
@@ -249,7 +255,7 @@ public class Herd implements Joinable, Organisable {
    * 
    * @return The list of Processors.
    */
-  public ArrayList<Member> getProcessors() {
+  public ArrayList<Bossable> getProcessors() {
     return herdProcessors;
   }
 
@@ -258,7 +264,7 @@ public class Herd implements Joinable, Organisable {
    * 
    * @return The list of Sensors.
    */
-  public ArrayList<Member> getSensors() {
+  public ArrayList<LSenseable> getSensors() {
     return herdSensors;
   }
 
@@ -267,7 +273,7 @@ public class Herd implements Joinable, Organisable {
    * 
    * @return The list of Viewers.
    */
-  public ArrayList<Member> getViewers() {
+  public ArrayList<Notifiable> getViewers() {
     return herdViewers;
   }
 
@@ -276,7 +282,7 @@ public class Herd implements Joinable, Organisable {
    * 
    * @return The Destination Setter.
    */
-  public Member getDestSetter() {
+  public Directable getDestSetter() {
     return herdDestSetter;
   }
 

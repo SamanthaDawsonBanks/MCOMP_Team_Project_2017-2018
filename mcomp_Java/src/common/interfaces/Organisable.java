@@ -17,6 +17,6 @@ import common.objects.Member;
 
 public interface Organisable {
 
-  public Member electLeader();
+  public RemoteMember electLeader();
 
 }
