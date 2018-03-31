@@ -171,7 +171,8 @@ public class Leader extends UnicastRemoteObject implements RemoteLeader, Instruc
   }
   
   @Override
-  public void getHerdState() {
+  public Herd getHerdState() {
+    return herd;
     // TODO Auto-generated method stub
     // bundle up all state and send it to the client
     // displayable needs current map and destination

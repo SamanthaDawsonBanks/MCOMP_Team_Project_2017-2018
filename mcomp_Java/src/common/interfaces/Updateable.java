@@ -1,6 +1,7 @@
 package common.interfaces;
 
 import java.rmi.RemoteException;
+import common.objects.Herd;
 
 /**
  * @author Stephen Pope 15836791
@@ -21,6 +22,6 @@ public interface Updateable {
   //there will be many methods that will do the updates
     //e.g robot is now at this location
   
-  public void getHerdState() throws RemoteException; //returns the current state
+  public Herd getHerdState() throws RemoteException; //returns the current state
 
 }

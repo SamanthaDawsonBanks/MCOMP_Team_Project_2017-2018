@@ -7,6 +7,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import common.datatypes.Waypoint;
 import common.datatypes.path.Path;
+import common.objects.Herd;
 
 /**
  * @author David Avery 15823926
@@ -34,7 +35,7 @@ public interface RemoteLeader extends Remote, Instructable, Connectable, Updatea
   public void updateModel() throws RemoteException; //FIXME this probably takes some info
   
   @Override
-  public void getHerdState() throws RemoteException; //returns the current state
+  public Herd getHerdState() throws RemoteException; //returns the current state
 
   
   //Contactable
