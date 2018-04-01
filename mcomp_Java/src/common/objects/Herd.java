@@ -69,27 +69,29 @@ public class Herd implements Joinable, Organisable {
     herdProcessors = new ArrayList<Bossable>();
     herdViewers = new ArrayList<Notifiable>();
 
-    // Ability Querying
-    herdMembers.add(a);
-    for (Ability b : a.getAbilities()) {
-      switch (b) {
-        case DRIVER:
-          herdDrivers.add(a);
-          break;
-        case PROCESSOR:
-          herdProcessors.add(a);
-          break;
-        case SENSOR:
-          herdSensors.add(a);
-          break;
-        case VIEWER:
-          herdViewers.add(a);
-          break;
-        case DEST_SETTER:
-          herdDestSetter = a;
-          break;
-      }
-    }
+    requestJoin(a);
+    
+//    // Ability Querying
+//    herdMembers.add(a);
+//    for (Ability b : a.getAbilities()) {
+//      switch (b) {
+//        case DRIVER:
+//          herdDrivers.add(a);
+//          break;
+//        case PROCESSOR:
+//          herdProcessors.add(a);
+//          break;
+//        case SENSOR:
+//          herdSensors.add(a);
+//          break;
+//        case VIEWER:
+//          herdViewers.add(a);
+//          break;
+//        case DEST_SETTER:
+//          herdDestSetter = a;
+//          break;
+//      }
+//    }
 
     // startup election
     theLeader = electLeader();
@@ -180,21 +182,22 @@ public class Herd implements Joinable, Organisable {
      */
     herdMembers.remove(leavingMember);
     for (Ability b : leavingMember.getAbilities()) {
-      switch (b) {
+      switch (b) {//TODO do we need the switch or just call remove with it
         case DRIVER:
           herdDrivers.remove(leavingMember);
           break;
         case PROCESSOR:
-          herdProcessors.add(leavingMember);
+          herdProcessors.remove(leavingMember);
           break;
         case SENSOR:
-          herdSensors.add(leavingMember);
+          herdSensors.remove(leavingMember);
           break;
         case VIEWER:
-          herdViewers.add(leavingMember);
+          herdViewers.remove(leavingMember);
           break;
         case DEST_SETTER:
-          herdDestSetter = null;
+          if (herdDestSetter.equals(leavingMember));
+          herdDestSetter = null;//TODO then check for secondary dest setters?
           break;
       }
     }
@@ -232,7 +235,7 @@ public class Herd implements Joinable, Organisable {
    * @param The Public Key of a member in the Herd.
    * @return The Member object if it exists, null if not.
    */
-  public Member getMember(String theKey) {
+  public Member getMember(String theKey) {//Using the pubKey as UID works well, good call Steve
     for (Member a : herdMembers) {
       if (a.getPublicKey().equals(theKey)) {
         return a;
