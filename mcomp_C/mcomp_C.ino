@@ -39,6 +39,7 @@ void setup() {
   // TODO method stub
 //  testWaypoint();
 //  testPath();
+    testMove();
 
   //setup serial to pi 115200??
   //setup serial to LiDAR BAUD? //TODO refactor into sense()
