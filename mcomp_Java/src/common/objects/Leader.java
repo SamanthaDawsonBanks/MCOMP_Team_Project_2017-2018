@@ -169,7 +169,7 @@ public class Leader extends UnicastRemoteObject implements RemoteLeader, Instruc
    * DOCME
    */
   @Override
-  public void updateModel() {//TODO is the input a herd DT?
+  public void updateModel(Herd newHerdData) {//TODO is the input a herd DT?
     // TODO Auto-generated method stub
     // Won't be update model
   }
@@ -187,6 +187,7 @@ public class Leader extends UnicastRemoteObject implements RemoteLeader, Instruc
    */
   @Override
   public boolean register(RemoteMember joiningMember) {
+    updateModel(joiningMember.getLocalHerdData());
     return this.ConnectedMembers.add(joiningMember);//FIXME adjust for herd
     // used to register a client for server/client/mvc
     // Likely to take a member and add them to the 'registered' list??
@@ -197,6 +198,7 @@ public class Leader extends UnicastRemoteObject implements RemoteLeader, Instruc
    */
   @Override
   public boolean deregister(RemoteMember leavingMember) {
+    updateModel(herd.requestLeave(leavingMember));//FIXME check logic
     return this.ConnectedMembers.remove(leavingMember);//FIXME adjust for herd
     //not sure that's right - will look into
     // As with register but removing??

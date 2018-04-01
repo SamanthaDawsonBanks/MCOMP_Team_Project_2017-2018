@@ -169,7 +169,7 @@ public class Herd implements Joinable, Organisable {
    * @param The member object leaving the Herd.
    * @return The list of remaining members.
    */
-  public ArrayList<Member> requestLeave(Member leavingMember) {
+  public ArrayList<Member> requestLeave(RemoteMember leavingMember) {
     /*
      * TODO Consider the return type. If a member leaves, do they need returned the state of the
      * herd? Perhaps this should be a void, or return an enum.

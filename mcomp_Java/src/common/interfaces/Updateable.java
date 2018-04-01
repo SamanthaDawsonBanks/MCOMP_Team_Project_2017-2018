@@ -17,7 +17,7 @@ import common.objects.Herd;
 
 public interface Updateable {
 
-  public void updateModel() throws RemoteException; //FIXME this probably takes some info
+  public void updateModel(Herd newHerdData) throws RemoteException; //FIXME this probably takes some info
   
   //there will be many methods that will do the updates
     //e.g robot is now at this location

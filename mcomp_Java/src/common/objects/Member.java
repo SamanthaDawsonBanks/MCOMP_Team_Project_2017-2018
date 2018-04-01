@@ -171,16 +171,16 @@ public class Member implements RemoteMember, LSenseable, Driveable, Drawable, Di
       BufferedReader br = new BufferedReader(new InputStreamReader(leaderMainP.getInputStream()));
       String output = "";
 
-      String line;
-      output = output + "\n >>>>>> BEGIN LeaderMain process output <<<<<< \n\n";
-      while ((line = br.readLine()) != null) {
-        output = output + line + "\n";
-        if (line.equals("INFO: End of LeaderMain")) {// line is never null in this context
-          break;
-        }
-      }
-      output = output + "\n >>>>>> END LeaderMain process output <<<<<<" + "\n";
-      LOGGER.log(Level.INFO, output);
+//      String line;
+//      output = output + "\n >>>>>> BEGIN LeaderMain process output <<<<<< \n\n";
+//      while ((line = br.readLine()) != null) {//FIXME this loop will need to be threaded (if we keep it) to fix the blocking nature
+//        output = output + line + "\n";
+//        if (line.equals("INFO: End of LeaderMain")) {// line is never null in this context
+//          break;
+//        }
+//      }
+//      output = output + "\n >>>>>> END LeaderMain process output <<<<<<" + "\n";
+//      LOGGER.log(Level.INFO, output);
 
     } catch (RemoteException e) {
       // TODO Auto-generated catch block
@@ -284,6 +284,7 @@ public class Member implements RemoteMember, LSenseable, Driveable, Drawable, Di
   @Override
   public Herd updateLocalHerdInfo(Herd leaderHerd) {
     // TODO Auto-generated method stub
+    localHerdData = leaderHerd;//TODO does this need to be a merge or a replace?
     return localHerdData;
   }
 
@@ -322,6 +323,13 @@ public class Member implements RemoteMember, LSenseable, Driveable, Drawable, Di
     }
     // return the leader on the RMI link
     return null;
+  }
+
+
+  @Override
+  public Herd getLocalHerdData() {
+    // TODO Auto-generated method stub
+    return localHerdData;
   }
 
 }

@@ -32,7 +32,7 @@ public interface RemoteLeader extends Remote, Instructable, Connectable, Directa
   
   //Updateable
   @Override
-  public void updateModel() throws RemoteException; //FIXME this probably takes some info
+  public void updateModel(Herd newHerdData) throws RemoteException; //FIXME this probably takes some info
   
   @Override
   public Herd getHerdState() throws RemoteException; //returns the current state
