@@ -4,6 +4,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -50,7 +53,7 @@ public class Member implements RemoteMember, LSenseable, Driveable, Drawable, Di
 
   private ArrayList<Ability> abilities;
   private Herd localHerdData;
-  private RemoteLeader l;
+  private RemoteLeader localLeaderRef;
   private Key myPublicKey;
   private Key myPrivateKey;
   private Key leaderPublicKey;
@@ -297,8 +300,26 @@ public class Member implements RemoteMember, LSenseable, Driveable, Drawable, Di
     // start the leader
     // wait?
     // connect to rmi
+    try {
+      localLeaderRef = (RemoteLeader) Naming.lookup("HerdLeader");
+    } catch (MalformedURLException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (RemoteException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (NotBoundException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }//needs to be var vs hardcode 
     // wait
     // send the RMI leader the herd info
+    try {
+      localLeaderRef.register(this);
+    } catch (RemoteException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
     // return the leader on the RMI link
     return null;
   }
