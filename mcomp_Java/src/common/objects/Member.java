@@ -201,7 +201,7 @@ public class Member implements RemoteMember, LSenseable, Driveable, Drawable, Di
     // TODO Auto-generated method stub
     // model.getData()
     try {
-      localHerdData = l.getHerdState();
+      localHerdData = localLeaderRef.getHerdState();
     } catch (RemoteException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
@@ -235,7 +235,7 @@ public class Member implements RemoteMember, LSenseable, Driveable, Drawable, Di
     // line
     // Inform leader that the new destination is 'w'
     try {
-      l.setDestination(w);
+      localLeaderRef.setDestination(w);
     } catch (RemoteException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
