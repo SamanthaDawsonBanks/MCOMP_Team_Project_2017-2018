@@ -1,5 +1,6 @@
 package common.interfaces;
 
+import common.objects.Herd;
 import common.objects.Leader;
 
 /**
@@ -17,6 +18,6 @@ import common.objects.Leader;
 
 public interface Promotable {
 
-  public Leader becomeLeader(); // TODO returns the initialised Leader object to the Herd?
+  public Leader becomeLeader(Herd h); // TODO returns the initialised Leader object to the Herd?
 
 }
