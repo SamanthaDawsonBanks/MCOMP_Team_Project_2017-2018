@@ -1,4 +1,4 @@
-package common.datatypes.LinkedItem;
+package common.datatypes.linkedItem;
 
 import common.datatypes.Waypoint;
 

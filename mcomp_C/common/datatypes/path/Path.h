@@ -9,8 +9,8 @@
 #ifndef PATH_H_
 #define PATH_H_
 
+#include "../linkedItem/LinkedItem.h"
 #include "../Waypoint.h"
-#include "../LinkedItem/LinkedItem.h"
 
 class Path {
 
