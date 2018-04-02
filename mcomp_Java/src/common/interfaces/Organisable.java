@@ -1,7 +1,5 @@
 package common.interfaces;
 
-import common.objects.Member;
-
 /**
  * @author Stephen Pope 15836791
  * @author David Avery 15823926

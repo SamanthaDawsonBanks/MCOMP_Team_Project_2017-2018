@@ -1,8 +1,6 @@
 package common.interfaces;
 
 import java.rmi.RemoteException;
-import common.datatypes.Waypoint;
-import common.datatypes.path.Path;
 
 /**
  * @author Stephen Pope 15836791

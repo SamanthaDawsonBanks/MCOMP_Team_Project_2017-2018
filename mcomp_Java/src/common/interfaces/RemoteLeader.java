@@ -5,8 +5,6 @@ package common.interfaces;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import common.datatypes.Waypoint;
-import common.datatypes.path.Path;
 import common.objects.Herd;
 
 /**

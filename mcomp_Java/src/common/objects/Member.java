@@ -8,10 +8,7 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import common.datatypes.Ability;
@@ -30,7 +27,6 @@ import common.interfaces.Promotable;
 import common.interfaces.RemoteLeader;
 import common.interfaces.RemoteMember;
 import common.interfaces.Transferable;
-import member.MemberMain;
 import java.security.Key;
 
 /**
@@ -169,8 +165,7 @@ public class Member implements RemoteMember, LSenseable, Driveable, Drawable, Di
       Process leaderMainP = leaderMainPB.start();
 
       BufferedReader br = new BufferedReader(new InputStreamReader(leaderMainP.getInputStream()));
-      String output = "";
-
+//      String output = "";
 //      String line;
 //      output = output + "\n >>>>>> BEGIN LeaderMain process output <<<<<< \n\n";
 //      while ((line = br.readLine()) != null) {//FIXME this loop will need to be threaded (if we keep it) to fix the blocking nature
