@@ -2,6 +2,10 @@ package common.datatypes.map.griddedMap;
 
 import common.datatypes.Waypoint;
 
+/**
+ * @author David Avery 15823926
+ *
+ */
 public class Chunk {
 
   private Vertex[][] vertices;
@@ -15,7 +19,6 @@ public class Chunk {
    * 
    */
   public Chunk(int gridSize, Waypoint w, Region parent) {
-    // TODO Auto-generated constructor stub
     // TODO this is going to need some serious optimisation if accessed on a single point bases
     this.parent = parent;
     this.gridSize = gridSize;
@@ -26,7 +29,6 @@ public class Chunk {
 
 
   public Vertex add(Waypoint w) {
-    // TODO
     int VertexX = (int) (((w.getX() + gridOffset) / Math.pow(gridSize, 0)) % gridSize);
     int VertexY = (int) (((w.getY() + gridOffset) / Math.pow(gridSize, 0)) % gridSize);
     if (vertices[VertexX][VertexY] == null) {
@@ -38,7 +40,6 @@ public class Chunk {
         vertices[VertexX][VertexY] = parent.parent.blocked;
       }
     }
-    // calc vertex
     return vertices[VertexX][VertexY];
   }
 

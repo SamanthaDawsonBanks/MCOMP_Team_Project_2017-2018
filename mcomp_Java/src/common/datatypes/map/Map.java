@@ -9,7 +9,7 @@ import common.datatypes.map.griddedMap.GridDesign;
 import common.datatypes.map.griddedMap.GriddedMap;
 
 /**
- * @author David Avery
+ * @author David Avery 15823926
  *
  */
 public class Map {
@@ -22,7 +22,6 @@ public class Map {
    * 
    */
   public Map(int gridSize, MapLayer layer) {
-    // TODO Auto-generated constructor stub
     this.gridSize = gridSize;
     this.addLayer(layer);
   }
@@ -44,12 +43,10 @@ public class Map {
   }
 
   private void amalgamateLayer(MapLayer layer) {
-    // TODO Auto-generated method stub
     if (amalgamatedMap == null) {
       amalgamatedMap = new GriddedMap(GridDesign.TETRA, gridSize, this);
     }
     for (Waypoint w : layer) {
-      // add cell info to amalgamatedMap in correct loc
       amalgamatedMap.add(w);
     }
   }

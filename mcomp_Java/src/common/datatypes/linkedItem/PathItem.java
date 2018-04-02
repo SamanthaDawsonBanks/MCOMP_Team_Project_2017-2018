@@ -2,6 +2,10 @@ package common.datatypes.linkedItem;
 
 import common.datatypes.Waypoint;
 
+/**
+ * @author David Avery 15823926
+ *
+ */
 public class PathItem {
     
     private Waypoint data;
