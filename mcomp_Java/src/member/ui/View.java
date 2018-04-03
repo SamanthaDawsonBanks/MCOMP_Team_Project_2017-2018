@@ -18,9 +18,13 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+
+import unitTesting.MapTest2;
+
 
 /**
  * 
@@ -38,8 +42,9 @@ public class View extends Application {
 	private Pane pane;
 	private HBox hbox;
 	private int counter = 0;
-	private Group group;
-	
+	private Group circleGroup, rectangleGroup, lineGroup;
+
+
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
@@ -127,10 +132,10 @@ public class View extends Application {
 		lidarBtn.setOnAction(event ->{
 			if(lidarBtn.isSelected()) {
 				toggleOnStyle(lidarBtn);
-				pane.getChildren().add(drawCircle());
-			}else {
+				pane.getChildren().add(drawCircle(scale(MapTest2.getPresentationMaze(),40)));
+				}else {
 				toggleOffStyle(lidarBtn);
-				pane.getChildren().remove(group);
+				pane.getChildren().remove(circleGroup);
 			}
 		});
 
@@ -144,8 +149,10 @@ public class View extends Application {
 		gridBtn.setOnAction(event ->{
 			if(gridBtn.isSelected()) {
 				toggleOnStyle(gridBtn);
+				pane.getChildren().add(drawRectangle(scale(MapTest2.getPresentationMaze(),40)));
 			}else {
 				toggleOffStyle(gridBtn);
+				pane.getChildren().remove(rectangleGroup);
 			}
 		});
 
@@ -159,8 +166,10 @@ public class View extends Application {
 		mapBtn.setOnAction(event ->{
 			if(mapBtn.isSelected()) {
 				toggleOnStyle(mapBtn);
+				pane.getChildren().add(drawGrid(scale(MapTest2.getPresentationMaze(),40)));
 			}else {
 				toggleOffStyle(mapBtn);
+				pane.getChildren().remove(lineGroup);
 			}
 		});
 
@@ -218,28 +227,77 @@ public class View extends Application {
 
 	/**
 	 * Method for taking in an ArrayList of type Waypoint.
-	 * Loops through ArrayList and draws circles at waypoint(x,y).
+	 * Loops through ArrayList and draws circles at Waypoint(x,y).
 	 * Creates a group of circles. 
 	 * group displayed in map Rectangle (when lidarButton toggled on).
 	 * @return group.
 	 */
-	public Group drawCircle() {
-		ArrayList<Waypoint> lidar = new ArrayList<Waypoint>();
-		group = new Group();
-		for(int i = 0; i < 10; i++) {
-			Waypoint waypoint = new Waypoint((i*50)+20, (i*50)+20);
-			lidar.add(waypoint);
-		}
-
-		for(Waypoint w: lidar) {
+	public Group drawCircle(ArrayList<Waypoint> l) {
+		circleGroup = new Group();
+		for(Waypoint w: l) {
 			Circle circle = new Circle();
 			circle.setCenterX(w.getX());
 			circle.setCenterY(w.getY());
 			circle.setRadius(5d);
-			group.getChildren().add(circle);
+			circleGroup.getChildren().add(circle);
 		}
 
-		return group;
+		return circleGroup;
+	}
+
+	public Group drawRectangle(ArrayList<Waypoint> l) {
+		rectangleGroup = new Group();
+		for(Waypoint w: l) {
+			Rectangle rectangle = new Rectangle();
+			rectangle.setX(w.getX()-20);
+			rectangle.setY(w.getY()-20);
+			rectangle.setWidth(40);
+			rectangle.setStroke(Color.BLACK);
+			rectangle.setStrokeWidth(4);
+			rectangle.setHeight(40);
+			rectangle.setFill(Color.RED);
+			rectangleGroup.getChildren().add(rectangle);
+		}
+
+		return rectangleGroup;
+	}
+
+	public Group drawGrid(ArrayList<Waypoint> l) {
+		Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+		Rectangle r = new Rectangle();
+		r.setX(screenBounds.getMinX());
+		r.setY(screenBounds.getMinY());
+		r.setWidth(screenBounds.getWidth()/1.25);
+		r.setHeight(screenBounds.getHeight()-50);
+		lineGroup = new Group();
+		for(int x = 0; x < r.getWidth(); x=x+40) {
+			Line line = new Line();
+			line.setStartX(x-20);
+			line.setEndX(x-20);
+			line.setStartY(0);
+			line.setEndY(r.getHeight());
+			lineGroup.getChildren().add(line);
+		}
+		
+		for(int y = 0; y < r.getHeight(); y=y+40) {
+			Line line = new Line();
+			line.setStartX(0);
+			line.setEndX(r.getWidth());
+			line.setStartY(y-20);
+			line.setEndY(y-20);
+			lineGroup.getChildren().add(line);
+		}
+
+		return lineGroup;
+	}
+
+
+	public ArrayList<Waypoint> scale(ArrayList<Waypoint> input, int s){
+		ArrayList<Waypoint> output = new ArrayList<Waypoint>();
+		for(Waypoint w: input) {
+			output.add(new Waypoint(w.getX()*s, w.getY()*s));
+		}
+		return output;
 	}
 
 	/**
@@ -259,4 +317,3 @@ public class View extends Application {
 		launch(args);
 	}
 }
-

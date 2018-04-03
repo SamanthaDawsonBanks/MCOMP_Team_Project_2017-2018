@@ -20,7 +20,7 @@ import pathfinding.SearchMap;
  * @author David Avery
  *
  */
-class MapTest2 {
+public class MapTest2 {
 
   /**
    * @throws java.lang.Exception
@@ -56,7 +56,7 @@ class MapTest2 {
    
  
 
-  private ArrayList<Waypoint> getPresentationMaze() {
+  public static ArrayList<Waypoint> getPresentationMaze() {
     int y;
     ArrayList<Waypoint> l = new ArrayList<Waypoint>();
     
