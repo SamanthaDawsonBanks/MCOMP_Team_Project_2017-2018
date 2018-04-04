@@ -15,7 +15,7 @@ import common.objects.Herd;
  * 
  */
 
-public interface Updateable {
+public interface Updateable extends RemoteLeader {
 
   public void updateModel(Herd newHerdData) throws RemoteException; //FIXME this probably takes some info
   

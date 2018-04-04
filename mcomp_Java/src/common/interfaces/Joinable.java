@@ -1,5 +1,6 @@
 package common.interfaces;
 
+import java.rmi.RemoteException;
 import common.objects.Member;
 
 /**
@@ -14,11 +15,11 @@ import common.objects.Member;
  *
  */
 
-public interface Joinable {
+public interface Joinable extends RemoteHerd {
 
-  public boolean acceptMember(Member m);// TODO leader info? Is this interface badly specified?
+  public boolean acceptMember(Member m) throws RemoteException;// TODO leader info? Is this interface badly specified?
 
-  public boolean notifyJoin();// TODO same as above, notify the leader of a join?
+  public boolean notifyJoin() throws RemoteException;// TODO same as above, notify the leader of a join?
   
-  public boolean removeMember(Member m); //may need other uid
+  public boolean removeMember(Member m) throws RemoteException; //may need other uid
 }

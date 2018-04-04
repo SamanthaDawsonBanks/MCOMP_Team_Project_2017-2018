@@ -12,7 +12,7 @@ package common.interfaces;
  *         of its original Herd.
  */
 
-public interface Transferable {
+public interface Transferable extends RemoteMember {
 
 
 

@@ -1,5 +1,6 @@
 package common.interfaces;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import common.datatypes.Ability;
 import common.objects.Herd;
@@ -13,10 +14,12 @@ import common.objects.Herd;
  *         An object is groupable if it can be collected together into a herd
  *
  */
-public interface Groupable {
-  public boolean joinHerd(Herd newHerd);
+public interface Groupable extends RemoteMember {
+  public boolean joinHerd(Herd newHerd) throws RemoteException;
 
-  ArrayList<Ability> getAbilities();
-  Herd getLocalHerdData();
-  Herd updateLocalHerdInfo(Herd leaderHerd);
+  ArrayList<Ability> getAbilities() throws RemoteException;
+
+  Herd getLocalHerdData() throws RemoteException;
+
+  Herd updateLocalHerdInfo(Herd leaderHerd) throws RemoteException;
 }

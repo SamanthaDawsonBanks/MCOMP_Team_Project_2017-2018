@@ -3,6 +3,7 @@ package common.objects;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
@@ -17,6 +18,7 @@ import common.datatypes.map.Map;
 import common.datatypes.map.MapLayer;
 import common.datatypes.path.Path;
 import common.interfaces.Bossable;
+import common.interfaces.Connectable;
 import common.interfaces.Directable;
 import common.interfaces.Drawable;
 import common.interfaces.Driveable;
@@ -49,7 +51,7 @@ public class Member implements RemoteMember, LSenseable, Driveable, Drawable, Di
 
   private ArrayList<Ability> abilities;
   private Herd localHerdData;
-  private RemoteLeader localLeaderRef;
+  private Leader localLeaderRef;
   private Key myPublicKey;
   private Key myPrivateKey;
   private Key leaderPublicKey;
@@ -104,7 +106,7 @@ public class Member implements RemoteMember, LSenseable, Driveable, Drawable, Di
    * @return The ability list.
    */
   @Override
-  public ArrayList<Ability> getAbilities() {
+  public ArrayList<Ability> getAbilities() throws RemoteException {
     return abilities;
   }
 
@@ -130,7 +132,7 @@ public class Member implements RemoteMember, LSenseable, Driveable, Drawable, Di
    * @return The Public Key.
    */
   //@Override
-  public Key getPublicKey() { // FIXME if this is needed then it should be specified in an interface
+  public Key getPublicKey() throws RemoteException { // FIXME if this is needed then it should be specified in an interface
     return myPublicKey; // TODO this needs to be of type Key once I work out ciphers.
   }
 
@@ -142,7 +144,7 @@ public class Member implements RemoteMember, LSenseable, Driveable, Drawable, Di
    * @return True if key is valid, false if not.
    */
   //@Override
-  private boolean isValidKey(Key pk) {// FIXME if this is needed then it should be specified in an
+  public boolean isValidKey(Key pk) {// FIXME if this is needed then it should be specified in an
                                       // interface
     // TODO RMI call leader, encrpyt String hello world to Leader, if leader returns Hello World
     // then true.
@@ -165,17 +167,17 @@ public class Member implements RemoteMember, LSenseable, Driveable, Drawable, Di
       Process leaderMainP = leaderMainPB.start();
 
       BufferedReader br = new BufferedReader(new InputStreamReader(leaderMainP.getInputStream()));
-//      String output = "";
-//      String line;
-//      output = output + "\n >>>>>> BEGIN LeaderMain process output <<<<<< \n\n";
-//      while ((line = br.readLine()) != null) {//FIXME this loop will need to be threaded (if we keep it) to fix the blocking nature
-//        output = output + line + "\n";
-//        if (line.equals("INFO: End of LeaderMain")) {// line is never null in this context
-//          break;
-//        }
-//      }
-//      output = output + "\n >>>>>> END LeaderMain process output <<<<<<" + "\n";
-//      LOGGER.log(Level.INFO, output);
+      String output = "";
+      String line;
+      output = output + "\n >>>>>> BEGIN LeaderMain process output <<<<<< \n\n";
+      while ((line = br.readLine()) != null) {//FIXME this loop will need to be threaded (if we keep it) to fix the blocking nature
+        output = output + line + "\n";
+        if (line.equals("INFO: End of LeaderMain")) {// line is never null in this context
+          break;
+        }
+      }
+      output = output + "\n >>>>>> END LeaderMain process output <<<<<<" + "\n";
+      LOGGER.log(Level.INFO, output);
 
     } catch (RemoteException e) {
       // TODO Auto-generated catch block
@@ -192,7 +194,7 @@ public class Member implements RemoteMember, LSenseable, Driveable, Drawable, Di
 
 
   @Override
-  public void notifyOfChange() {
+  public void notifyOfChange() throws RemoteException {
     // TODO Auto-generated method stub
     // model.getData()
     try {
@@ -207,14 +209,14 @@ public class Member implements RemoteMember, LSenseable, Driveable, Drawable, Di
 
 
   @Override
-  public Map processMapLump(Herd h) {
+  public Map processMapLump(Herd h) throws RemoteException {
     // TODO Auto-generated method stub
     return null;
   }
 
 
   @Override
-  public Path processPathLump(Herd h) {
+  public Path processPathLump(Herd h) throws RemoteException {
     // TODO Auto-generated method stub
     
     //FIXME some form of call to AStart Path find??
@@ -224,7 +226,7 @@ public class Member implements RemoteMember, LSenseable, Driveable, Drawable, Di
 
 
   @Override
-  public boolean setDestination(Waypoint w) {
+  public boolean setDestination(Waypoint w) throws RemoteException {
     // TODO Auto-generated method stub
     // This method will have been called as part of an onclick even from the gui or from the command
     // line
@@ -241,7 +243,7 @@ public class Member implements RemoteMember, LSenseable, Driveable, Drawable, Di
 
 
   @Override
-  public Waypoint drive(Waypoint w) {
+  public Waypoint drive(Waypoint w) throws RemoteException {
     // TODO Auto-generated method stub
     // Assume there is already a serial connection
     // serial.send() drive command
@@ -255,7 +257,9 @@ public class Member implements RemoteMember, LSenseable, Driveable, Drawable, Di
 
 
   @Override
-  public MapLayer lSense() {
+  public MapLayer lSense() throws RemoteException {
+    System.out.println("lsense called");
+
     // TODO Auto-generated method stub
     // Assume there is already a serial connection
     // serial.send() l sense command
@@ -269,7 +273,7 @@ public class Member implements RemoteMember, LSenseable, Driveable, Drawable, Di
 
 
   @Override
-  public boolean joinHerd(Herd newHerd) {
+  public boolean joinHerd(Herd newHerd) throws RemoteException {
     // TODO Auto-generated method stub
     //
     return false;
@@ -277,7 +281,7 @@ public class Member implements RemoteMember, LSenseable, Driveable, Drawable, Di
 
 
   @Override
-  public Herd updateLocalHerdInfo(Herd leaderHerd) {
+  public Herd updateLocalHerdInfo(Herd leaderHerd) throws RemoteException {
     // TODO Auto-generated method stub
     localHerdData = leaderHerd;//TODO does this need to be a merge or a replace?
     return localHerdData;
@@ -285,7 +289,7 @@ public class Member implements RemoteMember, LSenseable, Driveable, Drawable, Di
 
 
   @Override
-  public Leader becomeLeader(Herd h) {
+  public Leader becomeLeader(Herd h) throws RemoteException {
     // TODO Auto-generated method stub
     LOGGER.log(Level.INFO, "Becoming Leader");
 
@@ -297,7 +301,7 @@ public class Member implements RemoteMember, LSenseable, Driveable, Drawable, Di
     // wait?
     // connect to rmi
     try {
-      localLeaderRef = (RemoteLeader) Naming.lookup("HerdLeader");
+      localLeaderRef = (Leader) Naming.lookup("HerdLeader");
     } catch (MalformedURLException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
@@ -322,7 +326,7 @@ public class Member implements RemoteMember, LSenseable, Driveable, Drawable, Di
 
 
   @Override
-  public Herd getLocalHerdData() {
+  public Herd getLocalHerdData() throws RemoteException {
     // TODO Auto-generated method stub
     return localHerdData;
   }

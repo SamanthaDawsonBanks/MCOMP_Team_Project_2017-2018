@@ -1,5 +1,6 @@
 package common.interfaces;
 
+import java.rmi.RemoteException;
 import common.datatypes.map.MapLayer;
 
 /**
@@ -15,8 +16,8 @@ import common.datatypes.map.MapLayer;
  * 
  */
 
-public interface LSenseable {
+public interface LSenseable extends RemoteMember {
 
-  public MapLayer lSense();
+  public MapLayer lSense() throws RemoteException;
 
 }

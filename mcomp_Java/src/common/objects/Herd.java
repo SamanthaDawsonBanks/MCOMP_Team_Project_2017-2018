@@ -1,5 +1,8 @@
 package common.objects;
 
+import java.io.Serializable;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -10,10 +13,12 @@ import common.datatypes.path.Path;
 import common.interfaces.Bossable;
 import common.interfaces.Directable;
 import common.interfaces.Driveable;
+import common.interfaces.Groupable;
 import common.interfaces.Joinable;
 import common.interfaces.LSenseable;
 import common.interfaces.Notifiable;
 import common.interfaces.Organisable;
+import common.interfaces.Promotable;
 import common.interfaces.RemoteMember;
 
 /**
@@ -36,7 +41,7 @@ public class Herd implements Joinable, Organisable {
   private static final Logger LOGGER = Logger.getLogger(Herd.class.getName());
 
   private String herdID;
-  private RemoteMember theLeader;
+  private Promotable theLeader;
   private ArrayList<Member> herdMembers;
   private ArrayList<Driveable> herdDrivers;
   private ArrayList<LSenseable> herdSensors;
@@ -97,7 +102,12 @@ public class Herd implements Joinable, Organisable {
     theLeader = electLeader();
 
     // on that robot, start start the leader process
-    theLeader.becomeLeader(this);
+    try {
+      theLeader.becomeLeader(this);
+    } catch (RemoteException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
   }
 
   /**
@@ -107,7 +117,7 @@ public class Herd implements Joinable, Organisable {
    * @return The leader of the Herd.
    */
   @Override
-  public RemoteMember electLeader() {
+  public Promotable electLeader() throws RemoteException {
     // TODO Auto-generated method stub
     LOGGER.log(Level.INFO, "Choosing Leader");
     theLeader = herdMembers.get(0);// TODO get oldist from all or subtype?
@@ -128,7 +138,8 @@ public class Herd implements Joinable, Organisable {
    * @param The Member object requesting to join the Herd.
    * @return The list of all current members in the Herd.
    */
-  public ArrayList<Member> requestJoin(Member aspiringMember) {
+  @Override
+  public ArrayList<Member> requestJoin(Member aspiringMember) throws RemoteException {
     // TODO Find a test to validate the Key of a Member/Herd
     herdMembers.add(aspiringMember);
     for (Ability a : aspiringMember.getAbilities()) {
@@ -171,7 +182,8 @@ public class Herd implements Joinable, Organisable {
    * @param The member object leaving the Herd.
    * @return The list of remaining members.
    */
-  public ArrayList<Member> requestLeave(RemoteMember leavingMember) {
+  @Override
+  public ArrayList<Member> requestLeave(Groupable leavingMember) throws RemoteException {
     /*
      * TODO Consider the return type. If a member leaves, do they need returned the state of the
      * herd? Perhaps this should be a void, or return an enum.
@@ -181,25 +193,30 @@ public class Herd implements Joinable, Organisable {
      * destroyed? What happens to it's discoveries about the surrounding world?
      */
     herdMembers.remove(leavingMember);
-    for (Ability b : leavingMember.getAbilities()) {
-      switch (b) {//TODO do we need the switch or just call remove with it
-        case DRIVER:
-          herdDrivers.remove(leavingMember);
-          break;
-        case PROCESSOR:
-          herdProcessors.remove(leavingMember);
-          break;
-        case SENSOR:
-          herdSensors.remove(leavingMember);
-          break;
-        case VIEWER:
-          herdViewers.remove(leavingMember);
-          break;
-        case DEST_SETTER:
-          if (herdDestSetter.equals(leavingMember));
-          herdDestSetter = null;//TODO then check for secondary dest setters?
-          break;
+    try {
+      for (Ability b : leavingMember.getAbilities()) {
+        switch (b) {//TODO do we need the switch or just call remove with it
+          case DRIVER:
+            herdDrivers.remove(leavingMember);
+            break;
+          case PROCESSOR:
+            herdProcessors.remove(leavingMember);
+            break;
+          case SENSOR:
+            herdSensors.remove(leavingMember);
+            break;
+          case VIEWER:
+            herdViewers.remove(leavingMember);
+            break;
+          case DEST_SETTER:
+            if (herdDestSetter.equals(leavingMember));
+            herdDestSetter = null;//TODO then check for secondary dest setters?
+            break;
+        }
       }
+    } catch (RemoteException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
     }
     return herdMembers;
   }
@@ -216,7 +233,8 @@ public class Herd implements Joinable, Organisable {
    * 
    * @return The herd ID.
    */
-  public String getHerdID() {
+  @Override
+  public String getHerdID() throws RemoteException {
     return herdID;
   }
 
@@ -225,7 +243,8 @@ public class Herd implements Joinable, Organisable {
    * 
    * @return The list of Herd Members.
    */
-  public ArrayList<Member> getMembers() {
+  @Override
+  public ArrayList<Member> getMembers() throws RemoteException {
     return herdMembers;
   }
 
@@ -235,7 +254,8 @@ public class Herd implements Joinable, Organisable {
    * @param The Public Key of a member in the Herd.
    * @return The Member object if it exists, null if not.
    */
-  public Member getMember(String theKey) {//Using the pubKey as UID works well, good call Steve
+  @Override
+  public Member getMember(String theKey) throws RemoteException {//Using the pubKey as UID works well, good call Steve
     for (Member a : herdMembers) {
       if (a.getPublicKey().equals(theKey)) {
         return a;
@@ -249,7 +269,8 @@ public class Herd implements Joinable, Organisable {
    * 
    * @return The list of Drivers.
    */
-  public ArrayList<Driveable> getDrivers() {
+  @Override
+  public ArrayList<Driveable> getDrivers() throws RemoteException {
     return herdDrivers;
   }
 
@@ -258,7 +279,8 @@ public class Herd implements Joinable, Organisable {
    * 
    * @return The list of Processors.
    */
-  public ArrayList<Bossable> getProcessors() {
+  @Override
+  public ArrayList<Bossable> getProcessors() throws RemoteException {
     return herdProcessors;
   }
 
@@ -267,7 +289,8 @@ public class Herd implements Joinable, Organisable {
    * 
    * @return The list of Sensors.
    */
-  public ArrayList<LSenseable> getSensors() {
+  @Override
+  public ArrayList<LSenseable> getSensors() throws RemoteException {
     return herdSensors;
   }
 
@@ -276,7 +299,8 @@ public class Herd implements Joinable, Organisable {
    * 
    * @return The list of Viewers.
    */
-  public ArrayList<Notifiable> getViewers() {
+  @Override
+  public ArrayList<Notifiable> getViewers() throws RemoteException {
     return herdViewers;
   }
 
@@ -285,24 +309,25 @@ public class Herd implements Joinable, Organisable {
    * 
    * @return The Destination Setter.
    */
-  public Directable getDestSetter() {
+  @Override
+  public Directable getDestSetter() throws RemoteException {
     return herdDestSetter;
   }
 
   @Override
-  public boolean acceptMember(Member m) {
+  public boolean acceptMember(Member m) throws RemoteException {
     // TODO Auto-generated method stub
     return false;
   }
 
   @Override
-  public boolean notifyJoin() {
+  public boolean notifyJoin() throws RemoteException {
     // TODO Auto-generated method stub
     return false;
   }
 
   @Override
-  public boolean removeMember(Member m) {
+  public boolean removeMember(Member m) throws RemoteException {
     // TODO Auto-generated method stub
     return false;
   }

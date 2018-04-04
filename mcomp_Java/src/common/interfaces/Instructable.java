@@ -15,7 +15,7 @@ import java.rmi.RemoteException;
  * 
  */
 
-public interface Instructable {
+public interface Instructable extends RemoteLeader {
 
   public boolean pathfind() throws RemoteException; // Not sure where we decide on representing success or failure.
   

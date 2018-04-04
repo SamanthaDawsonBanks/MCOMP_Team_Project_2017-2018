@@ -16,6 +16,7 @@ import common.interfaces.Connectable;
 import common.interfaces.Contactable;
 import common.interfaces.Directable;
 import common.interfaces.Driveable;
+import common.interfaces.Groupable;
 import common.interfaces.Instructable;
 import common.interfaces.LSenseable;
 import common.interfaces.RemoteLeader;
@@ -148,7 +149,7 @@ public class Leader extends UnicastRemoteObject implements RemoteLeader, Instruc
    * 
    * @return The current state of the members list
    */
-  public Collection<Member> getMemebers() {//TODO refactor to herd
+  public Collection<Member> getMemebers() throws RemoteException {//TODO refactor to herd
     //potentially depreciated
     return herdMembers;
   }
@@ -159,7 +160,7 @@ public class Leader extends UnicastRemoteObject implements RemoteLeader, Instruc
    * current members from the "old" one.
    */
   @Override
-  public void leaderDiscussMerge() {//TODO send herd data so decision can be made?
+  public void leaderDiscussMerge() throws RemoteException {//TODO send herd data so decision can be made?
     // TODO Auto-generated method stub
     // Will be related to herd merging
     throw new UnsupportedOperationException("method not implemented");
@@ -169,13 +170,13 @@ public class Leader extends UnicastRemoteObject implements RemoteLeader, Instruc
    * DOCME
    */
   @Override
-  public void updateModel(Herd newHerdData) {//TODO is the input a herd DT?
+  public void updateModel(Herd newHerdData) throws RemoteException {//TODO is the input a herd DT?
     // TODO Auto-generated method stub
     // Won't be update model
   }
   
   @Override
-  public Herd getHerdState() {
+  public Herd getHerdState() throws RemoteException {
     return herd;
     // TODO Auto-generated method stub
     // bundle up all state and send it to the client
@@ -186,8 +187,9 @@ public class Leader extends UnicastRemoteObject implements RemoteLeader, Instruc
    * DOCME
    */
   @Override
-  public boolean register(RemoteMember joiningMember) {
+  public boolean register(Groupable joiningMember) throws RemoteException {
     updateModel(joiningMember.getLocalHerdData());
+    herd.getMembers().get(0).lSense();
     return this.ConnectedMembers.add(joiningMember);//FIXME adjust for herd
     // used to register a client for server/client/mvc
     // Likely to take a member and add them to the 'registered' list??
@@ -197,8 +199,8 @@ public class Leader extends UnicastRemoteObject implements RemoteLeader, Instruc
    * DOCME
    */
   @Override
-  public boolean deregister(RemoteMember leavingMember) {
-    updateModel(herd.requestLeave(leavingMember));//FIXME check logic
+  public boolean deregister(Groupable leavingMember) throws RemoteException {
+    //updateModel(herd.requestLeave(leavingMember));//FIXME check logic
     return this.ConnectedMembers.remove(leavingMember);//FIXME adjust for herd
     //not sure that's right - will look into
     // As with register but removing??
@@ -208,7 +210,7 @@ public class Leader extends UnicastRemoteObject implements RemoteLeader, Instruc
    * DOCME
    */
   @Override
-  public boolean pathfind() {//doenst take a WP ad dest should already be set
+  public boolean pathfind() throws RemoteException {//doenst take a WP ad dest should already be set
     //sanity check (herd has a dest and map)
     //stub for splitting work for parallel
     
@@ -222,7 +224,7 @@ public class Leader extends UnicastRemoteObject implements RemoteLeader, Instruc
   }
 
   @Override
-  public Boolean go() {
+  public Boolean go() throws RemoteException {
     //if there is a dest and path //else clean up 
     // TODO Auto-generated method stub
     // actual method that makes bots drive through the path calc'ed
@@ -250,9 +252,10 @@ public class Leader extends UnicastRemoteObject implements RemoteLeader, Instruc
   }
 
   @Override
-  public boolean setDestination(Waypoint w) {
+  public boolean setDestination(Waypoint w) throws RemoteException {
     // TODO Auto-generated method stub
     herd.dest = w;
     return true;//TODO some logic
   }
+
 }

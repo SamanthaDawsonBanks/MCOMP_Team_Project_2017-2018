@@ -3,16 +3,17 @@
  */
 package common.interfaces;
 
+import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import common.objects.Herd;
 
 /**
  * @author David Avery 15823926
  *
  */
-public interface RemoteMember extends Remote, LSenseable, Driveable, Drawable, Directable, Bossable, Transferable,
-Promotable, Notifiable, Groupable {
-  
+public interface RemoteMember extends Remote, Serializable {
+
   
   
   

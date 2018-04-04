@@ -1,5 +1,6 @@
 package common.interfaces;
 
+import java.rmi.RemoteException;
 import common.datatypes.map.Map;
 import common.datatypes.path.Path;
 import common.objects.Herd;
@@ -17,10 +18,10 @@ import common.objects.Herd;
  *         Path to be analysed.
  * 
  */
-public interface Bossable {
+public interface Bossable extends RemoteMember {
 
-  public Map processMapLump(Herd h);//herd is the data holder for members, maps, and paths
+  public Map processMapLump(Herd h) throws RemoteException;//herd is the data holder for members, maps, and paths
 
-  public Path processPathLump(Herd h);//herd is the data holder for members, maps, and paths
+  public Path processPathLump(Herd h) throws RemoteException;//herd is the data holder for members, maps, and paths
 
 }

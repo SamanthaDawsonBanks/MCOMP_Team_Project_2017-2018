@@ -15,7 +15,7 @@ import common.datatypes.Waypoint;
  *         location.
  */
 
-public interface Driveable {
+public interface Driveable extends RemoteMember {
 
   public Waypoint drive(Waypoint w) throws RemoteException;
 

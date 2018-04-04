@@ -1,6 +1,7 @@
 package common.interfaces;
 
 import java.rmi.RemoteException;
+import common.objects.Herd;
 
 /**
  * @author Stephen Pope 15836791
@@ -16,7 +17,7 @@ import java.rmi.RemoteException;
  * 
  */
 
-public interface Connectable {
+public interface Connectable extends RemoteLeader {
 
   /**
    * When a member joins a herd, it must register itself with the leader of that herd so that it can
@@ -26,7 +27,7 @@ public interface Connectable {
    * @return Returns true if the member was registered successfully, False if it did not
    * @throws RemoteException 
    */
-  public boolean register(RemoteMember joiningMember) throws RemoteException;
+  public boolean register(Groupable joiningMember) throws RemoteException;
 
   /**
    * When leaving a herd (normally in a herd merge), the member must first unregister itself with
@@ -37,6 +38,8 @@ public interface Connectable {
    * @return Returns true if the member unregistered with the leader, False if it did not
    * @throws RemoteException 
    */
-  public boolean deregister(RemoteMember leavingMember) throws RemoteException;
+  public boolean deregister(Groupable leavingMember) throws RemoteException;
 
+  
+  public Herd getHerdState() throws RemoteException;
 }

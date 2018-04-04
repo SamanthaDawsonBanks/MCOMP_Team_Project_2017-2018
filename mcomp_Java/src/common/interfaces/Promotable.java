@@ -1,5 +1,6 @@
 package common.interfaces;
 
+import java.rmi.RemoteException;
 import common.objects.Herd;
 import common.objects.Leader;
 
@@ -16,8 +17,8 @@ import common.objects.Leader;
  * 
  */
 
-public interface Promotable {
+public interface Promotable extends RemoteMember {
 
-  public Leader becomeLeader(Herd h); // TODO returns the initialised Leader object to the Herd?
+  public Leader becomeLeader(Herd h) throws RemoteException; // TODO returns the initialised Leader object to the Herd?
 
 }
