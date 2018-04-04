@@ -4,7 +4,6 @@ import java.net.InetAddress;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.logging.Logger;
 import common.datatypes.Waypoint;
 import common.interfaces.Connectable;

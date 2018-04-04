@@ -8,7 +8,6 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import common.datatypes.Waypoint;
-import common.datatypes.path.Path;
 import common.objects.Herd;
 
 /**

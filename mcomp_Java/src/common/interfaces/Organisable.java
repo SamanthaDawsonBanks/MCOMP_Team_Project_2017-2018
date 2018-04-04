@@ -1,6 +1,5 @@
 package common.interfaces;
 
-import java.rmi.RemoteException;
 
 /**
  * @author Stephen Pope 15836791
