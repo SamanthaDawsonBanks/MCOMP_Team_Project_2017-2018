@@ -15,8 +15,8 @@ import java.rmi.RemoteException;
  * 
  */
 
-public interface Organisable extends RemoteHerd {
+public interface Organisable {
 
-  public RemoteMember electLeader() throws RemoteException;
+  public RemoteMember electLeader();
 
 }

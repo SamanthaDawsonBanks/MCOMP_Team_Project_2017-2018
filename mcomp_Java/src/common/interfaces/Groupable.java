@@ -14,7 +14,7 @@ import common.objects.Herd;
  *         An object is groupable if it can be collected together into a herd
  *
  */
-public interface Groupable extends RemoteMember {
+public interface Groupable {
   public boolean joinHerd(Herd newHerd) throws RemoteException;
 
   ArrayList<Ability> getAbilities() throws RemoteException;

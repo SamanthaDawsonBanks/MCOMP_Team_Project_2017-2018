@@ -4,6 +4,7 @@
 package member;
 
 import common.objects.Member;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,7 +35,7 @@ public class MemberMain {
   private static final Logger LOGGER = Logger.getLogger(MemberMain.class.getName());
   private static Member me;
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws RemoteException {
     ArrayList<Ability> skills = new ArrayList<Ability>();
     LOGGER.log(Level.INFO, "MemberMain Starting");
     for (String a : args) {

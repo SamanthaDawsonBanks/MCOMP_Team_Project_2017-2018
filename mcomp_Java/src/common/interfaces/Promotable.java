@@ -17,7 +17,7 @@ import common.objects.Leader;
  * 
  */
 
-public interface Promotable extends RemoteMember {
+public interface Promotable {
 
   public Leader becomeLeader(Herd h) throws RemoteException; // TODO returns the initialised Leader object to the Herd?
 

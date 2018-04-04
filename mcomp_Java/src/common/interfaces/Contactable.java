@@ -14,7 +14,7 @@ import java.rmi.RemoteException;
  * 
  */
 
-public interface Contactable extends RemoteLeader {
+public interface Contactable {
 
   public void leaderDiscussMerge() throws RemoteException; // TODO obviously a lot of this needs refining.
 

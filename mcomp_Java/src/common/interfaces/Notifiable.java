@@ -15,7 +15,7 @@ import java.rmi.RemoteException;
  * 
  */
 
-public interface Notifiable extends RemoteMember {
+public interface Notifiable {
 
   public void notifyOfChange() throws RemoteException;
 

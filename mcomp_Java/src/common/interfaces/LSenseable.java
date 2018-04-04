@@ -16,7 +16,7 @@ import common.datatypes.map.MapLayer;
  * 
  */
 
-public interface LSenseable extends RemoteMember {
+public interface LSenseable {
 
   public MapLayer lSense() throws RemoteException;
 

@@ -11,7 +11,7 @@ package common.interfaces;
  *         An object is viewable if it is capable of creating a GUI and altering the display.
  * 
  */
-public interface Drawable extends RemoteMember {
+public interface Drawable {
 
   //TODO consider methods
 

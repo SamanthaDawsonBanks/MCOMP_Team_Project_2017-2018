@@ -15,7 +15,7 @@ import common.datatypes.Waypoint;
  *         for the Herd to attempt to pathfind to.
  */
 
-public interface Directable extends RemoteMember, RemoteLeader {
+public interface Directable {
 
   public boolean setDestination(Waypoint w) throws RemoteException;
 

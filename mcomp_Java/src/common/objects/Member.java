@@ -3,12 +3,11 @@ package common.objects;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.Serializable;
-import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,7 +17,6 @@ import common.datatypes.map.Map;
 import common.datatypes.map.MapLayer;
 import common.datatypes.path.Path;
 import common.interfaces.Bossable;
-import common.interfaces.Connectable;
 import common.interfaces.Directable;
 import common.interfaces.Drawable;
 import common.interfaces.Driveable;
@@ -45,13 +43,13 @@ import java.security.Key;
  * 
  */
 
-public class Member implements RemoteMember, LSenseable, Driveable, Drawable, Directable, Bossable, Transferable,
+public class Member extends UnicastRemoteObject implements RemoteMember, LSenseable, Driveable, Drawable, Directable, Bossable, Transferable,
     Promotable, Notifiable, Groupable {
   private static final Logger LOGGER = Logger.getLogger(Member.class.getName());
 
   private ArrayList<Ability> abilities;
   private Herd localHerdData;
-  private Leader localLeaderRef;
+  private RemoteLeader localLeaderRef;
   private Key myPublicKey;
   private Key myPrivateKey;
   private Key leaderPublicKey;
@@ -70,7 +68,7 @@ public class Member implements RemoteMember, LSenseable, Driveable, Drawable, Di
    * @return A new Member object.
    */
 
-  public Member(Ability[] can) {
+  public Member(Ability[] can) throws RemoteException {
     LOGGER.log(Level.INFO, "Member Starting");
     abilities = new ArrayList<Ability>();
     LOGGER.log(Level.INFO, "Calling Herd Constructor");
@@ -198,7 +196,7 @@ public class Member implements RemoteMember, LSenseable, Driveable, Drawable, Di
     // TODO Auto-generated method stub
     // model.getData()
     try {
-      localHerdData = localLeaderRef.getHerdState();
+      localHerdData = localLeaderRef.getState();
     } catch (RemoteException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
@@ -232,7 +230,7 @@ public class Member implements RemoteMember, LSenseable, Driveable, Drawable, Di
     // line
     // Inform leader that the new destination is 'w'
     try {
-      localLeaderRef.setDestination(w);
+      ((Directable) localLeaderRef).setDestination(w);
     } catch (RemoteException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
@@ -258,8 +256,6 @@ public class Member implements RemoteMember, LSenseable, Driveable, Drawable, Di
 
   @Override
   public MapLayer lSense() throws RemoteException {
-    System.out.println("lsense called");
-
     // TODO Auto-generated method stub
     // Assume there is already a serial connection
     // serial.send() l sense command
@@ -301,7 +297,7 @@ public class Member implements RemoteMember, LSenseable, Driveable, Drawable, Di
     // wait?
     // connect to rmi
     try {
-      localLeaderRef = (Leader) Naming.lookup("HerdLeader");
+      localLeaderRef = (RemoteLeader) Naming.lookup("rmi://192.168.25.42" + "/HerdLeader");
     } catch (MalformedURLException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
@@ -329,6 +325,17 @@ public class Member implements RemoteMember, LSenseable, Driveable, Drawable, Di
   public Herd getLocalHerdData() throws RemoteException {
     // TODO Auto-generated method stub
     return localHerdData;
+  }
+
+
+  @Override
+  public void RMITest() {
+    System.out.println("Member RMITest was called");
+    try {
+      localLeaderRef.RMITest();
+    } catch (RemoteException e) {
+      e.printStackTrace();
+    }
   }
 
 }

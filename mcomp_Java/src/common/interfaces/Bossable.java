@@ -18,7 +18,7 @@ import common.objects.Herd;
  *         Path to be analysed.
  * 
  */
-public interface Bossable extends RemoteMember {
+public interface Bossable {
 
   public Map processMapLump(Herd h) throws RemoteException;//herd is the data holder for members, maps, and paths
 

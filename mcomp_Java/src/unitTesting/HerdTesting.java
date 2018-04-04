@@ -1,6 +1,7 @@
 package unitTesting;
 import org.junit.Before;
 import org.junit.Test;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import common.datatypes.Ability;
 import common.objects.Herd;
@@ -24,7 +25,7 @@ public class HerdTesting {
    * Tests the creation of a basic herd with one member added to it.
    */
   @Test
-  public void create() {
+  public void create() throws RemoteException {
     Ability [] arr = new Ability[2];
     arr [0] = Ability.DRIVER;
     arr [1] = Ability.DEST_SETTER;
@@ -39,7 +40,7 @@ public class HerdTesting {
   /*
    * Tests the addition of multiple regular Members 
    */
-  public void addManyMembers() {
+  public void addManyMembers() throws RemoteException {
     Ability [] arr = {Ability.DRIVER, Ability.DEST_SETTER};
     Member theMember = new Member(arr); 
     Herd theHerd = new Herd(theMember);
