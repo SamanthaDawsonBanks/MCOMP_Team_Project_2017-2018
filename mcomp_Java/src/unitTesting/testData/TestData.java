@@ -8,6 +8,7 @@ import common.datatypes.Waypoint;
 
 /**
  * @author David Avery 15823926
+ * @author Harry Jackson 14812630
  *
  */
 public class TestData {
