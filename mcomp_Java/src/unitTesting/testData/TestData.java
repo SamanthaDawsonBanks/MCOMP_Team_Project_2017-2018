@@ -108,4 +108,34 @@ public class TestData {
 
   }
 
+  public static ArrayList<Waypoint> getmaze2RealTestHeuristicPathOptimisation() {
+
+    ArrayList<int[]> ys = new ArrayList<int[]>();
+    ys.add(new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15}); 
+    ys.add(new int[] { 1,                   8,                  15}); 
+    ys.add(new int[] { 1, 2,    4,    6,         10,      13,   15}); 
+    ys.add(new int[] { 1, 2,    4, 5, 6, 7, 8, 9,10,11,   13,   15}); 
+    ys.add(new int[] { 1, 2,    4,                        13,   15}); 
+    ys.add(new int[] { 1,                7, 8, 9,10,11,12,13,   15}); 
+    ys.add(new int[] { 1, 2, 3, 4,    6, 7,               13,   15}); 
+    ys.add(new int[] { 1, 2, 3,                     11,12,13,   15}); 
+    ys.add(new int[] { 1, 2,       5, 6, 7, 8, 9,10,11,12,13,   15}); 
+    ys.add(new int[] { 1,                                       15}); 
+    ys.add(new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15}); 
+    
+    ArrayList<Waypoint> l = new ArrayList<Waypoint>();
+    
+    int y = 1;
+    for (int[] line : ys) {
+      for (int x : line) {
+        l.add(new Waypoint(x,y));
+      }
+      y++;
+    }
+
+    return l;
+
+  }
+
+
 }
