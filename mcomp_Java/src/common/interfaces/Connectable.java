@@ -2,7 +2,6 @@ package common.interfaces;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import common.objects.Herd;
 
 /**
  * @author Stephen Pope 15836791
