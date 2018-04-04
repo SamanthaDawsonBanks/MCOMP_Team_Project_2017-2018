@@ -35,12 +35,12 @@ public class Leader extends UnicastRemoteObject
 
   private Herd herd;
 
-  private ArrayList<RemoteMember> ConnectedMembers = new ArrayList<RemoteMember>(); // FIXME
-                                                                                    // refactor this
-                                                                                    // into herd? as
-                                                                                    // herd.members?
-                                                                                    // or
-                                                                                    // herdmembers?
+//  private ArrayList<RemoteMember> ConnectedMembers = new ArrayList<RemoteMember>(); // FIXME
+//                                                                                    // refactor this
+//                                                                                    // into herd? as
+//                                                                                    // herd.members?
+//                                                                                    // or
+//                                                                                    // herdmembers?
 
   private ArrayList<Member> herdMembers; // FIXME when a leader is first established, it should
                                          // collect herd information from the member that spawned it
@@ -190,7 +190,7 @@ public class Leader extends UnicastRemoteObject
    * DOCME
    */
   @Override
-  public boolean register(RemoteMember joiningMember) throws RemoteException {
+  public ArrayList<RemoteMember> register(RemoteMember joiningMember) throws RemoteException {
     if (herd == null) {
       herd = new Herd(joiningMember);
     }
@@ -199,7 +199,7 @@ public class Leader extends UnicastRemoteObject
     }
     updateModel(joiningMember.getLocalHerdData());
     joiningMember.RMITest();
-    return this.ConnectedMembers.add(joiningMember);// FIXME adjust for herd
+    return herd.requestJoin(joiningMember);// FIXME adjust for herd
     // used to register a client for server/client/mvc
     // Likely to take a member and add them to the 'registered' list??
   }
@@ -208,9 +208,9 @@ public class Leader extends UnicastRemoteObject
    * DOCME
    */
   @Override
-  public boolean deregister(RemoteMember leavingMember) throws RemoteException {
+  public ArrayList<RemoteMember> deregister(RemoteMember leavingMember) throws RemoteException {
     // updateModel(herd.requestLeave(leavingMember));//FIXME check logic
-    return this.ConnectedMembers.remove(leavingMember);// FIXME adjust for herd
+    return herd.requestLeave(leavingMember);// FIXME adjust for herd
     // not sure that's right - will look into
     // As with register but removing??
   }

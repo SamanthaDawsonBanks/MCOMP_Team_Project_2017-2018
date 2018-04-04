@@ -1,6 +1,7 @@
 package common.interfaces;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import common.objects.Herd;
 
 /**
@@ -27,7 +28,7 @@ public interface Connectable {
    * @return Returns true if the member was registered successfully, False if it did not
    * @throws RemoteException 
    */
-  public boolean register(RemoteMember joiningMember) throws RemoteException;
+  public ArrayList<RemoteMember> register(RemoteMember joiningMember) throws RemoteException;
 
   /**
    * When leaving a herd (normally in a herd merge), the member must first unregister itself with
@@ -38,6 +39,6 @@ public interface Connectable {
    * @return Returns true if the member unregistered with the leader, False if it did not
    * @throws RemoteException 
    */
-  public boolean deregister(RemoteMember leavingMember) throws RemoteException;
+  public ArrayList<RemoteMember> deregister(RemoteMember leavingMember) throws RemoteException;
 
 }

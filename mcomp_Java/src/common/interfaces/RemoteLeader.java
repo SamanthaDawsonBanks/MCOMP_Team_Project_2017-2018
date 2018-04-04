@@ -6,6 +6,7 @@ package common.interfaces;
 import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import common.datatypes.Waypoint;
 import common.datatypes.path.Path;
 import common.objects.Herd;
@@ -21,10 +22,10 @@ public interface RemoteLeader extends Remote, Serializable, Connectable, Contact
 
   //Connectable
   @Override
-  public boolean register(RemoteMember joiningMember) throws RemoteException;
+  public ArrayList<RemoteMember> register(RemoteMember joiningMember) throws RemoteException;
 
   @Override
-  public boolean deregister(RemoteMember leavingMember) throws RemoteException;
+  public ArrayList<RemoteMember> deregister(RemoteMember leavingMember) throws RemoteException;
   
   //Contactable
   @Override
