@@ -35,17 +35,6 @@ public class Leader extends UnicastRemoteObject
 
   private Herd herd;
 
-//  private ArrayList<RemoteMember> ConnectedMembers = new ArrayList<RemoteMember>(); // FIXME
-//                                                                                    // refactor this
-//                                                                                    // into herd? as
-//                                                                                    // herd.members?
-//                                                                                    // or
-//                                                                                    // herdmembers?
-
-  private ArrayList<Member> herdMembers; // FIXME when a leader is first established, it should
-                                         // collect herd information from the member that spawned it
-  // TODO why a list of members and not a herd object?
-
   // private int portNumber;
   // private String serverName;
   // private Registry r;
@@ -151,9 +140,10 @@ public class Leader extends UnicastRemoteObject
    * 
    * @return The current state of the members list
    */
-  public Collection<Member> getMemebers() throws RemoteException {// TODO refactor to herd
+  @Override
+  public ArrayList<RemoteMember> getMemebers() throws RemoteException {// TODO refactor to herd
     // potentially depreciated
-    return herdMembers;
+    return herd.getMembers();
   }
 
   /**

@@ -27,6 +27,9 @@ public interface RemoteLeader extends Remote, Serializable, Connectable, Contact
   @Override
   public ArrayList<RemoteMember> deregister(RemoteMember leavingMember) throws RemoteException;
   
+  @Override
+  public ArrayList<RemoteMember> getMemebers() throws RemoteException;
+
   //Contactable
   @Override
   public void leaderDiscussMerge() throws RemoteException; // TODO obviously a lot of this needs refining.

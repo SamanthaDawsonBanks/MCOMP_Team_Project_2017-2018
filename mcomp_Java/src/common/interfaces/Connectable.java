@@ -41,4 +41,6 @@ public interface Connectable {
    */
   public ArrayList<RemoteMember> deregister(RemoteMember leavingMember) throws RemoteException;
 
+  public ArrayList<RemoteMember> getMemebers() throws RemoteException;
+
 }
