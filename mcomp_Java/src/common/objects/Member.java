@@ -43,8 +43,8 @@ import java.security.Key;
  * 
  */
 
-public class Member extends UnicastRemoteObject implements RemoteMember, LSenseable, Driveable, Drawable, Directable, Bossable, Transferable,
-    Promotable, Notifiable, Groupable {
+public class Member extends UnicastRemoteObject implements RemoteMember, LSenseable, Driveable,
+    Drawable, Directable, Bossable, Transferable, Promotable, Notifiable, Groupable {
   private static final Logger LOGGER = Logger.getLogger(Member.class.getName());
 
   private ArrayList<Ability> abilities;
@@ -129,8 +129,9 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
    * 
    * @return The Public Key.
    */
-  //@Override
-  public Key getPublicKey() throws RemoteException { // FIXME if this is needed then it should be specified in an interface
+  // @Override
+  public Key getPublicKey() throws RemoteException { // FIXME if this is needed then it should be
+                                                     // specified in an interface
     return myPublicKey; // TODO this needs to be of type Key once I work out ciphers.
   }
 
@@ -141,9 +142,9 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
    * @param pk
    * @return True if key is valid, false if not.
    */
-  //@Override
+  // @Override
   public boolean isValidKey(Key pk) {// FIXME if this is needed then it should be specified in an
-                                      // interface
+                                     // interface
     // TODO RMI call leader, encrpyt String hello world to Leader, if leader returns Hello World
     // then true.
     return false;
@@ -168,7 +169,8 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
       String output = "";
       String line;
       output = output + "\n >>>>>> BEGIN LeaderMain process output <<<<<< \n\n";
-      while ((line = br.readLine()) != null) {//FIXME this loop will need to be threaded (if we keep it) to fix the blocking nature
+      while ((line = br.readLine()) != null) {// FIXME this loop will need to be threaded (if we
+                                              // keep it) to fix the blocking nature
         output = output + line + "\n";
         if (line.equals("INFO: End of LeaderMain")) {// line is never null in this context
           break;
@@ -201,8 +203,8 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
-    //TODO and do something with it (probably paint it)
-    //TODO split method so this can be refactored to be used for herd sync?
+    // TODO and do something with it (probably paint it)
+    // TODO split method so this can be refactored to be used for herd sync?
   }
 
 
@@ -216,9 +218,9 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
   @Override
   public Path processPathLump(Herd h) throws RemoteException {
     // TODO Auto-generated method stub
-    
-    //FIXME some form of call to AStart Path find??
-    
+
+    // FIXME some form of call to AStart Path find??
+
     return null;
   }
 
@@ -236,7 +238,7 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
       e.printStackTrace();
     }
     // return success/failure
-    return true;//TODO some logic
+    return true;// TODO some logic
   }
 
 
@@ -279,7 +281,7 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
   @Override
   public Herd updateLocalHerdInfo(Herd leaderHerd) throws RemoteException {
     // TODO Auto-generated method stub
-    localHerdData = leaderHerd;//TODO does this need to be a merge or a replace?
+    localHerdData = leaderHerd;// TODO does this need to be a merge or a replace?
     return localHerdData;
   }
 
@@ -307,9 +309,9 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
     } catch (NotBoundException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
-    }//needs to be var vs hardcode 
-    // wait
-    // send the RMI leader the herd info
+    } // needs to be var vs hardcode
+      // wait
+      // send the RMI leader the herd info
     try {
       localLeaderRef.register(this);
     } catch (RemoteException e) {

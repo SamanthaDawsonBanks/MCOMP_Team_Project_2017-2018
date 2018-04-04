@@ -254,7 +254,8 @@ public class Herd implements Joinable, Organisable {
    * @return The Member object if it exists, null if not.
    */
   @Override
-  public RemoteMember getMember(String theKey) {// Using the pubKey as UID works well, good call Steve
+  public RemoteMember getMember(String theKey) {// Using the pubKey as UID works well, good call
+                                                // Steve
     for (RemoteMember a : herdMembers) {
       try {
         if (a.getPublicKey().equals(theKey)) {

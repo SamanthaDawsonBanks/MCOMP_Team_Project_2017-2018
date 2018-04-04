@@ -68,7 +68,7 @@ public class Leader extends UnicastRemoteObject
     // unbindFromRMIServer();
     // bindToRMIServer();
 
-    
+
   }
 
   // private boolean bindToRMIServer() {
