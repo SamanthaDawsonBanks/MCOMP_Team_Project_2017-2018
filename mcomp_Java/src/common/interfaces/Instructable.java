@@ -17,8 +17,9 @@ import java.rmi.RemoteException;
 
 public interface Instructable {
 
-  public boolean pathfind() throws RemoteException; // Not sure where we decide on representing success or failure.
-  
-  public Boolean go() throws RemoteException;//FIXME needs better name and better sig
+  public boolean pathfind() throws RemoteException; // Not sure where we decide on representing
+                                                    // success or failure.
+
+  public Boolean go() throws RemoteException;// FIXME needs better name and better sig
 
 }

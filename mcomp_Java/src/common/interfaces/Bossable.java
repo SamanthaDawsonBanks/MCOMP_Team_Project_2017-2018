@@ -20,8 +20,10 @@ import common.objects.Herd;
  */
 public interface Bossable {
 
-  public Map processMapLump(Herd h) throws RemoteException;//herd is the data holder for members, maps, and paths
+  public Map processMapLump(Herd h) throws RemoteException;// herd is the data holder for members,
+                                                           // maps, and paths
 
-  public Path processPathLump(Herd h) throws RemoteException;//herd is the data holder for members, maps, and paths
+  public Path processPathLump(Herd h) throws RemoteException;// herd is the data holder for members,
+                                                             // maps, and paths
 
 }

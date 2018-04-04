@@ -56,10 +56,10 @@ public class LeaderMain {
     listAllBoundRMINames(registry);
 
     // only for testing??
-//     LOGGER.log(Level.INFO, "unexporting Leader l");
-//     UnicastRemoteObject.unexportObject(l, true);
-//     LOGGER.log(Level.INFO, "unbinding HerdLeader");
-//     registry.unbind(serverName);
+    // LOGGER.log(Level.INFO, "unexporting Leader l");
+    // UnicastRemoteObject.unexportObject(l, true);
+    // LOGGER.log(Level.INFO, "unbinding HerdLeader");
+    // registry.unbind(serverName);
 
 
     LOGGER.log(Level.INFO, "End of LeaderMain");

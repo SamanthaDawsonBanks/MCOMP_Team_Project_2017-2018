@@ -15,41 +15,44 @@ import common.objects.Herd;
  * @author David Avery 15823926
  *
  */
-public interface RemoteLeader extends Remote, Serializable, Connectable, Contactable, Directable, Instructable, Updateable {
+public interface RemoteLeader
+    extends Remote, Serializable, Connectable, Contactable, Directable, Instructable, Updateable {
 
-  //General
+  // General
   public void RMITest() throws RemoteException;
 
-  //Connectable
+  // Connectable
   @Override
   public ArrayList<RemoteMember> register(RemoteMember joiningMember) throws RemoteException;
 
   @Override
   public ArrayList<RemoteMember> deregister(RemoteMember leavingMember) throws RemoteException;
-  
+
   @Override
   public ArrayList<RemoteMember> getMemebers() throws RemoteException;
 
-  //Contactable
+  // Contactable
   @Override
-  public void leaderDiscussMerge() throws RemoteException; // TODO obviously a lot of this needs refining.
+  public void leaderDiscussMerge() throws RemoteException; // TODO obviously a lot of this needs
+                                                           // refining.
 
-  //Directable
+  // Directable
   @Override
   public boolean setDestination(Waypoint w) throws RemoteException;
 
-  //Instructable
+  // Instructable
   @Override
   public boolean pathfind() throws RemoteException;
-  
+
   @Override
   public Boolean go() throws RemoteException;
 
-  //Updateable
+  // Updateable
   @Override
-  public void updateModel(Herd newHerdData) throws RemoteException; //FIXME this probably takes some info
-  
+  public void updateModel(Herd newHerdData) throws RemoteException; // FIXME this probably takes
+                                                                    // some info
+
   @Override
-  public Herd getState() throws RemoteException; //returns the current state
+  public Herd getState() throws RemoteException; // returns the current state
 
 }

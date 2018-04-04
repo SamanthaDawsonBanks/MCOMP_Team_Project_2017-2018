@@ -26,7 +26,7 @@ public interface Connectable {
    * 
    * @param joiningMember The member of the herd that is registering itself with the leader
    * @return Returns true if the member was registered successfully, False if it did not
-   * @throws RemoteException 
+   * @throws RemoteException
    */
   public ArrayList<RemoteMember> register(RemoteMember joiningMember) throws RemoteException;
 
@@ -37,7 +37,7 @@ public interface Connectable {
    * @param leavingMember The member of the herd that is leaving and this unregistering with the
    *        leader.
    * @return Returns true if the member unregistered with the leader, False if it did not
-   * @throws RemoteException 
+   * @throws RemoteException
    */
   public ArrayList<RemoteMember> deregister(RemoteMember leavingMember) throws RemoteException;
 

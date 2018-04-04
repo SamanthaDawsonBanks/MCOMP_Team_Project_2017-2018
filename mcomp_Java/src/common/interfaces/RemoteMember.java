@@ -21,23 +21,25 @@ import common.objects.Leader;
  */
 public interface RemoteMember extends Remote, Serializable, Bossable, Drawable, Directable,
     Driveable, Groupable, LSenseable, Notifiable, Promotable, Transferable {
-  
-  //General
+
+  // General
   public void RMITest() throws RemoteException;
 
   // Bossable
   @Override
-  public Map processMapLump(Herd h) throws RemoteException;// herd is the data holder for members, maps, and paths
+  public Map processMapLump(Herd h) throws RemoteException;// herd is the data holder for members,
+                                                           // maps, and paths
 
   @Override
-  public Path processPathLump(Herd h) throws RemoteException;// herd is the data holder for members, maps, and paths
+  public Path processPathLump(Herd h) throws RemoteException;// herd is the data holder for members,
+                                                             // maps, and paths
 
   // Drawable
 
   // Directable
   @Override
   public boolean setDestination(Waypoint w) throws RemoteException;
-  
+
   // Driveable
   @Override
   public Waypoint drive(Waypoint w) throws RemoteException;
@@ -65,11 +67,12 @@ public interface RemoteMember extends Remote, Serializable, Bossable, Drawable, 
 
   // Promotable
   @Override
-  public Leader becomeLeader(Herd h) throws RemoteException; // TODO returns the initialised Leader object to the Herd?
+  public Leader becomeLeader(Herd h) throws RemoteException; // TODO returns the initialised Leader
+                                                             // object to the Herd?
 
   // ????Securable / Keyable????
-  //@Override 
-  //FIXME adjust for security interface
+  // @Override
+  // FIXME adjust for security interface
   public Object getPublicKey() throws RemoteException;
 
   // Transferable
