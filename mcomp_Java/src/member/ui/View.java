@@ -47,7 +47,6 @@ public class View extends Application {
 	private HBox hbox;
 	private int counter = 0;
 	private Group circleGroup, rectangleGroup, lineGroup;
-	AStar a = new AStar();
 	
 
 	@Override
