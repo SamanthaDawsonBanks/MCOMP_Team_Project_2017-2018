@@ -2,6 +2,10 @@ package member.ui;
 
 import java.util.ArrayList;
 import common.datatypes.Waypoint;
+import common.datatypes.map.Map;
+import common.datatypes.map.MapLayer;
+import common.datatypes.map.griddedMap.Vertex;
+import common.datatypes.path.Path;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -22,7 +26,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-
+import pathfinding.AStar;
 import unitTesting.MapTest2;
 
 
@@ -43,7 +47,8 @@ public class View extends Application {
 	private HBox hbox;
 	private int counter = 0;
 	private Group circleGroup, rectangleGroup, lineGroup;
-
+	AStar a = new AStar();
+	
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -79,7 +84,7 @@ public class View extends Application {
 		Rectangle r = new Rectangle();
 		r.setX(screenBounds.getMinX());
 		r.setY(screenBounds.getMinY());
-		r.setWidth(screenBounds.getWidth()/1.25);
+		r.setWidth(screenBounds.getWidth()/1.30);
 		r.setHeight(screenBounds.getHeight()-50);
 		r.setFill(Color.TRANSPARENT);
 		r.setStroke(Color.BLACK);
@@ -117,34 +122,59 @@ public class View extends Application {
 	 * @return VBox
 	 */
 	public VBox getVBox() {
+		VBox vbox = new VBox();
+		ObservableList<Node> list = vbox.getChildren();
+		list.addAll(getVBoxMap(), getVBoxPath());
+		return vbox;
+	}
+
+
+	/**
+	 * Method to create a VBox (vertical scene layout) with buttons for map overalays.
+	 * Create all buttons.
+	 * Set buttons Style (CSS), size, colour etc.
+	 * All buttons added to VBox (create list of buttons).
+	 * Provide onClick for each button.
+	 * @return VBox
+	 */
+	public VBox getVBoxMap() {
+
 		Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
 		final VBox vbox = new VBox();
-		vbox.setPrefWidth(200);
-		vbox.setPrefHeight(screenBounds.getHeight());
+		final HBox hboxBtn = new HBox();
+		final HBox hboxBtn2 = new HBox();
+
+		final Label label = new Label("Map");
+		label.setMaxWidth((screenBounds.getWidth() - getRect().getWidth()-10));
+		label.setMinHeight(screenBounds.getHeight()/10);
+		labelStyle(label);
+
+		vbox.setPrefWidth((screenBounds.getWidth() - getRect().getWidth()-10)/2);
+		vbox.setPrefHeight(screenBounds.getHeight()/2);
 
 		/**
 		 * Button for displaying LiDar return.
 		 */
 		ToggleButton lidarBtn = new ToggleButton("Lidar Overlay");
-		lidarBtn.setMinWidth(vbox.getPrefWidth());
-		lidarBtn.setMinHeight(vbox.getPrefHeight()/6);
+		lidarBtn.setMinWidth(vbox.getPrefWidth()-20);
+		lidarBtn.setMinHeight(vbox.getPrefHeight()/4);
 		toggleOffStyle(lidarBtn);
 		lidarBtn.setOnAction(event ->{
 			if(lidarBtn.isSelected()) {
 				toggleOnStyle(lidarBtn);
 				pane.getChildren().add(drawCircle(scale(MapTest2.getPresentationMaze(),40)));
-				}else {
+			}else {
 				toggleOffStyle(lidarBtn);
 				pane.getChildren().remove(circleGroup);
 			}
 		});
 
 		/**
-		 * Button for displaying Map grid overlay.
+		 * Button for displaying Grid overlay.
 		 */
 		ToggleButton gridBtn = new ToggleButton("Grid Overlay");
-		gridBtn.setMinWidth(vbox.getPrefWidth());
-		gridBtn.setMinHeight(vbox.getPrefHeight()/6);
+		gridBtn.setMinWidth(vbox.getPrefWidth()-20);
+		gridBtn.setMinHeight(vbox.getPrefHeight()/4);
 		toggleOffStyle(gridBtn);
 		gridBtn.setOnAction(event ->{
 			if(gridBtn.isSelected()) {
@@ -157,11 +187,11 @@ public class View extends Application {
 		});
 
 		/**
-		 * Button for displaying amalgamated map overlay.
+		 * Button for displaying map overlay.
 		 */
 		ToggleButton mapBtn = new ToggleButton("Map Overlay");
-		mapBtn.setMinWidth(vbox.getPrefWidth());
-		mapBtn.setMinHeight(vbox.getPrefHeight()/6);
+		mapBtn.setMinWidth(vbox.getPrefWidth()-20);
+		mapBtn.setMinHeight(vbox.getPrefHeight()/4);
 		toggleOffStyle(mapBtn);
 		mapBtn.setOnAction(event ->{
 			if(mapBtn.isSelected()) {
@@ -174,11 +204,11 @@ public class View extends Application {
 		});
 
 		/**
-		 * Random Button -- TODO refine --
+		 * Button for displaying amalgamated map  -- TODO refine --
 		 */
-		ToggleButton randomBtn = new ToggleButton("Random Overlay");
-		randomBtn.setMinWidth(vbox.getPrefWidth());
-		randomBtn.setMinHeight(vbox.getPrefHeight()/6);
+		ToggleButton randomBtn = new ToggleButton("Am Overlay");
+		randomBtn.setMinWidth(vbox.getPrefWidth()-20);
+		randomBtn.setMinHeight(vbox.getPrefHeight()/4);
 		toggleOffStyle(randomBtn);
 		randomBtn.setOnAction(event ->{
 			if(randomBtn.isSelected()) {
@@ -188,14 +218,113 @@ public class View extends Application {
 			}
 		});
 
-		VBox.setMargin(gridBtn, new Insets(10));
-		VBox.setMargin(mapBtn, new Insets(10));
-		VBox.setMargin(randomBtn, new Insets(10));
-		VBox.setMargin(lidarBtn, new Insets(10));
-		vbox.setSpacing(screenBounds.getHeight()/20);
+		vbox.setSpacing(10);
+
+		hboxBtn.getChildren().addAll(lidarBtn, gridBtn);
+		hboxBtn2.getChildren().addAll(mapBtn, randomBtn);
+
+		hboxBtn.setSpacing(10);
+		hboxBtn2.setSpacing(10);
 		ObservableList<Node> list = vbox.getChildren();
 
-		list.addAll(lidarBtn, gridBtn, mapBtn, randomBtn);
+		list.addAll(label, hboxBtn, hboxBtn2);
+		return vbox;
+	}
+
+
+	/**
+	 * Method to create a VBox (vertical scene layout) with buttons for displaying pathfinding.
+	 * Create all buttons.
+	 * Set buttons Style (CSS), size, colour etc.
+	 * All buttons added to VBox (create list of buttons).
+	 * Provide onClick for each button.
+	 * @return VBox
+	 */
+	public VBox getVBoxPath() {
+
+		Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+		final VBox vbox = new VBox();
+		final HBox hboxBtn = new HBox();
+		final HBox hboxBtn2 = new HBox();
+
+		final Label label = new Label("Pathfinding");
+		label.setMaxWidth((screenBounds.getWidth() - getRect().getWidth()-10));
+		label.setMinHeight(screenBounds.getHeight()/10);
+		labelStyle(label);
+
+		vbox.setPrefWidth((screenBounds.getWidth() - getRect().getWidth()-10)/2);
+		vbox.setPrefHeight(screenBounds.getHeight()/2);
+
+		/**
+		 * Button for displaying Path.
+		 */
+		ToggleButton pathBtn = new ToggleButton("Path");
+		pathBtn.setMinWidth(vbox.getPrefWidth()-20);
+		pathBtn.setMinHeight(vbox.getPrefHeight()/4);
+		toggleOffStyle(pathBtn);
+		pathBtn.setOnAction(event ->{
+			if(pathBtn.isSelected()) {
+				toggleOnStyle(pathBtn);
+			}else {
+				toggleOffStyle(pathBtn);
+			}
+		});
+
+		/**
+		 * Button for displaying all searched nodes.
+		 */
+		ToggleButton searchedBtn = new ToggleButton("Searched Nodes");
+		searchedBtn.setMinWidth(vbox.getPrefWidth()-20);
+		searchedBtn.setMinHeight(vbox.getPrefHeight()/4);
+		toggleOffStyle(searchedBtn);
+		searchedBtn.setOnAction(event ->{
+			if(searchedBtn.isSelected()) {
+				toggleOnStyle(searchedBtn);
+			}else {
+				toggleOffStyle(searchedBtn);
+			}
+		});
+
+		/**
+		 * Button for displaying optimal path.
+		 */
+		ToggleButton optimalPathBtn = new ToggleButton("Optimal Path");
+		optimalPathBtn.setMinWidth(vbox.getPrefWidth()-20);
+		optimalPathBtn.setMinHeight(vbox.getPrefHeight()/4);
+		toggleOffStyle(optimalPathBtn);
+		optimalPathBtn.setOnAction(event ->{
+			if(optimalPathBtn.isSelected()) {
+				toggleOnStyle(optimalPathBtn);
+			}else {
+				toggleOffStyle(optimalPathBtn);
+			}
+		});
+
+		/**
+		 * Button for displaying straight line heuristic.
+		 */
+		ToggleButton heuristicBtn = new ToggleButton("Heuristic");
+		heuristicBtn.setMinWidth(vbox.getPrefWidth()-20);
+		heuristicBtn.setMinHeight(vbox.getPrefHeight()/4);
+		toggleOffStyle(heuristicBtn);
+		heuristicBtn.setOnAction(event ->{
+			if(heuristicBtn.isSelected()) {
+				toggleOnStyle(heuristicBtn);
+			}else {
+				toggleOffStyle(heuristicBtn);
+			}
+		});
+
+		vbox.setSpacing(10);
+
+		hboxBtn.getChildren().addAll(pathBtn, optimalPathBtn);
+		hboxBtn2.getChildren().addAll(searchedBtn, heuristicBtn);
+		hboxBtn.setSpacing(10);
+		hboxBtn2.setSpacing(10);
+
+		ObservableList<Node> list = vbox.getChildren();
+		list.addAll(label, hboxBtn, hboxBtn2);
+
 		return vbox;
 	}
 
@@ -226,6 +355,20 @@ public class View extends Application {
 	}
 
 	/**
+	 * Method for setting label CSS when toggled off (normal style).
+	 * @return button with applied style sheet.
+	 */
+	public Label labelStyle(Label label) {
+		label.setStyle("-fx-background-color:#00bfff;"
+				+"-fx-border-color: #000000;"
+				+"-fx-border-width: 4px;"
+				+"-fx-font-size: 20px; "
+				+"-fx-font-weight: bold;"
+				+"-fx-alignment:center");
+		return label;
+	}
+
+	/**
 	 * Method for taking in an ArrayList of type Waypoint.
 	 * Loops through ArrayList and draws circles at Waypoint(x,y).
 	 * Creates a group of circles. 
@@ -245,6 +388,11 @@ public class View extends Application {
 		return circleGroup;
 	}
 
+	/**
+	 * Method for taking in an ArrayList of type Waypoint.
+	 * Draws the rectangles at blocked points on the map.
+	 * @return group
+	 */
 	public Group drawRectangle(ArrayList<Waypoint> l) {
 		rectangleGroup = new Group();
 		for(Waypoint w: l) {
@@ -262,12 +410,17 @@ public class View extends Application {
 		return rectangleGroup;
 	}
 
+	/**
+	 * Method for taking in an ArrayList of type Waypoint.
+	 * Draws the grid overlay.
+	 * @return group
+	 */
 	public Group drawGrid(ArrayList<Waypoint> l) {
 		Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
 		Rectangle r = new Rectangle();
 		r.setX(screenBounds.getMinX());
 		r.setY(screenBounds.getMinY());
-		r.setWidth(screenBounds.getWidth()/1.25);
+		r.setWidth(screenBounds.getWidth()/1.3);
 		r.setHeight(screenBounds.getHeight()-50);
 		lineGroup = new Group();
 		for(int x = 0; x < r.getWidth(); x=x+40) {
@@ -278,7 +431,7 @@ public class View extends Application {
 			line.setEndY(r.getHeight());
 			lineGroup.getChildren().add(line);
 		}
-		
+
 		for(int y = 0; y < r.getHeight(); y=y+40) {
 			Line line = new Line();
 			line.setStartX(0);
@@ -291,7 +444,10 @@ public class View extends Application {
 		return lineGroup;
 	}
 
-
+	/**
+	 * Method takes in array and scales the Waypoints
+	 * 
+	 */
 	public ArrayList<Waypoint> scale(ArrayList<Waypoint> input, int s){
 		ArrayList<Waypoint> output = new ArrayList<Waypoint>();
 		for(Waypoint w: input) {
@@ -299,17 +455,7 @@ public class View extends Application {
 		}
 		return output;
 	}
-
-	/**
-	 * --TODO implement-- 
-	 */
-	public Rectangle toggleGrid(Rectangle r) {	
-		r.setStyle(" -fx-background-color: #D3D3D333,\r\n" + 
-				"        linear-gradient(from 0.5px 0px to 10.5px 0px, repeat, black 5%, transparent 5%),\r\n" + 
-				"        linear-gradient(from 0px 0.5px to 0px 10.5px, repeat, black 5%, transparent 5%);");
-		return r;
-	}
-
+	
 	/**
 	 * Main method for running GUI. 
 	 */
