@@ -153,7 +153,7 @@ public class TestData {
     ys.add(new int[] { 1, 2,             7, 8,               14,15,   17,      20});
     ys.add(new int[] { 1, 2,          6, 7,               13,         17,      20});
     ys.add(new int[] { 1, 2,    4, 5, 6,       9,10,11,12,13,   15,16,17,      20});
-    ys.add(new int[] { 1, 2,                                                   20});
+    ys.add(new int[] { 1,                                                      20});
     ys.add(new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15,16,17,18,19,20});
     
     ArrayList<Waypoint> l = new ArrayList<Waypoint>();
