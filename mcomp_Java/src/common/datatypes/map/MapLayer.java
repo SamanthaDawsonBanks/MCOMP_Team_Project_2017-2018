@@ -10,6 +10,7 @@ import common.datatypes.Waypoint;
 
 /**
  * @author David Avery
+ * @author Harry Jackson 14812630
  *
  */
 public class MapLayer implements Iterable<Waypoint> {
@@ -25,8 +26,8 @@ public class MapLayer implements Iterable<Waypoint> {
 
   }
 
-  public MapLayer transform(int x, int y, int a) {
-    return translate(x, y).rotate(a);// TODO check order
+  public MapLayer transform(int xOffset, int yOffset, int angle, int scale) {
+    return rotate(angle).translate(xOffset, yOffset).scale(scale);
   }
 
 
@@ -36,8 +37,8 @@ public class MapLayer implements Iterable<Waypoint> {
     ArrayList<Waypoint> res = new ArrayList<Waypoint>();
 
     // precalc sin(a) and cos(a)
-    double sinA = Math.sin(a);
-    double cosA = Math.cos(a);
+    double sinA = Math.sin(Math.toRadians(a));
+    double cosA = Math.cos(Math.toRadians(a));
 
     double oldX;
     double oldY;
@@ -72,10 +73,23 @@ public class MapLayer implements Iterable<Waypoint> {
       oldY = w.getY();
       newX = oldX - xOffset;
       newY = oldY - yOffset;
-      w = new Waypoint(newX, newY);
+      res.add(new Waypoint(newX, newY));
     }
     return new MapLayer(res);
   }
+  
+  /**
+   * Method takes in array and scales the Waypoints
+   * 
+   */
+  public MapLayer scale(int scale){
+      ArrayList<Waypoint> res = new ArrayList<Waypoint>();
+      for(Waypoint w: liDARRead) {
+          res.add(new Waypoint(w.getX()*scale, w.getY()*scale));
+      }
+      return new MapLayer(res);
+  }
+  
 
   public MapLayer addOpens() {
     // add WPs for 'open' reads between sensor and Blocked
@@ -142,6 +156,11 @@ public class MapLayer implements Iterable<Waypoint> {
       }
       return liDARRead.get(current++);
     }
+  }
+
+  public ArrayList<Waypoint> getWaypoints() {
+    // TODO Auto-generated method stub
+    return liDARRead;
   }
 
 }
