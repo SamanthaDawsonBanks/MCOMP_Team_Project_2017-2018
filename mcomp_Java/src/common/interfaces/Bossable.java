@@ -1,7 +1,8 @@
 package common.interfaces;
 
-import common.datatypes.map.*; // TODO these wont work until we move into the MCOMP Java folder
-import common.datatypes.path.*;
+import common.datatypes.map.Map;
+import common.datatypes.path.Path;
+import common.objects.Herd;
 
 /**
  * @author Stephen Pope 15836791
@@ -18,8 +19,8 @@ import common.datatypes.path.*;
  */
 public interface Bossable {
 
-  public Map processMapLump(Map m);
+  public Map processMapLump(Herd h);//herd is the data holder for members, maps, and paths
 
-  public Path processPathLump(Path p);
+  public Path processPathLump(Herd h);//herd is the data holder for members, maps, and paths
 
 }
