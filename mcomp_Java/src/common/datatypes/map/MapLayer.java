@@ -27,7 +27,7 @@ public class MapLayer implements Iterable<Waypoint> {
 
   }
 
-  public MapLayer transform(int xOffset, int yOffset, int angle, int scale) {
+  public MapLayer transform(int angle, int xOffset, int yOffset, int scale) {
     return rotate(angle).translate(xOffset, yOffset).scale(scale);
   }
 
