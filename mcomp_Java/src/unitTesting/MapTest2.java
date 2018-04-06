@@ -21,7 +21,7 @@ import unitTesting.testData.TestData;
  * @author Harry Jackson 14812630
  *
  */
-class MapTest2 {
+public class MapTest2 {
 
   /**
    * @throws java.lang.Exception
@@ -54,5 +54,4 @@ class MapTest2 {
     SearchMap b = new SearchMap();
    // b.search(start, dest, m);
   }
-   
- }
+}
