@@ -12,9 +12,10 @@ import common.datatypes.map.Map;
 import common.datatypes.map.MapLayer;
 import pathfinding.AStar;
 import pathfinding.SearchMap;
+import unitTesting.testData.TestData;
 
 /**
- * @author David Avery
+ * @author Harry Jackson 14812630
  *
  */
 class MapTestEmpty
@@ -35,7 +36,7 @@ class MapTestEmpty
     ArrayList<Waypoint> l = new ArrayList<Waypoint>();
     l.add((new Waypoint(-1,-1)));
     Map n = new Map(64, new MapLayer(l));
-    Map m = new Map(64, new MapLayer(getPresentationMaze())); //TODO expand to full test
+    Map m = new Map(64, new MapLayer(TestData.getEmptyMaze())); //TODO expand to full test
 
     System.out.printf("");// breakpoint
 
@@ -49,67 +50,6 @@ class MapTestEmpty
     
     SearchMap b = new SearchMap();
    // b.search(start, dest, m);
-  }
-
-
-
-  private ArrayList<Waypoint> getPresentationMaze() {
-    int y;
-    ArrayList<Waypoint> l = new ArrayList<Waypoint>();
-
-    y = 1;
-    l.add(new Waypoint(1, y));
-    l.add(new Waypoint(2, y));
-    l.add(new Waypoint(3, y));
-    l.add(new Waypoint(4, y));
-    l.add(new Waypoint(5, y));
-    l.add(new Waypoint(6, y));
-
-
-    y = 2;
-    l.add(new Waypoint(1, y));
-    // r.add(new Waypoint(2, y));
-    // r.add(new Waypoint(3, y));
-    // r.add(new Waypoint(4, y));
-    // r.add(new Waypoint(5, y));
-    l.add(new Waypoint(6, y));
-
-
-    y = 3;
-    l.add(new Waypoint(1, y));
-    // r.add(new Waypoint(2, y));
-    l.add(new Waypoint(3, y));
-    l.add(new Waypoint(4, y));
-    // r.add(new Waypoint(5, y));
-    l.add(new Waypoint(6, y));
-
-    y = 4;
-    l.add(new Waypoint(1, y));
-    // r.add(new Waypoint(2, y));
-    // r.add(new Waypoint(3, y));
-    l.add(new Waypoint(4, y));
-    // r.add(new Waypoint(5, y));
-    l.add(new Waypoint(6, y));
-
-    y = 5;
-    l.add(new Waypoint(1, y));
-    l.add(new Waypoint(2, y));
-    // r.add(new Waypoint(3, y));
-    // r.add(new Waypoint(4, y));
-    // r.add(new Waypoint(5, y));
-    l.add(new Waypoint(6, y));
-
-    y = 6;
-    l.add(new Waypoint(1, y));
-    l.add(new Waypoint(2, y));
-    l.add(new Waypoint(3, y));
-    l.add(new Waypoint(4, y));
-    l.add(new Waypoint(5, y));
-    l.add(new Waypoint(6, y));
-
-
-    return l;
-
   }
 
 }
