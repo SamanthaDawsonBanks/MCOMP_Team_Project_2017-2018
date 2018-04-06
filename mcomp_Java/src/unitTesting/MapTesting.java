@@ -34,7 +34,7 @@ class MapTesting {
     ArrayList<Waypoint> l = new ArrayList<Waypoint>();
     l.add((new Waypoint(-1,-1)));
     Map n = new Map(64, new MapLayer(l));
-    Map m = new Map(64, new MapLayer(TestData.getPresentationMaze())); //TODO expand to full test
+    Map m = new Map(64, new MapLayer(TestData.getEmptyCentreMaze())); //TODO expand to full test
 
     System.out.printf("");// breakpoint
 
