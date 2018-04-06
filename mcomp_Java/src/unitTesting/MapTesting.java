@@ -33,7 +33,9 @@ class MapTesting {
     @SuppressWarnings("unused")//only for data-typing
     ArrayList<Waypoint> l = new ArrayList<Waypoint>();
     l.add((new Waypoint(-1,-1)));
+    @SuppressWarnings("unused")//only for data-typing
     Map n = new Map(64, new MapLayer(l));
+    @SuppressWarnings("unused")//only for data-typing
     Map m = new Map(64, new MapLayer(TestData.getPresentationMaze())); //TODO expand to full test
 
     System.out.printf("");// breakpoint

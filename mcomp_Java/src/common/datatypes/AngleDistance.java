@@ -15,7 +15,6 @@ public class AngleDistance {
    * 
    */
   AngleDistance(double t, long d) {
-    // TODO Auto-generated constructor stub
     theta = t;
     distance = d;
   }

@@ -9,7 +9,7 @@ import java.util.NoSuchElementException;
 import common.datatypes.Waypoint;
 
 /**
- * @author David Avery
+ * @author David Avery 15823926
  *
  */
 public class MapLayer implements Iterable<Waypoint> {
@@ -26,30 +26,29 @@ public class MapLayer implements Iterable<Waypoint> {
 
   public void transform(int x, int y, int a) {
     // calc trans and rot
-    // TODO discuss & decide on rotating map or return
     // call rot
     rotate(a);
     // call trans
-    translate(x,y);
+    translate(x, y);
   }
 
 
   private void rotate(int a) {
     // apply rotation by azimuth (Theta) to bring map to be 'north' = 'top'
-    
+
     // precalc sin(a) and cos(a)
     double sinA = Math.sin(a);
     double cosA = Math.cos(a);
-    
+
     double oldX;
     double oldY;
     double newX;
     double newY;
-    
-    for (Waypoint w : liDARRead) {//TODO refactor for threading
+
+    for (Waypoint w : liDARRead) {// TODO refactor for threading
       oldX = w.getX();
       oldY = w.getY();
-      newX = oldX * cosA - oldY * sinA;// FIXME fix cast
+      newX = oldX * cosA - oldY * sinA;
       newY = oldX * sinA + oldY * cosA;
       w = new Waypoint(newX, newY);// FIXME does this put w back in liDARRead??
     }
@@ -62,8 +61,8 @@ public class MapLayer implements Iterable<Waypoint> {
     double oldY;
     double newX;
     double newY;
-  
-    for (Waypoint w : liDARRead) {//TODO refactor for threading
+
+    for (Waypoint w : liDARRead) {// TODO refactor for threading
       oldX = w.getX();
       oldY = w.getY();
       newX = oldX - xOffset;
@@ -73,35 +72,31 @@ public class MapLayer implements Iterable<Waypoint> {
   }
 
   @Override
-  public Iterator<Waypoint> iterator() {//TODO write this
-    // TODO Auto-generated method stub
-    
+  public Iterator<Waypoint> iterator() {
     return new LiDARIterator();
-    
-    //return null;
   }
 
   class LiDARIterator implements Iterator<Waypoint> {
-    int current = 0;  // the current element we are looking at
+    int current = 0; // the current element we are looking at
 
     // return whether or not there are more elements in the array that
     // have not been iterated over.
     public boolean hasNext() {
-        if (current < liDARRead.size()) {
-          return true;
-        } else {
-            return false;
-        }
+      if (current < liDARRead.size()) {
+        return true;
+      } else {
+        return false;
+      }
     }
 
     // return the next element of the iteration and move the current
     // index to the element after that.
     public Waypoint next() {
-        if (!hasNext()) {
-            throw new NoSuchElementException();
-        }
-        return liDARRead.get(current++);
+      if (!hasNext()) {
+        throw new NoSuchElementException();
+      }
+      return liDARRead.get(current++);
     }
-}
+  }
 
 }

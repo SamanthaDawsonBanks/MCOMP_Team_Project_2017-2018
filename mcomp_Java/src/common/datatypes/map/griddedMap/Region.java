@@ -6,7 +6,7 @@ package common.datatypes.map.griddedMap;
 import common.datatypes.Waypoint;
 
 /**
- * @author David Avery
+ * @author David Avery 15823926
  *
  */
 public class Region {
@@ -25,9 +25,8 @@ public class Region {
    * 
    */
   public Region(int gridSize, Waypoint w, GriddedMap parent) {
-    // TODO Auto-generated constructor stub
     // TODO this is going to need some serious optimisation if accessed on a single point bases
-    this.parent = parent;
+    this.parent = parent;//FIXME refactor parent.parent to direct link to GMap?
     this.gridSize = gridSize;
     this.gridOffset = parent.gridOffset;
     chunks = new Chunk[parent.gridSize][parent.gridSize];
@@ -52,7 +51,7 @@ public class Region {
   }
 
   Chunk[][] getGrid() {// FIXME what do we want from this DS?
-    return chunks;
+    return chunks;//TODO depreciated?
   }
 
 

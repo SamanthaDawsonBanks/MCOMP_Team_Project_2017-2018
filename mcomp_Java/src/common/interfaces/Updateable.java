@@ -17,11 +17,12 @@ import common.objects.Herd;
 
 public interface Updateable {
 
-  public void updateModel(Herd newHerdData) throws RemoteException; //FIXME this probably takes some info
-  
-  //there will be many methods that will do the updates
-    //e.g robot is now at this location
-  
-  public Herd getHerdState() throws RemoteException; //returns the current state
+  public void updateModel(Herd newHerdData) throws RemoteException; // FIXME this probably takes
+                                                                    // some info
+
+  // there will be many methods that will do the updates
+  // e.g robot is now at this location
+
+  public Herd getState() throws RemoteException; // returns the current state
 
 }

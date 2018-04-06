@@ -1,5 +1,6 @@
 package common.interfaces;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import common.datatypes.Ability;
 import common.objects.Herd;
@@ -14,9 +15,11 @@ import common.objects.Herd;
  *
  */
 public interface Groupable {
-  public boolean joinHerd(Herd newHerd);
+  public boolean joinHerd(Herd newHerd) throws RemoteException;
 
-  ArrayList<Ability> getAbilities();
-  Herd getLocalHerdData();
-  Herd updateLocalHerdInfo(Herd leaderHerd);
+  ArrayList<Ability> getAbilities() throws RemoteException;
+
+  Herd getLocalHerdData() throws RemoteException;
+
+  Herd updateLocalHerdInfo(Herd leaderHerd) throws RemoteException;
 }

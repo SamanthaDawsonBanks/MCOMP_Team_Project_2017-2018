@@ -7,7 +7,7 @@ import common.datatypes.Waypoint;
 import common.datatypes.map.Map;
 
 /**
- * @author David Avery
+ * @author David Avery 15823926
  *
  */
 public class GriddedMap {
@@ -24,7 +24,7 @@ public class GriddedMap {
   /**
    * The default constructor for a MapLayer, with the value (TETRA | 4 | Square) for grid design
    */
-  public GriddedMap(GridDesign grid, int gridSize, Map parent) {// input on constructor?
+  public GriddedMap(GridDesign grid, int gridSize, Map parent) {
     gridDesign = grid;
     this.gridSize = gridSize;
     this.gridOffset = (long) (Math.pow(gridSize, 3)/2);
@@ -41,7 +41,6 @@ public class GriddedMap {
   }
 
   public boolean add(Waypoint w) {
-    // TODO Auto-generated method stub
     int RegionX = (int) (((w.getX() + gridOffset) / Math.pow(gridSize, 2)) % gridSize);
     int RegionY = (int) (((w.getY() + gridOffset) / Math.pow(gridSize, 2)) % gridSize);
     if (regions[RegionX][RegionY] == null) {
@@ -50,16 +49,11 @@ public class GriddedMap {
       regions[RegionX][RegionY].add(w);
     }
 
-    // calc which region
-    // call add on correct region
-    // rest of call in region
-
     return true;
 
   }
 
   public Region[][] getGrid() {
-    // TODO cascade adjust for selected area??
     return regions;
   }
 
