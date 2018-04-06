@@ -15,6 +15,7 @@ import common.datatypes.Waypoint;
 public class MapLayer implements Iterable<Waypoint> {
 
   private ArrayList<Waypoint> liDARRead = new ArrayList<Waypoint>();
+  private Waypoint centre = new Waypoint(0,0);
 
   /**
    * The default constructor for a MapLayer
@@ -63,6 +64,8 @@ public class MapLayer implements Iterable<Waypoint> {
     double newX;
     double newY;
   
+    centre = new Waypoint(xOffset,yOffset);
+    
     for (Waypoint w : liDARRead) {//TODO refactor for threading
       oldX = w.getX();
       oldY = w.getY();
