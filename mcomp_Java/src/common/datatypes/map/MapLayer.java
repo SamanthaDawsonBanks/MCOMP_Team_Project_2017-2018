@@ -108,15 +108,15 @@ public class MapLayer implements Iterable<Waypoint> {
     // for each WP in read
     for (Waypoint w : liDARRead) {
       double thisX = w.getX();
-      double thisY = w.getX();
+      double thisY = w.getY();
       // check offset
       // calc hypot
       i = Math.hypot(w.getX()-xOffset, w.getY()-yOffset) / step;//TODO decide on scale (1, 0.1??)
       // for 0>i
       for (double j = 1; j<i; j = j + step) {//TODO refactor for lass vars //TODO if scale is adjusted then so is step
         //FIXME adjust for negative!!
-        double scaledX = (thisX-xOffset) * j;
-        double scaledY = (thisY-yOffset) * j;
+        double scaledX = (thisX-xOffset) * (j/i);
+        double scaledY = (thisY-yOffset) * (j/i);
         
         // add 'open' WP along track
         res.add(new Waypoint((scaledX+xOffset),(scaledY+yOffset),false));
