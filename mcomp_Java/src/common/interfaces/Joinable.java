@@ -19,4 +19,6 @@ public interface Joinable {
   public boolean acceptMember(Member m);// TODO leader info? Is this interface badly specified?
 
   public boolean notifyJoin();// TODO same as above, notify the leader of a join?
+  
+  public boolean removeMember(Member m); //may need other uid
 }

@@ -1,5 +1,7 @@
 package common.interfaces;
 
+import java.rmi.RemoteException;
+
 /**
  * @author Stephen Pope 15836791
  * @author David Avery 15823926
@@ -16,8 +18,25 @@ package common.interfaces;
 
 public interface Connectable {
 
-  public void register();
+  /**
+   * When a member joins a herd, it must register itself with the leader of that herd so that it can
+   * Receive instructions from it.
+   * 
+   * @param joiningMember The member of the herd that is registering itself with the leader
+   * @return Returns true if the member was registered successfully, False if it did not
+   * @throws RemoteException 
+   */
+  public boolean register(RemoteMember joiningMember) throws RemoteException;
 
-  public void deregister();
+  /**
+   * When leaving a herd (normally in a herd merge), the member must first unregister itself with
+   * the current leader so that it can no longer recieve instruction from it.
+   * 
+   * @param leavingMember The member of the herd that is leaving and this unregistering with the
+   *        leader.
+   * @return Returns true if the member unregistered with the leader, False if it did not
+   * @throws RemoteException 
+   */
+  public boolean deregister(RemoteMember leavingMember) throws RemoteException;
 
 }

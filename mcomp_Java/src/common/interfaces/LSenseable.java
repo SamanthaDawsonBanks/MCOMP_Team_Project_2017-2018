@@ -1,5 +1,7 @@
 package common.interfaces;
 
+import common.datatypes.map.MapLayer;
+
 /**
  * @author Stephen Pope 15836791
  * @author David Avery 15823926 
@@ -15,6 +17,6 @@ package common.interfaces;
 
 public interface LSenseable {
 
-  public void lSense();
+  public MapLayer lSense();
 
 }

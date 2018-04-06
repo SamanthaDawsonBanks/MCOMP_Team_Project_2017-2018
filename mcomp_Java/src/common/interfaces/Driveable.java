@@ -1,5 +1,6 @@
 package common.interfaces;
 
+import java.rmi.RemoteException;
 import common.datatypes.Waypoint;
 
 /**
@@ -16,6 +17,6 @@ import common.datatypes.Waypoint;
 
 public interface Driveable {
 
-  public Waypoint drive(Waypoint w);
+  public Waypoint drive(Waypoint w) throws RemoteException;
 
 }

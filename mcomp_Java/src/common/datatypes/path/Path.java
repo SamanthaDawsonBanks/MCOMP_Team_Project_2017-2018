@@ -4,6 +4,7 @@
 package common.datatypes.path;
 
 import common.datatypes.Waypoint;
+import common.datatypes.LinkedItem.PathItem;
 
 /**
  * @author David Avery
@@ -28,7 +29,7 @@ public class Path {
    * Data Type definition
    */
 
-  void addNode(Waypoint w) {
+  public void addNode(Waypoint w) {
     // TODO test
     if (length > 0) {
       lastItem.setNext(new PathItem(w));
@@ -40,7 +41,7 @@ public class Path {
     length++;
   }
 
-  Waypoint poll() {
+  public Waypoint poll() {
     // TODO test
     Waypoint res = destination.getData(); // default to destination
     if (length > 0) {
@@ -54,13 +55,13 @@ public class Path {
     return res;
   }
 
-  int getLength() {
+  public int getLength() {
     return length;
   }
+
 
   boolean isDone() {
     return (length == 0);
   }
-
-
+  
 }

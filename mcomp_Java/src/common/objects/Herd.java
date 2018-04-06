@@ -1,14 +1,26 @@
 package common.objects;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import common.datatypes.Ability;
+import common.datatypes.Waypoint;
+import common.datatypes.map.Map;
+import common.datatypes.path.Path;
+import common.interfaces.Bossable;
+import common.interfaces.Directable;
+import common.interfaces.Driveable;
 import common.interfaces.Joinable;
+import common.interfaces.LSenseable;
+import common.interfaces.Notifiable;
 import common.interfaces.Organisable;
+import common.interfaces.RemoteMember;
 
 /**
  * 
  * @author Stephen Pope 15836791
  * @author Ryan Shoobert (15812407)
+ * @author David Avery 15823926
  *
  *         A test class for a Herd.
  *
@@ -21,14 +33,20 @@ import common.interfaces.Organisable;
  */
 
 public class Herd implements Joinable, Organisable {
+  private static final Logger LOGGER = Logger.getLogger(Herd.class.getName());
+
   private String herdID;
-  private Member theLeader;
+  private RemoteMember theLeader;
   private ArrayList<Member> herdMembers;
-  private ArrayList<Member> herdDrivers;
-  private ArrayList<Member> herdSensors;
-  private ArrayList<Member> herdProcessors;
-  private ArrayList<Member> herdViewers;
-  private Member herdDestSetter;
+  private ArrayList<Driveable> herdDrivers;
+  private ArrayList<LSenseable> herdSensors;
+  private ArrayList<Bossable> herdProcessors;
+  private ArrayList<Notifiable> herdViewers;
+  private Directable herdDestSetter;
+
+  protected Map map;
+  protected Waypoint dest;
+  protected Path path;
 
   /**
    * The Herd constructor.
@@ -41,41 +59,45 @@ public class Herd implements Joinable, Organisable {
    * @return A new Herd object.
    */
   public Herd(Member a) {
+    LOGGER.log(Level.INFO, "Herd Starting");
+
     // Storage Initialisation
     herdID = "newHerd"; // TODO Needs to be a randomly generated name
     herdMembers = new ArrayList<Member>();
-    herdDrivers = new ArrayList<Member>();
-    herdSensors = new ArrayList<Member>();
-    herdProcessors = new ArrayList<Member>();
-    herdViewers = new ArrayList<Member>();
+    herdDrivers = new ArrayList<Driveable>();
+    herdSensors = new ArrayList<LSenseable>();
+    herdProcessors = new ArrayList<Bossable>();
+    herdViewers = new ArrayList<Notifiable>();
 
-    // Ability Querying
-    herdMembers.add(a);
-    for (Ability b : a.getAbilities()) {
-      switch (b) {
-        case DRIVER:
-          herdDrivers.add(a);
-          break;
-        case PROCESSOR:
-          herdProcessors.add(a);
-          break;
-        case SENSOR:
-          herdSensors.add(a);
-          break;
-        case VIEWER:
-          herdViewers.add(a);
-          break;
-        case DEST_SETTER:
-          herdDestSetter = a;
-          break;
-      }
-    }
+    requestJoin(a);
+    
+//    // Ability Querying
+//    herdMembers.add(a);
+//    for (Ability b : a.getAbilities()) {
+//      switch (b) {
+//        case DRIVER:
+//          herdDrivers.add(a);
+//          break;
+//        case PROCESSOR:
+//          herdProcessors.add(a);
+//          break;
+//        case SENSOR:
+//          herdSensors.add(a);
+//          break;
+//        case VIEWER:
+//          herdViewers.add(a);
+//          break;
+//        case DEST_SETTER:
+//          herdDestSetter = a;
+//          break;
+//      }
+//    }
 
     // startup election
-    theLeader = nominateLeader();
+    theLeader = electLeader();
 
     // on that robot, start start the leader process
-    theLeader.startLeader();
+    theLeader.becomeLeader(this);
   }
 
   /**
@@ -84,17 +106,18 @@ public class Herd implements Joinable, Organisable {
    * 
    * @return The leader of the Herd.
    */
-  public Member nominateLeader() {
-    // Obviously the data type and nomination process needs refining!
-    // TODO Implement a more robust election system, i.e check list has members
-    theLeader = herdMembers.get(0);
+  @Override
+  public RemoteMember electLeader() {
+    // TODO Auto-generated method stub
+    LOGGER.log(Level.INFO, "Choosing Leader");
+    theLeader = herdMembers.get(0);// TODO get oldist from all or subtype?
     return theLeader;
   }
-
 
   /*
    * This is where requests to join the Herd are handled. In the full implementation, a Herd can
    * only be "merged" with another, so this method will either change signature or be deprecated.
+   * 
    */
 
   /**
@@ -125,20 +148,15 @@ public class Herd implements Joinable, Organisable {
         case DEST_SETTER:
           // TODO Need code to check the old destSetter and remove it if it only has the one
           // ability.
-          if (herdDestSetter != null) {
-            if (herdDestSetter.getAbilities().size() > 1) {
-              herdDestSetter.getAbilities().remove(common.datatypes.Ability.DEST_SETTER);// why does
-                                                                                         // this
-                                                                                         // need to
-                                                                                         // have FQN
-                                                                                         // to be
-                                                                                         // recognised?
-            } else {
-              // No longer a leave method
-              // herdDestSetter.leaveHerd(this);
-            }
+          if (herdDestSetter == null) { // first wins
+            // if (herdDestSetter.getAbilities().size() > 1) {
+            // herdDestSetter.getAbilities().remove(Ability.DEST_SETTER);
+            // } else {
+            // // No longer a leave method
+            // // herdDestSetter.leaveHerd(this);
+            // }
+            herdDestSetter = aspiringMember;
           }
-          herdDestSetter = aspiringMember;
           break;
       }
     }
@@ -153,7 +171,7 @@ public class Herd implements Joinable, Organisable {
    * @param The member object leaving the Herd.
    * @return The list of remaining members.
    */
-  public ArrayList<Member> requestLeave(Member leavingMember) {
+  public ArrayList<Member> requestLeave(RemoteMember leavingMember) {
     /*
      * TODO Consider the return type. If a member leaves, do they need returned the state of the
      * herd? Perhaps this should be a void, or return an enum.
@@ -164,21 +182,22 @@ public class Herd implements Joinable, Organisable {
      */
     herdMembers.remove(leavingMember);
     for (Ability b : leavingMember.getAbilities()) {
-      switch (b) {
+      switch (b) {//TODO do we need the switch or just call remove with it
         case DRIVER:
           herdDrivers.remove(leavingMember);
           break;
         case PROCESSOR:
-          herdProcessors.add(leavingMember);
+          herdProcessors.remove(leavingMember);
           break;
         case SENSOR:
-          herdSensors.add(leavingMember);
+          herdSensors.remove(leavingMember);
           break;
         case VIEWER:
-          herdViewers.add(leavingMember);
+          herdViewers.remove(leavingMember);
           break;
         case DEST_SETTER:
-          herdDestSetter = null;
+          if (herdDestSetter.equals(leavingMember));
+          herdDestSetter = null;//TODO then check for secondary dest setters?
           break;
       }
     }
@@ -216,7 +235,7 @@ public class Herd implements Joinable, Organisable {
    * @param The Public Key of a member in the Herd.
    * @return The Member object if it exists, null if not.
    */
-  public Member getMember(String theKey) {
+  public Member getMember(String theKey) {//Using the pubKey as UID works well, good call Steve
     for (Member a : herdMembers) {
       if (a.getPublicKey().equals(theKey)) {
         return a;
@@ -230,7 +249,7 @@ public class Herd implements Joinable, Organisable {
    * 
    * @return The list of Drivers.
    */
-  public ArrayList<Member> getDrivers() {
+  public ArrayList<Driveable> getDrivers() {
     return herdDrivers;
   }
 
@@ -239,7 +258,7 @@ public class Herd implements Joinable, Organisable {
    * 
    * @return The list of Processors.
    */
-  public ArrayList<Member> getProcessors() {
+  public ArrayList<Bossable> getProcessors() {
     return herdProcessors;
   }
 
@@ -248,7 +267,7 @@ public class Herd implements Joinable, Organisable {
    * 
    * @return The list of Sensors.
    */
-  public ArrayList<Member> getSensors() {
+  public ArrayList<LSenseable> getSensors() {
     return herdSensors;
   }
 
@@ -257,7 +276,7 @@ public class Herd implements Joinable, Organisable {
    * 
    * @return The list of Viewers.
    */
-  public ArrayList<Member> getViewers() {
+  public ArrayList<Notifiable> getViewers() {
     return herdViewers;
   }
 
@@ -266,14 +285,8 @@ public class Herd implements Joinable, Organisable {
    * 
    * @return The Destination Setter.
    */
-  public Member getDestSetter() {
+  public Directable getDestSetter() {
     return herdDestSetter;
-  }
-
-  @Override
-  public Member electLeader() {
-    // TODO Auto-generated method stub
-    return null;
   }
 
   @Override
@@ -284,6 +297,12 @@ public class Herd implements Joinable, Organisable {
 
   @Override
   public boolean notifyJoin() {
+    // TODO Auto-generated method stub
+    return false;
+  }
+
+  @Override
+  public boolean removeMember(Member m) {
     // TODO Auto-generated method stub
     return false;
   }

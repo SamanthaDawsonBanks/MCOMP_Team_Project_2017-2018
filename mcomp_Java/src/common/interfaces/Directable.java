@@ -1,5 +1,6 @@
 package common.interfaces;
 
+import java.rmi.RemoteException;
 import common.datatypes.Waypoint;
 
 /**
@@ -16,6 +17,6 @@ import common.datatypes.Waypoint;
 
 public interface Directable {
 
-  public boolean setDestination(Waypoint w);
+  public boolean setDestination(Waypoint w) throws RemoteException;
 
 }
