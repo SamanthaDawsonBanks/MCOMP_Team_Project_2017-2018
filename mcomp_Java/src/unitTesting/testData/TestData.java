@@ -94,7 +94,7 @@ public class TestData {
     
     ArrayList<Waypoint> l = new ArrayList<Waypoint>();
     
-    int y = 1;
+    int y = -5;
     for (int[] line : ys) {
       for (int x : line) {
         l.add(new Waypoint(x,y));
