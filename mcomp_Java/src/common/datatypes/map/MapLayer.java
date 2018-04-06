@@ -15,7 +15,7 @@ import common.datatypes.Waypoint;
 public class MapLayer implements Iterable<Waypoint> {
 
   private ArrayList<Waypoint> liDARRead = new ArrayList<Waypoint>();
-  private Waypoint centre = new Waypoint(0,0);
+  private Waypoint relativeCentre = new Waypoint(0, 0);
 
   /**
    * The default constructor for a MapLayer
@@ -25,86 +25,107 @@ public class MapLayer implements Iterable<Waypoint> {
 
   }
 
-  public void transform(int x, int y, int a) {
-    // calc trans and rot
-    // TODO discuss & decide on rotating map or return
-    // call rot
-    rotate(a);
-    // call trans
-    translate(x,y);
+  public MapLayer transform(int x, int y, int a) {
+    return translate(x, y).rotate(a);// TODO check order
   }
 
 
-  private void rotate(int a) {
+  private MapLayer rotate(int a) {
     // apply rotation by azimuth (Theta) to bring map to be 'north' = 'top'
-    
+
+    ArrayList<Waypoint> res = new ArrayList<Waypoint>();
+
     // precalc sin(a) and cos(a)
     double sinA = Math.sin(a);
     double cosA = Math.cos(a);
-    
+
     double oldX;
     double oldY;
     double newX;
     double newY;
-    
-    for (Waypoint w : liDARRead) {//TODO refactor for threading
+
+    for (Waypoint w : liDARRead) {
       oldX = w.getX();
       oldY = w.getY();
-      newX = oldX * cosA - oldY * sinA;// FIXME fix cast
+      newX = oldX * cosA - oldY * sinA;
       newY = oldX * sinA + oldY * cosA;
-      w = new Waypoint(newX, newY);// FIXME does this put w back in liDARRead??
+      res.add(new Waypoint(newX, newY));
     }
+    return new MapLayer(res);
   }
 
 
-  private void translate(int xOffset, int yOffset) {
+  private MapLayer translate(int xOffset, int yOffset) {
     // apply translation -ve x and -ve y so 'centre' is map 'origin'
+
+    ArrayList<Waypoint> res = new ArrayList<Waypoint>();
+
     double oldX;
     double oldY;
     double newX;
     double newY;
-  
-    centre = new Waypoint(xOffset,yOffset);
-    
-    for (Waypoint w : liDARRead) {//TODO refactor for threading
+
+    relativeCentre = new Waypoint(xOffset, yOffset);
+
+    for (Waypoint w : liDARRead) {
       oldX = w.getX();
       oldY = w.getY();
       newX = oldX - xOffset;
       newY = oldY - yOffset;
-      w = new Waypoint(newX, newY);// FIXME does this put w back in liDARRead??
+      w = new Waypoint(newX, newY);
     }
+    return new MapLayer(res);
   }
 
+  public MapLayer addOpens() {
+    // add WPs for 'open' reads between sensor and Blocked
+
+    ArrayList<Waypoint> res = new ArrayList<Waypoint>();
+
+    // for each WP in read
+      // check offset
+      // calc hypot
+      // div hypot by scalar
+      // for 0>scaler
+        // add 'open' WP along track
+      // add blocked WP at end of track
+    //
+
+    return new MapLayer(res);
+  }
+
+
+
   @Override
-  public Iterator<Waypoint> iterator() {//TODO write this
+  public Iterator<Waypoint> iterator() {// TODO write this
     // TODO Auto-generated method stub
-    
+
     return new LiDARIterator();
-    
-    //return null;
+
+    // return null;
   }
 
   class LiDARIterator implements Iterator<Waypoint> {
-    int current = 0;  // the current element we are looking at
+    int current = 0; // the current element we are looking at
 
     // return whether or not there are more elements in the array that
     // have not been iterated over.
     public boolean hasNext() {
-        if (current < liDARRead.size()) {
-          return true;
-        } else {
-            return false;
-        }
+      if (current < liDARRead.size()) {
+        return true;
+      } else {
+        return false;
+      }
     }
 
     // return the next element of the iteration and move the current
     // index to the element after that.
     public Waypoint next() {
-        if (!hasNext()) {
-            throw new NoSuchElementException();
-        }
-        return liDARRead.get(current++);
+      if (!hasNext()) {
+        throw new NoSuchElementException();
+      }
+      return liDARRead.get(current++);
     }
-}
+  }
 
 }
