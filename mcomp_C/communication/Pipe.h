@@ -2,7 +2,7 @@
  * Pipe.h
  *
  *  Created on: 4 Apr 2018
- *      Author: Ryan
+ *      Author: Ryan Shoobert 15812407
  */
 
 #ifndef COMMUNICATION_PIPE_H_
@@ -16,10 +16,12 @@ class Pipe {
   virtual ~Pipe();
 
   int available();
-  bool write();
+  bool write(String toWrite);
   //TODO overloaded write methods
 
-  byte read();char[] decode();byte[] encode();
+  byte[] read();
+  String decode(byte[] readBytes);
+  void encode(String s);
   void close();
 
  private:
