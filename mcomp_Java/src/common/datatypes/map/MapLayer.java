@@ -17,6 +17,7 @@ public class MapLayer implements Iterable<Waypoint> {
 
   private ArrayList<Waypoint> liDARRead = new ArrayList<Waypoint>();
   private Waypoint relativeCentre = new Waypoint(0, 0);
+  private int relativeRotation = 0;
 
   /**
    * The default constructor for a MapLayer
@@ -45,6 +46,8 @@ public class MapLayer implements Iterable<Waypoint> {
     double newX;
     double newY;
 
+    relativeRotation = -a;
+
     for (Waypoint w : liDARRead) {
       oldX = w.getX();
       oldY = w.getY();
@@ -66,7 +69,7 @@ public class MapLayer implements Iterable<Waypoint> {
     double newX;
     double newY;
 
-    relativeCentre = new Waypoint(xOffset, yOffset);
+    relativeCentre = new Waypoint(-xOffset, -yOffset);
 
     for (Waypoint w : liDARRead) {
       oldX = w.getX();
@@ -110,7 +113,8 @@ public class MapLayer implements Iterable<Waypoint> {
       // calc hypot
       i = Math.hypot(w.getX()-xOffset, w.getY()-yOffset) / step;//TODO decide on scale (1, 0.1??)
       // for 0>i
-      for (double j = 0; j<=i; j = j + step) {//TODO refactor for lass vars //TODO if scale is adjusted then so is step
+      for (double j = 1; j<i; j = j + step) {//TODO refactor for lass vars //TODO if scale is adjusted then so is step
+        //FIXME adjust for negative!!
         double scaledX = (thisX-xOffset) * j;
         double scaledY = (thisY-yOffset) * j;
         
