@@ -82,14 +82,30 @@ public class MapLayer implements Iterable<Waypoint> {
 
     ArrayList<Waypoint> res = new ArrayList<Waypoint>();
 
+    double xOffset = this.relativeCentre.getX();
+    double yOffset = this.relativeCentre.getY();
+    
+    double i;
+    double step = 1.0;
+    
     // for each WP in read
+    for (Waypoint w : liDARRead) {
+      double thisX = w.getX();
+      double thisY = w.getX();
       // check offset
       // calc hypot
-      // div hypot by scalar
-      // for 0>scaler
+      i = Math.hypot(w.getX()-xOffset, w.getY()-yOffset) / step;//TODO decide on scale (1, 0.1??)
+      // for 0>i
+      for (double j = 0; j<=i; j = j + step) {//TODO refactor for lass vars //TODO if scale is adjusted then so is step
+        double scaledX = (thisX-xOffset) * j;
+        double scaledY = (thisY-yOffset) * j;
+        
         // add 'open' WP along track
+        res.add(new Waypoint((scaledX+xOffset),(scaledY+yOffset),false));
+      }
       // add blocked WP at end of track
-    //
+      res.add(w);
+    }
 
     return new MapLayer(res);
   }
