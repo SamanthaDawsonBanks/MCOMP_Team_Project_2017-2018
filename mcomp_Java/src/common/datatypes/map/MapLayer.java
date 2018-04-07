@@ -1,6 +1,3 @@
-/**
- * 
- */
 package common.datatypes.map;
 
 import java.util.ArrayList;
@@ -9,7 +6,14 @@ import java.util.NoSuchElementException;
 import common.datatypes.Waypoint;
 
 /**
+ * Data structure for storing and manipulating (in an immutable fashion) a collection of Waypoints
+ * 
  * @author David Avery 15823926
+ * @version 1.0
+ * @since 2018-04-07
+ * 
+ * @see Waypoint
+ * @see common.objects.Member#lSense()
  *
  */
 public class MapLayer implements Iterable<Waypoint> {
@@ -17,14 +21,37 @@ public class MapLayer implements Iterable<Waypoint> {
   private ArrayList<Waypoint> liDARRead = new ArrayList<Waypoint>();
 
   /**
-   * The default constructor for a MapLayer
+   * Constructor
+   * 
+   * @see Waypoint
+   * @see common.objects.Member#lSense()
+   *
+   * @param layer the collection of Waypoints forming the LiDAR return
+   * 
    */
   public MapLayer(ArrayList<Waypoint> layer) {
     this.liDARRead = layer;
 
   }
 
-  public void transform(int x, int y, int a) {
+  /**
+   * function for manipulating the immutable MapLayer
+   * 
+   * @param //FIXME needs completing after the merge
+   * @param a The angle (in degrees) to rotate the Waypoints in a clockwise (positive)
+   *        counterclockwise (negative) aspect
+   * @param x The value to translate (move) the Waypoints in a 'East' (positive) 'West' (negative)
+   *        axis
+   * @param y The value to translate (move) the Waypoints in a 'North' (positive) 'South' (negative)
+   *        axis
+   * 
+   * @see Waypoint
+   * @see common.objects.Member#lSense()
+   *
+   * @return A new MapLayer with the 
+   * 
+   */
+  public void transform(int a, int x, int y) {
     // calc trans and rot
     // call rot
     rotate(a);
