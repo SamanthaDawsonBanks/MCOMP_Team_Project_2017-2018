@@ -68,7 +68,7 @@ public class Waypoint {
    * @return
    */
   AngleDistance toAngleDistance() {
-    return new AngleDistance(Math.atan2(y, x) * (180 / Math.PI), (long) Math.hypot(x, y));
+    return new AngleDistance(Math.atan2(y, x) * (180 / Math.PI), Math.hypot(x, y));
   }
 
   /**

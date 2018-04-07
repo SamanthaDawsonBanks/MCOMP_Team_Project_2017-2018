@@ -1,29 +1,48 @@
-/**
- * 
- */
 package common.datatypes;
 
 /**
+ * Tuple for holding an Angle (theta) and distance representation of a Waypoint
+ * 
  * @author David Avery 15823926
+ * @version 1.0
+ * @since 2018-04-07
+ * 
+ * @see Waypoint
  *
  */
 public class AngleDistance {
   double theta;
-  long distance;
+  double distance;
 
   /**
+   * Constructor
+   * 
+   * @param t Angle (in degrees) offset from 0 (x axis) in a counter-clockwise aspect
+   * @param d Distance (in centimetres) from the origin to the date point
    * 
    */
-  AngleDistance(double t, long d) {
+  AngleDistance(double t, double d) {
     theta = t;
     distance = d;
   }
 
+  /**
+   * Access method for getting theta value
+   * 
+   * @return Theta value of degrees as a double
+   * 
+   */
   double getTheta() {
     return theta;
   }
 
-  long getDistance() {
+  /**
+   * Access method for getting distance value
+   * 
+   * @return Distance value of centimetres as a double
+   * 
+   */
+  double getDistance() {
     return distance;
   }
 
