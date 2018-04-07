@@ -15,7 +15,7 @@ import common.datatypes.map.griddedMap.GriddedMap;
  * 
  * @see GriddedMap
  * @see MapLayer
- * @see Member.LSense
+ * @see common.objects.Member#lSense()
  * @see GridDesign
  * 
  */
@@ -40,7 +40,7 @@ public class Map {
   /**
    * Access method for retrieving a single LiDAR return from the collection
    * 
-   * @see Member.LSense
+   * @see common.objects.Member#lSense()
    *
    * @param index The numerical index of the layer requested
    * 
@@ -69,7 +69,7 @@ public class Map {
   /**
    * Header function for adding data to the griddedMap 
    * 
-   * @see Member.LSense
+   * @see common.objects.Member#lSense()
    * @see GriddedMap
    * @see Vertex
    *
@@ -87,6 +87,8 @@ public class Map {
 
   /**
    * Access method for retrieving the griddedMap
+   * 
+   * @return The entire GriddedMap data structure
    * 
    */
   public GriddedMap getAmalgamatedMap() {
