@@ -13,17 +13,17 @@ import common.datatypes.Waypoint;
  * 
  * @see Waypoint
  */
-public class PathItem {
+public class LinkedItem {
 
   private Waypoint data;
-  private PathItem next;
+  private LinkedItem next;
 
   /**
    * Constructor
    *
    * @param The Waypoint to be held
    */
-  public PathItem(Waypoint data) {
+  public LinkedItem(Waypoint data) {
     this.data = data;
     this.next = null;
   }
@@ -40,22 +40,22 @@ public class PathItem {
   }
 
   /**
-   * Returns (a pointer to) the next PathItem in the chain
+   * Returns (a pointer to) the next LinkedItem in the chain
    * 
-   * @return Pointer to the nest PathItem. or null if end of chain
+   * @return Pointer to the nest LinkedItem. or null if end of chain
    * 
    */
-  public PathItem getNext() {
+  public LinkedItem getNext() {
     return next;
   }
 
   /**
-   * Sets the point to point to the provided PathItem
+   * Points the pointer to the provided LinkedItem
    * 
    * @param NextPathItem in the collection
    * 
    */
-  public void setNext(PathItem next) {
+  public void setNext(LinkedItem next) {
     this.next = next;
   }
 
