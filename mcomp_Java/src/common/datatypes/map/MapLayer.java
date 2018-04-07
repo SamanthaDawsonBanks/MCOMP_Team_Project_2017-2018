@@ -23,6 +23,7 @@ public class MapLayer implements Iterable<Waypoint> {
   private Waypoint trackedCentre = new Waypoint(0, 0);
   private int trackedRotation = 0;
   private int trackedScale = 1;
+  private boolean trackedOpens = false;
 
   /**
    * The default constructor for a MapLayer
@@ -34,12 +35,14 @@ public class MapLayer implements Iterable<Waypoint> {
 
   /**
    * The private constructor for a MapLayer that includes passing of centre, rotation, and scale
+   * @param opensAdded TODO
    */
-  private MapLayer(ArrayList<Waypoint> layer, int angle, double xOffset, double yOffset, int scale) {
+  private MapLayer(ArrayList<Waypoint> layer, int angle, double xOffset, double yOffset, int scale, boolean opensAdded) {
     this.liDARRead = layer;
     this.trackedCentre = new Waypoint(xOffset,yOffset);
     this.trackedRotation = angle;
     this.trackedScale  = scale;
+    this.trackedOpens = opensAdded;
 
   }
 
@@ -70,7 +73,7 @@ public class MapLayer implements Iterable<Waypoint> {
       newY = oldX * sinA + oldY * cosA;
       res.add(new Waypoint(newX, newY));
     }
-    return new MapLayer(res, trackedRotation, trackedCentre.getX(), trackedCentre.getY(), trackedScale);
+    return new MapLayer(res, trackedRotation, trackedCentre.getX(), trackedCentre.getY(), trackedScale, trackedOpens);
   }
 
 
@@ -93,7 +96,7 @@ public class MapLayer implements Iterable<Waypoint> {
       newY = oldY - yOffset;
       res.add(new Waypoint(newX, newY));
     }
-    return new MapLayer(res, trackedRotation, trackedCentre.getX(), trackedCentre.getY(), trackedScale);
+    return new MapLayer(res, trackedRotation, trackedCentre.getX(), trackedCentre.getY(), trackedScale, trackedOpens);
   }
 
   /**
@@ -108,7 +111,7 @@ public class MapLayer implements Iterable<Waypoint> {
     for (Waypoint w : liDARRead) {
       res.add(new Waypoint(w.getX() * scale, w.getY() * scale));
     }
-    return new MapLayer(res, trackedRotation, trackedCentre.getX(), trackedCentre.getY(), trackedScale);
+    return new MapLayer(res, trackedRotation, trackedCentre.getX(), trackedCentre.getY(), trackedScale, trackedOpens);
   }
 
 
@@ -120,6 +123,8 @@ public class MapLayer implements Iterable<Waypoint> {
     double xOffset = this.trackedCentre.getX();
     double yOffset = this.trackedCentre.getY();
 
+    trackedOpens = true;
+    
     double i;
     double step = 1.0;
 
@@ -145,7 +150,7 @@ public class MapLayer implements Iterable<Waypoint> {
       res.add(w);
     }
 
-    return new MapLayer(res);
+    return new MapLayer(res, trackedRotation, trackedCentre.getX(), trackedCentre.getY(), trackedScale, trackedOpens);
   }
 
 
