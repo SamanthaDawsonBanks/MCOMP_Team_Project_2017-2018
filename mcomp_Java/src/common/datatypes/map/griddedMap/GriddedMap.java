@@ -31,9 +31,9 @@ public class GriddedMap {
   /**
    * The default constructor for a MapLayer
    * 
-   * @param grid the enumerate design / shape of the storage
-   * @param gridSize the number of subitem (Vertices) to store in both x and y dimensions
-   * @param parent a pointer to the parent object, used for upwards calls
+   * @param grid The enumerate design / shape of the storage
+   * @param gridSize The number of subitem (Vertices) to store in both x and y dimensions
+   * @param parent A pointer to the parent object, used for upwards calls
    * 
    */
   public GriddedMap(GridDesign grid, int gridSize, Map parent) {
@@ -56,7 +56,7 @@ public class GriddedMap {
   }
 
   /**
-   * add the supplied Waypoint to the griddedMap as a Vertex. maintains the state of the Vertex
+   * Adds the supplied Waypoint to the griddedMap as a Vertex. Maintains the state of the Vertex
    * (blocked or open)
    * 
    * @see BlockedVertex

@@ -40,7 +40,7 @@ public class Chunk {
 
 
   /**
-   * add the supplied Waypoint to the griddedMap as a Vertex. maintains the state of the Vertex
+   * Adds the supplied Waypoint to the griddedMap as a Vertex. Maintains the state of the Vertex
    * (blocked or open)
    * 
    * @see BlockedVertex

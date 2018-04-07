@@ -1,9 +1,10 @@
 package common.datatypes;
 
 /**
- * Tuple for holding an Angle (theta) and distance representation of a Waypoint
+ * Immutable Tuple for holding an Angle (theta) and distance representation of a Waypoint
  * 
  * @author David Avery 15823926
+ * @author Stephen Pope 15836791
  * @version 1.0
  * @since 2018-04-07
  * 
@@ -29,7 +30,7 @@ public class AngleDistance {
   /**
    * Access method for getting theta value
    * 
-   * @return Theta value of degrees as a double
+   * @return Theta value in degrees as a double
    * 
    */
   double getTheta() {
@@ -39,7 +40,7 @@ public class AngleDistance {
   /**
    * Access method for getting distance value
    * 
-   * @return Distance value of centimetres as a double
+   * @return Distance value in centimetres as a double
    * 
    */
   double getDistance() {
