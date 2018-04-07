@@ -9,12 +9,12 @@ import java.util.NoSuchElementException;
 import common.datatypes.Waypoint;
 
 /**
-<<<<<<< HEAD
+ * <<<<<<< HEAD
+ * 
  * @author David Avery
- * @author Harry Jackson 14812630
-=======
- * @author David Avery 15823926
->>>>>>> branch 'develop' of https://github.com/DavidAveryUoB/Team_Project
+ * @author Harry Jackson 14812630 =======
+ * @author David Avery 15823926 >>>>>>> branch 'develop' of
+ *         https://github.com/DavidAveryUoB/Team_Project
  *
  */
 public class MapLayer implements Iterable<Waypoint> {
@@ -35,13 +35,15 @@ public class MapLayer implements Iterable<Waypoint> {
 
   /**
    * The private constructor for a MapLayer that includes passing of centre, rotation, and scale
+   * 
    * @param opensAdded TODO
    */
-  private MapLayer(ArrayList<Waypoint> layer, int angle, double xOffset, double yOffset, int scale, boolean opensAdded) {
+  private MapLayer(ArrayList<Waypoint> layer, int angle, double xOffset, double yOffset, int scale,
+      boolean opensAdded) {
     this.liDARRead = layer;
-    this.trackedCentre = new Waypoint(xOffset,yOffset);
+    this.trackedCentre = new Waypoint(xOffset, yOffset);
     this.trackedRotation = angle;
-    this.trackedScale  = scale;
+    this.trackedScale = scale;
     this.trackedOpens = opensAdded;
 
   }
@@ -73,7 +75,8 @@ public class MapLayer implements Iterable<Waypoint> {
       newY = oldX * sinA + oldY * cosA;
       res.add(new Waypoint(newX, newY));
     }
-    return new MapLayer(res, trackedRotation, trackedCentre.getX(), trackedCentre.getY(), trackedScale, trackedOpens);
+    return new MapLayer(res, trackedRotation, trackedCentre.getX(), trackedCentre.getY(),
+        trackedScale, trackedOpens);
   }
 
 
@@ -96,7 +99,8 @@ public class MapLayer implements Iterable<Waypoint> {
       newY = oldY - yOffset;
       res.add(new Waypoint(newX, newY));
     }
-    return new MapLayer(res, trackedRotation, trackedCentre.getX(), trackedCentre.getY(), trackedScale, trackedOpens);
+    return new MapLayer(res, trackedRotation, trackedCentre.getX(), trackedCentre.getY(),
+        trackedScale, trackedOpens);
   }
 
   /**
@@ -105,13 +109,14 @@ public class MapLayer implements Iterable<Waypoint> {
    */
   public MapLayer scale(int scale) {
     ArrayList<Waypoint> res = new ArrayList<Waypoint>();
-    
+
     trackedScale = trackedScale + scale;
-    
+
     for (Waypoint w : liDARRead) {
       res.add(new Waypoint(w.getX() * scale, w.getY() * scale));
     }
-    return new MapLayer(res, trackedRotation, trackedCentre.getX(), trackedCentre.getY(), trackedScale, trackedOpens);
+    return new MapLayer(res, trackedRotation, trackedCentre.getX(), trackedCentre.getY(),
+        trackedScale, trackedOpens);
   }
 
 
@@ -120,37 +125,44 @@ public class MapLayer implements Iterable<Waypoint> {
 
     ArrayList<Waypoint> res = new ArrayList<Waypoint>();
 
-    double xOffset = this.trackedCentre.getX();
-    double yOffset = this.trackedCentre.getY();
+    if (!trackedOpens) {// only apply this once
 
-    trackedOpens = true;
-    
-    double i;
-    double step = 1.0;
+      double xOffset = this.trackedCentre.getX();
+      double yOffset = this.trackedCentre.getY();
 
-    // for each WP in read
-    for (Waypoint w : liDARRead) {
-      double thisX = w.getX();
-      double thisY = w.getY();
-      // check offset
-      // calc hypot
-      i = Math.hypot(w.getX() - xOffset, w.getY() - yOffset) / step;// TODO decide on scale (1,
-                                                                    // 0.1??)
-      // for 0>i
-      for (double j = 1; j < i; j = j + step) {// TODO refactor for lass vars //TODO if scale is
-                                               // adjusted then so is step
-        // FIXME adjust for negative!!
-        double scaledX = (thisX - xOffset) * (j / i);
-        double scaledY = (thisY - yOffset) * (j / i);
+      double i;
+      double step = 1.0;
 
-        // add 'open' WP along track
-        res.add(new Waypoint((scaledX + xOffset), (scaledY + yOffset), false));
+      // for each WP in read
+      for (Waypoint w : liDARRead) {
+        double thisX = w.getX();
+        double thisY = w.getY();
+        // check offset
+        // calc hypot
+        i = Math.hypot(w.getX() - xOffset, w.getY() - yOffset) / step;// TODO decide on scale (1,
+                                                                      // 0.1??)
+        // for 0>i
+        for (double j = 1; j < i; j = j + step) {// TODO refactor for lass vars //TODO if scale is
+                                                 // adjusted then so is step
+          // FIXME adjust for negative!!
+          double scaledX = (thisX - xOffset) * (j / i);
+          double scaledY = (thisY - yOffset) * (j / i);
+
+          // add 'open' WP along track
+          res.add(new Waypoint((scaledX + xOffset), (scaledY + yOffset), false));
+        }
+        // add blocked WP at end of track
+        res.add(w);
       }
-      // add blocked WP at end of track
-      res.add(w);
+
+    } else {
+      res = liDARRead;// just give them back the unmodified dataset
     }
 
-    return new MapLayer(res, trackedRotation, trackedCentre.getX(), trackedCentre.getY(), trackedScale, trackedOpens);
+    trackedOpens = true;
+
+    return new MapLayer(res, trackedRotation, trackedCentre.getX(), trackedCentre.getY(),
+        trackedScale, trackedOpens);
   }
 
 
@@ -183,7 +195,7 @@ public class MapLayer implements Iterable<Waypoint> {
     }
   }
 
-  
+
   public ArrayList<Waypoint> getWaypoints() {
     // TODO Auto-generated method stub
     return liDARRead;
