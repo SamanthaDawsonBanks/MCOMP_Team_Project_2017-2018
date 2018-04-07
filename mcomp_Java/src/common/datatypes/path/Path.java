@@ -70,7 +70,7 @@ public class Path {
     Waypoint[] res = new Waypoint[length];//may return an array of size 0
     PathItem check = head;
     for (int i = 1; i <= length; i++) {
-      res[i-1] = check.getData();
+      res[i-1] = check.getData();//off by one protection
       check = check.getNext();
     }
     return res;
