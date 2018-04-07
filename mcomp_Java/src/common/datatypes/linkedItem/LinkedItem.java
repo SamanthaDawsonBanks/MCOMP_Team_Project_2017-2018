@@ -21,7 +21,7 @@ public class LinkedItem {
   /**
    * Constructor
    *
-   * @param The Waypoint to be held
+   * @param data Waypoint to be held
    */
   public LinkedItem(Waypoint data) {
     this.data = data;
@@ -52,7 +52,7 @@ public class LinkedItem {
   /**
    * Points the pointer to the provided LinkedItem
    * 
-   * @param NextPathItem in the collection
+   * @param next NextPathItem in the collection
    * 
    */
   public void setNext(LinkedItem next) {

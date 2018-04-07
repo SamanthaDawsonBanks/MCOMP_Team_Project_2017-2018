@@ -20,7 +20,7 @@ public class BlockedVertex extends Vertex {
   /**
    * Public access method for receiving or creating the Singleton
    * 
-   * @param The Grid Design (to allocate vertex edges)
+   * @param grid The Grid Design (to allocate vertex edges)
    * @return The Singleton instance
    * 
    */
