@@ -4,7 +4,7 @@
 package common.datatypes.map.griddedMap;
 
 /**
- * @author David Avery
+ * @author David Avery 15823926
  *
  */
   // FIXME for better enum use (sides and array of relatives?)
@@ -24,7 +24,7 @@ package common.datatypes.map.griddedMap;
         default:
           throw new AssertionError("Unknown design " + this);
       }
-    };// TODO some way of enumerating the relative pos
+    };
 
     public int getShapeSides() {//TODO expand from mixed grids (Octa with Tetra)
       switch (this) {

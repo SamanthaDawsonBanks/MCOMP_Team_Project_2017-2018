@@ -9,8 +9,12 @@ import java.util.NoSuchElementException;
 import common.datatypes.Waypoint;
 
 /**
+<<<<<<< HEAD
  * @author David Avery
  * @author Harry Jackson 14812630
+=======
+ * @author David Avery 15823926
+>>>>>>> branch 'develop' of https://github.com/DavidAveryUoB/Team_Project
  *
  */
 public class MapLayer implements Iterable<Waypoint> {
@@ -49,7 +53,6 @@ public class MapLayer implements Iterable<Waypoint> {
 
     ArrayList<Waypoint> res = new ArrayList<Waypoint>();
 
-    // precalc sin(a) and cos(a)
     double sinA = Math.sin(Math.toRadians(a));
     double cosA = Math.cos(Math.toRadians(a));
 
@@ -148,12 +151,8 @@ public class MapLayer implements Iterable<Waypoint> {
 
 
   @Override
-  public Iterator<Waypoint> iterator() {// TODO write this
-    // TODO Auto-generated method stub
-
+  public Iterator<Waypoint> iterator() {
     return new LiDARIterator();
-
-    // return null;
   }
 
   class LiDARIterator implements Iterator<Waypoint> {
@@ -179,6 +178,7 @@ public class MapLayer implements Iterable<Waypoint> {
     }
   }
 
+  
   public ArrayList<Waypoint> getWaypoints() {
     // TODO Auto-generated method stub
     return liDARRead;

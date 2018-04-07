@@ -5,8 +5,9 @@
  *      Author: David Avery 15823926
  *
  */
-#include "../Waypoint.h"
 #include "LinkedItem.h"
+
+#include "../Waypoint.h"
 
 LinkedItem::LinkedItem(Waypoint w) {
   data = w;

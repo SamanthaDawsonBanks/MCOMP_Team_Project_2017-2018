@@ -4,7 +4,7 @@
 package common.datatypes.map.griddedMap;
 
 /**
- * @author David Avery
+ * @author David Avery 15823926
  *
  */
 class RelativeAddress {
@@ -15,8 +15,6 @@ class RelativeAddress {
    * 
    */
   public RelativeAddress(int x, int y) {
-    // TODO Auto-generated constructor stub
-    // TODO some form of check for grid type?
     neighbourXOffset = x;
     neighbourYOffset = y;
   }

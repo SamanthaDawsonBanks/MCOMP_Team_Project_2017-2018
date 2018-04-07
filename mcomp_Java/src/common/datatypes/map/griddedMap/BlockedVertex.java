@@ -6,7 +6,7 @@ package common.datatypes.map.griddedMap;
 import common.datatypes.Waypoint;
 
 /**
- * @author David Avery
+ * @author David Avery 15823926
  *
  */
 public class BlockedVertex extends Vertex {

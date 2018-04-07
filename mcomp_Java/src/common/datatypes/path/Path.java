@@ -7,7 +7,7 @@ import common.datatypes.Waypoint;
 import common.datatypes.linkedItem.PathItem;
 
 /**
- * @author David Avery
+ * @author David Avery 15823926
  *
  */
 
@@ -46,9 +46,9 @@ public class Path {
     Waypoint res = destination.getData(); // default to destination
     if (length > 0) {
       res = head.getData();
-      head = head.getNext();// FIXME LI points to old head in empty queues so GC can't clean
+      head = head.getNext();
       if (head == null) {
-        lastItem = null;// FIXME this cleans, but complicates??
+        lastItem = null;
       }
       length--;
     }

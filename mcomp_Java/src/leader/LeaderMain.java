@@ -9,7 +9,6 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import common.interfaces.RemoteLeader;
@@ -51,16 +50,16 @@ public class LeaderMain {
     l = new Leader();// args - 1099, "HerdLeader");
 
     LOGGER.log(Level.INFO, "Binding l as: {0}", serverName);
-    Naming.rebind(serverName, l);
+    Naming.rebind("rmi://192.168.25.42/" + serverName, l);
 
 
     listAllBoundRMINames(registry);
 
     // only for testing??
-//     LOGGER.log(Level.INFO, "unexporting Leader l");
-//     UnicastRemoteObject.unexportObject(l, true);
-//     LOGGER.log(Level.INFO, "unbinding HerdLeader");
-//     registry.unbind(serverName);
+    // LOGGER.log(Level.INFO, "unexporting Leader l");
+    // UnicastRemoteObject.unexportObject(l, true);
+    // LOGGER.log(Level.INFO, "unbinding HerdLeader");
+    // registry.unbind(serverName);
 
 
     LOGGER.log(Level.INFO, "End of LeaderMain");

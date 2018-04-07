@@ -42,7 +42,6 @@ public class Waypoint {
    * @param AngleDistance a
    */
   public Waypoint(AngleDistance a) {
-    // TODO Auto-generated constructor stub
     a.getDistance();
     y = a.getDistance() * Math.sin(a.getTheta());
     x = a.getDistance() * Math.cos(a.getTheta());
@@ -69,7 +68,7 @@ public class Waypoint {
    * @return
    */
   AngleDistance toAngleDistance() {
-    return new AngleDistance(Math.atan2(y,x) * (180 / Math.PI) , (long) Math.hypot(x,y)); //TODO CHECK ATAN2 RETURN VALUE
+    return new AngleDistance(Math.atan2(y, x) * (180 / Math.PI), (long) Math.hypot(x, y));
   }
 
   /**

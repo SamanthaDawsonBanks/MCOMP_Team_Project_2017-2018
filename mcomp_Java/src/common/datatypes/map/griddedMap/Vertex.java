@@ -7,7 +7,7 @@ import common.datatypes.Waypoint;
 import pathfinding.Heuristic;
 
 /**
- * @author David Avery
+ * @author David Avery 15823926
  *
  */
 public class Vertex {
@@ -56,7 +56,6 @@ public class Vertex {
    * 
    */
   public Vertex(Waypoint w, Chunk parent) {
-    // TODO Auto-generated constructor stub
     this.x = (int) w.getX();
     this.y = (int) w.getY();
     this.parent = parent;
@@ -66,14 +65,12 @@ public class Vertex {
   }
 
   protected Vertex(Waypoint w, GridDesign grid) {// only for blocked
-    // TODO Auto-generated constructor stub
     this.x = (int) w.getX();
     this.y = (int) w.getY();
     edges = new Vertex[grid.getShapeSides()];
   }
 
   private void connectNeighbours() {
-    // TODO Auto-generated method stub
     // check neighbours
     for (int i = 0; i < edges.length; i++) {
       int xOffset = parent.parent.parent.gridDesign.getNeighbourAddresses()[i].neighbourXOffset;
@@ -100,7 +97,6 @@ public class Vertex {
       }
 
       for (int j = 0; j < parent.parent.parent.gridDesign.getShapeSides(); j++) {
-        // set neighbours pointers, that point back to me, to be blocked
         if (edges[i].edges[j] == this) {
           edges[i].edges[j] = parent.parent.parent.blocked;
         }
