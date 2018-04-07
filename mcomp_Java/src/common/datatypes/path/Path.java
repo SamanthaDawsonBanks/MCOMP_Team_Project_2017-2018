@@ -55,13 +55,25 @@ public class Path {
     return res;
   }
 
+
   public int getLength() {
     return length;
   }
 
 
-  boolean isDone() {
+  public boolean isDone() {
     return (length == 0);
   }
-  
+
+
+  public Waypoint[] toArray() {
+    Waypoint[] res = new Waypoint[length];//may return an array of size 0
+    PathItem check = head;
+    for (int i = 1; i <= length; i++) {
+      res[i-1] = check.getData();
+      check = check.getNext();
+    }
+    return res;
+  }
+
 }
