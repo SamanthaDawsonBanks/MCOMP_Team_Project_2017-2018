@@ -6,7 +6,14 @@ package common.datatypes.map.griddedMap;
 import common.datatypes.Waypoint;
 
 /**
+ * The 1st level (see GH #72) Vertex data storage structure
+ * 
  * @author David Avery 15823926
+ * @version 1.0
+ * @since 2018-04-07
+ * 
+ * @see Chunk
+ * @see Vertex
  *
  */
 public class Region {
@@ -19,14 +26,17 @@ public class Region {
 
 
   /**
-   * @param gridSize 
-   * @param setBlocked 
-   * @param parent 
+   * Constructor for Region
+   *
+   * @param gridSize the number of subitem (Vertices) to store in both x and y dimensions
+   * @param w the initial Waypoint of the first data point (never created empty)
+   * @param parent a pointer to the parent object, used for upwards calls
    * 
+   *        parent should be refactored to be a straight link to the griddedMap
+   *
    */
   public Region(int gridSize, Waypoint w, GriddedMap parent) {
-    // TODO this is going to need some serious optimisation if accessed on a single point bases
-    this.parent = parent;//FIXME refactor parent.parent to direct link to GMap?
+    this.parent = parent;// FIXME refactor parent.parent to direct link to GMap?
     this.gridSize = gridSize;
     this.gridOffset = parent.gridOffset;
     chunks = new Chunk[parent.gridSize][parent.gridSize];
@@ -34,8 +44,18 @@ public class Region {
   }
 
 
+  /**
+   * add the supplied Waypoint to the griddedMap as a Vertex. maintains the state of the Vertex
+   * (blocked or open)
+   * 
+   * @see BlockedVertex
+   *
+   * @param w the Waypoint holder of the x/y location
+   * 
+   * @return boolean based on if the add was successful
+   * 
+   */
   public boolean add(Waypoint w) {
-    // TODO
     int ChunkX = (int) (((w.getX() + gridOffset) / Math.pow(gridSize, 1)) % gridSize);
     int ChunkY = (int) (((w.getY() + gridOffset) / Math.pow(gridSize, 1)) % gridSize);
     if (chunks[ChunkX][ChunkY] == null) {
@@ -43,18 +63,23 @@ public class Region {
     } else {
       chunks[ChunkX][ChunkY].add(w);
     }
-    // calc which chunk
-    // call add on calced chunk
-    // rest of call in chunk
-    return true;
+    return true;// TODO some logic
 
   }
 
   Chunk[][] getGrid() {// FIXME what do we want from this DS?
-    return chunks;//TODO depreciated?
+    return chunks;// TODO depreciated?
   }
 
 
+  /**
+   * Access method used read / get a Vertex from the data structure
+   *
+   * @param w Waypoint used to hold the x/y tuple
+   * 
+   * @return The Vertex at the location or null if empty
+   * 
+   */
   public Vertex getVertex(Waypoint w) {
     int ChunkX = (int) (((w.getX() + gridOffset) / Math.pow(gridSize, 1)) % gridSize);
     int ChunkY = (int) (((w.getY() + gridOffset) / Math.pow(gridSize, 1)) % gridSize);
@@ -64,5 +89,5 @@ public class Region {
     }
     return res;
   }
-  
+
 }
