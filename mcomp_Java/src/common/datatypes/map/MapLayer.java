@@ -16,14 +16,26 @@ import common.datatypes.Waypoint;
 public class MapLayer implements Iterable<Waypoint> {
 
   private ArrayList<Waypoint> liDARRead = new ArrayList<Waypoint>();
-  private Waypoint relativeCentre = new Waypoint(0, 0);
-  private int relativeRotation = 0;
+  private Waypoint trackedCentre = new Waypoint(0, 0);
+  private int trackedRotation = 0;
+  private int trackedScale = 1;
 
   /**
    * The default constructor for a MapLayer
    */
   public MapLayer(ArrayList<Waypoint> layer) {
     this.liDARRead = layer;
+
+  }
+
+  /**
+   * The private constructor for a MapLayer that includes passing of centre, rotation, and scale
+   */
+  private MapLayer(ArrayList<Waypoint> layer, int angle, double xOffset, double yOffset, int scale) {
+    this.liDARRead = layer;
+    this.trackedCentre = new Waypoint(xOffset,yOffset);
+    this.trackedRotation = angle;
+    this.trackedScale  = scale;
 
   }
 
@@ -46,7 +58,7 @@ public class MapLayer implements Iterable<Waypoint> {
     double newX;
     double newY;
 
-    relativeRotation = -a;
+    trackedRotation = trackedRotation + a;
 
     for (Waypoint w : liDARRead) {
       oldX = w.getX();
@@ -55,7 +67,7 @@ public class MapLayer implements Iterable<Waypoint> {
       newY = oldX * sinA + oldY * cosA;
       res.add(new Waypoint(newX, newY));
     }
-    return new MapLayer(res);
+    return new MapLayer(res, trackedRotation, trackedCentre.getX(), trackedCentre.getY(), trackedScale);
   }
 
 
@@ -69,7 +81,7 @@ public class MapLayer implements Iterable<Waypoint> {
     double newX;
     double newY;
 
-    relativeCentre = new Waypoint(-xOffset, -yOffset);
+    trackedCentre = new Waypoint(trackedCentre.getX() + xOffset, trackedCentre.getY() + yOffset);
 
     for (Waypoint w : liDARRead) {
       oldX = w.getX();
@@ -78,48 +90,53 @@ public class MapLayer implements Iterable<Waypoint> {
       newY = oldY - yOffset;
       res.add(new Waypoint(newX, newY));
     }
-    return new MapLayer(res);
+    return new MapLayer(res, trackedRotation, trackedCentre.getX(), trackedCentre.getY(), trackedScale);
   }
-  
+
   /**
    * Method takes in array and scales the Waypoints
    * 
    */
-  public MapLayer scale(int scale){
-      ArrayList<Waypoint> res = new ArrayList<Waypoint>();
-      for(Waypoint w: liDARRead) {
-          res.add(new Waypoint(w.getX()*scale, w.getY()*scale));
-      }
-      return new MapLayer(res);
+  public MapLayer scale(int scale) {
+    ArrayList<Waypoint> res = new ArrayList<Waypoint>();
+    
+    trackedScale = trackedScale + scale;
+    
+    for (Waypoint w : liDARRead) {
+      res.add(new Waypoint(w.getX() * scale, w.getY() * scale));
+    }
+    return new MapLayer(res, trackedRotation, trackedCentre.getX(), trackedCentre.getY(), trackedScale);
   }
-  
+
 
   public MapLayer addOpens() {
     // add WPs for 'open' reads between sensor and Blocked
 
     ArrayList<Waypoint> res = new ArrayList<Waypoint>();
 
-    double xOffset = this.relativeCentre.getX();
-    double yOffset = this.relativeCentre.getY();
-    
+    double xOffset = this.trackedCentre.getX();
+    double yOffset = this.trackedCentre.getY();
+
     double i;
     double step = 1.0;
-    
+
     // for each WP in read
     for (Waypoint w : liDARRead) {
       double thisX = w.getX();
       double thisY = w.getY();
       // check offset
       // calc hypot
-      i = Math.hypot(w.getX()-xOffset, w.getY()-yOffset) / step;//TODO decide on scale (1, 0.1??)
+      i = Math.hypot(w.getX() - xOffset, w.getY() - yOffset) / step;// TODO decide on scale (1,
+                                                                    // 0.1??)
       // for 0>i
-      for (double j = 1; j<i; j = j + step) {//TODO refactor for lass vars //TODO if scale is adjusted then so is step
-        //FIXME adjust for negative!!
-        double scaledX = (thisX-xOffset) * (j/i);
-        double scaledY = (thisY-yOffset) * (j/i);
-        
+      for (double j = 1; j < i; j = j + step) {// TODO refactor for lass vars //TODO if scale is
+                                               // adjusted then so is step
+        // FIXME adjust for negative!!
+        double scaledX = (thisX - xOffset) * (j / i);
+        double scaledY = (thisY - yOffset) * (j / i);
+
         // add 'open' WP along track
-        res.add(new Waypoint((scaledX+xOffset),(scaledY+yOffset),false));
+        res.add(new Waypoint((scaledX + xOffset), (scaledY + yOffset), false));
       }
       // add blocked WP at end of track
       res.add(w);
