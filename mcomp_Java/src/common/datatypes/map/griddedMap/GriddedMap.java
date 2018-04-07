@@ -4,9 +4,9 @@ import common.datatypes.Waypoint;
 import common.datatypes.map.Map;
 
 /**
- * The Top Level of the Grided / Amalgamated Map data structure.
+ * The Top Level of the Girded / Amalgamated Map data structure.
  * 
- * Encompasses: the local BlockedVertex, and the GRidDesign along with the Region>Chunk>Vertices
+ * Encompasses: the local BlockedVertex, and the GridDesign along with the Region>Chunk>Vertices
  * 
  * @author David Avery 15823926
  * @version 1.0

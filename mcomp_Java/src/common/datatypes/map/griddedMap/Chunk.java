@@ -3,7 +3,7 @@ package common.datatypes.map.griddedMap;
 import common.datatypes.Waypoint;
 
 /**
- * the 2nd level (see GH #72) Vertex data storage structure
+ * The 2nd level (see GH #72) Vertex data storage structure
  * 
  * @author David Avery 15823926
  * @version 1.0
@@ -27,7 +27,7 @@ public class Chunk {
    * @param w the initial Waypoint of the first data point (never created empty)
    * @param parent a pointer to the parent object, used for upwards calls
    * 
-   * parent should be refactored to be a straight link to the griddedMap 
+   *        parent should be refactored to be a straight link to the griddedMap
    *
    */
   public Chunk(int gridSize, Waypoint w, Region parent) {
@@ -40,7 +40,8 @@ public class Chunk {
 
 
   /**
-   * add the supplied Waypoint to the griddedMap as a Vertex. maintains the state of the Vertex (blocked or open)
+   * add the supplied Waypoint to the griddedMap as a Vertex. maintains the state of the Vertex
+   * (blocked or open)
    * 
    * @see BlockedVertex
    *
@@ -63,6 +64,8 @@ public class Chunk {
     }
     return vertices[VertexX][VertexY];
   }
+
+
 
   Vertex[][] getGrid() {// FIXME what do we want from this DS?
     return vertices;
