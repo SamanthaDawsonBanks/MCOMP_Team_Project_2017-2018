@@ -73,8 +73,8 @@ public class Vertex {
   private void connectNeighbours() {
     // check neighbours
     for (int i = 0; i < edges.length; i++) {
-      int xOffset = parent.parent.parent.gridDesign.getNeighbourAddresses()[i].neighbourXOffset;
-      int yOffset = parent.parent.parent.gridDesign.getNeighbourAddresses()[i].neighbourYOffset;
+      double xOffset = parent.parent.parent.gridDesign.getNeighbourAddresses()[i].neighbourXOffset;
+      double yOffset = parent.parent.parent.gridDesign.getNeighbourAddresses()[i].neighbourYOffset;
       Waypoint neighbourAddress = new Waypoint(this.x + xOffset,this.y + yOffset, false);
       edges[i] = parent.parent.parent.getVertex(neighbourAddress);
       if (edges[i] != null) {//FIXME and not blocked?
