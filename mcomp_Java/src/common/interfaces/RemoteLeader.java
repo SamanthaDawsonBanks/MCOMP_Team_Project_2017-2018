@@ -32,7 +32,7 @@ public interface RemoteLeader
 
   // Contactable
   @Override
-  public void leaderDiscussMerge() throws RemoteException; // TODO obviously a lot of this needs
+  public boolean leaderDiscussMerge(Herd h) throws RemoteException; // TODO obviously a lot of this needs
                                                            // refining.
 
   // Directable

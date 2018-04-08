@@ -10,7 +10,6 @@ import common.objects.Herd;
  * @author David Avery 15823926
  * @author Ryan Shoobert 15812407
  * @author Harry Jackson 14812630
- * @author David Avery 15823926
  * 
  * @version 1.0
  * @since 2018-04-07
