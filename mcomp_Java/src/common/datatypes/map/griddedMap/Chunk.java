@@ -10,8 +10,8 @@ import common.datatypes.Waypoint;
  * @version 1.0
  * @since 2018-04-07
  * 
- * @see Region
- * @see Vertex
+ * @see common.datatypes.map.griddedMap.Region
+ * @see common.datatypes.map.griddedMap.Vertex
  *
  */
 public class Chunk {
@@ -44,7 +44,7 @@ public class Chunk {
    * Adds the supplied Waypoint to the griddedMap as a Vertex. Maintains the state of the Vertex
    * (blocked or open)
    * 
-   * @see BlockedVertex
+   * @see common.datatypes.map.griddedMap.BlockedVertex
    *
    * @param w the Waypoint holder of the x/y location
    * 

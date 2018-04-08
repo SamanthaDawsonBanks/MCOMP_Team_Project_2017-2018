@@ -6,16 +6,16 @@ import common.datatypes.map.Map;
 /**
  * The Top Level of the Girded / Amalgamated Map data structure.
  * 
- * Encompasses: the local BlockedVertex, and the GridDesign along with the Region>Chunk>Vertices
+ * Encompasses: the local BlockedVertex, and the GridDesign along with the Region Chunk Vertices
  * 
  * @author David Avery 15823926
  * 
  * @version 1.0
  * @since 2018-04-07
  * 
- * @see BlockedVertex
- * @see GridDesign
- * @see Region
+ * @see common.datatypes.map.griddedMap.BlockedVertex
+ * @see common.datatypes.map.griddedMap.GridDesign
+ * @see common.datatypes.map.griddedMap.Region
  * 
  */
 public class GriddedMap {
@@ -60,7 +60,7 @@ public class GriddedMap {
    * Adds the supplied Waypoint to the griddedMap as a Vertex. Maintains the state of the Vertex
    * (blocked or open)
    * 
-   * @see BlockedVertex
+   * @see common.datatypes.map.griddedMap.BlockedVertex
    *
    * @param w the Waypoint holder of the x/y location
    * 

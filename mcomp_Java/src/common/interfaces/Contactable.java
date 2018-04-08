@@ -14,8 +14,9 @@ import common.objects.Herd;
  * @version 1.0
  * @since 2018-04-07
  * 
- * @see Leader
- * @see RemoteLeader
+ * @see common.objects.Herd
+ * @see common.objects.Leader
+ * @see common.interfaces.RemoteLeader
  *
  */
 public interface Contactable {
@@ -25,15 +26,16 @@ public interface Contactable {
    * will be defined as the Primary the other as the Secondary. The secondary herd will be absorbed
    * by the primary. The secondary will pass off all of its members to the primary.
    * 
-   * @see Member
-   * @see Herd
-   * @see Leader
+   * @see common.objects.Member
+   * @see common.objects.Herd
+   * @see common.objects.Leader
    *
    * @param h A Herd object holding the remote data
    * 
-   * @return boolean where True means the the remote will be the Primary or False means the the remote will be the Secondary
+   * @return boolean where True means the the remote will be the Primary or False means the the
+   *         remote will be the Secondary
    * 
-   * @throws RemoteException
+   * @throws RemoteException RMI between Member-Leader
    */
   public boolean leaderDiscussMerge(Herd h) throws RemoteException;
 }

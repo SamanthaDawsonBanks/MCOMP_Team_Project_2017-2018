@@ -8,7 +8,7 @@ package common.datatypes.map.griddedMap;
  * @version 1.0
  * @since 2018-04-07
  * 
- * @see GridedMap
+ * @see common.datatypes.map.griddedMap.GriddedMap
  *
  */
 public enum GridDesign {
@@ -19,7 +19,7 @@ public enum GridDesign {
   /**
    * Access method for the grid design neighbour addresses
    * 
-   * @see Vertex
+   * @see common.datatypes.map.griddedMap.Vertex
    *
    * @return Array (size based on design) holding the relative addresses of the neighbours
    * 
@@ -38,7 +38,7 @@ public enum GridDesign {
   /**
    * Access method for the grid design neighbours
    * 
-   * @see Vertex
+   * @see common.datatypes.map.griddedMap.Vertex
    *
    * @return Number of edges that each Vertex of this type has
    * 

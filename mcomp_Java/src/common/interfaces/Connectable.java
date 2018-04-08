@@ -16,11 +16,11 @@ import common.objects.Herd;
  * @version 1.0
  * @since 2018-04-07
  * 
- * @see RemoteMember
- * @see Member
- * @see Herd
- * @see Leader
- * @see RemoteLeader
+ * @see common.interfaces.RemoteMember
+ * @see common.objects.Member
+ * @see common.objects.Herd
+ * @see common.objects.Leader
+ * @see common.interfaces.RemoteLeader
  *
  */
 
@@ -34,7 +34,7 @@ public interface Connectable {
    * 
    * @return The members group plus the leaving member.
    * 
-   * @throws RemoteException
+   * @throws RemoteException RMI between Member-Leader
    */
   public ArrayList<RemoteMember> register(RemoteMember joiningMember) throws RemoteException;
 
@@ -44,10 +44,10 @@ public interface Connectable {
    * 
    * @param leavingMember The member of the herd that is leaving and this unregistering with the
    *        leader.
-   *        
+   * 
    * @return The members group minus the leaving member.
    * 
-   * @throws RemoteException
+   * @throws RemoteException RMI between Member-Leader
    */
   public ArrayList<RemoteMember> deregister(RemoteMember leavingMember) throws RemoteException;
 

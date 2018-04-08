@@ -12,7 +12,8 @@ import common.datatypes.Waypoint;
  * @version 1.0
  * @since 2018-04-07
  * 
- * @see Waypoint
+ * @see common.datatypes.path.Path
+ * @see common.datatypes.Waypoint
  */
 public class LinkedItem {
 
@@ -32,7 +33,7 @@ public class LinkedItem {
   /**
    * Returns the data (Waypoint Object) held
    * 
-   * @see Waypoint
+   * @see common.datatypes.Waypoint
    *
    * @return Waypoint from collection
    */

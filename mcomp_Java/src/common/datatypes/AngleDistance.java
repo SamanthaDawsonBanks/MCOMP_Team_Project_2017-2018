@@ -9,7 +9,7 @@ package common.datatypes;
  * @version 1.0
  * @since 2018-04-07
  * 
- * @see Waypoint
+ * @see common.datatypes.Waypoint
  *
  */
 public class AngleDistance {

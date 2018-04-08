@@ -16,11 +16,11 @@ import common.objects.Herd;
  * @version 1.0
  * @since 2018-04-07
  * 
- * @see RemoteMember
- * @see Member
- * @see Herd
- * @see Leader
- * @see RemoteLeader
+ * @see common.interfaces.RemoteMember
+ * @see common.objects.Member
+ * @see common.objects.Herd
+ * @see common.objects.Leader
+ * @see common.interfaces.RemoteLeader
  *
  */
 
@@ -35,7 +35,7 @@ public interface Directable {
    * 
    * @return Boolean True for successfully set, False for an error / rejection
    * 
-   * @throws RemoteException
+   * @throws RemoteException RMI between Member-Leader
    */
   public boolean setDestination(Waypoint w) throws RemoteException;
 

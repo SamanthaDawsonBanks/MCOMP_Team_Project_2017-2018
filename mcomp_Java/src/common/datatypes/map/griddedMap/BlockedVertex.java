@@ -12,7 +12,7 @@ import common.datatypes.Waypoint;
  * @version 1.0
  * @since 2018-04-07
  * 
- * @see Vertex
+ * @see common.datatypes.map.griddedMap.Vertex
  *
  */
 public class BlockedVertex extends Vertex {
@@ -22,7 +22,8 @@ public class BlockedVertex extends Vertex {
    * Public access method for receiving or creating the Singleton
    * 
    * @param grid The Grid Design (to allocate vertex edges)
-   * @return The Singleton instance
+   * 
+   * @return The Singleton instance of BlockedVertex
    * 
    */
   public static BlockedVertex getInstance(GridDesign grid) {

@@ -8,7 +8,8 @@ package common.datatypes.map.griddedMap;
  * @version 1.0
  * @since 2018-04-07
  * 
- * @see GridDesign
+ * @see common.datatypes.map.griddedMap.GridDesign
+ * @see common.datatypes.map.griddedMap.Vertex
  *
  */
 class RelativeAddress {

@@ -13,7 +13,7 @@ import common.datatypes.Waypoint;
  * @version 1.0
  * @since 2018-04-07
  * 
- * @see Waypoint
+ * @see common.datatypes.Waypoint
  * @see common.objects.Member#lSense()
  *
  */
@@ -24,7 +24,7 @@ public class MapLayer implements Iterable<Waypoint> {
   /**
    * Constructor
    * 
-   * @see Waypoint
+   * @see common.datatypes.Waypoint
    * @see common.objects.Member#lSense()
    *
    * @param layer the collection of Waypoints forming the LiDAR return
@@ -46,10 +46,10 @@ public class MapLayer implements Iterable<Waypoint> {
    * @param y The value to translate (move) the Waypoints in a 'North' (positive) 'South' (negative)
    *        axis
    * 
-   * @see Waypoint
+   * @see common.datatypes.Waypoint
    * @see common.objects.Member#lSense()
    *
-   * @return A new MapLayer with the 
+   * @return A new MapLayer with the
    * 
    */
   public void transform(int a, int x, int y) {

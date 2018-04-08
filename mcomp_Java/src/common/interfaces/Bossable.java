@@ -21,7 +21,8 @@ import common.objects.Herd;
  * @see common.objects.Member
  * @see common.objects.Herd
  * @see common.objects.Leader
- * @see RemoteLeader
+ * @see common.interfaces.RemoteLeader
+ * @see pathfinding.AStar //TODO adjust for refactored names
  *
  */
 public interface Bossable {
@@ -30,30 +31,30 @@ public interface Bossable {
    * Processes a section of the map for amalgamation as part of a distributed call to the members
    * 
    * @see common.datatypes.map.griddedMap.GriddedMap
-   * @see common.datatypes.map.griddedMap.MapLayer
-   * @see Herd
-   * @see Leader
+   * @see common.datatypes.map.MapLayer
+   * @see common.objects.Herd
+   * @see common.objects.Leader
    *
    * @param h A Herd object holding the map data to be processed
    * 
    * @return The section of the map processed
    * 
-   * @throws RemoteException
+   * @throws RemoteException RMI between Member-Leader
    */
   public Map processMapLump(Herd h) throws RemoteException;
 
   /**
    * Processes a section of the path for pathfinding as part of a distributed call to the members
    * 
-   * @see AStar //TODO adjust for refactored names
-   * @see Herd
-   * @see Leader
+   * @see pathfinding.AStar //TODO adjust for refactored names
+   * @see common.objects.Herd
+   * @see common.objects.Leader
    *
    * @param h A Herd object holding the path data to be processed
    * 
    * @return The section of the path processed
    * 
-   * @throws RemoteException
+   * @throws RemoteException RMI between Member-Leader
    */
   public Path processPathLump(Herd h) throws RemoteException;
 

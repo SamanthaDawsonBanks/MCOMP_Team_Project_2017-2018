@@ -14,7 +14,7 @@ import common.datatypes.AngleDistance;
  * @version 1.0
  * @since 2018-04-07
  * 
- * @see AngleDistance
+ * @see common.datatypes.AngleDistance
  * @see common.objects.Member#lSense()
  *
  */
@@ -27,7 +27,6 @@ public class Waypoint {
   /**
    * Base Constructor (immutable) assumes the Waypoint is a data point (to be blocked)
    * 
-   * @see AngleDistance
    * @see common.objects.Member#lSense()
    *
    * @param x The value the datapoint is offset from the origin in a 'East' (positive) 'West'
@@ -43,7 +42,6 @@ public class Waypoint {
   /**
    * Advanced Constructor (immutable) allowing for 'open' (false) or 'blocked' (true) data points
    * 
-   * @see AngleDistance
    * @see common.objects.Member#lSense()
    *
    * @param x The value the data point is offset from the origin in a 'East' (positive) 'West'
@@ -62,7 +60,7 @@ public class Waypoint {
   /**
    * Secondary Constructor (immutable) converting from AngleDistance to Waypoint
    * 
-   * @see AngleDistance
+   * @see common.datatypes.AngleDistance
    * @see common.objects.Member#lSense()
    *
    * @param a An AngleDistance Tuple object containing a rotation and distance value to be convert
@@ -98,7 +96,7 @@ public class Waypoint {
   /**
    * Converter method for producing an AngleDistance from a Waypoint
    * 
-   * @see AngleDistance
+   * @see common.datatypes.AngleDistance
    * 
    * @return A new AngleDsstance built from the offsets using trigonometry
    * 
@@ -110,7 +108,8 @@ public class Waypoint {
   /**
    * Access method for getting x value
    * 
-   * @return Boolean value of whether the Waypoint is a obstacle data point 'blocked' (true) or a cordinate tuple 'open' (false) 
+   * @return Boolean value of whether the Waypoint is a obstacle data point 'blocked' (true) or a
+   *         cordinate tuple 'open' (false)
    * 
    */
   public boolean getToBeBlocked() {

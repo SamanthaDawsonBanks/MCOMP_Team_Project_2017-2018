@@ -15,11 +15,11 @@ import common.objects.Herd;
  * @version 1.0
  * @since 2018-04-07
  * 
- * @see RemoteMember
- * @see Member
- * @see Herd
- * @see Leader
- * @see RemoteLeader
+ * @see common.interfaces.RemoteMember
+ * @see common.objects.Member
+ * @see common.objects.Herd
+ * @see common.objects.Leader
+ * @see common.interfaces.RemoteLeader
  *
  */
 
@@ -28,10 +28,10 @@ public interface Driveable {
   /**
    * Processes a section of the map for amalgamation as part of a distributed call to the members
    * 
-   * @see GriddedMap
-   * @see MapLayer
-   * @see Herd
-   * @see Leader
+   * @see common.datatypes.map.griddedMap.GriddedMap
+   * @see common.datatypes.map.MapLayer
+   * @see common.objects.Herd
+   * @see common.objects.Leader
    *
    * @param w The RELATIVE x/y coordinates tuple as a Waypoint to be driven to
    * 
@@ -39,7 +39,7 @@ public interface Driveable {
    *         then successful; if not then the distance travelled before interruption / avoidance /
    *         collision
    * 
-   * @throws RemoteException
+   * @throws RemoteException RMI between Member-Leader
    */
   public Waypoint drive(Waypoint w) throws RemoteException;
 

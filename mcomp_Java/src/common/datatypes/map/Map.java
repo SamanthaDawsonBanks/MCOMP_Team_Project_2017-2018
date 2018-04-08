@@ -14,10 +14,10 @@ import common.datatypes.map.griddedMap.GriddedMap;
  * @version 1.0
  * @since 2018-04-07
  * 
- * @see GriddedMap
- * @see MapLayer
+ * @see common.datatypes.map.griddedMap.GriddedMap
+ * @see common.datatypes.map.MapLayer
  * @see common.objects.Member#lSense()
- * @see GridDesign
+ * @see common.datatypes.map.griddedMap.GridDesign
  * 
  */
 public class Map {
@@ -56,7 +56,7 @@ public class Map {
    * Adds the supplied LiDAR return to the collection and calls amalgamateLayer to produce / update
    * the griddedMap
    * 
-   * @see GriddedMap
+   * @see common.datatypes.map.griddedMap.GriddedMap
    *
    * @param layer The LiDAR return date to be added to the collection and combined map
    * 
@@ -68,11 +68,11 @@ public class Map {
   }
 
   /**
-   * Header function for adding data to the griddedMap 
+   * Header function for adding data to the griddedMap
    * 
    * @see common.objects.Member#lSense()
-   * @see GriddedMap
-   * @see Vertex
+   * @see common.datatypes.map.griddedMap.GriddedMap
+   * @see common.datatypes.map.griddedMap.Vertex
    *
    * @param layer The date (LiDAR return) to be added
    * 
