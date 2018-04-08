@@ -18,6 +18,7 @@ import common.objects.Herd;
  * @see common.objects.Herd
  * @see common.objects.Leader
  * @see common.interfaces.RemoteLeader
+ * @see common.datatypes.Ability#VIEWER
  *
  */
 public interface Drawable {

@@ -23,6 +23,7 @@ import common.objects.Herd;
  * @see common.objects.Leader
  * @see common.interfaces.RemoteLeader
  * @see pathfinding.AStar //TODO adjust for refactored names
+ * @see common.datatypes.Ability#PROCESSOR
  *
  */
 public interface Bossable {

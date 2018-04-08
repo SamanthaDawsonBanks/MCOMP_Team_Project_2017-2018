@@ -21,12 +21,13 @@ import common.objects.Herd;
  * @see common.objects.Herd
  * @see common.objects.Leader
  * @see common.interfaces.RemoteLeader
+ * @see common.datatypes.Ability
  *
  */
 public interface Groupable {
 
   /**
-   * Client side of the client (member) / server (leader) connection used to instruct a member to
+   * Client side of the client (member) / server (leader-herd) connection used to instruct a member to
    * request to join the provided herd
    * 
    * @see common.objects.Herd

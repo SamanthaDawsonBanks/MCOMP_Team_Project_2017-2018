@@ -16,11 +16,9 @@ import common.objects.Member;
  * @version 1.0
  * @since 2018-04-07
  * 
- * @see common.interfaces.RemoteMember
  * @see common.objects.Member
  * @see common.objects.Herd
  * @see common.objects.Leader
- * @see common.interfaces.RemoteLeader
  *
  */
 
@@ -41,8 +39,6 @@ public interface Joinable {
    * @see common.objects.Leader
    *
    * @return Member that is the designated DEST_SETTER
-   * 
-   * @throws RemoteException RMI between Member-Leader
    */
   Directable getDestSetter();
 
@@ -55,8 +51,6 @@ public interface Joinable {
    * @see common.objects.Leader
    *
    * @return Collection of Members that are designated VIEWERs
-   * 
-   * @throws RemoteException RMI between Member-Leader
    */
   ArrayList<Notifiable> getViewers();
 
@@ -69,8 +63,6 @@ public interface Joinable {
    * @see common.objects.Leader
    *
    * @return Collection of Members that are designated SENSORs
-   * 
-   * @throws RemoteException RMI between Member-Leader
    */
   ArrayList<LSenseable> getSensors();
 
@@ -83,8 +75,6 @@ public interface Joinable {
    * @see common.objects.Leader
    *
    * @return Collection of Members that are designated VIEWERs
-   * 
-   * @throws RemoteException RMI between Member-Leader
    */
   ArrayList<Bossable> getProcessors();
 
@@ -110,8 +100,6 @@ public interface Joinable {
    * @see common.objects.Leader
    *
    * @return Collection of all Members
-   * 
-   * @throws RemoteException RMI between Member-Leader
    */
   ArrayList<RemoteMember> getMembers();
 
@@ -125,8 +113,6 @@ public interface Joinable {
    * @param theKey UID for the Member in the form of a Cryptographic public key 
    *
    * @return Single Member by UID
-   * 
-   * @throws RemoteException RMI between Member-Leader
    */
   RemoteMember getMember(String theKey);
 
@@ -138,8 +124,6 @@ public interface Joinable {
    * @see common.objects.Leader
    *
    * @return HerdSingle Member by UID
-   * 
-   * @throws RemoteException RMI between Member-Leader
    */
   String getHerdID();
 
@@ -153,8 +137,6 @@ public interface Joinable {
    * @param leavingMember UID (by object ref) of the member (typically 'self') that is leaving
    * 
    * @return The members group minus the leaving member
-   * 
-   * @throws RemoteException RMI between Member-Leader
    */
   ArrayList<RemoteMember> requestLeave(RemoteMember leavingMember);
 
@@ -168,8 +150,6 @@ public interface Joinable {
    * @param leavingMember UID (by object ref) of the member (typically 'self') that is joining
    * 
    * @return The members group plus the joining member
-   * 
-   * @throws RemoteException RMI between Member-Leader
    */
   ArrayList<RemoteMember> requestJoin(RemoteMember aspiringMember);
 }

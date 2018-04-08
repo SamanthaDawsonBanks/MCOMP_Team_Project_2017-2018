@@ -32,7 +32,7 @@ public interface Connectable {
    * 
    * @param joiningMember The member of the herd that is registering itself with the leader
    * 
-   * @return The members group plus the leaving member.
+   * @return The members group plus the joining member.
    * 
    * @throws RemoteException RMI between Member-Leader
    */
@@ -40,7 +40,7 @@ public interface Connectable {
 
   /**
    * When leaving a herd (normally in a herd merge), the member must first unregister itself with
-   * the current leader so that it can no longer recieve instruction from it.
+   * the current leader so that it can no longer receive instruction from it.
    * 
    * @param leavingMember The member of the herd that is leaving and this unregistering with the
    *        leader.
@@ -51,6 +51,17 @@ public interface Connectable {
    */
   public ArrayList<RemoteMember> deregister(RemoteMember leavingMember) throws RemoteException;
 
+  /**
+   * Access method for getting a collection of all members
+   * 
+   * @see common.objects.Member
+   * @see common.objects.Herd
+   * @see common.objects.Leader
+   *
+   * @return Collection of all Members
+   * 
+   * @throws RemoteException RMI between Member-Leader
+   */
   public ArrayList<RemoteMember> getMemebers() throws RemoteException;
 
 }

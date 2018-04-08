@@ -319,7 +319,7 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
       e.printStackTrace();
     }
     // return the leader on the RMI link
-    return null;
+    return null;//FIXME NPE change sig?
   }
 
 
