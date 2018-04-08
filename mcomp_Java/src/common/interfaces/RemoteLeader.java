@@ -11,7 +11,20 @@ import common.datatypes.Waypoint;
 import common.objects.Herd;
 
 /**
+ * Unification of the 'Leader' methods for purposes of RMI/Remote identification
+ * 
+ * Note: as an extension this (and RemoteMember could be inverted and replaced with the decorator
+ * pattern)
+ * 
  * @author David Avery 15823926
+ * 
+ * @version 1.0
+ * @since 2018-04-07
+ * 
+ * @see common.interfaces.RemoteMember
+ * @see common.objects.Member
+ * @see common.objects.Herd
+ * @see common.objects.Leader
  *
  */
 public interface RemoteLeader
@@ -32,8 +45,7 @@ public interface RemoteLeader
 
   // Contactable
   @Override
-  public boolean leaderDiscussMerge(Herd h) throws RemoteException; // TODO obviously a lot of this needs
-                                                           // refining.
+  public boolean leaderDiscussMerge(Herd h) throws RemoteException;
 
   // Directable
   @Override
@@ -48,10 +60,9 @@ public interface RemoteLeader
 
   // Updateable
   @Override
-  public void updateModel(Herd newHerdData) throws RemoteException; // FIXME this probably takes
-                                                                    // some info
+  public void updateModel(Herd newHerdData) throws RemoteException;
 
   @Override
-  public Herd getState() throws RemoteException; // returns the current state
+  public Herd getState() throws RemoteException;
 
 }
