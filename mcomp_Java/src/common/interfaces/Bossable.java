@@ -17,10 +17,10 @@ import common.objects.Herd;
  * @version 1.0
  * @since 2018-04-07
  * 
- * @see RemoteMember
- * @see Member
- * @see Herd
- * @see Leader
+ * @see common.interfaces.RemoteMember
+ * @see common.objects.Member
+ * @see common.objects.Herd
+ * @see common.objects.Leader
  * @see RemoteLeader
  *
  */
@@ -29,8 +29,8 @@ public interface Bossable {
   /**
    * Processes a section of the map for amalgamation as part of a distributed call to the members
    * 
-   * @see GriddedMap
-   * @see MapLayer
+   * @see common.datatypes.map.griddedMap.GriddedMap
+   * @see common.datatypes.map.griddedMap.MapLayer
    * @see Herd
    * @see Leader
    *
