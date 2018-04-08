@@ -87,8 +87,6 @@ public interface Joinable {
    * @see common.objects.Leader
    *
    * @return Collection of Members that are designated PROCESSORs
-   * 
-   * @throws RemoteException RMI between Member-Leader
    */
   ArrayList<Driveable> getDrivers();
 
@@ -147,7 +145,7 @@ public interface Joinable {
    * @see common.objects.Herd
    * @see common.objects.Leader
    *
-   * @param leavingMember UID (by object ref) of the member (typically 'self') that is joining
+   * @param aspiringMember UID (by object ref) of the member (typically 'self') that is joining
    * 
    * @return The members group plus the joining member
    */

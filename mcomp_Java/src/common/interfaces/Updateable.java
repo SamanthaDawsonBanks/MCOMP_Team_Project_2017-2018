@@ -30,7 +30,7 @@ public interface Updateable {
    * @see common.objects.Herd
    * @see common.objects.Leader
    * 
-   * @param Herd object containing the Member/Ability collections, Map, Destination, and Path with new info
+   * @param newHerdData Herd object containing the Member/Ability collections, Map, Destination, and Path with new info
    * 
    * @throws RemoteException RMI between Member-Leader
    */
@@ -42,7 +42,7 @@ public interface Updateable {
    * 
    * @see common.objects.Herd
    * @see common.objects.Leader
-   * @see common.interfaces.Notifyable
+   * @see common.interfaces.Notifiable
    * @see common.datatypes.Ability
    * 
    * @return Herd object containing the Member/Ability collections, Map, Destination, and Path

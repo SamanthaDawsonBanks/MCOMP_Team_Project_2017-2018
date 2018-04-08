@@ -40,17 +40,16 @@ public interface Instructable {
                                                     // success or failure.
 
   /**
-   * Instructs the object (typically Leader) to use the stored Map, Destination, and Path to inturn
+   * Instructs the object (typically Leader) to use the stored Map, Destination, and Path to in-turn
    * instruct the Driveable Members to start moving
    * 
    * @see common.objects.Member
-   * @see common.objects.Member#drive()
+   * @see common.objects.Member#drive(common.datatypes.Waypoint)
+   * @see common.datatypes.Ability#DRIVER
    * @see common.objects.Herd
    * @see common.objects.Leader
    *
-   * @param h A Herd object holding the map data to be processed
-   * 
-   * @return The section of the map processed
+   * @return Boolean indicating initiation (True) or hold state (False)
    * 
    * @throws RemoteException RMI between Member-Leader
    */
