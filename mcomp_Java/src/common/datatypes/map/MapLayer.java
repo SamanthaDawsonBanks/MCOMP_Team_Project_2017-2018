@@ -9,6 +9,7 @@ import common.datatypes.Waypoint;
  * Data structure for storing and manipulating (in an immutable fashion) a collection of Waypoints
  * 
  * @author David Avery 15823926
+ * 
  * @version 1.0
  * @since 2018-04-07
  * 

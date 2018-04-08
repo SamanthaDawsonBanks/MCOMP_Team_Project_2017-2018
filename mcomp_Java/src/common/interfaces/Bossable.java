@@ -6,8 +6,6 @@ import common.datatypes.path.Path;
 import common.objects.Herd;
 
 /**
- * Bossable interface
- * 
  * A bossable object is one that can receive instructions from the Leader of a Herd to process a
  * section of a particular item, either a segment of a Map to be augmented or a Path to be analysed.
  * 
@@ -15,7 +13,6 @@ import common.objects.Herd;
  * @author David Avery 15823926
  * @author Ryan Shoobert 15812407
  * @author Harry Jackson 14812630
- * @author David Avery 15823926
  * 
  * @version 1.0
  * @since 2018-04-07

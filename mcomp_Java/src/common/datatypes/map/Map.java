@@ -10,6 +10,7 @@ import common.datatypes.map.griddedMap.GriddedMap;
  * returns to date (layers) along with the Gridded / Amalgamated Map abstract structure
  * 
  * @author David Avery 15823926
+ * 
  * @version 1.0
  * @since 2018-04-07
  * 

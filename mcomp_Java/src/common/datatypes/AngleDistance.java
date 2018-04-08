@@ -5,6 +5,7 @@ package common.datatypes;
  * 
  * @author David Avery 15823926
  * @author Stephen Pope 15836791
+ * 
  * @version 1.0
  * @since 2018-04-07
  * 

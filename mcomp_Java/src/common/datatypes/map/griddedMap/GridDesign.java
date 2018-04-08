@@ -4,6 +4,7 @@ package common.datatypes.map.griddedMap;
  * Enum fo Grid designs (Expand later for shapes and dimensions)
  * 
  * @author David Avery 15823926
+ * 
  * @version 1.0
  * @since 2018-04-07
  * 

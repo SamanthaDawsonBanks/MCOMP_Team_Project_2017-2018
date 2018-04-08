@@ -6,6 +6,7 @@ import common.datatypes.Waypoint;
  * The 2nd level (see GH #72) Vertex data storage structure
  * 
  * @author David Avery 15823926
+ * 
  * @version 1.0
  * @since 2018-04-07
  * 

@@ -9,6 +9,7 @@ import common.datatypes.map.Map;
  * Encompasses: the local BlockedVertex, and the GridDesign along with the Region>Chunk>Vertices
  * 
  * @author David Avery 15823926
+ * 
  * @version 1.0
  * @since 2018-04-07
  * 
