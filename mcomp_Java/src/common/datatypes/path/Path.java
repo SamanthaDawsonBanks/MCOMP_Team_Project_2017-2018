@@ -4,7 +4,7 @@
 package common.datatypes.path;
 
 import common.datatypes.Waypoint;
-import common.datatypes.linkedItem.PathItem;
+import common.datatypes.linkedItem.LinkedItem;
 
 /**
  * @author David Avery 15823926
@@ -13,13 +13,13 @@ import common.datatypes.linkedItem.PathItem;
 
 public class Path {
 
-  private PathItem destination;
-  private PathItem head;
-  private PathItem lastItem;
+  private LinkedItem destination;
+  private LinkedItem head;
+  private LinkedItem lastItem;
   private int length;
 
   public Path(Waypoint w) {
-    this.destination = new PathItem(w);
+    this.destination = new LinkedItem(w);
     this.head = null;
     this.lastItem = null;
     this.length = 0;
@@ -32,10 +32,10 @@ public class Path {
   public void addNode(Waypoint w) {
     // TODO test
     if (length > 0) {
-      lastItem.setNext(new PathItem(w));
+      lastItem.setNext(new LinkedItem(w));
       lastItem = lastItem.getNext();
     } else {
-      head = new PathItem(w);
+      head = new LinkedItem(w);
       lastItem = head;
     }
     length++;

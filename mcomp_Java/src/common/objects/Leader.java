@@ -151,11 +151,12 @@ public class Leader extends UnicastRemoteObject
    * current members from the "old" one.
    */
   @Override
-  public void leaderDiscussMerge() throws RemoteException {// TODO send herd data so decision can be
+  public boolean leaderDiscussMerge(Herd h) throws RemoteException {// TODO send herd data so decision can be
                                                            // made?
     // TODO Auto-generated method stub
     // Will be related to herd merging
     throw new UnsupportedOperationException("method not implemented");
+    //return true;
   }
 
   /**

@@ -1,14 +1,22 @@
-/**
- * 
- */
 package common.datatypes.map.griddedMap;
 
 import common.datatypes.Waypoint;
 import common.datatypes.map.Map;
 
 /**
+ * The Top Level of the Gridded / Amalgamated Map data structure.
+ * 
+ * Encompasses: the local BlockedVertex, and the GridDesign along with the Region Chunk Vertices
+ * 
  * @author David Avery 15823926
- *
+ * 
+ * @version 1.0
+ * @since 2018-04-07
+ * 
+ * @see common.datatypes.map.griddedMap.BlockedVertex
+ * @see common.datatypes.map.griddedMap.GridDesign
+ * @see common.datatypes.map.griddedMap.Region
+ * 
  */
 public class GriddedMap {
 
@@ -22,24 +30,43 @@ public class GriddedMap {
 
 
   /**
-   * The default constructor for a MapLayer, with the value (TETRA | 4 | Square) for grid design
+   * The default constructor for a MapLayer
+   * 
+   * @param grid The enumerate design / shape of the storage
+   * @param gridSize The number of subitem (Vertices) to store in both x and y dimensions
+   * @param parent A pointer to the parent object, used for upwards calls
+   * 
    */
   public GriddedMap(GridDesign grid, int gridSize, Map parent) {
     gridDesign = grid;
     this.gridSize = gridSize;
-    this.gridOffset = (long) (Math.pow(gridSize, 3)/2);
-    
+    this.gridOffset = (long) (Math.pow(gridSize, 3) / 2);
+
     regions = new Region[gridSize][gridSize];
     blocked = BlockedVertex.getInstance(grid);
   }
 
   /**
-   * @return the gridDesign
+   * Returns the curent GridDesign
+   * 
+   * @return the locally defined GridDesign
+   * 
    */
   public GridDesign getGridDesign() {
     return gridDesign;
   }
 
+  /**
+   * Adds the supplied Waypoint to the griddedMap as a Vertex. Maintains the state of the Vertex
+   * (blocked or open)
+   * 
+   * @see common.datatypes.map.griddedMap.BlockedVertex
+   *
+   * @param w the Waypoint holder of the x/y location
+   * 
+   * @return boolean based on if the add was successful
+   * 
+   */
   public boolean add(Waypoint w) {
     int RegionX = (int) (((w.getX() + gridOffset) / Math.pow(gridSize, 2)) % gridSize);
     int RegionY = (int) (((w.getY() + gridOffset) / Math.pow(gridSize, 2)) % gridSize);
@@ -49,14 +76,24 @@ public class GriddedMap {
       regions[RegionX][RegionY].add(w);
     }
 
-    return true;
+    return true;// TODO some useful logic
 
   }
+
 
   public Region[][] getGrid() {
     return regions;
   }
 
+
+  /**
+   * Access method used read / get a Vertex from the data structure
+   *
+   * @param w Waypoint used to hold the x/y tuple
+   * 
+   * @return The Vertex at the location or null if empty
+   * 
+   */
   public Vertex getVertex(Waypoint w) {
     int RegionX = (int) (((w.getX() + gridOffset) / Math.pow(gridSize, 2)) % gridSize);
     int RegionY = (int) (((w.getY() + gridOffset) / Math.pow(gridSize, 2)) % gridSize);

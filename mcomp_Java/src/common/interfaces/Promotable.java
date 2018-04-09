@@ -5,21 +5,42 @@ import common.objects.Herd;
 import common.objects.Leader;
 
 /**
+ * An object is promotable if it has the ability to stand in an election and become the Leader of a
+ * Herd, creating a new Leader process.
+ * 
  * @author Stephen Pope 15836791
  * @author David Avery 15823926
  * @author Ryan Shoobert 15812407
  * @author Harry Jackson 14812630
  * 
- *         Promotable interface
+ * @version 1.0
+ * @since 2018-04-07
  * 
- *         An object is promotable if it has the ability to stand in an election and become the
- *         Leader of a Herd, creating a new Leader process.
- * 
+ * @see common.interfaces.RemoteMember
+ * @see common.objects.Member
+ * @see common.objects.Herd
+ * @see common.objects.Leader
+ * @see common.interfaces.RemoteLeader
+ *
  */
 
 public interface Promotable {
 
+  /**
+   * Action method for instructing the object (Member) to spawn a new Leader process and this become
+   * the leader
+   * 
+   * @see common.objects.Member
+   * @see common.objects.Herd
+   * @see common.objects.Leader
+   *
+   * @param h A Herd object holding the members and herd to become leader of
+   * 
+   * @return The Member that was chosen to become the leader
+   * 
+   * @throws RemoteException RMI between Member-Leader
+   */
   public Leader becomeLeader(Herd h) throws RemoteException; // TODO returns the initialised Leader
-                                                             // object to the Herd?
+  // object to the Herd?
 
 }

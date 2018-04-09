@@ -1,6 +1,3 @@
-/**
- * 
- */
 package common.interfaces;
 
 import java.io.Serializable;
@@ -16,7 +13,20 @@ import common.objects.Herd;
 import common.objects.Leader;
 
 /**
+ * Unification of the 'Member' methods for purposes of RMI/Remote identification
+ * 
+ * Note: as an extension this (and RemoteLeader could be inverted and replaced with the decorator
+ * pattern)
+ * 
  * @author David Avery 15823926
+ * 
+ * @version 1.0
+ * @since 2018-04-07
+ * 
+ * @see common.objects.Member
+ * @see common.objects.Herd
+ * @see common.objects.Leader
+ * @see common.interfaces.RemoteLeader
  *
  */
 public interface RemoteMember extends Remote, Serializable, Bossable, Drawable, Directable,
@@ -27,12 +37,10 @@ public interface RemoteMember extends Remote, Serializable, Bossable, Drawable, 
 
   // Bossable
   @Override
-  public Map processMapLump(Herd h) throws RemoteException;// herd is the data holder for members,
-                                                           // maps, and paths
+  public Map processMapLump(Herd h) throws RemoteException;
 
   @Override
-  public Path processPathLump(Herd h) throws RemoteException;// herd is the data holder for members,
-                                                             // maps, and paths
+  public Path processPathLump(Herd h) throws RemoteException;
 
   // Drawable
 
@@ -67,8 +75,7 @@ public interface RemoteMember extends Remote, Serializable, Bossable, Drawable, 
 
   // Promotable
   @Override
-  public Leader becomeLeader(Herd h) throws RemoteException; // TODO returns the initialised Leader
-                                                             // object to the Herd?
+  public Leader becomeLeader(Herd h) throws RemoteException;
 
   // ????Securable / Keyable????
   // @Override
