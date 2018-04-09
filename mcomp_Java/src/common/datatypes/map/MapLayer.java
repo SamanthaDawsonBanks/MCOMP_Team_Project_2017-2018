@@ -197,62 +197,58 @@ public class MapLayer implements Iterable<Waypoint> {
    * @return A new MapLayer with the addition of the open Waypoints
    */
   protected MapLayer addOpens() {
-    // add WPs for 'open' reads between sensor and Blocked
-
     ArrayList<Waypoint> res = new ArrayList<Waypoint>();
 
-    if (!trackedOpens) {// only apply this once
-
+    if (!trackedOpens) {
       double xOffset = this.trackedCentre.getX();
       double yOffset = this.trackedCentre.getY();
 
       double i;
       double step = 1.0;
 
-      // for each WP in read
       for (Waypoint w : liDARRead) {
         double thisX = w.getX();
         double thisY = w.getY();
-        // check offset
-        // calc hypot
-        i = Math.hypot(w.getX() - xOffset, w.getY() - yOffset) / step;// TODO decide on scale (1,
-                                                                      // 0.1??)
-        // for 0>i
-        for (double j = 1; j < i; j = j + step) {// TODO refactor for lass vars //TODO if scale is
-                                                 // adjusted then so is step
-          // FIXME adjust for negative!!
+        i = Math.hypot(w.getX() - xOffset, w.getY() - yOffset) / step;
+        for (double j = 1; j < i; j = j + step) {
           double scaledX = (thisX - xOffset) * (j / i);
           double scaledY = (thisY - yOffset) * (j / i);
-
-          // add 'open' WP along track
           res.add(new Waypoint((scaledX + xOffset), (scaledY + yOffset), false));
         }
-        // add blocked WP at end of track
         res.add(w);
       }
 
     } else {
-      res = liDARRead;// just give them back the unmodified dataset
+      res = liDARRead;
     }
-
     trackedOpens = true;
-
     return new MapLayer(res, trackedRotation, trackedCentre.getX(), trackedCentre.getY(),
         trackedScale, trackedOpens);
   }
 
-
+  /**
+   * Access method for getting the list of Waypoints from the MapLayer
+   * 
+   * @see common.datatypes.map.MapLayer
+   * @see common.datatypes.Waypoint
+   * @see common.datatypes.map.griddedMap.Vertex
+   * @see common.datatypes.map.griddedMap.BlockedVertex
+   *
+   * @return Collection (ArrayList) of Waypoints that are either 'open' or 'blocked'
+   */
+  public ArrayList<Waypoint> getWaypoints() {
+    return liDARRead;
+  }
 
   @Override
   public Iterator<Waypoint> iterator() {
     return new LiDARIterator();
   }
+  
 
   class LiDARIterator implements Iterator<Waypoint> {
-    int current = 0; // the current element we are looking at
+    int current = 0;
 
-    // return whether or not there are more elements in the array that
-    // have not been iterated over.
     public boolean hasNext() {
       if (current < liDARRead.size()) {
         return true;
@@ -261,20 +257,12 @@ public class MapLayer implements Iterable<Waypoint> {
       }
     }
 
-    // return the next element of the iteration and move the current
-    // index to the element after that.
     public Waypoint next() {
       if (!hasNext()) {
         throw new NoSuchElementException();
       }
       return liDARRead.get(current++);
     }
-  }
-
-
-  public ArrayList<Waypoint> getWaypoints() {
-    // TODO Auto-generated method stub
-    return liDARRead;
   }
 
 }
