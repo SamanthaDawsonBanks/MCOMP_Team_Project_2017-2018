@@ -46,7 +46,8 @@ public class Map {
     if (amalgamatedMap == null) {
       amalgamatedMap = new GriddedMap(GridDesign.TETRA, gridSize, this);
     }
-    for (Waypoint w : layer) {
+    for (Waypoint w : layer.addOpens()) {
+      // add cell info to amalgamatedMap in correct loc
       amalgamatedMap.add(w);
     }
   }

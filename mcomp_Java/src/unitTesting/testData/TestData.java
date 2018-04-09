@@ -75,6 +75,37 @@ public class TestData {
 
   }
 
+  
+  public static ArrayList<Waypoint> getEmptyCentreMaze() {
+
+    ArrayList<int[]> ys = new ArrayList<int[]>();
+    ys.add(new int[] { -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5}); 
+    ys.add(new int[] { -5,                                5}); 
+    ys.add(new int[] { -5,                                5}); 
+    ys.add(new int[] { -5,                                5}); 
+    ys.add(new int[] { -5,                                5}); 
+    ys.add(new int[] { -5,                                5}); 
+    ys.add(new int[] { -5,                                5}); 
+    ys.add(new int[] { -5,                                5}); 
+    ys.add(new int[] { -5,                                5}); 
+    ys.add(new int[] { -5,                                5}); 
+    ys.add(new int[] { -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5}); 
+    
+    
+    ArrayList<Waypoint> l = new ArrayList<Waypoint>();
+    
+    int y = -5;
+    for (int[] line : ys) {
+      for (int x : line) {
+        l.add(new Waypoint(x,y));
+      }
+      y++;
+    }
+
+    return l;
+
+  }
+
   public static ArrayList<Waypoint> getSteppedMaze() {
 
     ArrayList<int[]> ys = new ArrayList<int[]>();
