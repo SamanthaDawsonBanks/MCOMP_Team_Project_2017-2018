@@ -1,6 +1,3 @@
-/**
- * 
- */
 package common.datatypes.map;
 
 import java.util.ArrayList;
@@ -9,12 +6,16 @@ import java.util.NoSuchElementException;
 import common.datatypes.Waypoint;
 
 /**
- * <<<<<<< HEAD
+ * Data structure for storing and manipulating (in an immutable fashion) a collection of Waypoints
  * 
  * @author David Avery
- * @author Harry Jackson 14812630 =======
- * @author David Avery 15823926 >>>>>>> branch 'develop' of
- *         https://github.com/DavidAveryUoB/Team_Project
+ * @author Harry Jackson 14812630
+ * 
+ * @version 1.0
+ * @since 2018-04-07
+ * 
+ * @see common.datatypes.Waypoint
+ * @see common.objects.Member#lSense()
  *
  */
 public class MapLayer implements Iterable<Waypoint> {
@@ -27,6 +28,11 @@ public class MapLayer implements Iterable<Waypoint> {
 
   /**
    * The default constructor for a MapLayer
+   * 
+   * @see common.datatypes.Waypoint
+   * @see common.objects.Member#lSense()
+   *
+   * @param layer the collection of Waypoints forming the LiDAR return
    */
   public MapLayer(ArrayList<Waypoint> layer) {
     this.liDARRead = layer;
@@ -34,9 +40,18 @@ public class MapLayer implements Iterable<Waypoint> {
   }
 
   /**
-   * The private constructor for a MapLayer that includes passing of centre, rotation, and scale
+   * The private constructor for a MapLayer that includes passing of centre, rotation, scale, and
+   * whether the 'open indicators' have been added
    * 
-   * @param opensAdded TODO
+   * @see common.datatypes.Waypoint
+   * @see common.objects.Member#lSense()
+   * 
+   * @param layer
+   * @param angle
+   * @param xOffset
+   * @param yOffset
+   * @param scale
+   * @param opensAdded
    */
   private MapLayer(ArrayList<Waypoint> layer, int angle, double xOffset, double yOffset, int scale,
       boolean opensAdded) {
@@ -48,13 +63,40 @@ public class MapLayer implements Iterable<Waypoint> {
 
   }
 
+  /**
+   * function for manipulating (combined rotate, translate, and scale) the immutable MapLayer
+   * 
+   * @see common.datatypes.Waypoint
+   * @see common.objects.Member#lSense()
+   *
+   * @param angle The angle (in degrees) to rotate the Waypoints in a clockwise (positive)
+   *        counterclockwise (negative) aspect
+   * @param xOffset The value to translate (move) the Waypoints in a 'East' (positive) 'West'
+   *        (negative) axis
+   * @param yOffset The value to translate (move) the Waypoints in a 'North' (positive) 'South'
+   *        (negative) axis
+   * @param scale The value to scale the Waypoints in a 'larger' (positive) 'smaller' (negative)
+   *        aspect relative to 1.0
+   * 
+   * @return A new MapLayer with the applied compound transformations
+   */
   public MapLayer transform(int angle, int xOffset, int yOffset, int scale) {
     return rotate(angle).translate(xOffset, yOffset).scale(scale);
   }
 
 
+  /**
+   * function for manipulating (rotating) the immutable MapLayer
+   * 
+   * @see common.datatypes.Waypoint
+   * @see common.objects.Member#lSense()
+   *
+   * @param angle The angle (in degrees) to rotate the Waypoints in a clockwise (positive)
+   *        counterclockwise (negative) aspect
+   * 
+   * @return A new MapLayer with the applied transformation
+   */
   private MapLayer rotate(int a) {
-    // apply rotation by azimuth (Theta) to bring map to be 'north' = 'top'
 
     ArrayList<Waypoint> res = new ArrayList<Waypoint>();
 
@@ -80,8 +122,20 @@ public class MapLayer implements Iterable<Waypoint> {
   }
 
 
+  /**
+   * function for manipulating (translating) the immutable MapLayer
+   * 
+   * @see common.datatypes.Waypoint
+   * @see common.objects.Member#lSense()
+   *
+   * @param xOffset The value to translate (move) the Waypoints in a 'East' (positive) 'West'
+   *        (negative) axis
+   * @param yOffset The value to translate (move) the Waypoints in a 'North' (positive) 'South'
+   *        (negative) axis
+   * 
+   * @return A new MapLayer with the applied transformation
+   */
   private MapLayer translate(int xOffset, int yOffset) {
-    // apply translation -ve x and -ve y so 'centre' is map 'origin'
 
     ArrayList<Waypoint> res = new ArrayList<Waypoint>();
 
@@ -104,8 +158,15 @@ public class MapLayer implements Iterable<Waypoint> {
   }
 
   /**
-   * Method takes in array and scales the Waypoints
+   * function for manipulating (scaling) the immutable MapLayer
    * 
+   * @see common.datatypes.Waypoint
+   * @see common.objects.Member#lSense()
+   *
+   * @param scale The value to scale the Waypoints in a 'larger' (positive) 'smaller' (negative)
+   *        aspect relative to 1.0
+   * 
+   * @return A new MapLayer with the applied transformation
    */
   public MapLayer scale(int scale) {
     ArrayList<Waypoint> res = new ArrayList<Waypoint>();
@@ -120,7 +181,22 @@ public class MapLayer implements Iterable<Waypoint> {
   }
 
 
-  public MapLayer addOpens() {
+  /**
+   * function for manipulating the immutable MapLayer this function adds a number of 'open'
+   * Waypoints to the return so that when it is added to the map suitable open vertices will also be
+   * added. This operate is called in-line as part of Map.amalgamateLayer(MapLayer) and thus;
+   * *Should Not* need to be used separately. Additionally to this the operation is guarded so that
+   * it can only be applied once to a Layer as it is O(n) per application resulting in a O(!) chain.
+   * 
+   * @see common.datatypes.Waypoint
+   * @see common.datatypes.map.griddedMap.Vertex
+   * @see common.datatypes.map.griddedMap.BlockedVertex
+   * @see common.objects.Member#lSense()
+   * @see common.datatypes.map.Map#amalgamateLayer(MapLayer)
+   *
+   * @return A new MapLayer with the addition of the open Waypoints
+   */
+  protected MapLayer addOpens() {
     // add WPs for 'open' reads between sensor and Blocked
 
     ArrayList<Waypoint> res = new ArrayList<Waypoint>();
