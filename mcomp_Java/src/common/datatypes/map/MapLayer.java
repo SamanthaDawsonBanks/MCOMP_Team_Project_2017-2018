@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package common.datatypes.map;
 
 import java.util.ArrayList;
@@ -6,17 +9,12 @@ import java.util.NoSuchElementException;
 import common.datatypes.Waypoint;
 
 /**
- * Data structure for storing and manipulating (in an immutable fashion) a collection of Waypoints
+ * <<<<<<< HEAD
  * 
  * @author David Avery
- * @author Harry Jackson 14812630
- * @author David Avery 15823926
- * 
- * @version 1.0
- * @since 2018-04-07
- * 
- * @see common.datatypes.Waypoint
- * @see common.objects.Member#lSense()
+ * @author Harry Jackson 14812630 =======
+ * @author David Avery 15823926 >>>>>>> branch 'develop' of
+ *         https://github.com/DavidAveryUoB/Team_Project
  *
  */
 public class MapLayer implements Iterable<Waypoint> {
