@@ -59,6 +59,9 @@ public class Vertex {
    * The main constructor for a Vertex that includes the Waypoint for location and Parent for
    * upwards calls
    * 
+   * @see common.datatypes.Waypoint
+   * @see common.datatypes.map.griddedMap.Chunk
+   * 
    * @param w The Waypoint for setting (rounded / localised) location
    * @param parent connection to the parent collection / map for upwards calls
    */
@@ -73,6 +76,9 @@ public class Vertex {
 
   /**
    * The secondary constructor only used to create the BlockedVertex Specialised object
+   * 
+   * @see common.datatypes.Waypoint
+   * @see common.datatypes.map.griddedMap.GridDesign
    * 
    * @param w The Waypoint for setting location (BlockedVertex is at 0,0)
    * @param grid the GridDesign for setting the size of the edges array
@@ -92,7 +98,6 @@ public class Vertex {
    * @see common.datatypes.map.griddedMap.BlockedVertex
    */
   private void connectNeighbours() {
-    // check neighbours
     for (int i = 0; i < edges.length; i++) {
       double xOffset = parent.parent.parent.gridDesign.getNeighbourAddresses()[i].neighbourXOffset;
       double yOffset = parent.parent.parent.gridDesign.getNeighbourAddresses()[i].neighbourYOffset;
