@@ -27,7 +27,7 @@ public class MapLayer implements Iterable<Waypoint> {
   private boolean trackedOpens = false;
 
   /**
-   * The default constructor for a MapLayer
+   * The main constructor for a MapLayer
    * 
    * @see common.datatypes.Waypoint
    * @see common.objects.Member#lSense()

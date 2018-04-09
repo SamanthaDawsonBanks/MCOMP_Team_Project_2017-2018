@@ -1,6 +1,5 @@
 package common.interfaces;
 
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import common.objects.Member;
 

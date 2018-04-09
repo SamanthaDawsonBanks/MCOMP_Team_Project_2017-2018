@@ -2,7 +2,6 @@ package common.interfaces;
 
 import java.rmi.RemoteException;
 import common.datatypes.Waypoint;
-import common.objects.Herd;
 
 /**
  * A directable object is one that can accept input that defines a final goal or destination for the

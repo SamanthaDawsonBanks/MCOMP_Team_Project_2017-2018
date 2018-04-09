@@ -2,7 +2,6 @@ package common.interfaces;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import common.objects.Herd;
 
 /**
  * An object is connectable if it assumes the role of an RMI server, meaning it can accept
