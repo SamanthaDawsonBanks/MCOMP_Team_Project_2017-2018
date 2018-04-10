@@ -1,7 +1,5 @@
 package common.datatypes;
 
-// TODO Check that this is the correct location for this file
-
 /**
  * 
  * @author Ryan Shoobert (15812407)

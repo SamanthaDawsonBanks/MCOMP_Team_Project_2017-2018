@@ -2,7 +2,6 @@ package common.interfaces;
 
 import java.rmi.RemoteException;
 import common.datatypes.Waypoint;
-import common.objects.Herd;
 
 /**
  * A driveable object can take a given Waypoint relative to its position and drive to that location.

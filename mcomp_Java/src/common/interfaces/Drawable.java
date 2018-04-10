@@ -1,6 +1,5 @@
 package common.interfaces;
 
-import common.objects.Herd;
 
 /**
  * An object is viewable if it is capable of creating a GUI and altering the display.
