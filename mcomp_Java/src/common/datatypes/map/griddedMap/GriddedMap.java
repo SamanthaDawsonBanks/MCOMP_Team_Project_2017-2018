@@ -22,7 +22,7 @@ public class GriddedMap {
 
   public BlockedVertex blocked;
 
-  protected GridDesign gridDesign;// TODO abstract both up to map??
+  protected GridDesign gridDesign;
   int gridSize;
   long gridOffset;
 
@@ -34,7 +34,7 @@ public class GriddedMap {
    * 
    * @param grid The enumerate design / shape of the storage
    * @param gridSize The number of subitem (Vertices) to store in both x and y dimensions
-   * @param parent A pointer to the parent object, used for upwards calls
+   * @param root A pointer to the root object, used for upwards calls
    * 
    */
   public GriddedMap(GridDesign grid, int gridSize, Map parent) {
@@ -64,20 +64,20 @@ public class GriddedMap {
    *
    * @param w the Waypoint holder of the x/y location
    * 
-   * @return boolean based on if the add was successful
+   * @return The created Vertex (so it can be linked in)
    * 
    */
-  public boolean add(Waypoint w) {
+  public Vertex add(Waypoint w) {
+    Vertex res;
     int RegionX = (int) (((w.getX() + gridOffset) / Math.pow(gridSize, 2)) % gridSize);
     int RegionY = (int) (((w.getY() + gridOffset) / Math.pow(gridSize, 2)) % gridSize);
     if (regions[RegionX][RegionY] == null) {
       regions[RegionX][RegionY] = new Region(gridSize, w, this);
+      res = getVertex(w);
     } else {
-      regions[RegionX][RegionY].add(w);
+      res = regions[RegionX][RegionY].add(w);
     }
-
-    return true;// TODO some useful logic
-
+    return res;
   }
 
 
