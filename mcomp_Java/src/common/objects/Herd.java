@@ -97,7 +97,7 @@ public class Herd implements Joinable, Organisable {
     // }
 
     try {
-      electLeader().becomeLeader(this);// on that robot, start start the leader process
+      theLeader = electLeader().becomeLeader(this);// on that robot, start the leader process
     } catch (RemoteException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
