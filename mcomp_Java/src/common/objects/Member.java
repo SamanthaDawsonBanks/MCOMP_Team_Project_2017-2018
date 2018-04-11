@@ -165,19 +165,19 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
       leaderMainPB.redirectErrorStream(true);
       Process leaderMainP = leaderMainPB.start();
 
-      BufferedReader br = new BufferedReader(new InputStreamReader(leaderMainP.getInputStream()));
-      String output = "";
-      String line;
-      output = output + "\n >>>>>> BEGIN LeaderMain process output <<<<<< \n\n";
-      while ((line = br.readLine()) != null) {// FIXME this loop will need to be threaded (if we
-                                              // keep it) to fix the blocking nature
-        output = output + line + "\n";
-        if (line.equals("INFO: End of LeaderMain")) {// line is never null in this context
-          break;
-        }
-      }
-      output = output + "\n >>>>>> END LeaderMain process output <<<<<<" + "\n";
-      LOGGER.log(Level.INFO, output);
+//      BufferedReader br = new BufferedReader(new InputStreamReader(leaderMainP.getInputStream()));
+//      String output = "";
+//      String line;
+//      output = output + "\n >>>>>> BEGIN LeaderMain process output <<<<<< \n\n";
+//      while ((line = br.readLine()) != null) {// FIXME this loop will need to be threaded (if we
+//                                              // keep it) to fix the blocking nature
+//        output = output + line + "\n";
+//        if (line.equals("INFO: End of LeaderMain")) {// line is never null in this context
+//          break;
+//        }
+//      }
+//      output = output + "\n >>>>>> END LeaderMain process output <<<<<<" + "\n";
+//      LOGGER.log(Level.INFO, output);
 
     } catch (RemoteException e) {
       // TODO Auto-generated catch block
