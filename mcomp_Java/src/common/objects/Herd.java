@@ -336,4 +336,9 @@ public class Herd implements Joinable, Organisable {
     // TODO Auto-generated method stub
     return false;
   }
+
+  public Map getMap() {
+    // TODO Auto-generated method stub
+    return map;
+  }
 }

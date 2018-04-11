@@ -97,8 +97,47 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
       }
     }
     if (abilities.contains(Ability.VIEWER)) {
-      View v = new View(this);
+      // interView v = new View(this);//FIXME this wont work due to jFX
+
+      startGUI();
     }
+  }
+
+
+  private void startGUI() {
+    // TODO identicle to start leader - factor out? startProc(leader/gui)???
+    try {
+      // build and start leader process
+      LOGGER.log(Level.INFO, "EXECing GUIMain");
+      ProcessBuilder GUIMainPB = new ProcessBuilder("java", "-cp", "./bin/", "member.ui.View");
+      GUIMainPB.redirectErrorStream(true);
+      Process GUIMainP = GUIMainPB.start();
+
+//      BufferedReader br = new BufferedReader(new InputStreamReader(GUIMainP.getInputStream()));
+//      String output = "";
+//      String line;
+//      output = output + "\n >>>>>> BEGIN GUIMain process output <<<<<< \n\n";
+//      while ((line = br.readLine()) != null) {// FIXME this loop will need to be threaded (if we
+//                                              // keep it) to fix the blocking nature
+//        output = output + line + "\n";
+//        if (line.equals("INFO: End of GUIMain")) {// line is never null in this context
+//          break;
+//        }
+//      }
+//      output = output + "\n >>>>>> END GUIMain process output <<<<<<" + "\n";
+//      LOGGER.log(Level.INFO, output);
+
+    } catch (RemoteException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (IOException e) {
+      // TODO error for output stuff
+      e.printStackTrace();
+    } catch (Exception e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
   }
 
 
@@ -169,19 +208,20 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
       leaderMainPB.redirectErrorStream(true);
       Process leaderMainP = leaderMainPB.start();
 
-//      BufferedReader br = new BufferedReader(new InputStreamReader(leaderMainP.getInputStream()));
-//      String output = "";
-//      String line;
-//      output = output + "\n >>>>>> BEGIN LeaderMain process output <<<<<< \n\n";
-//      while ((line = br.readLine()) != null) {// FIXME this loop will need to be threaded (if we
-//                                              // keep it) to fix the blocking nature
-//        output = output + line + "\n";
-//        if (line.equals("INFO: End of LeaderMain")) {// line is never null in this context
-//          break;
-//        }
-//      }
-//      output = output + "\n >>>>>> END LeaderMain process output <<<<<<" + "\n";
-//      LOGGER.log(Level.INFO, output);
+      // BufferedReader br = new BufferedReader(new
+      // InputStreamReader(leaderMainP.getInputStream()));
+      // String output = "";
+      // String line;
+      // output = output + "\n >>>>>> BEGIN LeaderMain process output <<<<<< \n\n";
+      // while ((line = br.readLine()) != null) {// FIXME this loop will need to be threaded (if we
+      // // keep it) to fix the blocking nature
+      // output = output + line + "\n";
+      // if (line.equals("INFO: End of LeaderMain")) {// line is never null in this context
+      // break;
+      // }
+      // }
+      // output = output + "\n >>>>>> END LeaderMain process output <<<<<<" + "\n";
+      // LOGGER.log(Level.INFO, output);
 
     } catch (RemoteException e) {
       // TODO Auto-generated catch block
@@ -323,7 +363,7 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
       e.printStackTrace();
     }
     // return the leader on the RMI link
-    return null;//FIXME NPE change sig?
+    return null;// FIXME NPE change sig?
   }
 
 
