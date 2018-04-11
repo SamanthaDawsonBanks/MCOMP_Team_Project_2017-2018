@@ -3,7 +3,7 @@
 #define CONSOLE Serial //usb to console
 #define CHANNEL Serial1 //board to board TX1 RX1 on Mega 2560
 byte inByte;
-byte buffer [22];
+byte buffer[23];
 
 //The setup function is called once at startup of the sketch
 void setup()
@@ -19,6 +19,20 @@ unsigned int packetToNumber(String packet){
   return res;
 }
 
+unsigned int getRPM(){
+  unsigned int rpmLe = 0;
+  unsigned int rpmBe = 0;
+  rpmLe = rpmLe | buffer[2];
+  rpmLe = rpmLe << 8;
+  rpmLe = rpmLe | buffer[3];
+  for(int i = 0; i < 16; i++){
+    rpmBe = rpmBe << 1;
+    rpmBe = rpmBe | (rpmLe & 0000000000000001);
+  }
+  rpmBe = rpmBe >> 6;
+  return rpmBe;
+}
+
 void loop()
 {
   /*  if(CHANNEL.available()){
@@ -29,21 +43,21 @@ void loop()
     if(inByte == 0xFA){
    //   CONSOLE.println("Start Packet");
       for(int i = 0; i < 22; i++){
-        buffer [i] = CHANNEL.read();
-        //  CONSOLE.print(buffer[i], HEX);
-        //  CONSOLE.print(" ");
+        buffer[i] = CHANNEL.read();
+       // CONSOLE.print(buffer[i],HEX);
       }
+//      CONSOLE.println(" ");
+//      CONSOLE.println(buffer[1],HEX);
+//      CONSOLE.println(" ");
+//      CONSOLE.print(buffer[2],BIN);
+//      CONSOLE.println(buffer[3],BIN);
+//      CONSOLE.println(" ");
 
-      unsigned int rpm = 0;
-      for(int i = 0; i < 8; i++){
-        rpm = rpm << 1;
-        rpm = rpm | bitRead(buffer[4], i);
-      }
-      for(int i = 0; i < 2; i ++){
+      /*for(int i = 2; i > 0; i--){
         rpm = rpm << 1;
         rpm = rpm | bitRead(buffer[3], i);
-      }
-      CONSOLE.println(rpm);
+      }*/
+     CONSOLE.println(getRPM());
       //  CONSOLE.print(buffer[0]);
       //  CONSOLE.print(" : ");
       //  CONSOLE.println(buffer[1]);
