@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import common.datatypes.Waypoint;
 import common.datatypes.map.Map;
 import common.datatypes.map.MapLayer;
+import common.datatypes.map.griddedMap.Region;
+import common.datatypes.map.griddedMap.Vertex;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -12,6 +14,8 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -49,7 +53,7 @@ public class View extends Application {
 	private AStar a = new AStar();
 	private PathOptimisation p = new PathOptimisation();
 	private Map m = new Map(64, new MapLayer(TestData.getPresentationMaze()));
-
+	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
@@ -156,17 +160,28 @@ public class View extends Application {
 		vbox.setPrefWidth((screenBounds.getWidth() - getRect().getWidth()-10)/2);
 		vbox.setPrefHeight(screenBounds.getHeight()/3.5);
 
+		Spinner<Integer> spinner = new Spinner<Integer>();
+		SpinnerValueFactory<Integer> value = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 5);
+		spinner.getStyleClass().add(Spinner.STYLE_CLASS_SPLIT_ARROWS_VERTICAL);
+		spinner.setStyle("-fx-body-color:#00bfff;"
+				+"-fx-font-size: 15px; "
+				+"-fx-font-weight: bold;");
+
+		spinner.setMaxHeight(vbox.getPrefHeight()/4);
+		spinner.setMaxWidth(vbox.getPrefWidth()/10);
+		spinner.setValueFactory(value);
+		
 		/**
 		 * Button for displaying LiDar return.
 		 */
 		ToggleButton lidarBtn = new ToggleButton("Lidar Overlay");
-		lidarBtn.setMinWidth(vbox.getPrefWidth()-20);
+		lidarBtn.setMinWidth(vbox.getPrefWidth()-60);
 		lidarBtn.setMinHeight(vbox.getPrefHeight()/4);
 		toggleOffStyle(lidarBtn);
 		lidarBtn.setOnAction(event ->{
 			if(lidarBtn.isSelected()) {
 				toggleOnStyle(lidarBtn);
-				pane.getChildren().add(drawCircle(scale(TestData.getPresentationMaze(),40)));
+				pane.getChildren().add(drawCircle(parent.getLocalHerdData().getMap().getLayer(spinner.getValue()).getWaypoints()));
 			}else {
 				toggleOffStyle(lidarBtn);
 				pane.getChildren().remove(circleGroup);
@@ -183,7 +198,7 @@ public class View extends Application {
 		gridBtn.setOnAction(event ->{
 			if(gridBtn.isSelected()) {
 				toggleOnStyle(gridBtn);
-				pane.getChildren().add(drawRectangle(scale(TestData.getPresentationMaze(),40)));
+				pane.getChildren().add(drawBlocked(parent.getLocalHerdData().getMap().getAmalgamatedMap().getGrid()));
 			}else {
 				toggleOffStyle(gridBtn);
 				pane.getChildren().remove(rectangleGroup);
@@ -224,7 +239,7 @@ public class View extends Application {
 
 		vbox.setSpacing(9);
 
-		hboxBtn.getChildren().addAll(lidarBtn, gridBtn);
+		hboxBtn.getChildren().addAll(lidarBtn, spinner, gridBtn);
 		hboxBtn2.getChildren().addAll(mapBtn, randomBtn);
 
 		hboxBtn.setSpacing(9);
@@ -342,8 +357,6 @@ public class View extends Application {
 	public VBox getAbilities() {
 		Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
 		final VBox vbox = new VBox();
-		final HBox hboxBtn = new HBox();
-		final HBox hboxBtn2 = new HBox();
 
 		label = new Label("Herd Abilities");
 		label.setMaxWidth((screenBounds.getWidth() - getRect().getWidth()-10));
@@ -404,8 +417,7 @@ public class View extends Application {
 				+"-fx-font-weight: bold;");
 		return o;
 	}
-
-
+	
 	/**
 	 * Method for taking in an ArrayList of type Waypoint.
 	 * Loops through ArrayList and draws circles at Waypoint(x,y).
@@ -425,28 +437,34 @@ public class View extends Application {
 
 		return circleGroup;
 	}
+	
+	public Rectangle drawRectangle(Waypoint w) {
+		Rectangle rectangle = new Rectangle();
+		rectangle.setX(w.getX()-20);
+		rectangle.setY(w.getY()-20);
+		rectangle.setWidth(40);
+		rectangle.setStroke(Color.BLACK);
+		rectangle.setStrokeWidth(4);
+		rectangle.setHeight(40);
+		return rectangle;
+	}
 
 	/**
 	 * Method for taking in an ArrayList of type Waypoint.
 	 * Draws the rectangles at blocked points on the map.
 	 * @return group
 	 */
-	public Group drawRectangle(ArrayList<Waypoint> l) {
+	public Group drawBlockedVertices(ArrayList<Waypoint> l) {
 		rectangleGroup = new Group();
 		for(Waypoint w: l) {
-			Rectangle rectangle = new Rectangle();
-			rectangle.setX(w.getX()-20);
-			rectangle.setY(w.getY()-20);
-			rectangle.setWidth(40);
-			rectangle.setStroke(Color.BLACK);
-			rectangle.setStrokeWidth(4);
-			rectangle.setHeight(40);
+			Rectangle rectangle = drawRectangle(w);
 			rectangle.setFill(Color.RED);
 			rectangleGroup.getChildren().add(rectangle);
 		}
 
 		return rectangleGroup;
 	}
+
 
 	/**
 	 * Method for taking in an ArrayList of type Waypoint.
@@ -456,13 +474,7 @@ public class View extends Application {
 	public Group drawPath(ArrayList<Waypoint> l) {
 		pathGroup = new Group();
 		for(Waypoint w: l) {
-			Rectangle rectangle = new Rectangle();
-			rectangle.setX(w.getX()-20);
-			rectangle.setY(w.getY()-20);
-			rectangle.setWidth(40);
-			rectangle.setStroke(Color.BLACK);
-			rectangle.setStrokeWidth(4);
-			rectangle.setHeight(40);
+			Rectangle rectangle = drawRectangle(w);
 			rectangle.setFill(Color.YELLOW);
 			pathGroup.getChildren().add(rectangle);
 		}
@@ -478,20 +490,14 @@ public class View extends Application {
 	public Group drawSearched(ArrayList<Waypoint> l) {
 		searchedGroup = new Group();
 		for(Waypoint w: l) {
-			Rectangle rectangle = new Rectangle();
-			rectangle.setX(w.getX()-20);
-			rectangle.setY(w.getY()-20);
-			rectangle.setWidth(40);
-			rectangle.setStroke(Color.BLACK);
-			rectangle.setStrokeWidth(4);
-			rectangle.setHeight(40);
+			Rectangle rectangle = drawRectangle(w);
 			rectangle.setFill(Color.PURPLE);
 			searchedGroup.getChildren().add(rectangle);
 		}
 
 		return searchedGroup;
 	}
-
+	
 	/**
 	 * Method for taking in an ArrayList of type Waypoint.
 	 * Draws the rectangles at blocked points on the map.
@@ -500,13 +506,7 @@ public class View extends Application {
 	public Group drawOptimisedPath(ArrayList<Waypoint> l) {
 		optimisedGroup = new Group();
 		for(Waypoint w: l) {
-			Rectangle rectangle = new Rectangle();
-			rectangle.setX(w.getX()-20);
-			rectangle.setY(w.getY()-20);
-			rectangle.setWidth(40);
-			rectangle.setStroke(Color.BLACK);
-			rectangle.setStrokeWidth(4);
-			rectangle.setHeight(40);
+			Rectangle rectangle = drawRectangle(w);
 			rectangle.setFill(Color.YELLOWGREEN);
 			optimisedGroup.getChildren().add(rectangle);
 		}
@@ -558,6 +558,13 @@ public class View extends Application {
 			output.add(new Waypoint(w.getX()*s, w.getY()*s));
 		}
 		return output;
+	}
+	
+	public ArrayList<Vertex> regionToArray(Region[][] r){
+		//Region r = new Region();
+
+		ArrayList<Vertex> v = new ArrayList<Vertex>();
+		return v;
 	}
 
 	/**
