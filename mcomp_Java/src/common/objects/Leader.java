@@ -238,7 +238,7 @@ public class Leader extends UnicastRemoteObject
   }
 
   @Override
-  public Boolean go() throws RemoteException {
+  public Boolean go() throws RemoteException {//FIXME called by the GUI/cont?
     // if there is a dest and path //else clean up
     // TODO Auto-generated method stub
     // actual method that makes bots drive through the path calc'ed
