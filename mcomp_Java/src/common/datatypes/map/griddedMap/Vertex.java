@@ -1,7 +1,6 @@
 package common.datatypes.map.griddedMap;
 
 import common.datatypes.Waypoint;
-import pathfinding.Heuristic;
 
 /**
  * The Base (nodal) component of the Map, Graph (as per Graph Theory). Each Vertex will have a
@@ -24,36 +23,6 @@ public class Vertex {
   private int y;
   public Vertex[] edges;
   private Chunk parent;
-  public double fx;
-  public double hx;
-  public double gx;
-  public double cost;
-  public Vertex parente;
-
-  public double getG() {
-    return gx;
-  }
-
-  public void setG(double gx) {
-    this.gx = gx;
-  }
-
-  public double getH() {
-    return hx;
-  }
-
-
-  public double getF() {
-    return fx;
-  }
-
-  public double calcF(Waypoint current, Waypoint dest) {
-    Heuristic h = new Heuristic();
-    this.hx = h.manhattanHeuristic(current, dest);
-    this.fx = hx + gx;
-    return fx;
-  }
-
 
   /**
    * The main constructor for a Vertex that includes the Waypoint for location and Parent for
