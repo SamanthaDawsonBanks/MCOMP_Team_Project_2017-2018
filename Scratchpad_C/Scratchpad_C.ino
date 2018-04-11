@@ -1,7 +1,7 @@
 #include "Arduino.h"
 
 #define CONSOLE Serial //usb to console
-#define CHANNEL Serial1 //board to board TX1 RX1 on Mega 2560
+#define CHANNEL Serial2 //board to board TX1 RX1 on Mega 2560
 byte inByte;
 byte buffer[23];
 
@@ -22,14 +22,36 @@ unsigned int packetToNumber(String packet){
 unsigned int getRPM(){
   unsigned int rpmLe = 0;
   unsigned int rpmBe = 0;
-  rpmLe = rpmLe | buffer[2];
-  rpmLe = rpmLe << 8;
-  rpmLe = rpmLe | buffer[3];
+////  CONSOLE.print(buffer[2] & 0x01,BIN);
+////  CONSOLE.print(" ");
+////  CONSOLE.print(buffer[2] & 0x02,BIN);
+////  CONSOLE.print(" ");
+////  CONSOLE.print(buffer[2] & 0x04,BIN);
+////  CONSOLE.print(" ");
+////  CONSOLE.print(buffer[2] & 0x08,BIN);
+////  CONSOLE.print(" ");
+////  CONSOLE.print(buffer[2] & 0x10,BIN);
+////  CONSOLE.print(" ");
+////  CONSOLE.print(buffer[2] & 0x20,BIN);
+////  CONSOLE.print(" ");
+////  CONSOLE.print(buffer[2] & 0x40,BIN);
+////  CONSOLE.print(" ");
+////  CONSOLE.println(buffer[2] & 0x80,BIN);
+    unsigned int bTwo = buffer[2];
+    unsigned int bThree = buffer[3];
+      CONSOLE.println(bTwo,BIN);
+      CONSOLE.println(bThree,BIN);
+
+  rpmLe = rpmLe | bTwo;
+  rpmLe <<= 8;
+  rpmLe = rpmLe | bThree;
   for(int i = 0; i < 16; i++){
-    rpmBe = rpmBe << 1;
-    rpmBe = rpmBe | (rpmLe & 0000000000000001);
+    rpmBe <<= 1;
+    rpmBe |= (rpmLe & 0x0001);
+    rpmLe >>= 1;
+
   }
-  rpmBe = rpmBe >> 6;
+  rpmBe >>= 6;
   return rpmBe;
 }
 
@@ -57,7 +79,8 @@ void loop()
         rpm = rpm << 1;
         rpm = rpm | bitRead(buffer[3], i);
       }*/
-     CONSOLE.println(getRPM());
+     CONSOLE.println(getRPM(),DEC);
+
       //  CONSOLE.print(buffer[0]);
       //  CONSOLE.print(" : ");
       //  CONSOLE.println(buffer[1]);
