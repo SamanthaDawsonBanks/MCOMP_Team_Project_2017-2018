@@ -10,6 +10,9 @@ void setup()
 {
   CONSOLE.begin(115200);
   CHANNEL.begin(115200);
+  pinMode(12,OUTPUT);
+  pinMode(11,OUTPUT);
+  pinMode(10,OUTPUT);
 }
 
 unsigned int packetToNumber(String packet){
@@ -20,24 +23,9 @@ unsigned int packetToNumber(String packet){
 }
 
 unsigned int getRPM(){
-  unsigned int rpmLe = 0;
-  unsigned int rpmBe = 0;
-////  CONSOLE.print(buffer[2] & 0x01,BIN);
-////  CONSOLE.print(" ");
-////  CONSOLE.print(buffer[2] & 0x02,BIN);
-////  CONSOLE.print(" ");
-////  CONSOLE.print(buffer[2] & 0x04,BIN);
-////  CONSOLE.print(" ");
-////  CONSOLE.print(buffer[2] & 0x08,BIN);
-////  CONSOLE.print(" ");
-////  CONSOLE.print(buffer[2] & 0x10,BIN);
-////  CONSOLE.print(" ");
-////  CONSOLE.print(buffer[2] & 0x20,BIN);
-////  CONSOLE.print(" ");
-////  CONSOLE.print(buffer[2] & 0x40,BIN);
-////  CONSOLE.print(" ");
-////  CONSOLE.println(buffer[2] & 0x80,BIN);
-    unsigned int bTwo = buffer[2];
+  unsigned int rpmLe = 0; //RPM in raw Little-endian
+  unsigned int rpmBe = 0; //RPM in converted Big-endian
+    unsigned int bTwo = buffer[2]; //3rd byte in the buffer, lower half of 16 bit little-endian value
     unsigned int bThree = buffer[3];
       CONSOLE.println(bTwo,BIN);
       CONSOLE.println(bThree,BIN);
@@ -57,6 +45,9 @@ unsigned int getRPM(){
 
 void loop()
 {
+  analogWrite(12, 255);
+  analogWrite(11, 255);
+  analogWrite(10, 255);
   /*  if(CHANNEL.available()){
       CONSOLE.print(CHANNEL.read(), HEX);
     }*/
