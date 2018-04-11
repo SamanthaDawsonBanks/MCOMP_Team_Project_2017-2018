@@ -4,17 +4,18 @@ import java.util.ArrayList;
 import common.datatypes.Waypoint;
 import common.datatypes.map.Map;
 import common.datatypes.map.MapLayer;
+import common.datatypes.map.griddedMap.Region;
 import common.datatypes.map.griddedMap.Vertex;
-import common.datatypes.path.Path;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -27,7 +28,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import pathfinding.AStar;
-import unitTesting.MapTest2;
+import pathfinding.PathOptimisation;
+import unitTesting.testData.*;
 
 
 /**
@@ -45,10 +47,13 @@ public class View extends Application {
 
 	private Pane pane;
 	private HBox hbox;
+	private Label label;
 	private int counter = 0;
-	private Group circleGroup, rectangleGroup, lineGroup;
+	private Group circleGroup, rectangleGroup, lineGroup, pathGroup, searchedGroup, optimisedGroup;
+	private AStar a = new AStar();
+	private PathOptimisation p = new PathOptimisation();
+	private Map m = new Map(64, new MapLayer(TestData.getPresentationMaze()));
 	
-
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
@@ -56,7 +61,9 @@ public class View extends Application {
 		primaryStage.setX(screenBounds.getMinX());
 		primaryStage.setY(screenBounds.getMinY());
 		primaryStage.setWidth(screenBounds.getWidth());
-		primaryStage.setHeight(screenBounds.getHeight());
+		primaryStage.setHeight(screenBounds.getHeight());	
+
+		a.pathfind(new Waypoint(2,4), new Waypoint(14, 2), m);
 
 		hbox = new HBox();
 		hbox.setSpacing(8);
@@ -122,8 +129,10 @@ public class View extends Application {
 	 */
 	public VBox getVBox() {
 		VBox vbox = new VBox();
+		vbox.setSpacing(18);
+
 		ObservableList<Node> list = vbox.getChildren();
-		list.addAll(getVBoxMap(), getVBoxPath());
+		list.addAll(getVBoxMap(),getVBoxPath(), getAbilities());
 		return vbox;
 	}
 
@@ -143,25 +152,36 @@ public class View extends Application {
 		final HBox hboxBtn = new HBox();
 		final HBox hboxBtn2 = new HBox();
 
-		final Label label = new Label("Map");
+		label = new Label("Map");
 		label.setMaxWidth((screenBounds.getWidth() - getRect().getWidth()-10));
 		label.setMinHeight(screenBounds.getHeight()/10);
-		labelStyle(label);
+		toggleOffStyle(label);
 
 		vbox.setPrefWidth((screenBounds.getWidth() - getRect().getWidth()-10)/2);
-		vbox.setPrefHeight(screenBounds.getHeight()/2);
+		vbox.setPrefHeight(screenBounds.getHeight()/3.5);
 
+		Spinner<Integer> spinner = new Spinner<Integer>();
+		SpinnerValueFactory<Integer> value = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 5);
+		spinner.getStyleClass().add(Spinner.STYLE_CLASS_SPLIT_ARROWS_VERTICAL);
+		spinner.setStyle("-fx-body-color:#00bfff;"
+				+"-fx-font-size: 15px; "
+				+"-fx-font-weight: bold;");
+
+		spinner.setMaxHeight(vbox.getPrefHeight()/4);
+		spinner.setMaxWidth(vbox.getPrefWidth()/10);
+		spinner.setValueFactory(value);
+		
 		/**
 		 * Button for displaying LiDar return.
 		 */
 		ToggleButton lidarBtn = new ToggleButton("Lidar Overlay");
-		lidarBtn.setMinWidth(vbox.getPrefWidth()-20);
+		lidarBtn.setMinWidth(vbox.getPrefWidth()-60);
 		lidarBtn.setMinHeight(vbox.getPrefHeight()/4);
 		toggleOffStyle(lidarBtn);
 		lidarBtn.setOnAction(event ->{
 			if(lidarBtn.isSelected()) {
 				toggleOnStyle(lidarBtn);
-				pane.getChildren().add(drawCircle(scale(MapTest2.getPresentationMaze(),40)));
+				pane.getChildren().add(drawCircle(parent.getLocalHerdData().getMap().getLayer(spinner.getValue()).getWaypoints()));
 			}else {
 				toggleOffStyle(lidarBtn);
 				pane.getChildren().remove(circleGroup);
@@ -178,7 +198,7 @@ public class View extends Application {
 		gridBtn.setOnAction(event ->{
 			if(gridBtn.isSelected()) {
 				toggleOnStyle(gridBtn);
-				pane.getChildren().add(drawRectangle(scale(MapTest2.getPresentationMaze(),40)));
+				pane.getChildren().add(drawBlocked(parent.getLocalHerdData().getMap().getAmalgamatedMap().getGrid()));
 			}else {
 				toggleOffStyle(gridBtn);
 				pane.getChildren().remove(rectangleGroup);
@@ -195,7 +215,7 @@ public class View extends Application {
 		mapBtn.setOnAction(event ->{
 			if(mapBtn.isSelected()) {
 				toggleOnStyle(mapBtn);
-				pane.getChildren().add(drawGrid(scale(MapTest2.getPresentationMaze(),40)));
+				pane.getChildren().add(drawGrid(scale(TestData.getPresentationMaze(),40)));
 			}else {
 				toggleOffStyle(mapBtn);
 				pane.getChildren().remove(lineGroup);
@@ -217,13 +237,13 @@ public class View extends Application {
 			}
 		});
 
-		vbox.setSpacing(10);
+		vbox.setSpacing(9);
 
-		hboxBtn.getChildren().addAll(lidarBtn, gridBtn);
+		hboxBtn.getChildren().addAll(lidarBtn, spinner, gridBtn);
 		hboxBtn2.getChildren().addAll(mapBtn, randomBtn);
 
-		hboxBtn.setSpacing(10);
-		hboxBtn2.setSpacing(10);
+		hboxBtn.setSpacing(9);
+		hboxBtn2.setSpacing(9);
 		ObservableList<Node> list = vbox.getChildren();
 
 		list.addAll(label, hboxBtn, hboxBtn2);
@@ -246,13 +266,13 @@ public class View extends Application {
 		final HBox hboxBtn = new HBox();
 		final HBox hboxBtn2 = new HBox();
 
-		final Label label = new Label("Pathfinding");
+		label = new Label("Pathfinding");
 		label.setMaxWidth((screenBounds.getWidth() - getRect().getWidth()-10));
 		label.setMinHeight(screenBounds.getHeight()/10);
-		labelStyle(label);
+		toggleOffStyle(label);
 
 		vbox.setPrefWidth((screenBounds.getWidth() - getRect().getWidth()-10)/2);
-		vbox.setPrefHeight(screenBounds.getHeight()/2);
+		vbox.setPrefHeight(screenBounds.getHeight()/3.5);
 
 		/**
 		 * Button for displaying Path.
@@ -264,23 +284,28 @@ public class View extends Application {
 		pathBtn.setOnAction(event ->{
 			if(pathBtn.isSelected()) {
 				toggleOnStyle(pathBtn);
+				pane.getChildren().add(drawPath(scale(a.ToArray(a.getList2()),40)));
+
 			}else {
 				toggleOffStyle(pathBtn);
+				pane.getChildren().remove(pathGroup);
 			}
 		});
 
 		/**
 		 * Button for displaying all searched nodes.
 		 */
-		ToggleButton searchedBtn = new ToggleButton("Searched Nodes");
+		ToggleButton searchedBtn = new ToggleButton("Searched");
 		searchedBtn.setMinWidth(vbox.getPrefWidth()-20);
 		searchedBtn.setMinHeight(vbox.getPrefHeight()/4);
 		toggleOffStyle(searchedBtn);
 		searchedBtn.setOnAction(event ->{
 			if(searchedBtn.isSelected()) {
 				toggleOnStyle(searchedBtn);
+				pane.getChildren().add(drawSearched(scale(a.ToArray(a.getList()),40)));
 			}else {
 				toggleOffStyle(searchedBtn);
+				pane.getChildren().remove(searchedGroup);
 			}
 		});
 
@@ -294,8 +319,10 @@ public class View extends Application {
 		optimalPathBtn.setOnAction(event ->{
 			if(optimalPathBtn.isSelected()) {
 				toggleOnStyle(optimalPathBtn);
+				pane.getChildren().add(drawOptimisedPath(scale(a.ToArray(p.shortenPath(a.getList2())),40)));
 			}else {
 				toggleOffStyle(optimalPathBtn);
+				pane.getChildren().remove(optimisedGroup);
 			}
 		});
 
@@ -314,12 +341,12 @@ public class View extends Application {
 			}
 		});
 
-		vbox.setSpacing(10);
+		vbox.setSpacing(9);
 
 		hboxBtn.getChildren().addAll(pathBtn, optimalPathBtn);
 		hboxBtn2.getChildren().addAll(searchedBtn, heuristicBtn);
-		hboxBtn.setSpacing(10);
-		hboxBtn2.setSpacing(10);
+		hboxBtn.setSpacing(9);
+		hboxBtn2.setSpacing(9);
 
 		ObservableList<Node> list = vbox.getChildren();
 		list.addAll(label, hboxBtn, hboxBtn2);
@@ -327,46 +354,70 @@ public class View extends Application {
 		return vbox;
 	}
 
+	public VBox getAbilities() {
+		Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+		final VBox vbox = new VBox();
+
+		label = new Label("Herd Abilities");
+		label.setMaxWidth((screenBounds.getWidth() - getRect().getWidth()-10));
+		label.setMinHeight(screenBounds.getHeight()/10);
+		toggleOffStyle(label);
+
+		vbox.setPrefWidth((screenBounds.getWidth() - getRect().getWidth()-10)/2);
+		vbox.setPrefHeight(screenBounds.getHeight()/3.5);
+		vbox.setSpacing(-4);
+
+		Rectangle r = new Rectangle();
+		r.setWidth((screenBounds.getWidth() - getRect().getWidth()-45));
+		r.setHeight((getRect().getHeight()/5)+20);
+		r.setStroke(Color.BLACK);
+		r.setStrokeWidth(4);
+		r.setFill(Color.WHITE);
+
+		ObservableList<Node> list = vbox.getChildren();
+		list.addAll(label, r);
+
+		return vbox;
+	}
+
+
 	/**
 	 * Method for setting button CSS when toggled off (normal style).
 	 * @return button with applied style sheet.
 	 */
-	public ToggleButton toggleOffStyle(ToggleButton btn) {
-		btn.setStyle("-fx-background-color:#fff;"
-				+"-fx-border-color: #000000;"
-				+"-fx-border-width: 4px;"
-				+"-fx-font-size: 20px; "
-				+"-fx-font-weight: bold;");
-		return btn;
+	public Node toggleOffStyle(Node o) {
+		if(o.equals(label)) {
+			o.setStyle("-fx-background-color:#00bfff;"
+					+"-fx-border-color: #000000;"
+					+"-fx-border-width: 4px;"
+					+"-fx-font-size: 25px; "
+					+"-fx-font-weight: bold;"
+					+"-fx-alignment:center");
+			return o;
+		}
+		else {
+			o.setStyle("-fx-background-color:#fff;"
+					+"-fx-border-color: #000000;"
+					+"-fx-border-width: 4px;"
+					+"-fx-font-size: 15px; "
+					+"-fx-font-weight: bold;");
+			return o;
+		}
 	}
 
 	/**
 	 * Method for setting button CSS when toggled on.
 	 * @return button with applied style sheet.
 	 */
-	public ToggleButton toggleOnStyle(ToggleButton btn) {
-		btn.setStyle("-fx-background-color:#00cc00;"
+	public Node toggleOnStyle(Node o) {
+		o.setStyle("-fx-background-color:#00cc00;"
 				+"-fx-border-color: #000000;"
 				+"-fx-border-width: 4px;"
-				+"-fx-font-size: 20px; "
+				+"-fx-font-size: 15px; "
 				+"-fx-font-weight: bold;");
-		return btn;
+		return o;
 	}
-
-	/**
-	 * Method for setting label CSS when toggled off (normal style).
-	 * @return button with applied style sheet.
-	 */
-	public Label labelStyle(Label label) {
-		label.setStyle("-fx-background-color:#00bfff;"
-				+"-fx-border-color: #000000;"
-				+"-fx-border-width: 4px;"
-				+"-fx-font-size: 20px; "
-				+"-fx-font-weight: bold;"
-				+"-fx-alignment:center");
-		return label;
-	}
-
+	
 	/**
 	 * Method for taking in an ArrayList of type Waypoint.
 	 * Loops through ArrayList and draws circles at Waypoint(x,y).
@@ -386,27 +437,81 @@ public class View extends Application {
 
 		return circleGroup;
 	}
+	
+	public Rectangle drawRectangle(Waypoint w) {
+		Rectangle rectangle = new Rectangle();
+		rectangle.setX(w.getX()-20);
+		rectangle.setY(w.getY()-20);
+		rectangle.setWidth(40);
+		rectangle.setStroke(Color.BLACK);
+		rectangle.setStrokeWidth(4);
+		rectangle.setHeight(40);
+		return rectangle;
+	}
 
 	/**
 	 * Method for taking in an ArrayList of type Waypoint.
 	 * Draws the rectangles at blocked points on the map.
 	 * @return group
 	 */
-	public Group drawRectangle(ArrayList<Waypoint> l) {
+	public Group drawBlockedVertices(ArrayList<Waypoint> l) {
 		rectangleGroup = new Group();
 		for(Waypoint w: l) {
-			Rectangle rectangle = new Rectangle();
-			rectangle.setX(w.getX()-20);
-			rectangle.setY(w.getY()-20);
-			rectangle.setWidth(40);
-			rectangle.setStroke(Color.BLACK);
-			rectangle.setStrokeWidth(4);
-			rectangle.setHeight(40);
+			Rectangle rectangle = drawRectangle(w);
 			rectangle.setFill(Color.RED);
 			rectangleGroup.getChildren().add(rectangle);
 		}
 
 		return rectangleGroup;
+	}
+
+
+	/**
+	 * Method for taking in an ArrayList of type Waypoint.
+	 * Draws the rectangles at blocked points on the map.
+	 * @return group
+	 */
+	public Group drawPath(ArrayList<Waypoint> l) {
+		pathGroup = new Group();
+		for(Waypoint w: l) {
+			Rectangle rectangle = drawRectangle(w);
+			rectangle.setFill(Color.YELLOW);
+			pathGroup.getChildren().add(rectangle);
+		}
+
+		return pathGroup;
+	}
+
+	/**
+	 * Method for taking in an ArrayList of type Waypoint.
+	 * Draws the rectangles at blocked points on the map.
+	 * @return group
+	 */
+	public Group drawSearched(ArrayList<Waypoint> l) {
+		searchedGroup = new Group();
+		for(Waypoint w: l) {
+			Rectangle rectangle = drawRectangle(w);
+			rectangle.setFill(Color.PURPLE);
+			searchedGroup.getChildren().add(rectangle);
+		}
+
+		return searchedGroup;
+	}
+	
+	/**
+	 * Method for taking in an ArrayList of type Waypoint.
+	 * Draws the rectangles at blocked points on the map.
+	 * @return group
+	 */
+	public Group drawOptimisedPath(ArrayList<Waypoint> l) {
+		optimisedGroup = new Group();
+		for(Waypoint w: l) {
+			Rectangle rectangle = drawRectangle(w);
+			rectangle.setFill(Color.YELLOWGREEN);
+			optimisedGroup.getChildren().add(rectangle);
+		}
+
+		return optimisedGroup;
 	}
 
 	/**
@@ -455,6 +560,13 @@ public class View extends Application {
 		return output;
 	}
 	
+	public ArrayList<Vertex> regionToArray(Region[][] r){
+		//Region r = new Region();
+
+		ArrayList<Vertex> v = new ArrayList<Vertex>();
+		return v;
+	}
+
 	/**
 	 * Main method for running GUI. 
 	 */
