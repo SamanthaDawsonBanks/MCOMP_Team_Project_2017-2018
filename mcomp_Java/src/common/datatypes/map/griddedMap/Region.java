@@ -23,7 +23,7 @@ public class Region {
   long gridOffset;
 
   private Chunk[][] chunks;
-  GriddedMap parent;
+  GriddedMap root;
 
 
   /**
@@ -31,16 +31,14 @@ public class Region {
    *
    * @param gridSize the number of subitem (Vertices) to store in both x and y dimensions
    * @param w the initial Waypoint of the first data point (never created empty)
-   * @param parent a pointer to the parent object, used for upwards calls
+   * @param root a pointer to the root object, used for upwards calls
    * 
-   *        parent should be refactored to be a straight link to the griddedMap
-   *
    */
-  public Region(int gridSize, Waypoint w, GriddedMap parent) {
-    this.parent = parent;// FIXME refactor parent.parent to direct link to GMap?
+  public Region(int gridSize, Waypoint w, GriddedMap root) {
+    this.root = root;
     this.gridSize = gridSize;
-    this.gridOffset = parent.gridOffset;
-    chunks = new Chunk[parent.gridSize][parent.gridSize];
+    this.gridOffset = root.gridOffset;
+    chunks = new Chunk[root.gridSize][root.gridSize];
     this.add(w);
   }
 
@@ -53,23 +51,24 @@ public class Region {
    *
    * @param w the Waypoint holder of the x/y location
    * 
-   * @return boolean based on if the add was successful
+   * @return The created Vertex (so it can be linked in)
    * 
    */
-  public boolean add(Waypoint w) {
+  public Vertex add(Waypoint w) {
+    Vertex res;
     int ChunkX = (int) (((w.getX() + gridOffset) / Math.pow(gridSize, 1)) % gridSize);
     int ChunkY = (int) (((w.getY() + gridOffset) / Math.pow(gridSize, 1)) % gridSize);
     if (chunks[ChunkX][ChunkY] == null) {
-      chunks[ChunkX][ChunkY] = new Chunk(gridSize, w, this);
+      chunks[ChunkX][ChunkY] = new Chunk(gridSize, w, root);
+      res = getVertex(w);
     } else {
-      chunks[ChunkX][ChunkY].add(w);
+      res = chunks[ChunkX][ChunkY].add(w);
     }
-    return true;// TODO some logic
-
+    return res;
   }
 
   Chunk[][] getGrid() {// FIXME what do we want from this DS?
-    return chunks;// TODO depreciated?
+    return chunks;
   }
 
 
