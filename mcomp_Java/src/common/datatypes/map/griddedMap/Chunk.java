@@ -17,7 +17,7 @@ import common.datatypes.Waypoint;
 public class Chunk {
 
   private Vertex[][] vertices;
-  Region parent;
+  GriddedMap root;
   private int gridSize;
   private long gridOffset;
 
@@ -26,15 +26,13 @@ public class Chunk {
    *
    * @param gridSize the number of subitem (Vertices) to store in both x and y dimensions
    * @param w the initial Waypoint of the first data point (never created empty)
-   * @param parent a pointer to the parent object, used for upwards calls
-   * 
-   *        parent should be refactored to be a straight link to the griddedMap
-   *
+    * @param root a pointer to the root object, used for upwards calls
+  * 
    */
-  public Chunk(int gridSize, Waypoint w, Region parent) {
-    this.parent = parent;
+  public Chunk(int gridSize, Waypoint w, GriddedMap root) {
+    this.root = root;
     this.gridSize = gridSize;
-    this.gridOffset = parent.gridOffset;
+    this.gridOffset = root.gridOffset;
     vertices = new Vertex[gridSize][gridSize];
     this.add(w);
   }
@@ -55,12 +53,12 @@ public class Chunk {
     int VertexX = (int) (((w.getX() + gridOffset) / Math.pow(gridSize, 0)) % gridSize);
     int VertexY = (int) (((w.getY() + gridOffset) / Math.pow(gridSize, 0)) % gridSize);
     if (vertices[VertexX][VertexY] == null) {
-      vertices[VertexX][VertexY] = new Vertex(w, this);
+      vertices[VertexX][VertexY] = new Vertex(w, root);
     }
     if (w.getToBeBlocked()) {
-      if (!vertices[VertexX][VertexY].equals(parent.parent.blocked)) {
+      if (!vertices[VertexX][VertexY].equals(root.blocked)) {
         vertices[VertexX][VertexY].setBlocked();
-        vertices[VertexX][VertexY] = parent.parent.blocked;
+        vertices[VertexX][VertexY] = root.blocked;
       }
     }
     return vertices[VertexX][VertexY];
