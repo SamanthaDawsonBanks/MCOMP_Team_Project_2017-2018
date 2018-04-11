@@ -22,7 +22,8 @@ public class Vertex {
   private int x;
   private int y;
   public Vertex[] edges;
-  private Chunk parent;
+  
+  private GriddedMap root;
 
   /**
    * The main constructor for a Vertex that includes the Waypoint for location and Parent for
@@ -32,14 +33,13 @@ public class Vertex {
    * @see common.datatypes.map.griddedMap.Chunk
    * 
    * @param w The Waypoint for setting (rounded / localised) location
-   * @param parent connection to the parent collection / map for upwards calls
+   * @param root a pointer to the root object, used for upwards calls
    */
-  public Vertex(Waypoint w, Chunk parent) {
+  public Vertex(Waypoint w, GriddedMap root) {
     this.x = (int) w.getX();
     this.y = (int) w.getY();
-    this.parent = parent;
-    edges = new Vertex[parent.parent.parent.gridDesign.getShapeSides()];// TODO not sure this is
-                                                                        // better?
+    this.root = root;
+    edges = new Vertex[root.gridDesign.getShapeSides()];
     connectNeighbours();
   }
 
@@ -68,10 +68,10 @@ public class Vertex {
    */
   private void connectNeighbours() {
     for (int i = 0; i < edges.length; i++) {
-      double xOffset = parent.parent.parent.gridDesign.getNeighbourAddresses()[i].neighbourXOffset;
-      double yOffset = parent.parent.parent.gridDesign.getNeighbourAddresses()[i].neighbourYOffset;
+      double xOffset = root.gridDesign.getNeighbourAddresses()[i].neighbourXOffset;
+      double yOffset = root.gridDesign.getNeighbourAddresses()[i].neighbourYOffset;
       Waypoint neighbourAddress = new Waypoint(this.x + xOffset, this.y + yOffset, false);
-      edges[i] = parent.parent.parent.getVertex(neighbourAddress);
+      edges[i] = root.getVertex(neighbourAddress);
       if (edges[i] != null) {// FIXME and not blocked?
         edges[i].edges[((i + (edges.length / 2)) % edges.length)] = this;
       }
@@ -88,20 +88,16 @@ public class Vertex {
    * @see common.datatypes.map.griddedMap.BlockedVertex
    */
   protected void setBlocked() {
-    for (int i = 0; i < parent.parent.parent.gridDesign.getShapeSides(); i++) {
+    for (int i = 0; i < root.gridDesign.getShapeSides(); i++) {
       if (edges[i] == null) {
-        edges[i] = parent.add(new Waypoint(
-            this.x + parent.parent.parent.gridDesign.getNeighbourAddresses()[i].neighbourXOffset,
-            this.y + parent.parent.parent.gridDesign.getNeighbourAddresses()[i].neighbourYOffset,
-            false)); // FIXME
-        // this
-        // needs
-        // factoring out
+        edges[i] = root
+            .add(new Waypoint(this.x + root.gridDesign.getNeighbourAddresses()[i].neighbourXOffset,
+                this.y + root.gridDesign.getNeighbourAddresses()[i].neighbourYOffset, false));
       }
 
-      for (int j = 0; j < parent.parent.parent.gridDesign.getShapeSides(); j++) {
+      for (int j = 0; j < root.gridDesign.getShapeSides(); j++) {
         if (edges[i].edges[j] == this) {
-          edges[i].edges[j] = parent.parent.parent.blocked;
+          edges[i].edges[j] = root.blocked;
         }
       }
 
