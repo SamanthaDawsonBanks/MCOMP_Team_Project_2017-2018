@@ -99,7 +99,7 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
     if (abilities.contains(Ability.VIEWER)) {
       // interView v = new View(this);//FIXME this wont work due to jFX
 
-      startGUI();
+      //startGUI();//FIXME gui borked
     }
   }
 
@@ -255,6 +255,8 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
   @Override
   public Map processMapLump(Herd h) throws RemoteException {
     // TODO Auto-generated method stub
+    
+    //FIXME some form of call to map. almag layer
     return null;
   }
 
@@ -310,6 +312,9 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
     // while(!pipe.available())
     // return whatever given
     // return decode(pipe.read())
+    
+    //leader . add layer (lsense)
+   
     return null;
   }
 
@@ -331,7 +336,7 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
 
 
   @Override
-  public Leader becomeLeader(Herd h) throws RemoteException {
+  public RemoteLeader becomeLeader(Herd h) throws RemoteException {
     // TODO Auto-generated method stub
     LOGGER.log(Level.INFO, "Becoming Leader");
 
@@ -342,6 +347,23 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
     // start the leader
     // wait?
     // connect to rmi
+    
+    
+    
+RemoteLeader res = connectRMI();    
+    
+    
+    
+    
+    // return the leader on the RMI link
+    return res;// FIXME NPE change sig?
+  }
+
+
+  private RemoteLeader connectRMI() {
+    // TODO Auto-generated method stub
+    
+    
     try {
       localLeaderRef = (RemoteLeader) Naming.lookup("rmi://192.168.25.42" + "/HerdLeader");
     } catch (MalformedURLException e) {
@@ -362,8 +384,12 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
-    // return the leader on the RMI link
-    return null;// FIXME NPE change sig?
+    
+
+    
+    
+    
+    return localLeaderRef;
   }
 
 
