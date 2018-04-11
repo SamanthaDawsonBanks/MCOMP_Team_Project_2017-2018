@@ -164,9 +164,18 @@ public class Leader extends UnicastRemoteObject
    */
   @Override
   public void updateModel(Herd newHerdData) throws RemoteException {// TODO is the input a herd DT?
+    
+    //something here for the initial herd stuff
+    
+    
     // TODO Auto-generated method stub
     // Won't be update model
   }
+  
+  //all the methods for updating the state??
+  
+  
+  
 
   @Override
   public Herd getState() throws RemoteException {
@@ -190,6 +199,10 @@ public class Leader extends UnicastRemoteObject
     updateModel(joiningMember.getLocalHerdData());
     joiningMember.RMITest();//FIXME this checks loopback
     //TODO do something ? take read ? dance?!?!?!
+    
+    
+    
+    
     return herd.requestJoin(joiningMember);// FIXME adjust for herd
     // used to register a client for server/client/mvc
     // Likely to take a member and add them to the 'registered' list??
