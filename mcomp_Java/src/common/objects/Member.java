@@ -27,6 +27,7 @@ import common.interfaces.Promotable;
 import common.interfaces.RemoteLeader;
 import common.interfaces.RemoteMember;
 import common.interfaces.Transferable;
+import member.ui.View;
 import java.security.Key;
 
 /**
@@ -94,6 +95,9 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
         default:
           break;
       }
+    }
+    if (abilities.contains(Ability.VIEWER)) {
+      View v = new View(this);
     }
   }
 
