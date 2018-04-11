@@ -313,8 +313,6 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
     // return whatever given
     // return decode(pipe.read())
 
-    // leader . add layer (lsense)
-
     return null;
   }
 

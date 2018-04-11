@@ -188,7 +188,8 @@ public class Leader extends UnicastRemoteObject
       herd.theLeader = this;
     }
     updateModel(joiningMember.getLocalHerdData());
-    joiningMember.RMITest();
+    joiningMember.RMITest();//FIXME this checks loopback
+    //TODO do something ? take read ? dance?!?!?!
     return herd.requestJoin(joiningMember);// FIXME adjust for herd
     // used to register a client for server/client/mvc
     // Likely to take a member and add them to the 'registered' list??
