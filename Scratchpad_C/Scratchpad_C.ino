@@ -21,24 +21,36 @@ unsigned int packetToNumber(String packet){
 
 void loop()
 {
+  /*  if(CHANNEL.available()){
+      CONSOLE.print(CHANNEL.read(), HEX);
+    }*/
   if (CHANNEL.available()) {
     inByte = CHANNEL.read();
     if(inByte == 0xFA){
-      buffer [0] = 0xFA;
-      CONSOLE.println (0xFA);
-      CONSOLE.println("Start Packet");
-      for(int i = 1; i < 22; i++){
+   //   CONSOLE.println("Start Packet");
+      for(int i = 0; i < 22; i++){
         buffer [i] = CHANNEL.read();
-        CONSOLE.print(buffer[i]);
-        CONSOLE.println(" ");
+        //  CONSOLE.print(buffer[i], HEX);
+        //  CONSOLE.print(" ");
       }
-    //  CONSOLE.print(buffer[0]);
-    //  CONSOLE.print(" : ");
-    //  CONSOLE.println(buffer[1]);
+
+      unsigned int rpm = 0;
+      for(int i = 0; i < 8; i++){
+        rpm = rpm << 1;
+        rpm = rpm | bitRead(buffer[4], i);
+      }
+      for(int i = 0; i < 2; i ++){
+        rpm = rpm << 1;
+        rpm = rpm | bitRead(buffer[3], i);
+      }
+      CONSOLE.println(rpm);
+      //  CONSOLE.print(buffer[0]);
+      //  CONSOLE.print(" : ");
+      //  CONSOLE.println(buffer[1]);
     }
   }
-   // CONSOLE.println(CHANNEL.read(),HEX);
-   // CONSOLE.write(CHANNEL.read()); //if there is something in the channel buffer read it, print it to the console, and loop
+  // CONSOLE.println(CHANNEL.read(),HEX);
+  // CONSOLE.write(CHANNEL.read()); //if there is something in the channel buffer read it, print it to the console, and loop
   //}
 
   //if (CONSOLE.available()) {
