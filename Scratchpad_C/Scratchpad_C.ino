@@ -1,89 +1,48 @@
 #include "Arduino.h"
 
-#define CONSOLE Serial //usb to console
-#define CHANNEL Serial2 //board to board TX1 RX1 on Mega 2560
-byte inByte;
-byte buffer[23];
+#define CONSOLE Serial               //usb to console
+#define CHANNEL Serial2              //board to board TX2 RX2 on Mega 2560
+byte inByte;                         //incoming byte on serial2
+byte buffer[23];                     //buffer of bytes that takes in a packet of four reads from the LiDAR sensor
 
-//The setup function is called once at startup of the sketch
-void setup()
+void setup()                         //The setup function is called once at startup of the sketch
 {
-  CONSOLE.begin(115200);
-  CHANNEL.begin(115200);
-  pinMode(12,OUTPUT);
-  pinMode(11,OUTPUT);
-  pinMode(10,OUTPUT);
-}
-
-unsigned int packetToNumber(String packet){
-  unsigned int res;
-  res = (packet.charAt(0));
-
-  return res;
+  CONSOLE.begin(115200);             //init the output serial
+  CHANNEL.begin(115200);             //init the input from LiDAR serial2
 }
 
 unsigned int getRPM(){
-  unsigned int rpmLe = 0; //RPM in raw Little-endian
-  unsigned int rpmBe = 0; //RPM in converted Big-endian
-    unsigned int bTwo = buffer[2]; //3rd byte in the buffer, lower half of 16 bit little-endian value
-    unsigned int bThree = buffer[3];
-      CONSOLE.println(bTwo,BIN);
+  unsigned int rpmLe = 0;            //RPM in raw Little-endian
+  unsigned int rpmBe = 0;            //RPM in converted Big-endian
+    unsigned int bTwo = buffer[2];   //3rd byte in the buffer, lower half of 16 bit little-endian value
+    unsigned int bThree = buffer[3]; //4th byte in the buffer, upper half of 16 bit little-endian value
+      CONSOLE.println(bTwo,BIN);     //for checking
       CONSOLE.println(bThree,BIN);
 
-  rpmLe = rpmLe | bTwo;
-  rpmLe <<= 8;
-  rpmLe = rpmLe | bThree;
-  for(int i = 0; i < 16; i++){
-    rpmBe <<= 1;
-    rpmBe |= (rpmLe & 0x0001);
-    rpmLe >>= 1;
+  rpmLe = rpmLe | bTwo;              //rpmLe (0) bitwise OR with b2 = b2 but in a 16 bit in not 8 bit byte
+  rpmLe <<= 8;                       //shift bits 8 left to make space for b3
+  rpmLe = rpmLe | bThree;            //rpmLe (b2+8 zeros) logical OR with b3 = b2 concat b3 in one 16 bit value
+  for(int i = 0; i < 16; i++){       //loop to flip bits and make value big endian
+    rpmBe <<= 1;                     //no effect first time, makes space for incoming bit
+    rpmBe |= (rpmLe & 0x0001);       //0  logical OR then set with 1 or 0 logical AND with 1. If bit is 1 then set bit to 1
+    rpmLe >>= 1;                     //Shift right to get next bit in little endian value
 
   }
-  rpmBe >>= 6;
-  return rpmBe;
+  rpmBe >>= 6;                       //Shift right 6 to remove the floating point (64th of an RPM) values
+  return rpmBe;                      //Returns RPM as whole number
 }
 
 void loop()
 {
-  analogWrite(12, 255);
-  analogWrite(11, 255);
-  analogWrite(10, 255);
-  /*  if(CHANNEL.available()){
-      CONSOLE.print(CHANNEL.read(), HEX);
-    }*/
   if (CHANNEL.available()) {
-    inByte = CHANNEL.read();
-    if(inByte == 0xFA){
-   //   CONSOLE.println("Start Packet");
+    inByte = CHANNEL.read();         //Read a byte from Serial
+    if(inByte == 0xFA){              //The head of a LiDAR packet read
       for(int i = 0; i < 22; i++){
-        buffer[i] = CHANNEL.read();
-       // CONSOLE.print(buffer[i],HEX);
+        buffer[i] = CHANNEL.read();  //Read the next bit in the serial and write it to next position in buffer
       }
-//      CONSOLE.println(" ");
-//      CONSOLE.println(buffer[1],HEX);
-//      CONSOLE.println(" ");
-//      CONSOLE.print(buffer[2],BIN);
-//      CONSOLE.println(buffer[3],BIN);
-//      CONSOLE.println(" ");
-
-      /*for(int i = 2; i > 0; i--){
-        rpm = rpm << 1;
-        rpm = rpm | bitRead(buffer[3], i);
-      }*/
-     CONSOLE.println(getRPM(),DEC);
-
-      //  CONSOLE.print(buffer[0]);
-      //  CONSOLE.print(" : ");
-      //  CONSOLE.println(buffer[1]);
+     CONSOLE.println(getRPM(),DEC);  //Print RPM in decimal
     }
   }
-  // CONSOLE.println(CHANNEL.read(),HEX);
-  // CONSOLE.write(CHANNEL.read()); //if there is something in the channel buffer read it, print it to the console, and loop
-  //}
-
-  //if (CONSOLE.available()) {
-  //  CHANNEL.write(CONSOLE.read()); //if there is something in the console buffer read it, send it to the channel, and loop
-  //}
 }
 
 
