@@ -49,7 +49,7 @@ unsigned int getRead(){
   unsigned int be = 0;
   unsigned int lowerByte = buffer[4];
   unsigned int upperByte = buffer[5];
-  if (upperByte & 0x01){
+  if (upperByte & 0x01){              //Bitwise compare to see if did not calc flag was high
     return 0;
   }
   else{
@@ -58,7 +58,7 @@ unsigned int getRead(){
     le = le | upperByte;
     for (int i = 0; i < 16; i++){
       be <<= 1;
-      be = be | (le & 0x01);
+      be = be | (le & 0x01);        //If the LSB in le is high, transpose to LSB on be.
       le >>= 1;
     }
     return be;
