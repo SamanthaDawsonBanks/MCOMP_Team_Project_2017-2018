@@ -336,4 +336,31 @@ public class Herd implements Joinable, Organisable {
     // TODO Auto-generated method stub
     return false;
   }
+
+  public Map getMap() {
+    // TODO Auto-generated method stub
+    return map;
+  }
+
+  public Path getPath() {
+    // TODO Auto-generated method stub
+    return path;
+  }
+
+  public ArrayList<Waypoint> getUnoptimizedPath() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  public ArrayList<Waypoint> getSearchedNodes() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  public ArrayList<Waypoint> getOptimizedPath() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+  
+  
 }
