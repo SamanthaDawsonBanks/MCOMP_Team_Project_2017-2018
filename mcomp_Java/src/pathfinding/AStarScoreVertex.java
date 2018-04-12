@@ -8,7 +8,7 @@ import common.datatypes.map.griddedMap.ScoredVertex;
 import common.datatypes.map.griddedMap.Vertex;
 import common.datatypes.path.Path;
 
-public class AStar {
+public class AStarScoreVertex {
 
 	private Heuristic h = new Heuristic();
 
@@ -28,7 +28,6 @@ public class AStar {
 
 		openList.add(s);
 
-		int counter = 0;
 		while(!openList.isEmpty()) {
 
 			ScoredVertex current = null;
@@ -55,7 +54,6 @@ public class AStar {
 
 			if(current.getX() == dest.getX() && current.getY() == dest.getY()) {
 				System.out.print("goal reached");
-				System.out.print(closedList.size());
 				returnPath(start, dest, m);
 				break;
 			}
@@ -64,16 +62,15 @@ public class AStar {
 			openList.remove(current);
 			closedList.add(current);
 			System.out.println("current node: " + current.getX() + "," + current.getY());
-			counter++;
 
 
 			for(Vertex v: current.edges) {
 
+				ScoredVertex z = new ScoredVertex(v, m.getAmalgamatedMap());
+
 				if(v == null) {
 					continue;
 				}
-
-				ScoredVertex z = new ScoredVertex(v, m.getAmalgamatedMap());
 
 				z.setGx(current.getGx() + 1);
 				double childGx = z.getGx();
@@ -82,18 +79,17 @@ public class AStar {
 					openList.remove(z);
 					closedList.remove(z);
 				}
-
-				if(!myContains(openList,z) && !myContains(closedList, z) && !v.equals(m.getAmalgamatedMap().blocked)) {
+				if(!openList.contains(z) && !closedList.contains(z) && !v.equals(m.getAmalgamatedMap().blocked)) {
 					z.setGx(childGx);
-					z.setHx(h.manhattanHeuristic(new Waypoint(z.getX(), z.getY()), dest));
+					z.setHx(h.manhattanHeuristic(new Waypoint(v.getX(), v.getY()), dest));
 					z.setFx(z.getHx() + z.getGx());
 					z.parent = current;
 					openList.add(z);
 				}
 				if(v.equals(m.getAmalgamatedMap().blocked)) {
 					System.out.print("");
-				}else if(!closedList.contains(z)) {
-					System.out.printf("child:(%d,%d)" + " gx = %.1f" + " hx = %.1f" + " fx = %.1f" +  "\n", z.getX(), z.getY(), z.getGx(), z.getHx(), z.getFx());
+				}else if(!closedList.contains(v)) {
+					System.out.printf("child:(%d,%d)" + " gx = %.1f" + " hx = %.1f" + " fx = %.1f" +  "\n", v.getX(), v.getY(), z.getGx(), z.getHx(), z.getFx());
 				}
 			}
 
@@ -113,17 +109,15 @@ public class AStar {
 
 	public Path returnPath(Waypoint start, Waypoint dest, Map m) {
 		Path p = new Path(dest);
-		Waypoint current = dest;	
-		ScoredVertex s = new ScoredVertex(m.getAmalgamatedMap().getVertex(start), m.getAmalgamatedMap());
-		ScoredVertex d = new ScoredVertex(m.getAmalgamatedMap().getVertex(dest), m.getAmalgamatedMap());
-		ScoredVertex v = new ScoredVertex(m.getAmalgamatedMap().getVertex(current), m.getAmalgamatedMap());
-		path.add(d);
+		Waypoint current = dest;
+		ScoredVertex v = (ScoredVertex) m.getAmalgamatedMap().getVertex(current);     
 
-		while(!isEquals(v, s)) {
-			v = new ScoredVertex(v.parent,null);
+		path.add((ScoredVertex) m.getAmalgamatedMap().getVertex(dest));
+		while(!v.parent.equals(m.getAmalgamatedMap().getVertex(start))) {
+			v = (ScoredVertex) v.parent;
 			path.add(v);
 		}
-		path.add(s);
+		path.add((ScoredVertex) m.getAmalgamatedMap().getVertex(start));
 		System.out.print("\n" + "Path to take:");
 		Collections.reverse(path);
 		for(Vertex w: path) {
@@ -134,17 +128,15 @@ public class AStar {
 		return p;
 	}
 
-	public boolean isEquals(Vertex a, Vertex b) {
-		return (a.getX() == b.getX() && a.getY() == b.getY());
+	public ArrayList<Waypoint> ToArray(ArrayList<Vertex> l) {
+		ArrayList<Waypoint> w = new ArrayList<Waypoint>();
+		for(Vertex v: l) {
+			w.add(new Waypoint(v.getX(), v.getY()));
+		}
+		return w;
 	}
 
-	public boolean myContains(ArrayList<ScoredVertex> l, ScoredVertex v) {
-		boolean res = false;
-		for(ScoredVertex sv: l) {
-			if(isEquals(sv, v)) {
-				res = true;
-			}
-		}
-		return res;
+	public boolean developerMode() {
+		return false;
 	}
 }
