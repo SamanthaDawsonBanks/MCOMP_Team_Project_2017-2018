@@ -14,10 +14,10 @@ void setup()                         //The setup function is called once at star
 unsigned int getRPM(){
   unsigned int rpmLe = 0;            //RPM in raw Little-endian
   unsigned int rpmBe = 0;            //RPM in converted Big-endian
-    unsigned int bTwo = buffer[2];   //3rd byte in the buffer, lower half of 16 bit little-endian value
-    unsigned int bThree = buffer[3]; //4th byte in the buffer, upper half of 16 bit little-endian value
-      CONSOLE.println(bTwo,BIN);     //for checking
-      CONSOLE.println(bThree,BIN);
+  unsigned int bTwo = buffer[2];     //3rd byte in the buffer, lower half of 16 bit little-endian value
+  unsigned int bThree = buffer[3];   //4th byte in the buffer, upper half of 16 bit little-endian value
+  CONSOLE.println(bTwo,BIN);         //for checking
+  CONSOLE.println(bThree,BIN);
 
   rpmLe = rpmLe | bTwo;              //rpmLe (0) bitwise OR with b2 = b2 but in a 16 bit in not 8 bit byte
   rpmLe <<= 8;                       //shift bits 8 left to make space for b3
@@ -32,6 +32,39 @@ unsigned int getRPM(){
   return rpmBe;                      //Returns RPM as whole number
 }
 
+/*
+ * A single packet contains 4 reads.
+ * A single read is 4 bytes long.
+ * The first 14 bits(0-13) of the first 2 bytes are the actual distance data.
+ * The remaining 2 bits are error states.
+ * Bit 14 shows high if the return signal was weaker than expected.
+ * Bit 15 shows high if the distance could not be calculated.
+ * If bit 15 is high the read should be 0 and discounted.
+ * The final 2 bytes are signal strength information and not worried about here.
+ * The bit data for distance is stored in little endian format. Backwards to normal.
+ * It needs to be flipped in order for the JVM on the other end to work with it.
+ */
+unsigned int getRead(){
+  unsigned int le = 0;
+  unsigned int be = 0;
+  unsigned int lowerByte = buffer[4];
+  unsigned int upperByte = buffer[5];
+  if (upperByte & 0x01){
+    return 0;
+  }
+  else{
+    le = le | lowerByte;
+    le <<= 8;
+    le = le | upperByte;
+    for (int i = 0; i < 16; i++){
+      be <<= 1;
+      be = be | (le & 0x01);
+      le >>= 1;
+    }
+    return be;
+  }
+}
+
 void loop()
 {
   if (CHANNEL.available()) {
@@ -40,7 +73,7 @@ void loop()
       for(int i = 0; i < 22; i++){
         buffer[i] = CHANNEL.read();  //Read the next bit in the serial and write it to next position in buffer
       }
-     CONSOLE.println(getRPM(),DEC);  //Print RPM in decimal
+      CONSOLE.println(getRPM(),DEC);  //Print RPM in decimal
     }
   }
 }
