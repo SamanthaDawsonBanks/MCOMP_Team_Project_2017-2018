@@ -21,7 +21,7 @@ public class ScoredVertex extends Vertex {
   private double hx;
   private double gx;
   private double cost;
-  public Vertex parente;
+  public Vertex parent;
 
   /**
    * @param v The Vertex to specialise into a ScoredVertex

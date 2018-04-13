@@ -38,6 +38,15 @@ public class Chunk {
   }
 
 
+  public Chunk(int gridSize, ScoredVertex s, GriddedMap root) {
+    this.root = root;
+    this.gridSize = gridSize;
+    this.gridOffset = root.gridOffset;
+    vertices = new Vertex[gridSize][gridSize];
+    this.add(s);
+  }
+
+
   /**
    * Adds the supplied Waypoint to the griddedMap as a Vertex. Maintains the state of the Vertex
    * (blocked or open)
@@ -60,6 +69,16 @@ public class Chunk {
         vertices[VertexX][VertexY].setBlocked();
         vertices[VertexX][VertexY] = root.blocked;
       }
+    }
+    return vertices[VertexX][VertexY];
+  }
+
+
+  public Vertex add(ScoredVertex s) {
+    int VertexX = (int) (((s.getX() + gridOffset) / Math.pow(gridSize, 0)) % gridSize);
+    int VertexY = (int) (((s.getY() + gridOffset) / Math.pow(gridSize, 0)) % gridSize);
+    if (vertices[VertexX][VertexY] == null) {
+      vertices[VertexX][VertexY] = s;
     }
     return vertices[VertexX][VertexY];
   }

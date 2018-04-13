@@ -6,6 +6,7 @@ import common.datatypes.map.Map;
 import common.datatypes.map.MapLayer;
 import common.datatypes.map.griddedMap.Region;
 import common.datatypes.map.griddedMap.Vertex;
+import common.objects.Member;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -35,16 +36,14 @@ import unitTesting.testData.*;
 /**
  * 
  * @author Harry Jackson: 14812630.
- * GUI main class
- * Create new HBox (horizontal scene layout) 
- * getRect() method is added to HBox layout.
- * getVbox() method is added to HBox layout
- * HBox is added to current pane (allows for overlapping objects).
- * Create scene from all objects in pane.
- * Show current scene.
+ * 
+ * @version 1.0
+ * @since 2018-04-11
+ * 
  */
 public class View extends Application {
-
+	
+	private Member parent;
 	private Pane pane;
 	private HBox hbox;
 	private Label label;
@@ -53,7 +52,14 @@ public class View extends Application {
 	private AStar a = new AStar();
 	private PathOptimisation p = new PathOptimisation();
 	private Map m = new Map(64, new MapLayer(TestData.getPresentationMaze()));
-	
+
+	/**
+	 * Takes in all methods that deal with drawing to the GUI and adds them to the new HBox.
+	 * Adds the HBox to a new pane. Finally the pane is displayed as a new scene for the current stage.
+	 * 
+	 * @param Stage
+	 *
+	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
@@ -67,7 +73,7 @@ public class View extends Application {
 
 		hbox = new HBox();
 		hbox.setSpacing(8);
-		hbox.getChildren().addAll(getRect(), getVBox());
+		hbox.getChildren().addAll(getMapBox(), getVBox());
 		pane = new Pane();
 		pane.getChildren().add(hbox);
 		Scene scene = new Scene(pane);
@@ -76,15 +82,13 @@ public class View extends Application {
 	}
 
 	/**
-	 * Creates a new Rectangle
-	 * Set size, colour, border etc.
-	 * Adds onMouseClickListener for settings destination Waypoint.
-	 * Draws a circle at the destination Waypoint(x,y) with Label.  
-	 * Adds the circle and label to current pane. 
-	 * @returns the map Rectangle
+	 * Creates the main box for displaying all data. 
+	 * Has onClick for setting destination.
+	 *	 
+	 * @return main Rectangle node to display all data.
 	 * 
 	 */
-	public Rectangle getRect() {
+	public Rectangle getMapBox() {
 
 		Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
 		Rectangle r = new Rectangle();
@@ -120,12 +124,11 @@ public class View extends Application {
 	}
 
 	/**
-	 * Method to create a VBox (vertical scene layout) with buttons.
-	 * Create all buttons.
-	 * Set buttons Style (CSS), size, colour etc.
-	 * All buttons added to VBox (create list of buttons).
-	 * Provide onClick for each button.
-	 * @return VBox
+	 * Takes in all current VBox's (getVBoxMap, getVBoxPath ad getAbilities).
+	 * Adds all to a new VBox
+	 * 
+	 * @return List of VBox's
+	 * 
 	 */
 	public VBox getVBox() {
 		VBox vbox = new VBox();
@@ -138,12 +141,16 @@ public class View extends Application {
 
 
 	/**
-	 * Method to create a VBox (vertical scene layout) with buttons for map overalays.
-	 * Create all buttons.
-	 * Set buttons Style (CSS), size, colour etc.
-	 * All buttons added to VBox (create list of buttons).
-	 * Provide onClick for each button.
-	 * @return VBox
+	 * Handles all GUI nodes to do with Map data, sets their size, position and CSS.
+	 * Used for displaying Map data on GUI.
+	 * 
+	 * @see common.datatypes.map.Map
+	 * @see common.datatypes.map.griddedMap.Vertex
+	 * @see common.datatypes.map.griddedMap.GriddedMap
+	 *
+	 * 
+	 * @return VBox for displaying all nodes associated with Map data.
+	 * 
 	 */
 	public VBox getVBoxMap() {
 
@@ -153,11 +160,11 @@ public class View extends Application {
 		final HBox hboxBtn2 = new HBox();
 
 		label = new Label("Map");
-		label.setMaxWidth((screenBounds.getWidth() - getRect().getWidth()-10));
+		label.setMaxWidth((screenBounds.getWidth() - getMapBox().getWidth()-10));
 		label.setMinHeight(screenBounds.getHeight()/10);
 		toggleOffStyle(label);
 
-		vbox.setPrefWidth((screenBounds.getWidth() - getRect().getWidth()-10)/2);
+		vbox.setPrefWidth((screenBounds.getWidth() - getMapBox().getWidth()-10)/2);
 		vbox.setPrefHeight(screenBounds.getHeight()/3.5);
 
 		Spinner<Integer> spinner = new Spinner<Integer>();
@@ -170,9 +177,9 @@ public class View extends Application {
 		spinner.setMaxHeight(vbox.getPrefHeight()/4);
 		spinner.setMaxWidth(vbox.getPrefWidth()/10);
 		spinner.setValueFactory(value);
-		
+
 		/**
-		 * Button for displaying LiDar return.
+		 * Button for iteratively displaying Waypoints from LiDar return.
 		 */
 		ToggleButton lidarBtn = new ToggleButton("Lidar Overlay");
 		lidarBtn.setMinWidth(vbox.getPrefWidth()-60);
@@ -189,75 +196,79 @@ public class View extends Application {
 		});
 
 		/**
-		 * Button for displaying Grid overlay.
+		 * Button for displaying Blocked Vertices.
 		 */
-		ToggleButton gridBtn = new ToggleButton("Grid Overlay");
-		gridBtn.setMinWidth(vbox.getPrefWidth()-20);
-		gridBtn.setMinHeight(vbox.getPrefHeight()/4);
-		toggleOffStyle(gridBtn);
-		gridBtn.setOnAction(event ->{
-			if(gridBtn.isSelected()) {
-				toggleOnStyle(gridBtn);
-				pane.getChildren().add(drawBlocked(parent.getLocalHerdData().getMap().getAmalgamatedMap().getGrid()));
+		ToggleButton blockedBtn = new ToggleButton("Blocked Overlay");
+		blockedBtn.setMinWidth(vbox.getPrefWidth()-20);
+		blockedBtn.setMinHeight(vbox.getPrefHeight()/4);
+		toggleOffStyle(blockedBtn);
+		blockedBtn.setOnAction(event ->{
+			if(blockedBtn.isSelected()) {
+				toggleOnStyle(blockedBtn);
+				pane.getChildren().add(drawBlockedVertices(parent.getLocalHerdData().getMap().getAmalgamatedMap().getGrid()));
 			}else {
-				toggleOffStyle(gridBtn);
+				toggleOffStyle(blockedBtn);
 				pane.getChildren().remove(rectangleGroup);
 			}
 		});
 
 		/**
-		 * Button for displaying map overlay.
+		 * Button for displaying Grid overlay.
 		 */
-		ToggleButton mapBtn = new ToggleButton("Map Overlay");
-		mapBtn.setMinWidth(vbox.getPrefWidth()-20);
-		mapBtn.setMinHeight(vbox.getPrefHeight()/4);
-		toggleOffStyle(mapBtn);
-		mapBtn.setOnAction(event ->{
-			if(mapBtn.isSelected()) {
-				toggleOnStyle(mapBtn);
+		ToggleButton gridBtn = new ToggleButton("Grid Overlay");
+		gridBtn.setMinWidth(vbox.getPrefWidth()-20);
+		gridBtn.setMinHeight(vbox.getPrefHeight()/4);
+		toggleOffStyle(blockedBtn);
+		gridBtn.setOnAction(event ->{
+			if(blockedBtn.isSelected()) {
+				toggleOnStyle(gridBtn);
 				pane.getChildren().add(drawGrid(scale(TestData.getPresentationMaze(),40)));
 			}else {
-				toggleOffStyle(mapBtn);
+				toggleOffStyle(gridBtn);
 				pane.getChildren().remove(lineGroup);
 			}
 		});
 
 		/**
-		 * Button for displaying amalgamated map  -- TODO refine --
+		 * Button for displaying Amalgamated Map.
 		 */
-		ToggleButton randomBtn = new ToggleButton("Am Overlay");
-		randomBtn.setMinWidth(vbox.getPrefWidth()-20);
-		randomBtn.setMinHeight(vbox.getPrefHeight()/4);
-		toggleOffStyle(randomBtn);
-		randomBtn.setOnAction(event ->{
-			if(randomBtn.isSelected()) {
-				toggleOnStyle(randomBtn);
+		ToggleButton mapBtn  = new ToggleButton("Map Overlay");
+		mapBtn.setMinWidth(vbox.getPrefWidth()-20);
+		mapBtn.setMinHeight(vbox.getPrefHeight()/4);
+		toggleOffStyle(mapBtn);
+		mapBtn .setOnAction(event ->{
+			if(mapBtn.isSelected()) {
+				toggleOnStyle(mapBtn);
 			}else {
-				toggleOffStyle(randomBtn);
+				toggleOffStyle(mapBtn);
 			}
 		});
 
 		vbox.setSpacing(9);
 
-		hboxBtn.getChildren().addAll(lidarBtn, spinner, gridBtn);
-		hboxBtn2.getChildren().addAll(mapBtn, randomBtn);
-
+		hboxBtn.getChildren().addAll(lidarBtn, spinner, mapBtn);
 		hboxBtn.setSpacing(9);
-		hboxBtn2.setSpacing(9);
-		ObservableList<Node> list = vbox.getChildren();
 
+		hboxBtn2.getChildren().addAll(blockedBtn, gridBtn);
+		hboxBtn2.setSpacing(9);
+
+		ObservableList<Node> list = vbox.getChildren();
 		list.addAll(label, hboxBtn, hboxBtn2);
+
 		return vbox;
 	}
 
-
 	/**
-	 * Method to create a VBox (vertical scene layout) with buttons for displaying pathfinding.
-	 * Create all buttons.
-	 * Set buttons Style (CSS), size, colour etc.
-	 * All buttons added to VBox (create list of buttons).
-	 * Provide onClick for each button.
-	 * @return VBox
+	 * Handles all GUI nodes to do with Pathfinding, sets their size, position and CSS.
+	 * Used for displaying Pathfinding data on GUI.
+	 * 
+	 * @see pathfinding.AStar
+	 * @see pathfinding.Heuristic
+	 * @see pathfinding.PathOptimisation
+	 *
+	 * 
+	 * @return VBox for displaying all nodes associated with Pathfinding and Heuristics.
+	 * 
 	 */
 	public VBox getVBoxPath() {
 
@@ -267,15 +278,15 @@ public class View extends Application {
 		final HBox hboxBtn2 = new HBox();
 
 		label = new Label("Pathfinding");
-		label.setMaxWidth((screenBounds.getWidth() - getRect().getWidth()-10));
+		label.setMaxWidth((screenBounds.getWidth() - getMapBox().getWidth()-10));
 		label.setMinHeight(screenBounds.getHeight()/10);
 		toggleOffStyle(label);
 
-		vbox.setPrefWidth((screenBounds.getWidth() - getRect().getWidth()-10)/2);
+		vbox.setPrefWidth((screenBounds.getWidth() - getMapBox().getWidth()-10)/2);
 		vbox.setPrefHeight(screenBounds.getHeight()/3.5);
 
 		/**
-		 * Button for displaying Path.
+		 * Button for displaying Path retrieved from AStar search.
 		 */
 		ToggleButton pathBtn = new ToggleButton("Path");
 		pathBtn.setMinWidth(vbox.getPrefWidth()-20);
@@ -293,7 +304,7 @@ public class View extends Application {
 		});
 
 		/**
-		 * Button for displaying all searched nodes.
+		 * Button for displaying all searched nodes from AStar search.
 		 */
 		ToggleButton searchedBtn = new ToggleButton("Searched");
 		searchedBtn.setMinWidth(vbox.getPrefWidth()-20);
@@ -310,24 +321,24 @@ public class View extends Application {
 		});
 
 		/**
-		 * Button for displaying optimal path.
+		 * Button for displaying Optimized path.
 		 */
-		ToggleButton optimalPathBtn = new ToggleButton("Optimal Path");
-		optimalPathBtn.setMinWidth(vbox.getPrefWidth()-20);
-		optimalPathBtn.setMinHeight(vbox.getPrefHeight()/4);
-		toggleOffStyle(optimalPathBtn);
-		optimalPathBtn.setOnAction(event ->{
-			if(optimalPathBtn.isSelected()) {
-				toggleOnStyle(optimalPathBtn);
+		ToggleButton optimizedPathBtn = new ToggleButton("Optimized Path");
+		optimizedPathBtn.setMinWidth(vbox.getPrefWidth()-20);
+		optimizedPathBtn.setMinHeight(vbox.getPrefHeight()/4);
+		toggleOffStyle(optimizedPathBtn);
+		optimizedPathBtn.setOnAction(event ->{
+			if(optimizedPathBtn.isSelected()) {
+				toggleOnStyle(optimizedPathBtn);
 				pane.getChildren().add(drawOptimisedPath(scale(a.ToArray(p.shortenPath(a.getList2())),40)));
 			}else {
-				toggleOffStyle(optimalPathBtn);
+				toggleOffStyle(optimizedPathBtn);
 				pane.getChildren().remove(optimisedGroup);
 			}
 		});
 
 		/**
-		 * Button for displaying straight line heuristic.
+		 * Button for displaying specialised Heuristic.
 		 */
 		ToggleButton heuristicBtn = new ToggleButton("Heuristic");
 		heuristicBtn.setMinWidth(vbox.getPrefWidth()-20);
@@ -343,9 +354,10 @@ public class View extends Application {
 
 		vbox.setSpacing(9);
 
-		hboxBtn.getChildren().addAll(pathBtn, optimalPathBtn);
-		hboxBtn2.getChildren().addAll(searchedBtn, heuristicBtn);
+		hboxBtn.getChildren().addAll(pathBtn, optimizedPathBtn);
 		hboxBtn.setSpacing(9);
+
+		hboxBtn2.getChildren().addAll(searchedBtn, heuristicBtn);
 		hboxBtn2.setSpacing(9);
 
 		ObservableList<Node> list = vbox.getChildren();
@@ -354,22 +366,31 @@ public class View extends Application {
 		return vbox;
 	}
 
+	/** 
+	 * Handles all GUI nodes to do with Members abilities within a Herd.
+	 * Used for displaying herd Abilities on GUI.
+	 * 
+	 * @see member.MemberMain
+	 * 
+	 * @return VBox Layout.
+	 * 
+	 */
 	public VBox getAbilities() {
 		Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
 		final VBox vbox = new VBox();
 
 		label = new Label("Herd Abilities");
-		label.setMaxWidth((screenBounds.getWidth() - getRect().getWidth()-10));
+		label.setMaxWidth((screenBounds.getWidth() - getMapBox().getWidth()-10));
 		label.setMinHeight(screenBounds.getHeight()/10);
 		toggleOffStyle(label);
 
-		vbox.setPrefWidth((screenBounds.getWidth() - getRect().getWidth()-10)/2);
+		vbox.setPrefWidth((screenBounds.getWidth() - getMapBox().getWidth()-10)/2);
 		vbox.setPrefHeight(screenBounds.getHeight()/3.5);
 		vbox.setSpacing(-4);
 
 		Rectangle r = new Rectangle();
-		r.setWidth((screenBounds.getWidth() - getRect().getWidth()-45));
-		r.setHeight((getRect().getHeight()/5)+20);
+		r.setWidth((screenBounds.getWidth() - getMapBox().getWidth()-45));
+		r.setHeight((getMapBox().getHeight()/5)+20);
 		r.setStroke(Color.BLACK);
 		r.setStrokeWidth(4);
 		r.setFill(Color.WHITE);
@@ -382,8 +403,12 @@ public class View extends Application {
 
 
 	/**
-	 * Method for setting button CSS when toggled off (normal style).
-	 * @return button with applied style sheet.
+	 * Takes in a Node (Button, Label, ToggleButton etc) and applies CSS to it depending on what Node type it is. 
+	 * 
+	 * @param the Node to apply CSS to.
+	 * 
+	 * @return styled Node.
+	 * 
 	 */
 	public Node toggleOffStyle(Node o) {
 		if(o.equals(label)) {
@@ -406,8 +431,12 @@ public class View extends Application {
 	}
 
 	/**
-	 * Method for setting button CSS when toggled on.
-	 * @return button with applied style sheet.
+	 * Takes in a Node (Button, Label, ToggleButton etc) and applies CSS to it. 
+	 * 
+	 * @param the Node to apply CSS to.
+	 * 
+	 * @return styled Node.
+	 * 
 	 */
 	public Node toggleOnStyle(Node o) {
 		o.setStyle("-fx-background-color:#00cc00;"
@@ -417,13 +446,16 @@ public class View extends Application {
 				+"-fx-font-weight: bold;");
 		return o;
 	}
-	
+
 	/**
-	 * Method for taking in an ArrayList of type Waypoint.
-	 * Loops through ArrayList and draws circles at Waypoint(x,y).
-	 * Creates a group of circles. 
-	 * group displayed in map Rectangle (when lidarButton toggled on).
-	 * @return group.
+	 * Takes in a ArrayList of Waypoints (LiDar return) and draws Circles at their (x,y) position.
+	 * 
+	 * @see common.datatypes.Waypoint
+	 *
+	 * @param the Collection of Waypoints to be drawn.
+	 * 
+	 * @return a group of Circle nodes to display all objects from Lidar return.
+	 * 
 	 */
 	public Group drawCircle(ArrayList<Waypoint> l) {
 		circleGroup = new Group();
@@ -437,7 +469,17 @@ public class View extends Application {
 
 		return circleGroup;
 	}
-	
+
+	/**
+	 * Takes in a single Waypoint and draws a Rectangle at its (x,y) location.
+	 * 
+	 * @see common.datatypes.Waypoint.
+	 *
+	 * @param current Waypoint.
+	 * 
+	 * @return a single Rectangle node.
+	 * 
+	 */
 	public Rectangle drawRectangle(Waypoint w) {
 		Rectangle rectangle = new Rectangle();
 		rectangle.setX(w.getX()-20);
@@ -450,9 +492,14 @@ public class View extends Application {
 	}
 
 	/**
-	 * Method for taking in an ArrayList of type Waypoint.
-	 * Draws the rectangles at blocked points on the map.
-	 * @return group
+	 * Takes in a ArrayList of Vertices and draws Rectangles at their (x,y) position.
+	 * 
+	 * @see common.datatypes.Waypoint
+	 *
+	 * @param the Collection of Waypoints to be drawn.
+	 * 
+	 * @return a group of Rectangle nodes to display all Vertices in the Map that are Blocked.
+	 *  
 	 */
 	public Group drawBlockedVertices(ArrayList<Waypoint> l) {
 		rectangleGroup = new Group();
@@ -467,9 +514,15 @@ public class View extends Application {
 
 
 	/**
-	 * Method for taking in an ArrayList of type Waypoint.
-	 * Draws the rectangles at blocked points on the map.
-	 * @return group
+	 * Takes in a ArrayList (path item) of Waypoints and draws Rectangles at their (x,y) position.
+	 * 
+	 * @see common.datatypes.Waypoint
+	 * @see pathfinding.AStar
+	 * 
+	 * @param the Collection of Waypoints to be drawn.
+	 * 
+	 * @return a group of Rectangle nodes to display the initial path the AStar Algorithm found.
+	 * 
 	 */
 	public Group drawPath(ArrayList<Waypoint> l) {
 		pathGroup = new Group();
@@ -483,9 +536,14 @@ public class View extends Application {
 	}
 
 	/**
-	 * Method for taking in an ArrayList of type Waypoint.
-	 * Draws the rectangles at blocked points on the map.
-	 * @return group
+	 * Takes in a ArrayList (closedList) of Waypoints and draws Rectangles at their (x,y) position.
+	 * 
+	 * @see common.datatypes.Waypoint
+	 *
+	 * @param the Collection of Waypoints to be drawn.
+	 * 
+	 * @return a group of Rectangle nodes to display all Waypoints the AStar Algorithm searched.
+	 * 
 	 */
 	public Group drawSearched(ArrayList<Waypoint> l) {
 		searchedGroup = new Group();
@@ -497,11 +555,16 @@ public class View extends Application {
 
 		return searchedGroup;
 	}
-	
+
 	/**
-	 * Method for taking in an ArrayList of type Waypoint.
-	 * Draws the rectangles at blocked points on the map.
-	 * @return group
+	 * Takes in a ArrayList (optimised path) of Waypoints and draws Rectangles at their (x,y) position.
+	 * 
+	 * @see common.datatypes.Waypoint
+	 *
+	 * @param the Collection of Waypoints to be drawn.
+	 * 
+	 * @return a group of Rectangle nodes to display the optimised path.
+	 * 
 	 */
 	public Group drawOptimisedPath(ArrayList<Waypoint> l) {
 		optimisedGroup = new Group();
@@ -515,9 +578,15 @@ public class View extends Application {
 	}
 
 	/**
-	 * Method for taking in an ArrayList of type Waypoint.
-	 * Draws the grid overlay.
-	 * @return group
+	 * Takes in a array of Waypoints and draws vertical and horizontal lines at the Waypoint position.
+	 * The lines fill the total map rectangle region.
+	 * 
+	 * @see common.datatypes.Waypoint
+	 *
+	 * @param the Collection of Waypoints to be drawn.
+	 * 
+	 * @return a group of line Nodes to display the grid overlay.
+	 * 
 	 */
 	public Group drawGrid(ArrayList<Waypoint> l) {
 		Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
@@ -549,7 +618,14 @@ public class View extends Application {
 	}
 
 	/**
-	 * Method takes in array and scales the Waypoints
+	 * Takes in array of Waypoints and multiplies the x and y values by a given integer s.
+	 * 
+	 * @see common.datatypes.Waypoint
+	 *
+	 * @param the Collection of Waypoints to be scaled.
+	 * @param s the integer that the x and y values of the collection will be multiplied by.
+	 * 
+	 * @return new Collection of Waypoints scaled by an Integer value.
 	 * 
 	 */
 	public ArrayList<Waypoint> scale(ArrayList<Waypoint> input, int s){
@@ -559,10 +635,20 @@ public class View extends Application {
 		}
 		return output;
 	}
-	
-	public ArrayList<Vertex> regionToArray(Region[][] r){
-		//Region r = new Region();
 
+	/**
+	 * Converts a Region of the Map into an arrayList of Vertex's. A more flexible data Structure
+	 * for the GUI to pass around.
+	 * 
+	 * @see common.datatypes.map.griddedMap.Vertex
+	 * @see common.datatypes.map.griddedMap.Region
+	 *
+	 * @param r the Region of the map.
+	 * 
+	 * @return A Collection of Vertex's from current Region r.
+	 * 
+	 */
+	public ArrayList<Vertex> regionToArray(Region[][] r){
 		ArrayList<Vertex> v = new ArrayList<Vertex>();
 		return v;
 	}
