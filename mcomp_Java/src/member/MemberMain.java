@@ -73,6 +73,10 @@ public class MemberMain {
       me = new Member(abilities);
       LOGGER.log(Level.INFO, "Member Constructed");
     }
+    
+    while (true) { //FIXME some form of go to sleep cmd??
+      
+    }
 
   }
 

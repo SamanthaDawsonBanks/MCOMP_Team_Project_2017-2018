@@ -104,6 +104,22 @@ public class GriddedMap {
     return res;
   }
 
+  
+  
+  
+  public Vertex add(ScoredVertex s) {
+    Vertex res;
+    int RegionX = (int) (((s.getX() + gridOffset) / Math.pow(gridSize, 2)) % gridSize);
+    int RegionY = (int) (((s.getY() + gridOffset) / Math.pow(gridSize, 2)) % gridSize);
+    if (regions[RegionX][RegionY] == null) {
+      regions[RegionX][RegionY] = new Region(gridSize, s, this);
+      res = getVertex(new Waypoint(s.getX(),s.getY()));
+    } else {
+      res = regions[RegionX][RegionY].add(s);
+    }
+    return res;
+  }
+
 
 
 }

@@ -27,6 +27,7 @@ import common.interfaces.Promotable;
 import common.interfaces.RemoteLeader;
 import common.interfaces.RemoteMember;
 import common.interfaces.Transferable;
+import member.ui.View;
 import java.security.Key;
 
 /**
@@ -95,6 +96,48 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
           break;
       }
     }
+    if (abilities.contains(Ability.VIEWER)) {
+      // interView v = new View(this);//FIXME this wont work due to jFX
+
+      // startGUI();//FIXME gui borked
+    }
+  }
+
+
+  private void startGUI() {
+    // TODO identicle to start leader - factor out? startProc(leader/gui)???
+    try {
+      // build and start leader process
+      LOGGER.log(Level.INFO, "EXECing GUIMain");
+      ProcessBuilder GUIMainPB = new ProcessBuilder("java", "-cp", "./bin/", "member.ui.View");
+      GUIMainPB.redirectErrorStream(true);
+      Process GUIMainP = GUIMainPB.start();
+
+      // BufferedReader br = new BufferedReader(new InputStreamReader(GUIMainP.getInputStream()));
+      // String output = "";
+      // String line;
+      // output = output + "\n >>>>>> BEGIN GUIMain process output <<<<<< \n\n";
+      // while ((line = br.readLine()) != null) {// FIXME this loop will need to be threaded (if we
+      // // keep it) to fix the blocking nature
+      // output = output + line + "\n";
+      // if (line.equals("INFO: End of GUIMain")) {// line is never null in this context
+      // break;
+      // }
+      // }
+      // output = output + "\n >>>>>> END GUIMain process output <<<<<<" + "\n";
+      // LOGGER.log(Level.INFO, output);
+
+    } catch (RemoteException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (IOException e) {
+      // TODO error for output stuff
+      e.printStackTrace();
+    } catch (Exception e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
   }
 
 
@@ -165,19 +208,20 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
       leaderMainPB.redirectErrorStream(true);
       Process leaderMainP = leaderMainPB.start();
 
-      BufferedReader br = new BufferedReader(new InputStreamReader(leaderMainP.getInputStream()));
-      String output = "";
-      String line;
-      output = output + "\n >>>>>> BEGIN LeaderMain process output <<<<<< \n\n";
-      while ((line = br.readLine()) != null) {// FIXME this loop will need to be threaded (if we
-                                              // keep it) to fix the blocking nature
-        output = output + line + "\n";
-        if (line.equals("INFO: End of LeaderMain")) {// line is never null in this context
-          break;
-        }
-      }
-      output = output + "\n >>>>>> END LeaderMain process output <<<<<<" + "\n";
-      LOGGER.log(Level.INFO, output);
+      // BufferedReader br = new BufferedReader(new
+      // InputStreamReader(leaderMainP.getInputStream()));
+      // String output = "";
+      // String line;
+      // output = output + "\n >>>>>> BEGIN LeaderMain process output <<<<<< \n\n";
+      // while ((line = br.readLine()) != null) {// FIXME this loop will need to be threaded (if we
+      // // keep it) to fix the blocking nature
+      // output = output + line + "\n";
+      // if (line.equals("INFO: End of LeaderMain")) {// line is never null in this context
+      // break;
+      // }
+      // }
+      // output = output + "\n >>>>>> END LeaderMain process output <<<<<<" + "\n";
+      // LOGGER.log(Level.INFO, output);
 
     } catch (RemoteException e) {
       // TODO Auto-generated catch block
@@ -211,6 +255,8 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
   @Override
   public Map processMapLump(Herd h) throws RemoteException {
     // TODO Auto-generated method stub
+
+    // FIXME some form of call to map. almag layer
     return null;
   }
 
@@ -266,6 +312,7 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
     // while(!pipe.available())
     // return whatever given
     // return decode(pipe.read())
+
     return null;
   }
 
@@ -287,7 +334,7 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
 
 
   @Override
-  public Leader becomeLeader(Herd h) throws RemoteException {
+  public RemoteLeader becomeLeader(Herd h) throws RemoteException {
     // TODO Auto-generated method stub
     LOGGER.log(Level.INFO, "Becoming Leader");
 
@@ -298,6 +345,13 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
     // start the leader
     // wait?
     // connect to rmi
+    RemoteLeader res = connectRMI();
+    // return the leader on the RMI link
+    return res;// FIXME NPE change sig?
+  }
+
+
+  private RemoteLeader connectRMI() {
     try {
       localLeaderRef = (RemoteLeader) Naming.lookup("rmi://192.168.25.42" + "/HerdLeader");
     } catch (MalformedURLException e) {
@@ -318,8 +372,7 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
-    // return the leader on the RMI link
-    return null;//FIXME NPE change sig?
+    return localLeaderRef;
   }
 
 
