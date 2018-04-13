@@ -43,6 +43,16 @@ public class Region {
   }
 
 
+  public Region(int gridSize, ScoredVertex s, GriddedMap root) {
+    this.root = root;
+    this.gridSize = gridSize;
+    this.gridOffset = root.gridOffset;
+    chunks = new Chunk[root.gridSize][root.gridSize];
+    this.add(s);
+  }
+
+
+
   /**
    * Adds the supplied Waypoint to the griddedMap as a Vertex. Maintains the state of the Vertex
    * (blocked or open)
@@ -67,6 +77,23 @@ public class Region {
     return res;
   }
 
+  
+  public Vertex add(ScoredVertex s) {
+    Vertex res;
+    int ChunkX = (int) (((s.getX() + gridOffset) / Math.pow(gridSize, 1)) % gridSize);
+    int ChunkY = (int) (((s.getY() + gridOffset) / Math.pow(gridSize, 1)) % gridSize);
+    if (chunks[ChunkX][ChunkY] == null) {
+      chunks[ChunkX][ChunkY] = new Chunk(gridSize, s, root);
+      res = getVertex(new Waypoint(s.getX(),s.getY()));
+    } else {
+      res = chunks[ChunkX][ChunkY].add(s);
+    }
+    return res;
+  }
+
+
+  
+  
   Chunk[][] getGrid() {// FIXME what do we want from this DS?
     return chunks;
   }

@@ -40,7 +40,7 @@ public interface Promotable {
    * 
    * @throws RemoteException RMI between Member-Leader
    */
-  public Leader becomeLeader(Herd h) throws RemoteException; // TODO returns the initialised Leader
+  public RemoteLeader becomeLeader(Herd h) throws RemoteException;
   // object to the Herd?
 
 }

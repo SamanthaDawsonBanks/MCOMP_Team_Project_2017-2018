@@ -63,6 +63,11 @@ public class LeaderMain {
 
 
     LOGGER.log(Level.INFO, "End of LeaderMain");
+    
+    while (true) { //FIXME some form of go to sleep cmd??
+      
+    }
+
   }
 
 

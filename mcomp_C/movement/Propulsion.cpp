@@ -20,6 +20,7 @@
 Propulsion::Propulsion() {
   //MotorShield Setup
   AFMS = Adafruit_MotorShield(); //The MotorShield
+  AFMS.begin();
   leftMotor = (*AFMS.getStepper(200,1)); //360(div)1.8 degree steps, M1 and M2 on the MotorShield
   rightMotor = (*AFMS.getStepper(200, 2)); //M3 and M4 on the MotorShield
   leftMotor.setSpeed(30); //Set speed of rotation in RPM, 100Hz * 1.8 Degrees = 1 rotation of wheel every 2 seconds, or 30 RPM.
