@@ -16,8 +16,8 @@
 class LSensor {
 
  private:
-  int targetRPM;
-  int currentRPM;
+  int targetPWM;
+  int currentPWM;
   Adafruit_MotorShield AFMS1;
   Adafruit_DCMotor lidarMotor;
   //some form of state?

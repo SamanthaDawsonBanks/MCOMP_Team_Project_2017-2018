@@ -8,12 +8,12 @@
 #include "LSensor.h"
 
 LSensor::LSensor() {
-  currentRPM = 0;
-  targetRPM = 71; //71 rpm to hit as close as we can to the target rpm of 240
+  currentPWM = 0;
+  targetPWM = 71; //71 rpm to hit as close as we can to the target rpm of 240
   AFMS1 = Adafruit_MotorShield(0x61);
   lidarMotor = (*AFMS1.getMotor(1));
   AFMS1.begin();
-  lidarMotor.setSpeed(targetRPM);
+  lidarMotor.setSpeed(targetPWM);
   lidarMotor.run(FORWARD);
 }
 
