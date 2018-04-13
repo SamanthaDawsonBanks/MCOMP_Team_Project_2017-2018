@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import common.datatypes.Ability;
 import common.datatypes.Waypoint;
 import common.datatypes.map.Map;
+import common.datatypes.map.griddedMap.Vertex;
 import common.datatypes.path.Path;
 import common.interfaces.Bossable;
 import common.interfaces.Directable;
@@ -347,17 +348,17 @@ public class Herd implements Joinable, Organisable {
     return path;
   }
 
-  public ArrayList<Waypoint> getUnoptimizedPath() {
+  public ArrayList<Vertex> getUnoptimizedPath() {
     // TODO Auto-generated method stub
     return null;
   }
 
-  public ArrayList<Waypoint> getSearchedNodes() {
+  public ArrayList<Vertex> getSearchedNodes() {
     // TODO Auto-generated method stub
     return null;
   }
 
-  public ArrayList<Waypoint> getOptimizedPath() {
+  public ArrayList<Vertex> getOptimizedPath() {
     // TODO Auto-generated method stub
     return null;
   }

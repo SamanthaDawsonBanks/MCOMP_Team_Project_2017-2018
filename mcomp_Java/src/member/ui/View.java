@@ -107,7 +107,12 @@ public class View extends Application {
         if(counter==0) {
           System.out.print(event.getSceneX() + "," + event.getSceneY());
           Waypoint w = new Waypoint(event.getSceneX(), event.getSceneY());
-          member.setDestination(w);
+          try {
+            member.setDestination(w);
+          } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+          }
           Circle dest = new Circle();
           dest.setCenterX(event.getSceneX());
           dest.setCenterY(event.getSceneY());
@@ -311,7 +316,7 @@ public class View extends Application {
     pathBtn.setOnAction(event ->{
       if(pathBtn.isSelected()) {
         try {
-          pane.getChildren().add(drawPath(member.getLocalHerdData().getUnoptimizedPath().toArray()));
+          pane.getChildren().add(drawPath(member.getLocalHerdData().getUnoptimizedPath()));
         } catch (RemoteException e) {
           // TODO Auto-generated catch block
           e.printStackTrace();
@@ -333,7 +338,12 @@ public class View extends Application {
     searchedBtn.setOnAction(event ->{
       if(searchedBtn.isSelected()) {
         toggleOnStyle(searchedBtn);
-        pane.getChildren().add(drawSearched(member.getLocalHerdData().getSearchedNodes().toArray()));
+        try {
+          pane.getChildren().add(drawSearched(member.getLocalHerdData().getSearchedNodes()));
+        } catch (RemoteException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        }
       }else {
         toggleOffStyle(searchedBtn);
         pane.getChildren().remove(searchedGroup);
@@ -350,7 +360,12 @@ public class View extends Application {
     optimizedPathBtn.setOnAction(event ->{
       if(optimizedPathBtn.isSelected()) {
         toggleOnStyle(optimizedPathBtn);
-        pane.getChildren().add(drawOptimizedPath((member.getLocalHerdData().getOptimizedPath().toArray()));
+        try {
+          pane.getChildren().add(drawOptimizedPath((member.getLocalHerdData().getOptimizedPath())));
+        } catch (RemoteException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        }
       }else {
         toggleOffStyle(optimizedPathBtn);
         pane.getChildren().remove(optimizedGroup);
@@ -500,10 +515,10 @@ public class View extends Application {
    * @return a single Rectangle node.
    * 
    */
-  public Rectangle drawRectangle(Waypoint w) {
+  public Rectangle drawRectangle(Vertex v) {
     Rectangle rectangle = new Rectangle();
-    rectangle.setX(w.getX()-20);
-    rectangle.setY(w.getY()-20);
+    rectangle.setX(v.getX()-20);
+    rectangle.setY(v.getY()-20);
     rectangle.setWidth(40);
     rectangle.setStroke(Color.BLACK);
     rectangle.setStrokeWidth(4);
@@ -524,8 +539,7 @@ public class View extends Application {
   public Group drawBlockedVertices(ArrayList<Vertex> l) {
     rectangleGroup = new Group();
     for(Vertex v: l) {
-      Waypoint w = new Waypoint(v.getX(), v.getY());
-      Rectangle rectangle = drawRectangle(w);
+      Rectangle rectangle = drawRectangle(v);
       rectangle.setFill(Color.RED);
       rectangleGroup.getChildren().add(rectangle);
     }
@@ -545,8 +559,8 @@ public class View extends Application {
    */
   public Group drawAmalgamatedMap(GriddedMap griddedMap) {
     Group amalgamateGroup = new Group();
-    for(Waypoint w: griddedMap) {
-      Rectangle rectangle = drawRectangle(w);
+    for(Vertex v : griddedMap.toArrayList()) {
+      Rectangle rectangle = drawRectangle(v);
       rectangle.setFill(Color.RED);
       amalgamateGroup.getChildren().add(rectangle);
     }
@@ -566,10 +580,10 @@ public class View extends Application {
    * @return a group of Rectangle nodes to display the initial path the AStar Algorithm found.
    * 
    */
-  public Group drawPath(Waypoint[] waypoints) {
+  public Group drawPath(ArrayList<Vertex> vs) {
     pathGroup = new Group();
-    for(Waypoint w: waypoints) {
-      Rectangle rectangle = drawRectangle(w);
+    for(Vertex v: vs) {
+      Rectangle rectangle = drawRectangle(v);
       rectangle.setFill(Color.YELLOW);
       pathGroup.getChildren().add(rectangle);
     }
@@ -587,10 +601,10 @@ public class View extends Application {
    * @return a group of Rectangle nodes to display all Waypoints the AStar Algorithm searched.
    * 
    */
-  public Group drawSearched(ArrayList<Waypoint> l) {
+  public Group drawSearched(ArrayList<Vertex> l) {
     searchedGroup = new Group();
-    for(Waypoint w: l) {
-      Rectangle rectangle = drawRectangle(w);
+    for(Vertex v: l) {
+      Rectangle rectangle = drawRectangle(v);
       rectangle.setFill(Color.PURPLE);
       searchedGroup.getChildren().add(rectangle);
     }
@@ -608,10 +622,10 @@ public class View extends Application {
    * @return a group of Rectangle nodes to display the optimised path.
    * 
    */
-  public Group drawOptimisedPath(ArrayList<Waypoint> l) {
+  public Group drawOptimizedPath(ArrayList<Vertex> l) {
     optimizedGroup = new Group();
-    for(Waypoint w: l) {
-      Rectangle rectangle = drawRectangle(w);
+    for(Vertex v: l) {
+      Rectangle rectangle = drawRectangle(v);
       rectangle.setFill(Color.YELLOWGREEN);
       optimizedGroup.getChildren().add(rectangle);
     }
