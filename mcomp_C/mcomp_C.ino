@@ -10,6 +10,7 @@
 // any required libraries
 #include "Arduino.h"
 #include "tests/tests.h"
+#include "lsensor/Lsensor.h"
 
 //-----------------------------------Definitions-----------------------------------
 // eg. #define RED 13
@@ -40,7 +41,7 @@ void setup() {
 //  testWaypoint();
 //  testPath();
     testMove();
-
+    LSensor l = LSensor();
   //setup serial to pi 115200??
   //setup serial to LiDAR BAUD? //TODO refactor into sense()
 
