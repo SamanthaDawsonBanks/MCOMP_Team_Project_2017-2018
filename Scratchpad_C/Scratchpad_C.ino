@@ -3,7 +3,10 @@
 #define CONSOLE Serial               //usb to console
 #define CHANNEL Serial2              //board to board TX2 RX2 on Mega 2560
 byte inByte;                         //incoming byte on serial2
-byte buffer[23];                     //buffer of bytes that takes in a packet of four reads from the LiDAR sensor
+byte buffer[1980];                   //buffer of bytes that takes in a packet of four reads from the LiDAR sensor
+unsigned int* pDistances;
+unsigned int distances[360];
+int avgRPM;
 
 void setup()                         //The setup function is called once at startup of the sketch
 {
@@ -11,17 +14,17 @@ void setup()                         //The setup function is called once at star
   CHANNEL.begin(115200);             //init the input from LiDAR serial2
 }
 
-unsigned int getRPM(){
+unsigned int getRPM(int location){
   unsigned int rpmLe = 0;            //RPM in raw Little-endian
   unsigned int rpmBe = 0;            //RPM in converted Big-endian
-  unsigned int bTwo = buffer[2];     //3rd byte in the buffer, lower half of 16 bit little-endian value
-  unsigned int bThree = buffer[3];   //4th byte in the buffer, upper half of 16 bit little-endian value
-  CONSOLE.println(bTwo,BIN);         //for checking
-  CONSOLE.println(bThree,BIN);
+  unsigned int lowerB = buffer[location];     //nth byte in the buffer, lower half of 16 bit little-endian value
+  unsigned int upperB = buffer[location++];   //n + 1 byte in the buffer, upper half of 16 bit little-endian value
+  CONSOLE.println(lowerB,BIN);         //for checking
+  CONSOLE.println(upperB,BIN);
 
-  rpmLe = rpmLe | bTwo;              //rpmLe (0) bitwise OR with b2 = b2 but in a 16 bit in not 8 bit byte
+  rpmLe = rpmLe | lowerB;              //rpmLe (0) bitwise OR with b2 = b2 but in a 16 bit in not 8 bit byte
   rpmLe <<= 8;                       //shift bits 8 left to make space for b3
-  rpmLe = rpmLe | bThree;            //rpmLe (b2+8 zeros) logical OR with b3 = b2 concat b3 in one 16 bit value
+  rpmLe = rpmLe | upperB;            //rpmLe (b2+8 zeros) logical OR with b3 = b2 concat b3 in one 16 bit value
   for(int i = 0; i < 16; i++){       //loop to flip bits and make value big endian
     rpmBe <<= 1;                     //no effect first time, makes space for incoming bit
     rpmBe |= (rpmLe & 0x0001);       //0  logical OR then set with 1 or 0 logical AND with 1. If bit is 1 then set bit to 1
@@ -44,15 +47,16 @@ unsigned int getRPM(){
  * The bit data for distance is stored in little endian format. Backwards to normal.
  * It needs to be flipped in order for the JVM on the other end to work with it.
  */
-unsigned int getRead(){
+unsigned int getRead(int location){
   unsigned int le = 0;
   unsigned int be = 0;
-  unsigned int lowerByte = buffer[4];
-  unsigned int upperByte = buffer[5];
+  unsigned int lowerByte = buffer[location];
+  unsigned int upperByte = buffer[location++];
   if (upperByte & 0x01){              //Bitwise compare to see if did not calc flag was high
     return 0;
   }
   else{
+    upperByte = upperByte & 0xFC;  //Removes weak signal flag
     le = le | lowerByte;
     le <<= 8;
     le = le | upperByte;
@@ -65,15 +69,29 @@ unsigned int getRead(){
   }
 }
 
+unsigned int* getCompleteRead(){
+  int counter = 0;
+  for(int i = 0; i < 90; i++){
+    avgRPM = getRPM(counter+2);
+    counter += 4;
+    for(int j = 0;  j < 4; j++){
+      distances[i+j] = getRead(counter);
+      counter += 4;
+    }
+  }
+  pDistances = &distances[0];
+  return pDistances;
+}
+
 void loop()
 {
   if (CHANNEL.available()) {
     inByte = CHANNEL.read();         //Read a byte from Serial
     if(inByte == 0xFA){              //The head of a LiDAR packet read
-      for(int i = 0; i < 22; i++){
+      for(int i = 0; i < 1980; i++){
         buffer[i] = CHANNEL.read();  //Read the next bit in the serial and write it to next position in buffer
       }
-      CONSOLE.println(getRPM(),DEC);  //Print RPM in decimal
+      //Sense will be created in the main C and not in Scratchpad because of libraries and such.
     }
   }
 }
