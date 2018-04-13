@@ -18,7 +18,7 @@ class LSensor {
  private:
   int targetRPM;
   int currentRPM;
-  Adafruit_MotorShield AFMS;
+  Adafruit_MotorShield AFMS1;
   Adafruit_DCMotor lidarMotor;
   //some form of state?
   //shared buffer or data being passed?
