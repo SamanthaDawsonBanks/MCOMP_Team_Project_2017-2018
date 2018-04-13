@@ -1,5 +1,6 @@
 package common.datatypes.map.griddedMap;
 
+import java.util.ArrayList;
 import common.datatypes.Waypoint;
 import common.datatypes.map.Map;
 
@@ -118,6 +119,12 @@ public class GriddedMap {
       res = regions[RegionX][RegionY].add(s);
     }
     return res;
+  }
+
+  public ArrayList<Vertex> toArrayList() {
+    // TODO Auto-generated method stub
+    //FIXME some retrieval code
+    return null;
   }
 
 
