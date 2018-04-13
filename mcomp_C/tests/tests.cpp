@@ -123,8 +123,10 @@ void testMove(){
   Serial.println(p.getHeading());
   Serial.println("Test 1 complete");
 
+  delay(5000);
+
   Serial.println("Calling Drive...");
-  Waypoint target2 = Waypoint(-1.0, -1.0);
+  Waypoint target2 = Waypoint(-50.0, -50.0);
   result = p.Drive(target2);
   Serial.print(result.getX());
   Serial.print(" , ");
@@ -132,6 +134,8 @@ void testMove(){
   Serial.print(" ");
   Serial.println(p.getHeading());
   Serial.println("Test 2 complete");
+
+  delay(5000);
 
   Serial.println("Calling Drive...");
   Waypoint target3 = Waypoint(5.0, 0.0);
