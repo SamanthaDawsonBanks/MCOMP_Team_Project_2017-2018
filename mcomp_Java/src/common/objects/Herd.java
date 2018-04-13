@@ -97,7 +97,7 @@ public class Herd implements Joinable, Organisable {
     // }
 
     try {
-      electLeader().becomeLeader(this);// on that robot, start start the leader process
+      theLeader = electLeader().becomeLeader(this);// on that robot, start the leader process
     } catch (RemoteException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
@@ -336,4 +336,31 @@ public class Herd implements Joinable, Organisable {
     // TODO Auto-generated method stub
     return false;
   }
+
+  public Map getMap() {
+    // TODO Auto-generated method stub
+    return map;
+  }
+
+  public Path getPath() {
+    // TODO Auto-generated method stub
+    return path;
+  }
+
+  public ArrayList<Waypoint> getUnoptimizedPath() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  public ArrayList<Waypoint> getSearchedNodes() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  public ArrayList<Waypoint> getOptimizedPath() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+  
+  
 }

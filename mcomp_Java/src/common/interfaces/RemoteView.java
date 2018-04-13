@@ -6,11 +6,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import common.datatypes.Ability;
 import common.datatypes.Waypoint;
-import common.datatypes.map.Map;
-import common.datatypes.map.MapLayer;
-import common.datatypes.path.Path;
 import common.objects.Herd;
-import common.objects.Leader;
 
 /**
  * Unification of the 'Member' methods for purposes of RMI/Remote identification
@@ -29,28 +25,17 @@ import common.objects.Leader;
  * @see common.interfaces.RemoteLeader
  *
  */
-public interface RemoteMember extends Remote, Serializable, Bossable, Drawable, Directable,
-    Driveable, Groupable, LSenseable, Notifiable, Promotable, Transferable {
+public interface RemoteView
+    extends Remote, Serializable, Drawable, Directable, Groupable, Notifiable, Transferable {
 
   // General
   public void RMITest() throws RemoteException;
-
-  // Bossable
-  @Override
-  public Map processMapLump(Herd h) throws RemoteException;
-
-  @Override
-  public Path processPathLump(Herd h) throws RemoteException;
 
   // Drawable
 
   // Directable
   @Override
   public boolean setDestination(Waypoint w) throws RemoteException;
-
-  // Driveable
-  @Override
-  public Waypoint drive(Waypoint w) throws RemoteException;
 
   // Groupable
   @Override
@@ -65,23 +50,12 @@ public interface RemoteMember extends Remote, Serializable, Bossable, Drawable, 
   @Override
   Herd updateLocalHerdInfo(Herd leaderHerd) throws RemoteException;
 
-  // LSenseable
-  @Override
-  public MapLayer lSense() throws RemoteException;
-
   // Notifiable
   @Override
   public void notifyOfChange() throws RemoteException;
 
-  // Promotable
-  @Override
-  public RemoteLeader becomeLeader(Herd h) throws RemoteException;
-
-  // ????Securable / Keyable????
-  // @Override
-  // FIXME adjust for security interface
-  public Object getPublicKey() throws RemoteException;
-
   // Transferable
 
 }
+
+

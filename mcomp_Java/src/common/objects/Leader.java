@@ -164,9 +164,18 @@ public class Leader extends UnicastRemoteObject
    */
   @Override
   public void updateModel(Herd newHerdData) throws RemoteException {// TODO is the input a herd DT?
+    
+    //something here for the initial herd stuff
+    
+    
     // TODO Auto-generated method stub
     // Won't be update model
   }
+  
+  //all the methods for updating the state??
+  
+  
+  
 
   @Override
   public Herd getState() throws RemoteException {
@@ -188,7 +197,12 @@ public class Leader extends UnicastRemoteObject
       herd.theLeader = this;
     }
     updateModel(joiningMember.getLocalHerdData());
-    joiningMember.RMITest();
+    joiningMember.RMITest();//FIXME this checks loopback
+    //TODO do something ? take read ? dance?!?!?!
+    
+    
+    
+    
     return herd.requestJoin(joiningMember);// FIXME adjust for herd
     // used to register a client for server/client/mvc
     // Likely to take a member and add them to the 'registered' list??
@@ -224,7 +238,7 @@ public class Leader extends UnicastRemoteObject
   }
 
   @Override
-  public Boolean go() throws RemoteException {
+  public Boolean go() throws RemoteException {//FIXME called by the GUI/cont?
     // if there is a dest and path //else clean up
     // TODO Auto-generated method stub
     // actual method that makes bots drive through the path calc'ed
