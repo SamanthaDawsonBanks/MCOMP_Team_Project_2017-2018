@@ -7,6 +7,7 @@
 
 #include "../common/datatypes/AngleDistance.h"
 #include "../common/datatypes/Waypoint.h"
+#include "../libraries/Adafruit_MotorShield.h"
 
 
 #ifndef LSENSOR_LSENSOR_H_
@@ -15,8 +16,10 @@
 class LSensor {
 
  private:
-  int currentPWM;
+  int targetRPM;
   int currentRPM;
+  Adafruit_MotorShield AFMS;
+  Adafruit_DCMotor lidarMotor;
   //some form of state?
   //shared buffer or data being passed?
   //incoming buffer? object or in method? UART?

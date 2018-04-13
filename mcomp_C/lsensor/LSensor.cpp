@@ -8,8 +8,12 @@
 #include "LSensor.h"
 
 LSensor::LSensor() {
-  // TODO Auto-generated constructor stub
-
+  currentRPM = 0;
+  targetRPM = 71; //71 rpm to hit as close as we can to the target rpm of 240
+  AFMS = Adafruit_MotorShield(0x61);
+  lidarMotor = (*AFMS.getMotor(1));
+  AFMS.begin();
+  lidarMotor.setSpeed(targetRPM);
 }
 
 LSensor::~LSensor() {
