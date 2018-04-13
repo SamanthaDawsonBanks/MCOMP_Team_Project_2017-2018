@@ -22,7 +22,7 @@
 long duration = 0;
 long distance = 0;
 
-const int triggerDistance = 20;
+const int triggerDistance = 30;
 
 void setup() {
   pinMode(TRIG_PIN, OUTPUT);  // Sets the trigPin as an Output
