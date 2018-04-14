@@ -52,6 +52,8 @@ public interface Connectable {
    */
   public ArrayList<RemoteMember> deregister(RemoteMember leavingMember) throws RemoteException;
 
+  public ArrayList<RemoteView> deregister(RemoteView leavingView) throws RemoteException;
+  
   /**
    * Access method for getting a collection of all members
    * 

@@ -45,6 +45,9 @@ public interface RemoteLeader
   public ArrayList<RemoteMember> deregister(RemoteMember leavingMember) throws RemoteException;
 
   @Override
+  public ArrayList<RemoteView> deregister(RemoteView leavingView) throws RemoteException;
+
+  @Override
   public ArrayList<RemoteMember> getMemebers() throws RemoteException;
 
   // Contactable
