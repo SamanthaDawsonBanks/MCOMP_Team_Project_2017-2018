@@ -18,7 +18,6 @@ class LSensor {
 
  private:
   int targetPWM;
-  int currentPWM;
   Adafruit_MotorShield AFMS1;
   Adafruit_DCMotor lidarMotor;
   unsigned int* pDistances;
