@@ -96,6 +96,12 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
           break;
       }
     }
+
+
+    // TODO needs a call to RMI connect for cases where it is not the leader (only due to
+    // abilities?)
+
+
     if (abilities.contains(Ability.VIEWER)) {
       // interView v = new View(this);//FIXME this wont work due to jFX
 
@@ -352,8 +358,9 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
 
 
   private RemoteLeader connectRMI() {
+    RemoteLeader res = null;
     try {
-      localLeaderRef = (RemoteLeader) Naming.lookup("rmi://192.168.25.42" + "/HerdLeader");
+      res = (RemoteLeader) Naming.lookup("rmi://192.168.25.42" + "/HerdLeader");// FIXME lookup IP
     } catch (MalformedURLException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
@@ -372,7 +379,7 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
-    return localLeaderRef;
+    return res;
   }
 
 
