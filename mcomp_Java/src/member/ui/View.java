@@ -75,11 +75,11 @@ public class View extends Application implements RemoteView {
 
     // rmi connect stuff
     localLeaderRef = connectRMI();
-    
     if (localLeaderRef == null) {
       throw new RuntimeException("Unable to connect to Leader");
       //FIXME needs some form of error box saying unable to connect or whatever?
     }
+    localHerdData = localLeaderRef.getState();
 
 
     Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
@@ -720,7 +720,7 @@ public class View extends Application implements RemoteView {
       // wait
       // send the RMI leader the herd info
     try {
-      localLeaderRef.register(this);
+      res.register(this);
     } catch (RemoteException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
@@ -731,18 +731,22 @@ public class View extends Application implements RemoteView {
 
   @Override
   public void RMITest() {
-    System.out.println("Member RMITest was called");
+    System.out.println("Member RMITest was called in the GUI");
     try {
       localLeaderRef.RMITest();
     } catch (RemoteException e) {
       e.printStackTrace();
     }
   }
-
+  
   @Override
   public void notifyOfChange() throws RemoteException {
-    // TODO Auto-generated method stub
-
+    try {
+      localHerdData = localLeaderRef.getState();
+    } catch (RemoteException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
   }
 
 }
