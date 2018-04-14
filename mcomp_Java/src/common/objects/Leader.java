@@ -52,86 +52,10 @@ public class Leader extends UnicastRemoteObject
    * @param serverName The assigned name to the running instance //This may later change to the
    *        HerdID
    */
-  public Leader() throws RemoteException { // FIXME needs initialisation loop form member process
-                                           // via RMI
-    // args - int portNumber, String serverName) { - maybe herd?
-    // this.portNumber = portNumber;
-    // this.serverName = serverName;
-
-    // Switch Wifi to infrastructure Mode - will probably set to infrastructure by default
-
-    // InetAddress[] addresses;
-    // InetAddress loopback = InetAddress.getLoopbackAddress();
-
-    // Try to shut down a server and do nothing if it fails as there isn't one running
-    // unbindFromRMIServer();
-    // bindToRMIServer();
-
-
+  public Leader() throws RemoteException { 
+    //init datatypes?
+    //pull herd data
   }
-
-  // private boolean bindToRMIServer() {
-  // //should always be proceeded by a shutdown reg call //TODO add as inline call?
-  // LOGGER.log( Level.INFO, "Binding to RMI Registery Server");
-  // try {
-  // r = LocateRegistry.getRegistry(this.portNumber);
-  // r.rebind(this.serverName, this);
-  // LOGGER.log( Level.INFO, "RMI Registery Server Bound");
-  // return true;
-  // } catch (Exception e) {
-  // LOGGER.log( Level.SEVERE, "RMI Registery Server Failed to Bind");
-  // e.printStackTrace();
-  // return false;
-  // }
-  //
-  // }
-  //
-  // private boolean unbindFromRMIServer() {
-  // LOGGER.log( Level.INFO, "UnBinding from RMI Registery Server");
-  // try {
-  // r.unbind(this.serverName);
-  // unexportObject(r, true);
-  // LOGGER.log( Level.INFO, "RMI Registery Server UnBound");
-  // return true;
-  // } catch (Exception e) {
-  // LOGGER.log( Level.INFO, "No RMI Registery Server was Bound");
-  // return false;
-  // }
-  // }
-  //
-
-
-
-  /**
-   * Polls the host of the Leader and collects the IP address of all reachable interfaces. If an
-   * address cannot be reached, return the loopback address.
-   * 
-   * @return The array of IP addresses
-   */
-  // @Override
-  // public InetAddress[] getAddress() {
-  // try {
-  // addresses = InetAddress.getAllByName(InetAddress.getLocalHost().getHostName());
-  // } catch (UnknownHostException e) {
-  // e.printStackTrace();
-  // addresses[0] = loopback;
-  // }
-  // return addresses;
-  // }
-
-  /**
-   * DOCME
-   * 
-   * @return
-   */
-  // @Override
-  // public InetAddress publishAddress() {
-  // // TODO For each member in Herd, RMI the address to each Member
-  // for (Member m : herdMembers) {
-  // // send the leaders IP
-  // }
-  // return null;
-  // }
 
   /**
    * When called this method will return a list of all registered members currently known to the
@@ -167,7 +91,6 @@ public class Leader extends UnicastRemoteObject
     
     //something here for the initial herd stuff
     
-    
     // TODO Auto-generated method stub
     // Won't be update model
   }
@@ -175,14 +98,9 @@ public class Leader extends UnicastRemoteObject
   //all the methods for updating the state??
   
   
-  
-
   @Override
   public Herd getState() throws RemoteException {
     return herd;
-    // TODO Auto-generated method stub
-    // bundle up all state and send it to the client
-    // displayable needs current map and destination
   }
 
   /**
@@ -199,8 +117,6 @@ public class Leader extends UnicastRemoteObject
     updateModel(joiningMember.getLocalHerdData());
     joiningMember.RMITest();//FIXME this checks loopback
     //TODO do something ? take read ? dance?!?!?!
-    
-    
     
     
     return herd.requestJoin(joiningMember);// FIXME adjust for herd
@@ -223,24 +139,23 @@ public class Leader extends UnicastRemoteObject
    * DOCME
    */
   @Override
-  public boolean pathfind() throws RemoteException {// doenst take a WP ad dest should already be
-                                                    // set
+  public boolean pathfind() throws RemoteException {
+    
     // sanity check (herd has a dest and map)
     // stub for splitting work for parallel
 
+    // An internal call to actual pathfinding
     herd.path = herd.getProcessors().get(0).processPathLump(herd);// dumbly get first until parallel
     if (herd.path != null) {
       return true;
     }
     return false;
-    // TODO Auto-generated method stub
-    // An internal call to actual pathfinding
   }
 
   @Override
   public Boolean go() throws RemoteException {//FIXME called by the GUI/cont?
     // if there is a dest and path //else clean up
-    // TODO Auto-generated method stub
+    
     // actual method that makes bots drive through the path calc'ed
     // for each reg'ed bot //FIXME needs some form of 'queue' so that bots can follow (or all bots
     // will go to the first WP and crash)
@@ -251,7 +166,7 @@ public class Leader extends UnicastRemoteObject
           if (!cb.drive(w).equals(w)) {
             // FIXME do something!! //ultrasound blocked
           }
-          if (herd.getSensors().contains(cb)) {// FIXME unsafe cast!
+          if (herd.getSensors().contains(cb)) {// FIXME unsafe cast? drivables are lsensibles?
             herd.map.addLayer(((LSenseable) cb).lSense());// take LiDAR Read
           }
         } catch (RemoteException e) {
@@ -268,7 +183,6 @@ public class Leader extends UnicastRemoteObject
 
   @Override
   public boolean setDestination(Waypoint w) throws RemoteException {
-    // TODO Auto-generated method stub
     herd.dest = w;
     return true;// TODO some logic
   }

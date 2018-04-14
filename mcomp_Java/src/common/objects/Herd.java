@@ -75,28 +75,6 @@ public class Herd implements Joinable, Organisable {
 
     requestJoin(a);
 
-    // // Ability Querying
-    // herdMembers.add(a);
-    // for (Ability b : a.getAbilities()) {
-    // switch (b) {
-    // case DRIVER:
-    // herdDrivers.add(a);
-    // break;
-    // case PROCESSOR:
-    // herdProcessors.add(a);
-    // break;
-    // case SENSOR:
-    // herdSensors.add(a);
-    // break;
-    // case VIEWER:
-    // herdViewers.add(a);
-    // break;
-    // case DEST_SETTER:
-    // herdDestSetter = a;
-    // break;
-    // }
-    // }
-
     try {
       theLeader = electLeader().becomeLeader(this);// on that robot, start the leader process
     } catch (RemoteException e) {
@@ -113,7 +91,6 @@ public class Herd implements Joinable, Organisable {
    */
   @Override
   public RemoteMember electLeader() {
-    // TODO Auto-generated method stub
     LOGGER.log(Level.INFO, "Choosing Leader");
     return herdMembers.get(0);// TODO get oldist from all or subtype?
   }
@@ -134,7 +111,6 @@ public class Herd implements Joinable, Organisable {
    */
   @Override
   public ArrayList<RemoteMember> requestJoin(RemoteMember aspiringMember) {
-    // TODO Find a test to validate the Key of a Member/Herd
     herdMembers.add(aspiringMember);
     try {
       for (Ability a : aspiringMember.getAbilities()) {
@@ -152,15 +128,7 @@ public class Herd implements Joinable, Organisable {
             herdViewers.add(aspiringMember);
             break;
           case DEST_SETTER:
-            // TODO Need code to check the old destSetter and remove it if it only has the one
-            // ability.
             if (herdDestSetter == null) { // first wins
-              // if (herdDestSetter.getAbilities().size() > 1) {
-              // herdDestSetter.getAbilities().remove(Ability.DEST_SETTER);
-              // } else {
-              // // No longer a leave method
-              // // herdDestSetter.leaveHerd(this);
-              // }
               herdDestSetter = aspiringMember;
             }
             break;
@@ -192,41 +160,15 @@ public class Herd implements Joinable, Organisable {
      * destroyed? What happens to it's discoveries about the surrounding world?
      */
     herdMembers.remove(leavingMember);
-    try {
-      for (Ability b : leavingMember.getAbilities()) {
-        switch (b) {// TODO do we need the switch or just call remove with it
-          case DRIVER:
-            herdDrivers.remove(leavingMember);
-            break;
-          case PROCESSOR:
-            herdProcessors.remove(leavingMember);
-            break;
-          case SENSOR:
-            herdSensors.remove(leavingMember);
-            break;
-          case VIEWER:
-            herdViewers.remove(leavingMember);
-            break;
-          case DEST_SETTER:
-            if (herdDestSetter.equals(leavingMember))
-              ;
-            herdDestSetter = null;// TODO then check for secondary dest setters?
-            break;
-        }
-      }
-    } catch (RemoteException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+    herdDrivers.remove(leavingMember);
+    herdProcessors.remove(leavingMember);
+    herdSensors.remove(leavingMember);
+    herdViewers.remove(leavingMember);
+    if (herdDestSetter.equals(leavingMember)) {
+      herdDestSetter = null;// TODO then check for secondary dest setters?
     }
     return herdMembers;
   }
-
-  // TODO Finish this
-  // public ArrayList<String> publishMembers() {
-  // for(String a: herdMembers){
-  // //TODO for each member in the herdMembers list publish the new list to them
-  // }
-  // }
 
   /**
    * Retrieves the unique ID of the Herd.
@@ -255,8 +197,7 @@ public class Herd implements Joinable, Organisable {
    * @return The Member object if it exists, null if not.
    */
   @Override
-  public RemoteMember getMember(String theKey) {// Using the pubKey as UID works well, good call
-                                                // Steve
+  public RemoteMember getMember(String theKey) {//TODO remove key
     for (RemoteMember a : herdMembers) {
       try {
         if (a.getPublicKey().equals(theKey)) {
@@ -362,6 +303,6 @@ public class Herd implements Joinable, Organisable {
     // TODO Auto-generated method stub
     return null;
   }
-  
-  
+
+
 }
