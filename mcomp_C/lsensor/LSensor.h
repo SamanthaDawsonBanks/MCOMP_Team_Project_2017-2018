@@ -17,12 +17,12 @@
 class LSensor {
 
  private:
-  int targetPWM;
+  unsigned int targetPWM;
   Adafruit_MotorShield AFMS1;
   Adafruit_DCMotor lidarMotor;
   unsigned int* pDistances;
   byte inByte;                         //incoming byte on serial2
-  int avgRPM;
+  unsigned int avgRPM;
   void syncAndStoreLiDAR();  //blocking or ready? //NOTE this will return a pointer to the top of a 90 element array
   AngleDistance decodeReturn();  //90 packets to 360 AD reads //also RPM data and error data //NOTE this will return a pointer to the top of a 360 element array
   Waypoint convertReturn();  //method or just part of decode? AD>rWP //NOTE this will return a pointer to the top of a 360 element array
@@ -31,11 +31,12 @@ class LSensor {
   LSensor();
   virtual ~LSensor();
   bool isGood();  //better name?
-  unsigned int getRPM(int);
+  unsigned int getAvgRPM();
   Waypoint* sense();
   unsigned int getRead(int);
-  unsigned int* getCompleteRead();
+  unsigned int* decodeRead();
   bool adjustRPM();
+  void getEncodedRead();
 
 };
 

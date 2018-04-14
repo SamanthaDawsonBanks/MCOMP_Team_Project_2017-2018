@@ -28,21 +28,32 @@ LSensor::~LSensor() {
 }
 
 
-unsigned int LSensor::getRPM(int location){
-  unsigned int rpmLe = 0;            //RPM in raw Little-endian
-  unsigned int rpmBe = 0;            //RPM in converted Big-endian
-  unsigned int lowerB = buffer[location];     //nth byte in the buffer, lower half of 16 bit little-endian value
-  unsigned int upperB = buffer[location++];   //n + 1 byte in the buffer, upper half of 16 bit little-endian value
-  rpmLe = rpmLe | lowerB;              //rpmLe (0) bitwise OR with b2 = b2 but in a 16 bit in not 8 bit byte
-  rpmLe <<= 8;                       //shift bits 8 left to make space for b3
-  rpmLe = rpmLe | upperB;            //rpmLe (b2+8 zeros) logical OR with b3 = b2 concat b3 in one 16 bit value
-  for(int i = 0; i < 16; i++){       //loop to flip bits and make value big endian
-    rpmBe <<= 1;                     //no effect first time, makes space for incoming bit
-    rpmBe |= (rpmLe & 0x0001);       //0  logical OR then set with 1 or 0 logical AND with 1. If bit is 1 then set bit to 1
-    rpmLe >>= 1;                     //Shift right to get next bit in little endian value
+unsigned int LSensor::getAvgRPM(){
+  avgRPM = 0;
+  unsigned int rpmLe;            //RPM in raw Little-endian
+  unsigned int rpmBe;            //RPM in converted Big-endian
+  int counter = 2;
+  unsigned int lowerB;     //nth byte in the buffer, lower half of 16 bit little-endian value
+  unsigned int upperB;   //n + 1 byte in the buffer, upper half of 16 bit little-endian value
+  for (int i; i<90; i++){
+    rpmLe = 0;
+    rpmBe = 0;
+    lowerB = buffer[counter];
+    upperB = buffer [counter++];
+    rpmLe = rpmLe | lowerB;              //rpmLe (0) bitwise OR with b2 = b2 but in a 16 bit in not 8 bit byte
+    rpmLe <<= 8;                       //shift bits 8 left to make space for b3
+    rpmLe = rpmLe | upperB;            //rpmLe (b2+8 zeros) logical OR with b3 = b2 concat b3 in one 16 bit value
+    for(int i = 0; i < 16; i++){       //loop to flip bits and make value big endian
+      rpmBe <<= 1;                     //no effect first time, makes space for incoming bit
+      rpmBe |= (rpmLe & 0x0001);       //0  logical OR then set with 1 or 0 logical AND with 1. If bit is 1 then set bit to 1
+      rpmLe >>= 1;                     //Shift right to get next bit in little endian value
+    }
+    rpmBe >>= 6;                       //Shift right 6 to remove the floating point (64th of an RPM) values
+    avgRPM = avgRPM + rpmBe;
+    counter = counter + 22;
   }
-  rpmBe >>= 6;                       //Shift right 6 to remove the floating point (64th of an RPM) values
-  return rpmBe;                      //Returns RPM as whole number
+  avgRPM = avgRPM/90;
+  return avgRPM;                      //Returns RPM as whole number
 }
 
 /*
@@ -79,21 +90,22 @@ unsigned int LSensor::getRead(int location){
   }
 }
 
-unsigned int* LSensor::getCompleteRead(){
+unsigned int* LSensor::decodeRead(){
   int counter = 0;
-  for(int i = 0; i < 90; i++){
-    avgRPM = getRPM(counter+2);
+  for(int i = 4; i < 360; i = i + 4){
     counter += 4;
     for(int j = 0;  j < 4; j++){
       distances[i+j] = getRead(counter);
       counter += 4;
     }
+    counter = counter + 2; //To jump over the checksum bytes!
   }
   pDistances = &distances[0];
   return pDistances;
 }
 
 bool LSensor::adjustRPM(){
+  getAvgRPM();
   if (avgRPM > targetPWM+10){
     targetPWM = targetPWM-10;
     lidarMotor.setSpeed(targetPWM);
@@ -107,10 +119,8 @@ bool LSensor::adjustRPM(){
   return true;
 }
 
-Waypoint* LSensor::sense(){
+void LSensor::getEncodedRead(){
   if (SENSOR.available()){
-    while()
-    adjustRPM();
     inByte = SENSOR.read();
   }
   if(inByte == 0xFA){            //Read a byte from Serial
@@ -118,6 +128,13 @@ Waypoint* LSensor::sense(){
       buffer[i] = SENSOR.read();  //Read the next bit in the serial and write it to next position in buffer
     }
   }
-  return getCompleteRead();
+}
+
+Waypoint* LSensor::sense(){
+  getEncodedRead();
+  adjustRPM();
+  getEncodedRead();
+  decodeRead();
+  return nullptr;
 }
 
