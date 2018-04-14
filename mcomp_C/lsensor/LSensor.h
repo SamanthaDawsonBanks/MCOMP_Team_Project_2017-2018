@@ -12,6 +12,7 @@
 
 #ifndef LSENSOR_LSENSOR_H_
 #define LSENSOR_LSENSOR_H_
+#define SENSOR Serial2              //board to board TX2 RX2 on Mega 2560
 
 class LSensor {
 
@@ -20,25 +21,21 @@ class LSensor {
   int currentPWM;
   Adafruit_MotorShield AFMS1;
   Adafruit_DCMotor lidarMotor;
-  //some form of state?
-  //shared buffer or data being passed?
-  //incoming buffer? object or in method? UART?
-
+  unsigned int* pDistances;
+  byte inByte;                         //incoming byte on serial2
+  int avgRPM;
   void syncAndStoreLiDAR();  //blocking or ready? //NOTE this will return a pointer to the top of a 90 element array
-
   AngleDistance decodeReturn();  //90 packets to 360 AD reads //also RPM data and error data //NOTE this will return a pointer to the top of a 360 element array
-
   Waypoint convertReturn();  //method or just part of decode? AD>rWP //NOTE this will return a pointer to the top of a 360 element array
 
  public:
   LSensor();
   virtual ~LSensor();
-
   bool isGood();  //better name?
-
-  void processCommand();  //do we need?
-
-  Waypoint takeRead();  //overall? //NOTE this will return a pointer to the top of a 360 element array
+  unsigned int getRPM(int);
+  Waypoint* sense();
+  unsigned int getRead(int);
+  unsigned int* getCompleteRead();
 
 };
 
