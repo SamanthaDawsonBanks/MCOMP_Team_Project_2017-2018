@@ -94,8 +94,23 @@ unsigned int* LSensor::getCompleteRead(){
   return pDistances;
 }
 
+bool LSensor::adjustRPM(){
+  if (avgRPM > targetPWM+10){
+    targetPWM = targetPWM-10;
+    lidarMotor.setSpeed(targetPWM);
+    lidarMotor.run(FORWARD);
+  }
+  if (avgRPM < targetPWM-10){
+    targetPWM = targetPWM+10;
+    lidarMotor.setSpeed(targetPWM);
+    lidarMotor.run(FORWARD);
+  }
+  return true;
+}
+
 Waypoint* LSensor::sense(){
   if (SENSOR.available()){
+    adjustRPM();
     inByte = SENSOR.read();
   }
   if(inByte == 0xFA){            //Read a byte from Serial
@@ -103,6 +118,6 @@ Waypoint* LSensor::sense(){
       buffer[i] = SENSOR.read();  //Read the next bit in the serial and write it to next position in buffer
     }
   }
-  return nullptr;
+  return getCompleteRead();
 }
 

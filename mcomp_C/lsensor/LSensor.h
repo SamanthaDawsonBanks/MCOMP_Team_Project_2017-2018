@@ -36,6 +36,7 @@ class LSensor {
   Waypoint* sense();
   unsigned int getRead(int);
   unsigned int* getCompleteRead();
+  bool adjustRPM();
 
 };
 
