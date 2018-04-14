@@ -374,7 +374,7 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
       // wait
       // send the RMI leader the herd info
     try {
-      localLeaderRef.register(this);
+      res.register(this);
     } catch (RemoteException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
