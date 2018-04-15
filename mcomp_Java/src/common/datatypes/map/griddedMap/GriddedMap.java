@@ -88,7 +88,7 @@ public class GriddedMap {
     int RegionY = (int) (((s.getY() + gridOffset) / Math.pow(gridSize, 2)) % gridSize);
     if (regions[RegionX][RegionY] == null) {
       regions[RegionX][RegionY] = new Region(gridSize, s, this);
-      res = getVertex(new Waypoint(s.getX(),s.getY()));
+      res = getVertex(new Waypoint(s.getX(), s.getY()));
     } else {
       res = regions[RegionX][RegionY].add(s);
     }
@@ -121,13 +121,25 @@ public class GriddedMap {
 
   public ArrayList<Vertex> toArrayList() {
     // TODO Auto-generated method stub
-    //FIXME some retrieval code
-    
-    
-    
-    
-    
-    
+    // FIXME some retrieval code
+
+    for (int i = 0; i < gridSize; i++) {
+      if (regions[1][1] == null) {
+        continue;
+      }
+
+      for (int j = 0; j < gridSize; j++) {
+
+        for (int k = 0; k < gridSize; k++) {
+
+        }
+
+      }
+
+    }
+
+
+
     return null;
   }
 
