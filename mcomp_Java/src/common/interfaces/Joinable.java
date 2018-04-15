@@ -30,6 +30,38 @@ public interface Joinable {
   public boolean removeMember(Member m); // may need other uid
 
   /**
+   * Server side of the client (member) / server (leader-herd) connection used advise the herd that
+   * the member is joining
+   * 
+   * @see common.objects.Member
+   * @see common.objects.Herd
+   * @see common.objects.Leader
+   *
+   * @param aspiringMember UID (by object ref) of the member (typically 'self') that is joining
+   * 
+   * @return The members group plus the joining member
+   */
+  ArrayList<RemoteMember> requestJoin(RemoteMember aspiringMember);
+
+  ArrayList<RemoteView> requestJoin(RemoteView aspiringView);
+
+  /**
+   * Server side of the client (member) / server (leader-herd) connection used advise the herd that
+   * the member is leaving
+   * 
+   * @see common.objects.Member
+   * @see common.objects.Herd
+   * @see common.objects.Leader
+   *
+   * @param leavingMember UID (by object ref) of the member (typically 'self') that is leaving
+   * 
+   * @return The members group minus the leaving member
+   */
+  ArrayList<RemoteMember> requestLeave(RemoteMember leavingMember);
+
+  ArrayList<RemoteView> requestLeave(RemoteView leavingView);
+
+  /**
    * Access method for getting the member that has the ability DestSDEST_SETTERetter
    * 
    * @see common.datatypes.Ability
@@ -107,7 +139,7 @@ public interface Joinable {
    * @see common.objects.Herd
    * @see common.objects.Leader
    *
-   * @param theKey UID for the Member in the form of a Cryptographic public key 
+   * @param theKey UID for the Member in the form of a Cryptographic public key
    *
    * @return Single Member by UID
    */
@@ -124,29 +156,6 @@ public interface Joinable {
    */
   String getHerdID();
 
-  /**
-   * Server side of the client (member) / server (leader-herd) connection used advise the herd that the member is leaving
-   * 
-   * @see common.objects.Member
-   * @see common.objects.Herd
-   * @see common.objects.Leader
-   *
-   * @param leavingMember UID (by object ref) of the member (typically 'self') that is leaving
-   * 
-   * @return The members group minus the leaving member
-   */
-  ArrayList<RemoteMember> requestLeave(RemoteMember leavingMember);
+  ArrayList<RemoteView> getViews();
 
-  /**
-   * Server side of the client (member) / server (leader-herd) connection used advise the herd that the member is joining
-   * 
-   * @see common.objects.Member
-   * @see common.objects.Herd
-   * @see common.objects.Leader
-   *
-   * @param aspiringMember UID (by object ref) of the member (typically 'self') that is joining
-   * 
-   * @return The members group plus the joining member
-   */
-  ArrayList<RemoteMember> requestJoin(RemoteMember aspiringMember);
 }

@@ -18,6 +18,7 @@ import common.interfaces.Notifiable;
 import common.interfaces.Organisable;
 import common.interfaces.RemoteLeader;
 import common.interfaces.RemoteMember;
+import common.interfaces.RemoteView;
 
 /**
  * 
@@ -45,6 +46,7 @@ public class Herd implements Joinable, Organisable {
   private ArrayList<LSenseable> herdSensors;
   private ArrayList<Bossable> herdProcessors;
   private ArrayList<Notifiable> herdViewers;
+  private ArrayList<RemoteView> herdViews;
   private Directable herdDestSetter;
 
   protected Map map;
@@ -72,6 +74,8 @@ public class Herd implements Joinable, Organisable {
     herdSensors = new ArrayList<LSenseable>();
     herdProcessors = new ArrayList<Bossable>();
     herdViewers = new ArrayList<Notifiable>();
+
+    herdViews = new ArrayList<RemoteView>();
 
     requestJoin(a);
 
@@ -173,6 +177,15 @@ public class Herd implements Joinable, Organisable {
     return herdMembers;
   }
 
+  @Override
+  public ArrayList<RemoteView> requestJoin(RemoteView aspiringView) {
+    // TODO Find a test to validate the Key of a Member/Herd
+    herdViews.add(aspiringView);
+    return herdViews;
+  }
+
+
+
   /**
    * This where requests to leave the Herd are handled. In order to leave, a member must be removed
    * from the Herds lists of specialists. All remaining members must be notified of the new state of
@@ -219,6 +232,29 @@ public class Herd implements Joinable, Organisable {
       e.printStackTrace();
     }
     return herdMembers;
+  }
+
+
+  /**
+   * This where requests to leave the Herd are handled. In order to leave, a member must be removed
+   * from the Herds lists of specialists. All remaining members must be notified of the new state of
+   * the Herd. If the leaving member is a Leader, then an election must be held.
+   * 
+   * @param The member object leaving the Herd.
+   * @return The list of remaining members.
+   */
+  @Override
+  public ArrayList<RemoteView> requestLeave(RemoteView leavingView) {
+    /*
+     * TODO Consider the return type. If a member leaves, do they need returned the state of the
+     * herd? Perhaps this should be a void, or return an enum.
+     */
+    /*
+     * TODO Implement a test for leave. If a member is the last Herd member, should the Herd be
+     * destroyed? What happens to it's discoveries about the surrounding world?
+     */
+    herdViews.remove(leavingView);
+    return herdViews;
   }
 
   // TODO Finish this
@@ -311,6 +347,16 @@ public class Herd implements Joinable, Organisable {
   }
 
   /**
+   * Retrieve a list of all the Herds GUI-Capable Members.
+   * 
+   * @return The list of Viewers.
+   */
+  @Override
+  public ArrayList<RemoteView> getViews() {
+    return herdViews;
+  }
+
+  /**
    * Retrieve the Member of the Herd responsible for setting destinations.
    * 
    * @return The Destination Setter.
@@ -362,6 +408,6 @@ public class Herd implements Joinable, Organisable {
     // TODO Auto-generated method stub
     return null;
   }
-  
-  
+
+
 }
