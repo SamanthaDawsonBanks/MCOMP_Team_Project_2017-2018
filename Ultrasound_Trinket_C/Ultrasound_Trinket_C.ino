@@ -13,6 +13,11 @@
  * This currently allows for the checking of one sensor.
  */
 
+// trigger distance definitions for each sensor
+#define FRONT_SENSOR_TRIGGER 30
+#define LEFT_RIGHT_SENSOR_TRIGGER 40 //?
+#define REAR_SENSOR_TRIGGER 30
+
 // defines pins numbers
 #define ECHO_PIN 0
 #define OUTPUT_LED_PIN 1
@@ -22,7 +27,7 @@
 long duration = 0;
 long distance = 0;
 
-const int triggerDistance = 30;
+const int triggerDistance = FRONT_SENSOR_TRIGGER;
 
 void setup() {
   pinMode(TRIG_PIN, OUTPUT);  // Sets the trigPin as an Output
