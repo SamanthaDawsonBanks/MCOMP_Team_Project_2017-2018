@@ -25,29 +25,25 @@ public class Pipe {
   private String comPortName;
 
   // Connection Parameters - Should never change these once Pipe instance created
-  private final int BAUD_RATE = 9600;
+  // assume default baud rate for Arduino board, eight data bits, two stop bits, 1 bit for
+  // parity
+  private final int BAUD_RATE = 115200;
   private final int NUM_OF_DATA_BITS = 8;
-  private final int NUM_OF_STOP_BITS = 2;
-  private final int NUM_OF_PARITY_BITS = 1;
+  private final int NUM_OF_STOP_BITS = 1;
+  private final int NUM_OF_PARITY_BITS = 0;
 
   /**
-   * DOCME
+   * Constructor for the Pipe Class. This will be responsible for opening a Serial connection on the
+   * defined port and then configuring the connection parameters to those defined.
    * 
-   * @param comPortName
+   * @param comPortName The COM port that the connection will be set up on
    */
   public Pipe(String comPortName) {
     this.comPortName = comPortName;
 
     try {
-      // will need to be more robust way of being certain about this but will assume
-      // on my system for now to be COM3
       p = new SerialPort(comPortName);
-
-      // may factor into separate method(s) with additional checks or failure - will work on this
       p.openPort();
-
-      // assume default baud rate for Arduino board, eight data bits, two stop bits, 1 bit for
-      // parity
       p.setParams(BAUD_RATE, NUM_OF_DATA_BITS, NUM_OF_STOP_BITS, NUM_OF_PARITY_BITS);
     } catch (SerialPortException e) {
       // TODO Deal with a bad serial port setup
@@ -67,15 +63,19 @@ public class Pipe {
   }
 
   /**
-   * DOCME Standard write
+   * The basic write method for writing an individual byte
    * 
-   * @param toWrite
-   * @return
+   * @param toWrite The data to write to the serial port
+   * @return True if the write was successful, False if an error occurred
    */
   public boolean write(byte toWrite) {
     try {
       // write data to connected port
       return p.writeByte(toWrite);
+
+      // wait for returned input
+      // read it until '\n'
+      // return total read payload
 
     } catch (SerialPortException e) {
       // TODO Auto-generated catch block
@@ -85,58 +85,38 @@ public class Pipe {
   }
 
   /**
+   * DOCME
    * 
-   * @param methodCall The method to be invoked on the Arduino
-   * @param w The Waypoint in the path to be sent for driving
+   * @param
    * @return DOCME still needs polish so will fix before writing
    */
-  public boolean write(String methodCall, Waypoint w) {
-    String[] toEncode = new String[3];
-    String x = Double.toString(w.getX()), y = Double.toString(w.getY()); // ewwww
+  public byte[] write(String toSend) {
+    byte returnData[] = null;
 
-    // build list of parameters to send to encode which will form this into a structured string for
-    // TX over the serial connection
-    toEncode[0] = methodCall;
-    toEncode[1] = x;
-    toEncode[2] = y;
+    try {
+      p.writeString(toSend);
 
-    byte[] toSend = encode(toEncode);
+      // wait for returned input
+      while (this.available() > 0) {
+        // take a read
+        byte t = (p.readBytes(1))[0];
+        String s = "";
+      
+        
 
-    for (byte b : toSend) {
-      write(b);
+        if (true/* latest thing read is '\n' */) {
+          break;
+        }
+      }
+
+      // return total read payload
+      return returnData;
+
+    } catch (SerialPortException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+      return new byte[0]; // return empty byte array for now
     }
-
-    return true;
-  }
-
-  /**
-   * 
-   * @param methodCall
-   * @return DOCME still needs polish so will fix before writing
-   */
-  public boolean write(String methodCall) {
-    String[] toEncode = new String[1]; // consider arraylists for something even more generic - but
-                                       // will it actually make an important difference
-
-    toEncode[0] = methodCall;
-
-    byte[] toSend = encode(toEncode);
-
-    for (byte b : toSend) {
-      write(b);
-    }
-
-    return true;
-  }
-
-  public byte[] read() throws SerialPortException { // will be changed to try/catch
-    // get all data stored in the serial buffer at time of calling
-    String incomingData = p.readString();
-
-    // check it for recognised formations and handle appropriately
-    this.decode(incomingData.getBytes());
-
-    return p.readBytes();
   }
 
   /**
@@ -146,54 +126,35 @@ public class Pipe {
    */
   public byte[] encode(String[] params) {
     StringBuilder payloadBuilder = new StringBuilder();
-    byte[] payload;
-
-    // start bit
-    payloadBuilder.append("SB");
+    byte payload[];
 
     // payload
-    payloadBuilder.append(":"); // method delimiter
-    payloadBuilder.append(params[0]); // method to be called
-    payloadBuilder.append(":"); // method delimiter
-
     // appending the parameters to the payload
-    for (byte i = 1; i < params.length; i++) {
+    for (byte i = 0; i < params.length; i++) {
       payloadBuilder.append(params[i]);
 
-      // TODO not ideal as will always put one on the end, consider using the inline if statement
-      payloadBuilder.append(","); // parameter delimiter
+      payloadBuilder.append(";"); // parameter delimiter
     }
 
-    // payload terminator
-    payloadBuilder.append("\n");
-
-    // TODO
-    // form string e.g. "SB:SENSE:\n"
-    // will have ^^
-    // will need to turn into byte array for returning
-
-    throw new UnsupportedOperationException("This method is not implemented yet!");
+    String builtPayload = payloadBuilder.toString();
+    payload = builtPayload.getBytes();
+    return payload;
   }
 
   /**
    * 
-   * @param input The incoming data from the serial to be decoded into usable data/method calls
+   * @param incomingData The incoming data from the serial to be decoded into usable data/method
+   *        calls
    */
-  // look into a sensible return type
-  public ArrayList<String> decode(byte[] input) {
-    // TODO
-    // split up input into blocks like:
-    
-    //grab leading characters to categorise e.g.
-    //DLREAD = data from a lidar read
-    //DFN = data from arduino denoting the final waypoint reached as returned from drive
-    
-    // String[] data;
-    // for each delimiter ',' store block as separate entry in data
-    
-    //return what is likely to be an array of organised data for processing with first element being type of data
+  public String[] decode(byte[] incomingData) {
+    String payload = new String(incomingData); // form string of read bytes
+    String delimiters = ";"; // some regex because who doesn't hate themselves - a nice
+                             // optimisation though
 
-    throw new UnsupportedOperationException("This method is not implemented yet!");
+    // break up the payload into pieces
+    String[] payloadPieces = payload.split(delimiters);
+
+    return payloadPieces;
   }
 
   // Good practice to cleanup behind you but unsure of exactly where it will slot in yet

@@ -10,22 +10,22 @@
 
 #include "Arduino.h"
 
+#define BAUD_RATE 115200
+
 class Pipe {
  public:
   Pipe();
   virtual ~Pipe();
 
-  int available();
-  bool write(String toWrite);
+  int available();bool write(String toWrite);
   //TODO overloaded write methods
 
-  byte[] read();
-  String decode(byte[] readBytes);
+  byte read();
+  String decode(byte readBytes[]);
   void encode(String s);
   void close();
 
  private:
-  const int BAUD_RATE;
 
 };
 
