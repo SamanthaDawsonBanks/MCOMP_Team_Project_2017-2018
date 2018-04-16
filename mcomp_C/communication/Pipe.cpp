@@ -12,41 +12,35 @@ Pipe::Pipe() {
   Serial.begin(BAUD_RATE);
 }
 
-int available() {
-  return Serial.available();
+String Pipe::Call() {
+  String sb = "";
+
+  while (Serial.available() == 0) {
+
+  }
+
+  char incomingChar = Serial.read();
+
+  while (incomingChar != '\n') {
+    while (Serial.available() == 0) {
+    }
+
+    incomingChar = Serial.read();
+
+    if (incomingChar != '\n') {
+      sb.concat(incomingChar);
+    }
+  }
+
+  return sb;
 }
 
-bool write(byte b) {
-  return Serial.write(b);
-}
+void Pipe::Decode(String s) {
+  String command = "";
+  String varOne = "";
+  String varTwo = "";
 
-String write(String toWrite) {
-  //write data to the serial port
 
-  //while something is available
-  //read character
-  //if == '\n' break
-  //otherwise add character to String
-
-  //return what we got back
-}
-
-byte read() {
-  //Serial read
-  return Serial.read();
-}
-
-String* decode() {
-  //copy implementation in and mod sigs
-}
-
-String encode() {
-  //copy implementation in and mod sigs
-}
-
-void closePipe() {
-  //presents itself nicely from a cleanup point of view
-  Serial.end();
 }
 
 /**
