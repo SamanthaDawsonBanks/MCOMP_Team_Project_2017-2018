@@ -37,7 +37,7 @@ class LSensor {
   unsigned int* decodeRead();
   bool adjustRPM();
   void getEncodedRead();
-
+  Waypoint* toWaypoint(unsigned int*);
 };
 
 #endif /* LSENSOR_LSENSOR_H_ */

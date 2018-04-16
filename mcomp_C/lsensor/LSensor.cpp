@@ -131,10 +131,15 @@ void LSensor::getEncodedRead(){
   }
 }
 
+Waypoint* LSensor::toWaypoint(unsigned int* distances){
+  return nullptr;
+}
+
 Waypoint* LSensor::sense(){
   getEncodedRead(); //So we can dig out an accurate avgRPM
   adjustRPM();      //Set Lidar properly
   getEncodedRead(); //The proper read
-  return decodeRead();//Reverse reads so they are BigEndian and return pointer to head of array
+  decodeRead();//Reverse reads so they are BigEndian and return pointer to head of array
+  return toWaypoint(distances);
 }
 
