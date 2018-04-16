@@ -2,6 +2,7 @@ package member.coms;
 
 import java.util.ArrayList;
 import common.datatypes.Waypoint;
+import common.datatypes.map.MapLayer;
 // serial communication library import
 import jssc.SerialPort;
 import jssc.SerialPortException;
@@ -49,6 +50,121 @@ public class Pipe {
       // TODO Deal with a bad serial port setup
       e.printStackTrace();
     }
+  }
+
+  // drive method
+  public Waypoint drive(Waypoint w) {
+    Waypoint res = new Waypoint(0, 0);
+
+    try {
+      res = decodeWaypoint(call(encode(Commands.DRIVE, w)));
+    } catch (SerialPortException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
+    return res;
+  }
+
+  private Waypoint decodeWaypoint(String s) {
+    Waypoint res = new Waypoint(0, 0);
+    String[] xy = s.split(";");
+
+    res = new Waypoint(Double.parseDouble(xy[0]), Double.parseDouble(xy[1]));
+    return res;
+  }
+
+  // lSense method
+  public MapLayer lSense() {
+    MapLayer res = new MapLayer(null); // or new ArrayList<Waypoint>()
+
+    try {
+      res = decodeLSense(call(encode(Commands.L_SENSE, null)));
+    } catch (SerialPortException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
+    return res;
+  }
+
+  private MapLayer decodeLSense(String s) {
+    ArrayList<Waypoint> layer = new ArrayList<Waypoint>();
+    String[] xys = s.split(";");
+
+    for (int i = 0; i < (xys.length - 2); i = i +2) { // i don't like this kind of loop
+      layer.add(new Waypoint(Double.parseDouble(xys[i]), Double.parseDouble(xys[i + 1])));
+    }
+
+    MapLayer res = new MapLayer(layer);
+    return res;
+  }
+
+  // compass method
+  public double compass() {
+    double res = 0.0;
+
+    try {
+      res = decodeDouble(call(encode(Commands.COMPASS, null)));
+    } catch (SerialPortException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
+    return res;
+  }
+
+  private double decodeDouble(String s) {
+    return Double.parseDouble(s);
+  }
+
+  private String call(String s) throws SerialPortException {
+    p.writeString(s);
+
+    StringBuilder sb = new StringBuilder();
+
+    while (p.getInputBufferBytesCount() == 0) {
+
+    }
+
+    char incomingChar = (char) (p.readBytes(1))[0];
+
+    while (incomingChar != '\n') {
+      while (p.getInputBufferBytesCount() == 0) {
+      }
+
+      incomingChar = (char) (p.readBytes(1))[0];
+      
+      if(incomingChar != '\n') {
+        sb.append(incomingChar);
+      }
+    }
+
+    return sb.toString();
+  }
+
+  private String encode(Commands c, Object o) {
+    StringBuilder sb = new StringBuilder();
+
+    switch (c) {
+      case COMPASS:
+        sb.append("COMPASS");
+        break;
+      case DRIVE:
+        sb.append("DRIVE");
+        sb.append(';');
+        sb.append(((Waypoint) o).getX());
+        sb.append(';');
+        sb.append(((Waypoint) o).getY());
+        break;
+      case L_SENSE:
+        sb.append("LSENSE");
+        break;
+    }
+
+    sb.append('\n');
+
+    return sb.toString();
   }
 
   /**
@@ -101,8 +217,8 @@ public class Pipe {
         // take a read
         byte t = (p.readBytes(1))[0];
         String s = "";
-      
-        
+
+
 
         if (true/* latest thing read is '\n' */) {
           break;
