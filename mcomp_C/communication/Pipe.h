@@ -18,13 +18,16 @@ class Pipe {
   Pipe();
   virtual ~Pipe();
 
-  String recieve();
+  String Call();
+
+  void RecieveCommand();
 
   void close();
 
  private:
-  Waypoint decodeDrive(String);
-  String encode(String s)
+  String* Decode(String readData);
+
+  String Encode(String s);
 };
 
 #endif /* COMMUNICATION_PIPE_H1_ */
