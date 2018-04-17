@@ -7,14 +7,17 @@
  */
 
 #include "LSensor.h"
+#include "../config/robot_config.h"
 byte buffer[1980];                   //buffer of bytes that takes in a packet of four reads from the LiDAR sensor
 unsigned int distances[360];
+Waypoint wp[360];
 
 
 LSensor::LSensor() {
   pDistances = nullptr;
   inByte = 0;
   avgRPM = 0;
+  targetRPM = 240;
   targetPWM = 71; //71 rpm to hit as close as we can to the target rpm of 240
   AFMS1 = Adafruit_MotorShield(0x61);
   lidarMotor = (*AFMS1.getMotor(1));
@@ -107,18 +110,21 @@ unsigned int* LSensor::decodeRead(){
 
 bool LSensor::adjustRPM(){
   getAvgRPM();
-  if (avgRPM > targetPWM+10){
-    targetPWM = targetPWM-10;
+  if (avgRPM > targetRPM+10){ //if RPM is more than 10RPM off target, adjust it
+    targetPWM = targetPWM-5;
     lidarMotor.setSpeed(targetPWM);
     lidarMotor.run(FORWARD);
+    return false;
   }
-  if (avgRPM < targetPWM-10){
-    targetPWM = targetPWM+10;
+  else if (avgRPM < targetRPM-10){
+    targetPWM = targetPWM+5;
     lidarMotor.setSpeed(targetPWM);
     lidarMotor.run(FORWARD);
+    return false;
   }
-  return true;
+  else return true;
 }
+
 
 void LSensor::getEncodedRead(){
   if (SENSOR.available()){
@@ -131,11 +137,31 @@ void LSensor::getEncodedRead(){
   }
 }
 
+Waypoint* LSensor::toWaypoint(){
+  //distance is 14bits
+  //distance is in mm so max =16,383mm
+  //convert to cm so dave can just div by 5 to make grid squares
+  //so div by 10
+  //then pos is array is theta, so the we can calc the y value using trig
+  //the hyp and the opp gives us 2 sides of a triangle so we can SOHCAHTOA to find x
+  //Waypoint constructor does this when handed an AngleDistance
+  for (int i = 0; i < 360; i++){
+    AngleDistance ad = AngleDistance ((double) i, (long) (*pDistances/10));
+    Waypoint a  = Waypoint(ad);
+    wp[i] = a;
+  }
+  Waypoint* wpPtr = &wp[0]; //point to head of WP array
+  return wpPtr;
+}
+
 Waypoint* LSensor::sense(){
   getEncodedRead(); //So we can dig out an accurate avgRPM
-  adjustRPM();      //Set Lidar properly
+  while(adjustRPM() == false){ //Keep adjusting RPM until within 10 of target
+    getEncodedRead();
+    adjustRPM();
+  }
   getEncodedRead(); //The proper read
-  decodeRead();     //Reverse reads so they are BigEndian
-  return nullptr;   //Return will be a method that produces a path/list of Waypoints?
+  decodeRead();//Reverse reads so they are BigEndian and return pointer to head of array
+  return toWaypoint();
 }
 

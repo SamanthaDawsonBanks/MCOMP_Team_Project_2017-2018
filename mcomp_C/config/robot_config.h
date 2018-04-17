@@ -4,7 +4,7 @@
  *  Created on: 22 Mar 2018
  *      Author: David Avery 15823926
  */
-
+#define SENSOR Serial2              //board to TX2 RX2 on Mega 2560 LiDAR Sensor
 const double wheelTrack = 36;  //The TOTAL distance between the center point of the wheels in cm
 const double wheelSize = 47.8779;  //The circumference of the fitted wheel and tire in cm
 const double stepsInRev = 200;  //The number of steps to make a full turn of the stepper
