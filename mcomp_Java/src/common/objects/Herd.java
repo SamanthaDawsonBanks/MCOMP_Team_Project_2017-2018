@@ -16,6 +16,7 @@ import common.interfaces.Joinable;
 import common.interfaces.LSenseable;
 import common.interfaces.Notifiable;
 import common.interfaces.Organisable;
+import common.interfaces.Promotable;
 import common.interfaces.RemoteLeader;
 import common.interfaces.RemoteMember;
 import common.interfaces.RemoteView;
@@ -116,10 +117,10 @@ public class Herd implements Joinable, Organisable {
    * @return The leader of the Herd.
    */
   @Override
-  public RemoteMember electLeader() {
+  public Promotable electLeader() {
     // TODO Auto-generated method stub
     LOGGER.log(Level.INFO, "Choosing Leader");
-    return herdMembers.get(0);// TODO get oldist from all or subtype?
+    return (Promotable) herdProcessors.get(0);// FIXME fix after interface squash
   }
 
   /*
