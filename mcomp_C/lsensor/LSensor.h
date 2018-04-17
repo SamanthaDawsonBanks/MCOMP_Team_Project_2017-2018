@@ -8,6 +8,7 @@
 #include "../common/datatypes/AngleDistance.h"
 #include "../common/datatypes/Waypoint.h"
 #include "../libraries/Adafruit_MotorShield.h"
+#include "../config/robot_config.h";
 #include <math.h>
 
 
@@ -24,6 +25,7 @@ class LSensor {
   unsigned int* pDistances;
   byte inByte;                         //incoming byte on serial2
   unsigned int avgRPM;
+  unsigned int targetRPM;
   void syncAndStoreLiDAR();  //blocking or ready? //NOTE this will return a pointer to the top of a 90 element array
   AngleDistance decodeReturn();  //90 packets to 360 AD reads //also RPM data and error data //NOTE this will return a pointer to the top of a 360 element array
   Waypoint convertReturn();  //method or just part of decode? AD>rWP //NOTE this will return a pointer to the top of a 360 element array

@@ -16,6 +16,7 @@ LSensor::LSensor() {
   pDistances = nullptr;
   inByte = 0;
   avgRPM = 0;
+  targetRPM = LiDAROptimalRPM;
   targetPWM = 71; //71 rpm to hit as close as we can to the target rpm of 240
   AFMS1 = Adafruit_MotorShield(0x61);
   lidarMotor = (*AFMS1.getMotor(1));
@@ -108,12 +109,12 @@ unsigned int* LSensor::decodeRead(){
 
 bool LSensor::adjustRPM(){
   getAvgRPM();
-  if (avgRPM > targetPWM+10){
+  if (avgRPM > targetRPM+10){
     targetPWM = targetPWM-10;
     lidarMotor.setSpeed(targetPWM);
     lidarMotor.run(FORWARD);
   }
-  if (avgRPM < targetPWM-10){
+  if (avgRPM < targetRPM-10){
     targetPWM = targetPWM+10;
     lidarMotor.setSpeed(targetPWM);
     lidarMotor.run(FORWARD);
