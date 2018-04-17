@@ -11,6 +11,7 @@
 #include "../movement/Propulsion.h"
 #include "../lsensor/LSensor.h"
 
+//Doesn't seem to like without defining them here
 LSensor ls;
 Propulsion p;
 
@@ -26,13 +27,12 @@ void Pipe::recieveCommand() {
 
   //what did we get - do it and build a response
   if (res[0] == "COMPASS") {
-    //Serial.write(encodeDouble(compassSense()));
+    //writeString(encodeDouble(compassRead()));
   } else if (res[0] == "DRIVE") {
     Waypoint w = Waypoint(res[1].toDouble(), res[2].toDouble());
-
-    Serial.write(encodeWaypoint(p.Drive(w)));
+    writeString(encodeWaypoint(p.Drive(w)));
   } else if (res[0] == "LSENSE") {
-    Serial.write(encodeLRead(ls.takeRead()));
+    writeString(encodeLRead(ls.takeRead()));
   }
 }
 
@@ -57,6 +57,15 @@ String Pipe::call() {
   }
 
   return sb;
+}
+
+/**
+ * Owing to the fact that arduino Serial.write can't take a string, this method writes each character on at a time
+ */
+void Pipe::writeString(String s) {
+  for (int i = 0; i < s.length(); i++) {
+    Serial.write(s.charAt(i));
+  }
 }
 
 String* Pipe::decode(String readData) {

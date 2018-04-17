@@ -22,6 +22,8 @@ class Pipe {
 
   void recieveCommand();
 
+  void writeString(String s);
+
   String* decode(String readData);
 
   String encodeInlineWaypoint(Waypoint w);
