@@ -14,6 +14,7 @@ import common.interfaces.Instructable;
 import common.interfaces.LSenseable;
 import common.interfaces.RemoteLeader;
 import common.interfaces.RemoteMember;
+import common.interfaces.RemoteView;
 import common.interfaces.Updateable;
 import leader.LeaderMain;
 
@@ -208,6 +209,12 @@ public class Leader extends UnicastRemoteObject
     // Likely to take a member and add them to the 'registered' list??
   }
 
+  @Override
+  public ArrayList<RemoteView> register(RemoteView joiningView) throws RemoteException {
+    // TODO Auto-generated method stub
+    return null;
+  }
+  
   /**
    * DOCME
    */
@@ -217,6 +224,15 @@ public class Leader extends UnicastRemoteObject
     return herd.requestLeave(leavingMember);// FIXME adjust for herd
     // not sure that's right - will look into
     // As with register but removing??
+  }
+  
+  /**
+   * DOCME
+   */
+  @Override
+  public ArrayList<RemoteView> deregister(RemoteView leavingView) throws RemoteException {
+    // TODO Auto-generated method stub
+    return null;
   }
 
   /**

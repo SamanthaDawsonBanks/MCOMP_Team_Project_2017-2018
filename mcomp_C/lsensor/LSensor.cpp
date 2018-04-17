@@ -121,6 +121,7 @@ bool LSensor::adjustRPM(){
   return true;
 }
 
+
 void LSensor::getEncodedRead(){
   if (SENSOR.available()){
     inByte = SENSOR.read();

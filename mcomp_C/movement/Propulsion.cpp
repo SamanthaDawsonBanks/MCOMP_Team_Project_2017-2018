@@ -111,7 +111,7 @@ double Propulsion::rotate (double theta){
 long Propulsion::forward (long distance){
   bool ultraSoundTest = false;
   double pulseTravel = wheelSize / stepsInRev;
-  int numForwardSteps = (int) distance / pulseTravel;
+  long numForwardSteps = (long) distance / pulseTravel;
   //TODO Factor i out of this! See Uber
   for(int i = numForwardSteps; i > 0; i--){
     if(ultraSoundTest == true){ //TODO Interrupt needs adding

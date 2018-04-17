@@ -113,7 +113,7 @@ void testMove(){
   delay(1000);
   Serial.println("Begin testMove");
   Serial.println("Calling Drive...");
-  Waypoint target = Waypoint(10000000.0, 10000000.0);
+  Waypoint target = Waypoint(32766.0, 32766.0); //Near theoretical max
   Propulsion p = Propulsion();
   Waypoint result = p.Drive(target);
   Serial.print(result.getX());
