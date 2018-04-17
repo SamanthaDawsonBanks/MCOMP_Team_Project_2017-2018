@@ -11,17 +11,14 @@ import jssc.SerialPortException;
  * A communication class for handling transmission and receiving of data over a serial connection
  * between the Pi and the Arduino.
  * 
- * The write methods will be used to create structured strings which will be used to invoke method
- * on the Ardiuno i.e. the Drive method.
- * 
- * The read methods will be used to handle the data that may come back as a result of a method call
- * i.e when Sense is invoked, it will return the lidar read which will be read at this end and
- * transformed into a Map layer.
- * 
  * @author Ryan Shoobert 15812407
+ * 
+ * @version 2.0
+ * @since 2018-04-17
+ * 
  */
 public class Pipe {
-
+  // global definitions
   private SerialPort p;
   private String comPortName;
 
@@ -47,12 +44,18 @@ public class Pipe {
       p.openPort();
       p.setParams(BAUD_RATE, NUM_OF_DATA_BITS, NUM_OF_STOP_BITS, NUM_OF_PARITY_BITS);
     } catch (SerialPortException e) {
-      // TODO Deal with a bad serial port setup
       e.printStackTrace();
     }
   }
 
-  // drive method
+  /**
+   * Builds a command and sends it. This instructs the driver on the robot to drive to the x, y
+   * location provided in a waypoint.
+   * 
+   * @param w The waypoint to drive to
+   * @return The waypoint returned from the drive call. This will either be waypoint it was told to
+   *         drive to or where the robot got up to before an obstacle was detected.
+   */
   public Waypoint drive(Waypoint w) {
     Waypoint res = new Waypoint(0, 0);
 
@@ -66,6 +69,14 @@ public class Pipe {
     return res;
   }
 
+  /**
+   * As a result of a drive operation, a waypoint is returned from the driver as a string. This will
+   * require separating into parts and will be used to form a new waypoint.
+   * 
+   * @param s The waypoint data returned from the driver
+   * @return A waypoint containing the x, y coordinates of where the robot was at the end of the
+   *         drive operation
+   */
   private Waypoint decodeWaypoint(String s) {
     Waypoint res = new Waypoint(0, 0);
     String[] xy = s.split(";");
@@ -74,7 +85,11 @@ public class Pipe {
     return res;
   }
 
-  // lSense method
+  /**
+   * Requests a LiDAR return from the sensor, turns it into a map layer and returns it
+   * 
+   * @return A Map Layer representing the lidar return just collected
+   */
   public MapLayer lSense() {
     MapLayer res = new MapLayer(null); // or new ArrayList<Waypoint>()
 
@@ -88,11 +103,19 @@ public class Pipe {
     return res;
   }
 
+  /**
+   * Once requested, a lidar reading will be taken and returned. This method will separate each part
+   * of that return into a waypoint, add it to a new map layer and return it where it can then be
+   * added to the map.
+   * 
+   * @param s The lidar reading returned from the sense operation
+   * @return A map layer representing the lidar read taken
+   */
   private MapLayer decodeLSense(String s) {
     ArrayList<Waypoint> layer = new ArrayList<Waypoint>();
     String[] xys = s.split(";");
 
-    for (int i = 0; i < (xys.length - 2); i = i +2) { // i don't like this kind of loop
+    for (int i = 0; i < (xys.length - 2); i = i + 2) {
       layer.add(new Waypoint(Double.parseDouble(xys[i]), Double.parseDouble(xys[i + 1])));
     }
 
@@ -100,7 +123,12 @@ public class Pipe {
     return res;
   }
 
-  // compass method
+  /**
+   * A member needs to know the angle of direction it is facing in when it starts up so that when it
+   * takes lidar reads, these can be rotated by the correct angle and amalgamated to the map.
+   * 
+   * @return The reading from the compass on the calling member
+   */
   public double compass() {
     double res = 0.0;
 
@@ -114,10 +142,28 @@ public class Pipe {
     return res;
   }
 
+  /**
+   * When a compass reading is returned, it needs to be handled as a floating point number. This
+   * method handles the conversion between types.
+   * 
+   * @param s The compass reading from the calling member
+   * @return A numeric representation of the angle returned from the compass
+   */
   private double decodeDouble(String s) {
     return Double.parseDouble(s);
   }
 
+  /**
+   * Once a command and it's associated data has been encoded, it will need to be sent. Once a
+   * response has been sent back as a result of an operation, it needs to be read and returned for
+   * decoding.
+   * 
+   * @param s The command/data to send over the serial connection
+   * @return The return from a command call; At current will either be a waypoint, a lidar return or
+   *         a compass reading
+   * @throws SerialPortException If the connection is lost, then this method can complete its task
+   *         successfully
+   */
   private String call(String s) throws SerialPortException {
     p.writeString(s);
 
@@ -134,8 +180,8 @@ public class Pipe {
       }
 
       incomingChar = (char) (p.readBytes(1))[0];
-      
-      if(incomingChar != '\n') {
+
+      if (incomingChar != '\n') {
         sb.append(incomingChar);
       }
     }
@@ -143,6 +189,15 @@ public class Pipe {
     return sb.toString();
   }
 
+  /**
+   * Before being sent, the command/data must first be formatted in a way that it can be sent, read
+   * and interpreted at the other end of the connection.
+   * 
+   * @param c The command to perform
+   * @param o Extra data to append. For the drive command, this is a waypoint, otherwise it is
+   *        unused and null should be provided as the argument
+   * @return The encoded command string ready for sending over the Serial connection
+   */
   private String encode(Commands c, Object o) {
     StringBuilder sb = new StringBuilder();
 
@@ -168,117 +223,13 @@ public class Pipe {
   }
 
   /**
-   * Checks that status of the serial buffer. When called, this will return the number of bytes
-   * still in the serial buffer.
-   * 
-   * @return 0 if the serial is empty; > 0 if there is still data waiting to be processed
-   * @throws SerialPortException
+   * As part of the shutdown process, this method will close the Serial connection established
+   * between the two devices.
    */
-  public int available() throws SerialPortException {
-    return p.getInputBufferBytesCount();
-  }
-
-  /**
-   * The basic write method for writing an individual byte
-   * 
-   * @param toWrite The data to write to the serial port
-   * @return True if the write was successful, False if an error occurred
-   */
-  public boolean write(byte toWrite) {
-    try {
-      // write data to connected port
-      return p.writeByte(toWrite);
-
-      // wait for returned input
-      // read it until '\n'
-      // return total read payload
-
-    } catch (SerialPortException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-      return false;
-    }
-  }
-
-  /**
-   * DOCME
-   * 
-   * @param
-   * @return DOCME still needs polish so will fix before writing
-   */
-  public byte[] write(String toSend) {
-    byte returnData[] = null;
-
-    try {
-      p.writeString(toSend);
-
-      // wait for returned input
-      while (this.available() > 0) {
-        // take a read
-        byte t = (p.readBytes(1))[0];
-        String s = "";
-
-
-
-        if (true/* latest thing read is '\n' */) {
-          break;
-        }
-      }
-
-      // return total read payload
-      return returnData;
-
-    } catch (SerialPortException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-      return new byte[0]; // return empty byte array for now
-    }
-  }
-
-  /**
-   * 
-   * @param b The data to be encoded for sending over the serial connection
-   * @return The encoded version of the input as a string
-   */
-  public byte[] encode(String[] params) {
-    StringBuilder payloadBuilder = new StringBuilder();
-    byte payload[];
-
-    // payload
-    // appending the parameters to the payload
-    for (byte i = 0; i < params.length; i++) {
-      payloadBuilder.append(params[i]);
-
-      payloadBuilder.append(";"); // parameter delimiter
-    }
-
-    String builtPayload = payloadBuilder.toString();
-    payload = builtPayload.getBytes();
-    return payload;
-  }
-
-  /**
-   * 
-   * @param incomingData The incoming data from the serial to be decoded into usable data/method
-   *        calls
-   */
-  public String[] decode(byte[] incomingData) {
-    String payload = new String(incomingData); // form string of read bytes
-    String delimiters = ";"; // some regex because who doesn't hate themselves - a nice
-                             // optimisation though
-
-    // break up the payload into pieces
-    String[] payloadPieces = payload.split(delimiters);
-
-    return payloadPieces;
-  }
-
-  // Good practice to cleanup behind you but unsure of exactly where it will slot in yet
   public void closePipe() {
     try {
       p.closePort();
     } catch (SerialPortException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
   }
