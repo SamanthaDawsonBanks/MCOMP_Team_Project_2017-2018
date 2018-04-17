@@ -7,6 +7,10 @@
 
 #include "Pipe.h"
 
+#include "../common/datatypes/Waypoint.h"
+#include "../movement/Propulsion.h"
+#include "../lsensor/LSensor.h"
+
 Pipe::Pipe() {
   //Configure and start serial connection
   Serial.begin(BAUD_RATE);
@@ -17,12 +21,19 @@ void Pipe::RecieveCommand() {
 
   res = Decode(Call());
 
+  //what did we get - do it and build a response
   if (res[0] == "COMPASS") {
     //getCompassReading
+    //encodeCompass
+    //send back
   } else if (res[0] == "DRIVE") {
     //drive
+    //get final waypoint
+    //send back
   } else if (res[0] == "LSENSE") {
     //get lidar reading
+    //get lidar read array
+    //send back
   }
 }
 
@@ -63,6 +74,23 @@ String* Pipe::Decode(String readData) {
   }
   //return separate parts of the read string
   return chunks;
+}
+
+String Pipe::EncodeDouble(double d) {
+  String s = String(d, 2);
+  return s;
+}
+
+String Pipe::EncodeWaypoint(Waypoint w) {
+  String sb = "";
+
+  sb.concat(w.getX());
+  sb.concat(';');
+  sb.concat(w.getY());
+
+  sb.concat('\n');
+
+  return sb;
 }
 
 /**

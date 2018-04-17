@@ -22,12 +22,13 @@ class Pipe {
 
   void RecieveCommand();
 
-  void close();
-
- private:
   String* Decode(String readData);
 
-  String Encode(String s);
+  String EncodeWaypoint(Waypoint w);
+  String EncodeDouble(double d);
+  String EncodeLRead(Waypoint reading[]);
+
+  void close();
 };
 
 #endif /* COMMUNICATION_PIPE_H1_ */
