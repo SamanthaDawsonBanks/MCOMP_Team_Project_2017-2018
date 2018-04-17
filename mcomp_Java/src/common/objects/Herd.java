@@ -312,6 +312,16 @@ public class Herd implements Joinable, Organisable {
    * @return The list of Drivers.
    */
   @Override
+  public RemoteLeader getLeader() {
+    return theLeader;
+  }
+
+  /**
+   * Retrieve a list of all the Herds Drive-Capable Members.
+   * 
+   * @return The list of Drivers.
+   */
+  @Override
   public ArrayList<Driveable> getDrivers() {
     return herdDrivers;
   }
