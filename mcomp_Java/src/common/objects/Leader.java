@@ -4,6 +4,7 @@ import java.net.InetAddress;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import common.datatypes.Waypoint;
 import common.interfaces.Connectable;
@@ -152,12 +153,13 @@ public class Leader extends UnicastRemoteObject
    * current members from the "old" one.
    */
   @Override
-  public boolean leaderDiscussMerge(Herd h) throws RemoteException {// TODO send herd data so decision can be
-                                                           // made?
+  public boolean leaderDiscussMerge(Herd h) throws RemoteException {// TODO send herd data so
+                                                                    // decision can be
+    // made?
     // TODO Auto-generated method stub
     // Will be related to herd merging
     throw new UnsupportedOperationException("method not implemented");
-    //return true;
+    // return true;
   }
 
   /**
@@ -165,18 +167,17 @@ public class Leader extends UnicastRemoteObject
    */
   @Override
   public void updateModel(Herd newHerdData) throws RemoteException {// TODO is the input a herd DT?
-    
-    //something here for the initial herd stuff
-    
-    
+
+    // something here for the initial herd stuff
+
+
     // TODO Auto-generated method stub
     // Won't be update model
   }
-  
-  //all the methods for updating the state??
-  
-  
-  
+
+  // all the methods for updating the state??
+
+
 
   @Override
   public Herd getState() throws RemoteException {
@@ -198,12 +199,11 @@ public class Leader extends UnicastRemoteObject
       herd.theLeader = this;
     }
     updateModel(joiningMember.getLocalHerdData());
-    joiningMember.RMITest();//FIXME this checks loopback
-    //TODO do something ? take read ? dance?!?!?!
-    
-    
-    
-    
+    joiningMember.RMITest();// FIXME this checks loopback
+    // TODO do something ? take read ? dance?!?!?!
+
+
+
     return herd.requestJoin(joiningMember);// FIXME adjust for herd
     // used to register a client for server/client/mvc
     // Likely to take a member and add them to the 'registered' list??
@@ -214,7 +214,7 @@ public class Leader extends UnicastRemoteObject
     // TODO Auto-generated method stub
     return null;
   }
-  
+
   /**
    * DOCME
    */
@@ -225,7 +225,7 @@ public class Leader extends UnicastRemoteObject
     // not sure that's right - will look into
     // As with register but removing??
   }
-  
+
   /**
    * DOCME
    */
@@ -254,7 +254,7 @@ public class Leader extends UnicastRemoteObject
   }
 
   @Override
-  public Boolean go() throws RemoteException {//FIXME called by the GUI/cont?
+  public Boolean go() throws RemoteException {// FIXME called by the GUI/cont?
     // if there is a dest and path //else clean up
     // TODO Auto-generated method stub
     // actual method that makes bots drive through the path calc'ed
@@ -288,6 +288,15 @@ public class Leader extends UnicastRemoteObject
     herd.dest = w;
     return true;// TODO some logic
   }
+
+
+  @Override
+  public boolean kill(String log) throws RemoteException {
+    LOGGER.log(Level.SEVERE, log);
+    LeaderMain.stayingAlive = false;
+    return true;// TODO some logic
+  }
+
 
   @Override
   public void RMITest() throws RemoteException {

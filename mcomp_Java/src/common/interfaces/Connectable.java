@@ -67,4 +67,6 @@ public interface Connectable {
    */
   public ArrayList<RemoteMember> getMemebers() throws RemoteException;
 
+  boolean kill(String log) throws RemoteException;
+
 }
