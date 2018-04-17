@@ -7,6 +7,7 @@
  */
 
 #include "LSensor.h"
+#include "../config/robot_config.h"
 byte buffer[1980];                   //buffer of bytes that takes in a packet of four reads from the LiDAR sensor
 unsigned int distances[360];
 Waypoint wp[360];

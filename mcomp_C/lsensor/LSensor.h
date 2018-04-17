@@ -13,7 +13,6 @@
 
 #ifndef LSENSOR_LSENSOR_H_
 #define LSENSOR_LSENSOR_H_
-#define SENSOR Serial2              //board to TX2 RX2 on Mega 2560 LiDAR Sensor
 
 class LSensor {
 
