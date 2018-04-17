@@ -26,6 +26,8 @@ import common.objects.Leader;
  */
 public class LeaderMain {
   private static final Logger LOGGER = Logger.getLogger(LeaderMain.class.getName());
+  
+  public static boolean stayingAlive = true;
 
   private static RemoteLeader l;
 
@@ -64,9 +66,10 @@ public class LeaderMain {
 
     LOGGER.log(Level.INFO, "End of LeaderMain");
     
-    while (true) { //FIXME some form of go to sleep cmd??
+    while (stayingAlive) {
       
     }
+    LOGGER.log(Level.SEVERE, "Killed, Exiting");
 
   }
 
