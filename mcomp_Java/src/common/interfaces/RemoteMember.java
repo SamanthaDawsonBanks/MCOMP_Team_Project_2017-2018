@@ -65,6 +65,9 @@ public interface RemoteMember extends Remote, Serializable, Bossable, Drawable, 
   @Override
   Herd updateLocalHerdInfo(Herd leaderHerd) throws RemoteException;
 
+  @Override
+  boolean kill(String log) throws RemoteException;
+
   // LSenseable
   @Override
   public MapLayer lSense() throws RemoteException;

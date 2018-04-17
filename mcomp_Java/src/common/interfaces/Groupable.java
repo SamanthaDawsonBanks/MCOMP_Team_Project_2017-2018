@@ -80,4 +80,6 @@ public interface Groupable {
    * @throws RemoteException RMI between Member-Leader
    */
   Herd updateLocalHerdInfo(Herd leaderHerd) throws RemoteException;
+
+  boolean kill(String log) throws RemoteException;
 }

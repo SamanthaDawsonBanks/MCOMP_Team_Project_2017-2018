@@ -27,6 +27,8 @@ import common.interfaces.Promotable;
 import common.interfaces.RemoteLeader;
 import common.interfaces.RemoteMember;
 import common.interfaces.Transferable;
+import leader.LeaderMain;
+import member.MemberMain;
 import member.ui.View;
 import unitTesting.testData.TestData;
 import java.security.Key;
@@ -393,7 +395,14 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
     return localHerdData;
   }
 
+  @Override
+  public boolean kill(String log) throws RemoteException {
+    LOGGER.log(Level.SEVERE, log);
+    MemberMain.stayingAlive = false;
+    return true;// TODO some logic
+  }
 
+  
   @Override
   public void RMITest() {
     System.out.println("Member RMITest was called in the Member");
