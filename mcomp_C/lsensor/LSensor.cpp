@@ -109,17 +109,19 @@ unsigned int* LSensor::decodeRead(){
 
 bool LSensor::adjustRPM(){
   getAvgRPM();
-  if (avgRPM > targetRPM+10){
+  if (avgRPM > targetRPM+10){ //if RPM is more than 10RPM off target, adjust it
     targetPWM = targetPWM-10;
     lidarMotor.setSpeed(targetPWM);
     lidarMotor.run(FORWARD);
+    return false;
   }
-  if (avgRPM < targetRPM-10){
+  else if (avgRPM < targetRPM-10){
     targetPWM = targetPWM+10;
     lidarMotor.setSpeed(targetPWM);
     lidarMotor.run(FORWARD);
+    return false;
   }
-  return true;
+  else return true;
 }
 
 
@@ -153,7 +155,10 @@ Waypoint* LSensor::toWaypoint(){
 
 Waypoint* LSensor::sense(){
   getEncodedRead(); //So we can dig out an accurate avgRPM
-  adjustRPM();      //Set Lidar properly
+  while(adjustRPM == false){ //Keep adjusting RPM until within 10 of target
+    getEncodedRead();
+    adjustRPM();
+  }
   getEncodedRead(); //The proper read
   decodeRead();//Reverse reads so they are BigEndian and return pointer to head of array
   return toWaypoint();
