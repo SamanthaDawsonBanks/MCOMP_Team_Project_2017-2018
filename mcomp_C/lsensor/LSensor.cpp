@@ -16,7 +16,7 @@ LSensor::LSensor() {
   pDistances = nullptr;
   inByte = 0;
   avgRPM = 0;
-  targetRPM = LiDAROptimalRPM;
+  targetRPM = 240;
   targetPWM = 71; //71 rpm to hit as close as we can to the target rpm of 240
   AFMS1 = Adafruit_MotorShield(0x61);
   lidarMotor = (*AFMS1.getMotor(1));
@@ -155,7 +155,7 @@ Waypoint* LSensor::toWaypoint(){
 
 Waypoint* LSensor::sense(){
   getEncodedRead(); //So we can dig out an accurate avgRPM
-  while(adjustRPM == false){ //Keep adjusting RPM until within 10 of target
+  while(adjustRPM() == false){ //Keep adjusting RPM until within 10 of target
     getEncodedRead();
     adjustRPM();
   }
