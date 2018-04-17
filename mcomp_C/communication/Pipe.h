@@ -18,15 +18,16 @@ class Pipe {
   Pipe();
   virtual ~Pipe();
 
-  String Call();
+  String call();
 
-  void RecieveCommand();
+  void recieveCommand();
 
-  String* Decode(String readData);
+  String* decode(String readData);
 
-  String EncodeWaypoint(Waypoint w);
-  String EncodeDouble(double d);
-  String EncodeLRead(Waypoint reading[]);
+  String encodeInlineWaypoint(Waypoint w);
+  String encodeWaypoint(Waypoint w);
+  String encodeDouble(double d);
+  String encodeLRead(Waypoint reading[]);
 
   void close();
 };
