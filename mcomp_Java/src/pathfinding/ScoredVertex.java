@@ -1,7 +1,8 @@
-package common.datatypes.map.griddedMap;
+package pathfinding;
 
 import common.datatypes.Waypoint;
-import pathfinding.Heuristic;
+import common.datatypes.map.griddedMap.GriddedMap;
+import common.datatypes.map.griddedMap.Vertex;
 
 /**
  * Specialisation of the vertex that also carries scoring for AStar search
@@ -27,24 +28,9 @@ public class ScoredVertex extends Vertex {
    * @param v The Vertex to specialise into a ScoredVertex
    * @param root a pointer to the root object, used for upwards calls
    */
-  public ScoredVertex(Vertex v, GriddedMap root) {
-    super(new Waypoint(v.getX(), v.getY()), root);
+  public ScoredVertex(Vertex v, GriddedMap m) {
+    super(new Waypoint(v.getX(), v.getY()), m);
     // TODO Auto-generated constructor stub
-  }
-
-  /**
-   * 
-   * @param current
-   * @param dest
-   * @return
-   */
-  public double calcF(Waypoint current, Waypoint dest) { // I'm not sure this should be in here but
-    // we can discuss after you have looked at
-    // the AStar
-    Heuristic h = new Heuristic();
-    this.hx = h.manhattanHeuristic(current, dest);
-    this.fx = hx + gx;
-    return fx;
   }
 
   /**

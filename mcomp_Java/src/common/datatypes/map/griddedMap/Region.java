@@ -43,7 +43,7 @@ public class Region {
   }
 
 
-  public Region(int gridSize, ScoredVertex s, GriddedMap root) {
+  public Region(int gridSize, Vertex s, GriddedMap root) {
     this.root = root;
     this.gridSize = gridSize;
     this.gridOffset = root.gridOffset;
@@ -78,7 +78,7 @@ public class Region {
   }
 
   
-  public Vertex add(ScoredVertex s) {
+  public Vertex add(Vertex s) {
     Vertex res;
     int ChunkX = (int) (((s.getX() + gridOffset) / Math.pow(gridSize, 1)) % gridSize);
     int ChunkY = (int) (((s.getY() + gridOffset) / Math.pow(gridSize, 1)) % gridSize);
