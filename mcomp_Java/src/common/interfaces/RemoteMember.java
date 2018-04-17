@@ -51,7 +51,10 @@ public interface RemoteMember extends Remote, Serializable, Bossable, Drawable, 
   // Driveable
   @Override
   public Waypoint drive(Waypoint w) throws RemoteException;
-
+  
+  @Override
+  public Waypoint getPos() throws RemoteException;
+  
   // Groupable
   @Override
   public boolean joinHerd(Herd newHerd) throws RemoteException;
