@@ -57,16 +57,7 @@ public interface RemoteMember extends Remote, Serializable, Bossable, Drawable, 
   
   // Groupable
   @Override
-  public boolean joinHerd(Herd newHerd) throws RemoteException;
-
-  @Override
   ArrayList<Ability> getAbilities() throws RemoteException;
-
-  @Override
-  Herd getLocalHerdData() throws RemoteException;
-
-  @Override
-  Herd updateLocalHerdInfo(Herd leaderHerd) throws RemoteException;
 
   @Override
   boolean kill(String log) throws RemoteException;
@@ -82,11 +73,6 @@ public interface RemoteMember extends Remote, Serializable, Bossable, Drawable, 
   // Promotable
   @Override
   public RemoteLeader becomeLeader(Herd h) throws RemoteException;
-
-  // ????Securable / Keyable????
-  // @Override
-  // FIXME adjust for security interface
-  public Object getPublicKey() throws RemoteException;
 
   // Transferable
 

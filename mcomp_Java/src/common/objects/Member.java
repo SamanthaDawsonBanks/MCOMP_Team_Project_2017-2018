@@ -1,8 +1,6 @@
 package common.objects;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
@@ -27,12 +25,9 @@ import common.interfaces.Promotable;
 import common.interfaces.RemoteLeader;
 import common.interfaces.RemoteMember;
 import common.interfaces.Transferable;
-import leader.LeaderMain;
 import member.MemberMain;
-import member.ui.View;
 import pathfinding.AStar;
 import unitTesting.testData.TestData;
-import java.security.Key;
 
 /**
  * 
@@ -50,17 +45,17 @@ import java.security.Key;
 
 public class Member extends UnicastRemoteObject implements RemoteMember, LSenseable, Driveable,
     Drawable, Directable, Bossable, Transferable, Promotable, Notifiable, Groupable {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 8834142885550920107L;
+
   private static final Logger LOGGER = Logger.getLogger(Member.class.getName());
 
   private ArrayList<Ability> abilities;
-  private Herd localHerdData;
-  private RemoteLeader localLeaderRef;
-  private Key myPublicKey;
-  private Key myPrivateKey;
-  private Key leaderPublicKey;
+  private Herd localHerd;
 
   private double currentX;
-
   private double currentY;
 
   /**
@@ -81,7 +76,7 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
     LOGGER.log(Level.INFO, "Member Starting");
     abilities = new ArrayList<Ability>();
     LOGGER.log(Level.INFO, "Calling Herd Constructor");
-    localHerdData = new Herd(this);
+    localHerd = new Herd(this);
     LOGGER.log(Level.INFO, "Herd Constructed");
     for (Ability a : can) {
       switch (a) {
@@ -90,7 +85,7 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
           break;
         case DRIVER:
           abilities.add(a);
-          //FIXME some form of get location?
+          // FIXME some form of get location?
           this.currentX = 0.0;
           this.currentY = 0.0;
           break;
@@ -114,25 +109,24 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
 
 
     if (abilities.contains(Ability.VIEWER)) {
-      // interView v = new View(this);//FIXME this wont work due to jFX
-
-      startGUI();// FIXME gui borked
+      startGUI();
     }
 
 
     // ADD Test Map
-    localHerdData.theLeader.getState().getMap()
+    localHerd.getTheLeader().getState().map
         .addLayer(new MapLayer(TestData.getEmptyCentreMaze()));
   }
 
 
   private void startGUI() {
-    // TODO identicle to start leader - factor out? startProc(leader/gui)???
+    // TODO identical to start leader - factor out? startProc(leader/gui)???
     try {
       // build and start GUI process
       LOGGER.log(Level.INFO, "EXECing GUIMain");
       ProcessBuilder GUIMainPB = new ProcessBuilder("java", "-cp", "./bin/", "member.ui.View");
       GUIMainPB.redirectErrorStream(true);
+      @SuppressWarnings("unused")
       Process GUIMainP = GUIMainPB.start();
 
       // BufferedReader br = new BufferedReader(new InputStreamReader(GUIMainP.getInputStream()));
@@ -173,52 +167,6 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
     return abilities;
   }
 
-  /**
-   * Sets the value of the Leaders publicKey when handed by a leader.
-   * 
-   * @param The Public key of a leader.
-   */
-
-  // @Override
-  // public boolean importLeaderKey(Key pk) {
-  // if (isValidKey(pk)) {
-  // leaderPublicKey = pk;
-  // return true;
-  // } else
-  // return false;
-  // }
-
-
-  /**
-   * Retrieves the Public Encryption Key of the Member.
-   * 
-   * @return The Public Key.
-   */
-  // @Override
-  public Key getPublicKey() throws RemoteException { // FIXME if this is needed then it should be
-                                                     // specified in an interface
-    return myPublicKey; // TODO this needs to be of type Key once I work out ciphers.
-  }
-
-  /**
-   * Validates that the provided Public Key given by a leader can be used to securely communicate
-   * with the leader.
-   * 
-   * @param pk
-   * @return True if key is valid, false if not.
-   */
-  // @Override
-  public boolean isValidKey(Key pk) {// FIXME if this is needed then it should be specified in an
-                                     // interface
-    // TODO RMI call leader, encrpyt String hello world to Leader, if leader returns Hello World
-    // then true.
-    return false;
-  }
-
-  // public void start() {
-  // // TODO Auto-generated method stub
-  //
-  // }
 
   // will be part of the aftermath of a successful election
   private void startLeader() {
@@ -228,6 +176,7 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
       ProcessBuilder leaderMainPB =
           new ProcessBuilder("java", "-cp", "./bin/", "leader.LeaderMain");
       leaderMainPB.redirectErrorStream(true);
+      @SuppressWarnings("unused")
       Process leaderMainP = leaderMainPB.start();
 
       // BufferedReader br = new BufferedReader(new
@@ -261,16 +210,13 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
 
   @Override
   public void notifyOfChange() throws RemoteException {
-    // TODO Auto-generated method stub
-    // model.getData()
     try {
-      localHerdData = localLeaderRef.getState();
+      localHerd = localHerd.getLeader().getState();
     } catch (RemoteException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
     // TODO and do something with it (probably paint it)
-    // TODO split method so this can be refactored to be used for herd sync?
   }
 
 
@@ -286,9 +232,9 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
   @Override
   public Path processPathLump(Herd h) throws RemoteException {
 
-    Driveable robot = localHerdData.getDrivers().get(0);// TODO should be specific bot
+    Driveable robot = localHerd.getDrivers().get(0);// TODO should be specific bot
     Waypoint start = new Waypoint(robot.getPos().getX(), robot.getPos().getY());
-    return new AStar().pathfind(start, localHerdData.dest, localHerdData.getMap());
+    return new AStar().pathfind(start, localHerd.dest, localHerd.map);
 
   }
 
@@ -300,7 +246,7 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
     // line
     // Inform leader that the new destination is 'w'
     try {
-      ((Directable) localLeaderRef).setDestination(w);
+      localHerd.getLeader().setDestination(w);
     } catch (RemoteException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
@@ -311,7 +257,7 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
 
   @Override
   public Waypoint getPos() throws RemoteException {
-    return new Waypoint(this.currentX,this.currentY);
+    return new Waypoint(this.currentX, this.currentY);
   }
 
   @Override
@@ -323,9 +269,9 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
     // wait for response
     // while(!pipe.available())
     // return whatever given
-    
-    //FIXME update this.x and this.y
-    
+
+    // FIXME update this.x and this.y
+
     // return decode(pipe.read())
     return null;
   }
@@ -344,23 +290,6 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
 
     return null;
   }
-
-
-  @Override
-  public boolean joinHerd(Herd newHerd) throws RemoteException {
-    // TODO Auto-generated method stub
-    //
-    return false;
-  }
-
-
-  @Override
-  public Herd updateLocalHerdInfo(Herd leaderHerd) throws RemoteException {
-    // TODO Auto-generated method stub
-    localHerdData = leaderHerd;// TODO does this need to be a merge or a replace?
-    return localHerdData;
-  }
-
 
   @Override
   public RemoteLeader becomeLeader(Herd h) throws RemoteException {
@@ -382,9 +311,9 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
 
   private RemoteLeader connectRMI() {
     try {
-      localLeaderRef = (RemoteLeader) Naming.lookup("rmi://192.168.25.42" + "/HerdLeader");// FIXME
-                                                                                           // lookup
-                                                                                           // IP
+      localHerd.setLeader((RemoteLeader) Naming.lookup("rmi://192.168.25.42" + "/HerdLeader"));// FIXME
+                                                                                                  // lookup
+                                                                                                  // IP
     } catch (MalformedURLException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
@@ -398,19 +327,12 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
       // wait
       // send the RMI leader the herd info
     try {
-      localLeaderRef.register(this);
+      localHerd.getLeader().register(this);
     } catch (RemoteException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
-    return localLeaderRef;
-  }
-
-
-  @Override
-  public Herd getLocalHerdData() throws RemoteException {
-    // TODO Auto-generated method stub
-    return localHerdData;
+    return localHerd.getLeader();
   }
 
   @Override

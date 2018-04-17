@@ -41,7 +41,9 @@ public class Herd implements Joinable, Organisable {
   private static final Logger LOGGER = Logger.getLogger(Herd.class.getName());
 
   private String herdID;
-  protected RemoteLeader theLeader;
+
+  private RemoteLeader theLeader;
+
   private ArrayList<RemoteMember> herdMembers;
   private ArrayList<Driveable> herdDrivers;
   private ArrayList<LSenseable> herdSensors;
@@ -52,7 +54,11 @@ public class Herd implements Joinable, Organisable {
 
   protected Map map;
   protected Waypoint dest;
-  protected Path path;
+
+  protected Path unoptimizedPath;
+  protected ArrayList<Vertex> searchedNodes;
+  protected Path optimizedPath;
+
 
   /**
    * The Herd constructor.
@@ -79,28 +85,6 @@ public class Herd implements Joinable, Organisable {
     herdViews = new ArrayList<RemoteView>();
 
     requestJoin(a);
-
-    // // Ability Querying
-    // herdMembers.add(a);
-    // for (Ability b : a.getAbilities()) {
-    // switch (b) {
-    // case DRIVER:
-    // herdDrivers.add(a);
-    // break;
-    // case PROCESSOR:
-    // herdProcessors.add(a);
-    // break;
-    // case SENSOR:
-    // herdSensors.add(a);
-    // break;
-    // case VIEWER:
-    // herdViewers.add(a);
-    // break;
-    // case DEST_SETTER:
-    // herdDestSetter = a;
-    // break;
-    // }
-    // }
 
     try {
       theLeader = electLeader().becomeLeader(this);// on that robot, start the leader process
@@ -184,7 +168,6 @@ public class Herd implements Joinable, Organisable {
     herdViews.add(aspiringView);
     return herdViews;
   }
-
 
 
   /**
@@ -286,34 +269,9 @@ public class Herd implements Joinable, Organisable {
   }
 
   /**
-   * Retrieve a single member from the List
-   * 
-   * @param The Public Key of a member in the Herd.
-   * @return The Member object if it exists, null if not.
+   * @return the theLeader
    */
-  @Override
-  public RemoteMember getMember(String theKey) {// Using the pubKey as UID works well, good call
-                                                // Steve
-    for (RemoteMember a : herdMembers) {
-      try {
-        if (a.getPublicKey().equals(theKey)) {
-          return a;
-        }
-      } catch (RemoteException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      }
-    }
-    return null;
-  }
-
-  /**
-   * Retrieve a list of all the Herds Drive-Capable Members.
-   * 
-   * @return The list of Drivers.
-   */
-  @Override
-  public RemoteLeader getLeader() {
+  public RemoteLeader getTheLeader() {
     return theLeader;
   }
 
@@ -377,47 +335,12 @@ public class Herd implements Joinable, Organisable {
     return herdDestSetter;
   }
 
-  @Override
-  public boolean acceptMember(Member m) {
-    // TODO Auto-generated method stub
-    return false;
+  protected void setLeader(RemoteLeader leader) {// only used for RMIConnect
+    theLeader = leader;
   }
 
-  @Override
-  public boolean notifyJoin() {
-    // TODO Auto-generated method stub
-    return false;
-  }
-
-  @Override
-  public boolean removeMember(Member m) {
-    // TODO Auto-generated method stub
-    return false;
-  }
-
-  public Map getMap() {
-    // TODO Auto-generated method stub
-    return map;
-  }
-
-  public Path getPath() {
-    // TODO Auto-generated method stub
-    return path;
-  }
-
-  public ArrayList<Vertex> getUnoptimizedPath() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  public ArrayList<Vertex> getSearchedNodes() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  public ArrayList<Vertex> getOptimizedPath() {
-    // TODO Auto-generated method stub
-    return null;
+  public RemoteLeader getLeader() {
+    return theLeader;
   }
 
 

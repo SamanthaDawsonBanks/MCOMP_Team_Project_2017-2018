@@ -23,12 +23,6 @@ import common.objects.Member;
 
 public interface Joinable {
 
-  public boolean acceptMember(Member m);// TODO leader info? Is this interface badly specified?
-
-  public boolean notifyJoin();// TODO same as above, notify the leader of a join?
-
-  public boolean removeMember(Member m); // may need other uid
-
   /**
    * Server side of the client (member) / server (leader-herd) connection used advise the herd that
    * the member is joining
@@ -132,19 +126,19 @@ public interface Joinable {
    */
   public ArrayList<RemoteMember> getMembers();
 
-  /**
-   * Access method for getting a single member by UID
-   * 
-   * @see common.objects.Member
-   * @see common.objects.Herd
-   * @see common.objects.Leader
-   *
-   * @param theKey UID for the Member in the form of a Cryptographic public key
-   *
-   * @return Single Member by UID
-   */
-  public RemoteMember getMember(String theKey);
-
+//  /**
+//   * Access method for getting a single member by UID
+//   * 
+//   * @see common.objects.Member
+//   * @see common.objects.Herd
+//   * @see common.objects.Leader
+//   *
+//   * @param theKey UID for the Member in the form of a Cryptographic public key
+//   *
+//   * @return Single Member by UID
+//   */
+//  public RemoteMember getMember(String theKey);
+//
   /**
    * Access method for getting the UID / HerdID for the herd
    * 
