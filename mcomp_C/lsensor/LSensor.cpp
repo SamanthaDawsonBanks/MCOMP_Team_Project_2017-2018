@@ -9,6 +9,7 @@
 #include "LSensor.h"
 byte buffer[1980];                   //buffer of bytes that takes in a packet of four reads from the LiDAR sensor
 unsigned int distances[360];
+Waypoint wp[360];
 
 
 LSensor::LSensor() {
@@ -131,8 +132,22 @@ void LSensor::getEncodedRead(){
   }
 }
 
-Waypoint* LSensor::toWaypoint(unsigned int* distances){
-  return nullptr;
+Waypoint* LSensor::toWaypoint(){
+  //distance is 14bits
+  //distance is in mm so max =16,383mm
+  //convert to cm so dave can just div by 5 to make grid squares
+  //so div by 10
+  //then pos is array is theta, so the we can calc the y value using trig
+  //the hyp and the opp gives us 2 sides of a triangle so we can SOHCAHTOA to find x
+  //pray there is a lib for this
+  for (int i = 0; i < 360; i++){
+    double y = (double) sin(i) * (*(pDistances+i)/10);
+    double x = (double) cos(i) * (*(pDistances+i)/10);
+    Waypoint a  = Waypoint(x,y);
+    wp[i] = a;
+  }
+  Waypoint* wpPtr = &wp[0];
+  return wpPtr;
 }
 
 Waypoint* LSensor::sense(){
@@ -140,6 +155,6 @@ Waypoint* LSensor::sense(){
   adjustRPM();      //Set Lidar properly
   getEncodedRead(); //The proper read
   decodeRead();//Reverse reads so they are BigEndian and return pointer to head of array
-  return toWaypoint(distances);
+  return toWaypoint();
 }
 

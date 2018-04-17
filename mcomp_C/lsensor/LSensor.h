@@ -8,6 +8,7 @@
 #include "../common/datatypes/AngleDistance.h"
 #include "../common/datatypes/Waypoint.h"
 #include "../libraries/Adafruit_MotorShield.h"
+#include <math.h>
 
 
 #ifndef LSENSOR_LSENSOR_H_
@@ -37,7 +38,7 @@ class LSensor {
   unsigned int* decodeRead();
   bool adjustRPM();
   void getEncodedRead();
-  Waypoint* toWaypoint(unsigned int*);
+  Waypoint* toWaypoint();
 };
 
 #endif /* LSENSOR_LSENSOR_H_ */
