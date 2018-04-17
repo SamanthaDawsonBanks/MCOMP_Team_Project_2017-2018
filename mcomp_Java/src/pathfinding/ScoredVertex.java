@@ -18,7 +18,7 @@ import common.datatypes.map.griddedMap.Vertex;
  */
 public class ScoredVertex extends Vertex {
 
-  private double fx;
+//  private double fx;
   private double hx;
   private double gx;
   private double cost;
@@ -37,15 +37,16 @@ public class ScoredVertex extends Vertex {
    * @return the fx
    */
   public double getFx() {
-    return fx;
+    return hx + gx;
+    //return fx;
   }
 
-  /**
-   * @param fx the fx to set
-   */
-  public void setFx(double fx) {
-    this.fx = fx;
-  }
+//  /**
+//   * @param fx the fx to set
+//   */
+//  public void setFx(double fx) {
+//    this.fx = fx;
+//  }
 
   /**
    * @return the hx
