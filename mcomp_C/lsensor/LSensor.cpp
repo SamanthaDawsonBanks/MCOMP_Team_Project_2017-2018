@@ -140,14 +140,13 @@ Waypoint* LSensor::toWaypoint(){
   //so div by 10
   //then pos is array is theta, so the we can calc the y value using trig
   //the hyp and the opp gives us 2 sides of a triangle so we can SOHCAHTOA to find x
-  //pray there is a lib for this
+  //Waypoint constructor does this when handed an AngleDistance
   for (int i = 0; i < 360; i++){
-    double y = (double) sin(i) * (*(pDistances+i)/10);
-    double x = (double) cos(i) * (*(pDistances+i)/10);
-    Waypoint a  = Waypoint(x,y);
+    AngleDistance ad = AngleDistance ((double) i, (long) (*pDistances/10));
+    Waypoint a  = Waypoint(ad);
     wp[i] = a;
   }
-  Waypoint* wpPtr = &wp[0];
+  Waypoint* wpPtr = &wp[0]; //point to head of WP array
   return wpPtr;
 }
 
