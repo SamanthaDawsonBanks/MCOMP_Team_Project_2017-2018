@@ -38,7 +38,7 @@ public class Chunk {
   }
 
 
-  public Chunk(int gridSize, ScoredVertex s, GriddedMap root) {
+  public Chunk(int gridSize, Vertex s, GriddedMap root) {
     this.root = root;
     this.gridSize = gridSize;
     this.gridOffset = root.gridOffset;
@@ -74,7 +74,7 @@ public class Chunk {
   }
 
 
-  public Vertex add(ScoredVertex s) {
+  public Vertex add(Vertex s) {
     int VertexX = (int) (((s.getX() + gridOffset) / Math.pow(gridSize, 0)) % gridSize);
     int VertexY = (int) (((s.getY() + gridOffset) / Math.pow(gridSize, 0)) % gridSize);
     if (vertices[VertexX][VertexY] == null) {
