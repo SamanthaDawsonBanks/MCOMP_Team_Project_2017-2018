@@ -6,14 +6,13 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import common.datatypes.Waypoint;
-import common.datatypes.map.Map;
-import common.datatypes.map.MapLayer;
 import common.datatypes.map.griddedMap.GriddedMap;
 import common.datatypes.map.griddedMap.Region;
 import common.datatypes.map.griddedMap.Vertex;
 import common.interfaces.RemoteLeader;
 import common.interfaces.RemoteView;
 import common.objects.Herd;
+import common.objects.Member;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -21,6 +20,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
@@ -33,12 +33,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import pathfinding.AStar;
-import pathfinding.PathOptimisation;
-import unitTesting.testData.*;
-
 
 /**
  * 
@@ -52,14 +50,16 @@ import unitTesting.testData.*;
 public class View extends Application implements RemoteView {
 
   private RemoteLeader localLeaderRef = null;
+  private Member member;
   private Herd localHerdData;
-
+  AStar a = new AStar();
   private Pane pane;
   private HBox hbox;
+  private Button killButton, killButton2, killButton3, killButton4;
   private Label label;
   private int counter = 0;
   private Group circleGroup, rectangleGroup, lineGroup, amalgamateGroup, pathGroup, searchedGroup,
-      optimizedGroup;
+  optimizedGroup;
 
 
   /**
@@ -73,14 +73,14 @@ public class View extends Application implements RemoteView {
   public void start(Stage primaryStage) throws Exception {
 
 
-    // rmi connect stuff
+    /** rmi connect stuff
     localLeaderRef = connectRMI();
     if (localLeaderRef == null) {
       throw new RuntimeException("Unable to connect to Leader");
       //FIXME needs some form of error box saying unable to connect or whatever?
     }
     localHerdData = localLeaderRef.getState();
-
+     */
 
     Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
     primaryStage.setX(screenBounds.getMinX());
@@ -154,10 +154,10 @@ public class View extends Application implements RemoteView {
    */
   public VBox getVBox() {
     VBox vbox = new VBox();
-    vbox.setSpacing(18);
+    vbox.setSpacing(-30);
 
     ObservableList<Node> list = vbox.getChildren();
-    list.addAll(getVBoxMap(), getVBoxPath(), getAbilities());
+    list.addAll(getVBoxMap(), getVBoxPath(), getMembers());
     return vbox;
   }
 
@@ -183,7 +183,7 @@ public class View extends Application implements RemoteView {
 
     label = new Label("Map");
     label.setMaxWidth((screenBounds.getWidth() - getMapBox().getWidth() - 10));
-    label.setMinHeight(screenBounds.getHeight() / 10);
+    label.setMinHeight(screenBounds.getHeight() / 15);
     toggleOffStyle(label);
 
     vbox.setPrefWidth((screenBounds.getWidth() - getMapBox().getWidth() - 10) / 2);
@@ -193,7 +193,7 @@ public class View extends Application implements RemoteView {
     SpinnerValueFactory<Integer> value = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 5);
     spinner.getStyleClass().add(Spinner.STYLE_CLASS_SPLIT_ARROWS_VERTICAL);
     spinner
-        .setStyle("-fx-body-color:#00bfff;" + "-fx-font-size: 15px; " + "-fx-font-weight: bold;");
+    .setStyle("-fx-body-color:#00bfff;" + "-fx-font-size: 15px; " + "-fx-font-weight: bold;");
 
     spinner.setMaxHeight(vbox.getPrefHeight() / 4);
     spinner.setMaxWidth(vbox.getPrefWidth() / 10);
@@ -210,7 +210,7 @@ public class View extends Application implements RemoteView {
       if (lidarBtn.isSelected()) {
         toggleOnStyle(lidarBtn);
         pane.getChildren()
-            .add(drawCircle(localHerdData.getMap().getLayer(spinner.getValue()).getWaypoints()));
+        .add(drawCircle(localHerdData.getMap().getLayer(spinner.getValue()).getWaypoints()));
       } else {
         toggleOffStyle(lidarBtn);
         pane.getChildren().remove(circleGroup);
@@ -242,12 +242,12 @@ public class View extends Application implements RemoteView {
     gridBtn.setMinHeight(vbox.getPrefHeight() / 4);
     toggleOffStyle(gridBtn);
     gridBtn.setOnAction(event -> {
-      if (blockedBtn.isSelected()) {
+      if (gridBtn.isSelected()) {
         toggleOnStyle(gridBtn);
-        pane.getChildren().add(drawGrid(scale(TestData.getPresentationMaze(), 40)));
+        //pane.getChildren().add(drawGrid(scale(TestData.getPresentationMaze(), 40)));
       } else {
         toggleOffStyle(gridBtn);
-        pane.getChildren().remove(lineGroup);
+        //pane.getChildren().remove(lineGroup);
       }
     });
 
@@ -303,7 +303,7 @@ public class View extends Application implements RemoteView {
 
     label = new Label("Pathfinding");
     label.setMaxWidth((screenBounds.getWidth() - getMapBox().getWidth() - 10));
-    label.setMinHeight(screenBounds.getHeight() / 10);
+    label.setMinHeight(screenBounds.getHeight() / 15);
     toggleOffStyle(label);
 
     vbox.setPrefWidth((screenBounds.getWidth() - getMapBox().getWidth() - 10) / 2);
@@ -398,32 +398,128 @@ public class View extends Application implements RemoteView {
    * @return VBox Layout.
    * 
    */
-  public VBox getAbilities() {
+  public VBox getMembers() {
+
     Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
     final VBox vbox = new VBox();
 
-    label = new Label("Herd Abilities");
-    label.setMaxWidth((screenBounds.getWidth() - getMapBox().getWidth() - 10));
-    label.setMinHeight(screenBounds.getHeight() / 10);
-    toggleOffStyle(label);
+    final HBox hboxBtn1 = new HBox();
+    final HBox hboxBtn2 = new HBox();
 
-    vbox.setPrefWidth((screenBounds.getWidth() - getMapBox().getWidth() - 10) / 2);
-    vbox.setPrefHeight(screenBounds.getHeight() / 3.5);
-    vbox.setSpacing(-4);
+    label = new Label("Members");
+    label.setMaxWidth((screenBounds.getWidth() - getMapBox().getWidth() - 10));
+    label.setMinHeight(screenBounds.getHeight() / 15);
+    toggleOffStyle(label);
 
     Rectangle r = new Rectangle();
     r.setWidth((screenBounds.getWidth() - getMapBox().getWidth() - 45));
-    r.setHeight((getMapBox().getHeight() / 5) + 20);
+    r.setHeight((getMapBox().getHeight() / 5));
     r.setStroke(Color.BLACK);
     r.setStrokeWidth(4);
     r.setFill(Color.WHITE);
 
+    Pane p = new Pane();
+    p.getChildren().add(r);
+
+    vbox.setPrefWidth((screenBounds.getWidth() - getMapBox().getWidth() - 10) / 2);
+    vbox.setPrefHeight(screenBounds.getHeight() / 3.5);
+
+    ToggleButton memberBtn = new ToggleButton("Member 1");
+    memberBtn.setMinWidth(vbox.getPrefWidth() - 100);
+    memberBtn.setMinHeight(vbox.getPrefHeight() / 4);
+    toggleOffStyle(memberBtn);
+    memberBtn.setOnAction(event -> {
+      if (memberBtn.isSelected()) {
+        toggleOnStyle(memberBtn);
+        Text t = new Text(memberBtn.getText());
+        t.setX(10);
+        t.setY(25);
+        p.getChildren().add(t);
+        killButton = new Button("1");
+        killButton.setMaxHeight(vbox.getPrefHeight() / 4);
+        killButton.setMinWidth(vbox.getPrefWidth() / 3.1 ); 
+        toggleOffStyle(killButton);
+        hboxBtn1.getChildren().add(killButton);
+        killMember(killButton, memberBtn, hboxBtn1);
+      } else {
+        toggleOffStyle(memberBtn);
+        removeFromHBox(killButton, hboxBtn1);
+      }
+    });
+
+    ToggleButton memberBtn2 = new ToggleButton("Member 2");
+    memberBtn2.setMinWidth(vbox.getPrefWidth() - 100);
+    memberBtn2.setMinHeight(vbox.getPrefHeight() / 4);
+    toggleOffStyle(memberBtn2);
+    memberBtn2.setOnAction(event -> {
+      if (memberBtn2.isSelected()) {
+        toggleOnStyle(memberBtn2);
+        killButton2 = new Button("2");
+        killButton2.setMaxHeight(vbox.getPrefHeight() / 4);
+        killButton2.setMinWidth(vbox.getPrefWidth() / 3.1 ); 
+        toggleOffStyle(killButton2);
+        hboxBtn1.getChildren().add(killButton2);
+        killMember(killButton2, memberBtn2, hboxBtn1);
+      } else {
+        toggleOffStyle(memberBtn2);
+        removeFromHBox(killButton2, hboxBtn1);
+      }
+    });
+
+    ToggleButton memberBtn3 = new ToggleButton("Member 3");
+    memberBtn3.setMinWidth(vbox.getPrefWidth() - 100);
+    memberBtn3.setMinHeight(vbox.getPrefHeight() / 4);
+    toggleOffStyle(memberBtn3);
+    memberBtn3.setOnAction(event -> {
+      if (memberBtn3.isSelected()) {
+        toggleOnStyle(memberBtn3);
+        killButton3 = new Button("3");
+        killButton3.setMaxHeight(vbox.getPrefHeight() / 4);
+        killButton3.setMinWidth(vbox.getPrefWidth() / 3.1 ); 
+        toggleOffStyle(killButton3);
+        hboxBtn2.getChildren().add(killButton3);
+        killMember(killButton3, memberBtn3, hboxBtn2);
+      } else {
+        toggleOffStyle(memberBtn3);
+        removeFromHBox(killButton3, hboxBtn2);
+      }
+    });
+
+    ToggleButton memberBtn4 = new ToggleButton("Member 4");
+    memberBtn4.setMinWidth(vbox.getPrefWidth() - 100);
+    memberBtn4.setMinHeight(vbox.getPrefHeight() / 4);
+    toggleOffStyle(memberBtn4);
+    memberBtn4.setOnAction(event -> {
+      if (memberBtn4.isSelected()) {
+        toggleOnStyle(memberBtn4);
+        killButton4 = new Button("4");
+        killButton4.setMaxHeight(vbox.getPrefHeight() / 4);
+        killButton4.setMinWidth(vbox.getPrefWidth() / 3.1 ); 
+        toggleOffStyle(killButton4);
+        hboxBtn2.getChildren().add(killButton4);
+        killMember(killButton4, memberBtn4, hboxBtn2);
+      } else {
+        toggleOffStyle(memberBtn4);
+        removeFromHBox(killButton4, hboxBtn2);
+      }
+    });
+
+
+    hboxBtn1.getChildren().addAll(memberBtn, memberBtn2);
+    hboxBtn2.getChildren().addAll(memberBtn3, memberBtn4);
+
+    vbox.setSpacing(9);
+
+    hboxBtn1.setSpacing(9);
+
+    hboxBtn2.setSpacing(9);
+
     ObservableList<Node> list = vbox.getChildren();
-    list.addAll(label, r);
+    list.addAll(label, hboxBtn1, hboxBtn2, p);
 
     return vbox;
-  }
 
+  }
 
   /**
    * Takes in a Node (Button, Label, ToggleButton etc) and applies CSS to it depending on what Node
@@ -440,7 +536,8 @@ public class View extends Application implements RemoteView {
           "-fx-background-color:#00bfff;" + "-fx-border-color: #000000;" + "-fx-border-width: 4px;"
               + "-fx-font-size: 25px; " + "-fx-font-weight: bold;" + "-fx-alignment:center");
       return o;
-    } else {
+    } 
+    else {
       o.setStyle("-fx-background-color:#fff;" + "-fx-border-color: #000000;"
           + "-fx-border-width: 4px;" + "-fx-font-size: 15px; " + "-fx-font-weight: bold;");
       return o;
@@ -460,6 +557,21 @@ public class View extends Application implements RemoteView {
         + "-fx-border-width: 4px;" + "-fx-font-size: 15px; " + "-fx-font-weight: bold;");
     return o;
   }
+
+  public void killMember(Button a, ToggleButton b, HBox h) {
+
+    a.setOnMouseClicked(new EventHandler<MouseEvent>() {
+      @Override
+      public void handle(MouseEvent event) {
+        h.getChildren().remove(b);
+      }});
+
+  }
+
+  public void removeFromHBox(Button a, HBox h) {
+      h.getChildren().remove(a);
+  }
+
 
   /**
    * Takes in a ArrayList of Waypoints (LiDar return) and draws Circles at their (x,y) position.
@@ -717,8 +829,8 @@ public class View extends Application implements RemoteView {
       // TODO Auto-generated catch block
       e.printStackTrace();
     } // needs to be var vs hardcode
-      // wait
-      // send the RMI leader the herd info
+    // wait
+    // send the RMI leader the herd info
     try {
       res.register(this);
     } catch (RemoteException e) {
@@ -738,7 +850,7 @@ public class View extends Application implements RemoteView {
       e.printStackTrace();
     }
   }
-  
+
   @Override
   public void notifyOfChange() throws RemoteException {
     try {
