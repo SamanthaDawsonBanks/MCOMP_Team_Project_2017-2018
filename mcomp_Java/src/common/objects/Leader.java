@@ -4,7 +4,6 @@ import java.net.InetAddress;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import common.datatypes.Waypoint;
 import common.interfaces.Connectable;
@@ -287,13 +286,6 @@ public class Leader extends UnicastRemoteObject
   public boolean setDestination(Waypoint w) throws RemoteException {
     // TODO Auto-generated method stub
     herd.dest = w;
-    return true;// TODO some logic
-  }
-
-  @Override
-  public boolean kill(String log) throws RemoteException {
-    LOGGER.log(Level.SEVERE, log);
-    LeaderMain.stayingAlive = false;
     return true;// TODO some logic
   }
 
