@@ -256,7 +256,16 @@ public class Leader extends UnicastRemoteObject
   @Override
   public Boolean go() throws RemoteException {// FIXME called by the GUI/cont?
     // if there is a dest and path //else clean up
-    // TODO Auto-generated method stub
+    boolean res = true; // assume ok
+    if (herd.dest == null) {
+      // some form of error?
+      res = false;
+    }
+    if (herd.path == null) {
+      if (!pathfind()) {
+        res = false;
+      }
+    }
     // actual method that makes bots drive through the path calc'ed
     // for each reg'ed bot //FIXME needs some form of 'queue' so that bots can follow (or all bots
     // will go to the first WP and crash)
