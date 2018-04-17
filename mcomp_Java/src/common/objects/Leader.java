@@ -124,13 +124,12 @@ public class Leader extends UnicastRemoteObject
     if (leaderHerd.getTheLeader() == null) {
       leaderHerd.setLeader(this);
     }
-    //updateModel(joiningMember.getLocalHerdData()); //FIXME do we need this??
+    // TODO some form of notify all??
+    // updateModel(joiningMember.getLocalHerdData()); //FIXME do we need this??
     joiningMember.RMITest();// FIXME this checks loopback
     // TODO do something ? take read ? dance?!?!?!
-
-
-
-    return leaderHerd.requestJoin(joiningMember);// FIXME adjust for leaderHerd
+    return leaderHerd.requestJoin(joiningMember);
+    // FIXME adjust for leaderHerd
     // used to register a client for server/client/mvc
     // Likely to take a member and add them to the 'registered' list??
   }
@@ -165,16 +164,10 @@ public class Leader extends UnicastRemoteObject
    * DOCME
    */
   @Override
-  public boolean pathfind() throws RemoteException {// doenst take a WP ad dest should already be
-                                                    // set
-    // sanity check (leaderHerd has a dest and map)
-    // stub for splitting work for parallel
+  public boolean pathfind() throws RemoteException {
 
-    leaderHerd.unoptimizedPath = leaderHerd.getProcessors().get(0).processPathLump(leaderHerd);// dumbly
-                                                                                                 // get
-                                                                                                 // first
-                                                                                                 // until
-                                                                                                 // parallel
+    leaderHerd.unoptimizedPath = leaderHerd.getProcessors().get(0).processPathLump(leaderHerd);
+    // dumbly get first until parallel
     if (leaderHerd.unoptimizedPath != null) {
       return true;
     }
