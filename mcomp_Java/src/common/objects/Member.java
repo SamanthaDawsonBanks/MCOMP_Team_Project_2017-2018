@@ -278,7 +278,7 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
   public MapLayer lSense() throws RemoteException {
     MapLayer r = pipe.lSense();
 
-    r = r.transform(0, (int) -currentX, (int) -currentY, 5); // may be scaled by 0.2 but meh for now
+    r = r.transform(0, -currentX, -currentY, 0.2); 
 
     return r;
   }
