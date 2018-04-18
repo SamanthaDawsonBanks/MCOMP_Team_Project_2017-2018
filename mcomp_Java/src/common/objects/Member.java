@@ -114,8 +114,7 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
 
 
     // ADD Test Map
-    localHerd.getTheLeader().getState().map
-        .addLayer(new MapLayer(TestData.getEmptyCentreMaze()));
+    localHerd.getTheLeader().getState().map.addLayer(new MapLayer(TestData.getEmptyCentreMaze()));
   }
 
 
@@ -221,23 +220,26 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
 
 
   @Override
-  public Map processMapLump(Herd h) throws RemoteException {
+  public Map processMapLump() throws RemoteException {
     // TODO Auto-generated method stub
 
     // FIXME some form of call to map. almag layer
     return null;
   }
 
-
   @Override
-  public Path processPathLump(Herd h) throws RemoteException {
-
+  public Path processPathLump() throws RemoteException {
     Driveable robot = localHerd.getDrivers().get(0);// TODO should be specific bot
     Waypoint start = new Waypoint(robot.getPos().getX(), robot.getPos().getY());
     return new AStar().pathfind(start, localHerd.dest, localHerd.map);
-
   }
 
+  @Override
+  public Path optimizePathLump() throws RemoteException {
+    // TODO Auto-generated method stub
+    // FIXME some call to optimise path??
+    return null;
+  }
 
   @Override
   public boolean setDestination(Waypoint w) throws RemoteException {
@@ -312,8 +314,8 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
   private RemoteLeader connectRMI() {
     try {
       localHerd.setLeader((RemoteLeader) Naming.lookup("rmi://192.168.25.42" + "/HerdLeader"));// FIXME
-                                                                                                  // lookup
-                                                                                                  // IP
+                                                                                               // lookup
+                                                                                               // IP
     } catch (MalformedURLException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();

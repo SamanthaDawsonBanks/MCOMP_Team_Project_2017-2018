@@ -87,24 +87,6 @@ public class Leader extends UnicastRemoteObject
     // return true;
   }
 
-  /**
-   * DOCME
-   */
-  @Override
-  public void updateModel(Herd newHerdData) throws RemoteException {// TODO is the input a
-                                                                    // leaderHerd DT?
-
-    // something here for the initial leaderHerd stuff
-
-
-    // TODO Auto-generated method stub
-    // Won't be update model
-  }
-
-  // all the methods for updating the state??
-
-
-
   @Override
   public Herd getState() throws RemoteException {
     return leaderHerd;
@@ -166,12 +148,16 @@ public class Leader extends UnicastRemoteObject
   @Override
   public boolean pathfind() throws RemoteException {
 
-    leaderHerd.unoptimizedPath = leaderHerd.getProcessors().get(0).processPathLump(leaderHerd);
+    leaderHerd.unoptimizedPath = leaderHerd.getProcessors().get(0).processPathLump();
     // dumbly get first until parallel
-    if (leaderHerd.unoptimizedPath != null) {
-      return true;
-    }
-    return false;
+    return (leaderHerd.unoptimizedPath != null);
+  }
+
+  @Override
+  public boolean optimizePath() throws RemoteException {
+    leaderHerd.optimizedPath = leaderHerd.getProcessors().get(0).optimizePathLump();
+    // dumbly get first until parallel
+    return (leaderHerd.optimizedPath != null);
   }
 
   @Override
@@ -187,6 +173,12 @@ public class Leader extends UnicastRemoteObject
         res = false;
       }
     }
+    if (leaderHerd.optimizedPath == null) {
+      if (!optimizePath()) {
+        res = false;
+      }
+    }
+
     // actual method that makes bots drive through the path calc'ed
     // for each reg'ed bot //FIXME needs some form of 'queue' so that bots can follow (or all bots
     // will go to the first WP and crash)

@@ -55,4 +55,6 @@ public interface Instructable {
    */
   public Boolean go() throws RemoteException;// FIXME needs better name and better sig
 
+  public boolean optimizePath() throws RemoteException;
+
 }

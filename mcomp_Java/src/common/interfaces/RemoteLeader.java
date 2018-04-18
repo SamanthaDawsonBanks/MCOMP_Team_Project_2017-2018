@@ -66,12 +66,12 @@ public interface RemoteLeader
   public boolean pathfind() throws RemoteException;
 
   @Override
+  boolean optimizePath() throws RemoteException;
+
+  @Override
   public Boolean go() throws RemoteException;
 
   // Updateable
-  @Override
-  public void updateModel(Herd newHerdData) throws RemoteException;
-
   @Override
   public Herd getState() throws RemoteException;
 
