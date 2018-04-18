@@ -22,7 +22,7 @@ public class MapLayer implements Iterable<Waypoint> {
 
   private ArrayList<Waypoint> liDARRead = new ArrayList<Waypoint>();
   private Waypoint trackedCentre = new Waypoint(0, 0);
-  private int trackedRotation = 0;
+  private double trackedRotation = 0;
   private double trackedScale = 1;
   private boolean trackedOpens = false;
 
@@ -47,17 +47,17 @@ public class MapLayer implements Iterable<Waypoint> {
    * @see common.objects.Member#lSense()
    * 
    * @param layer
-   * @param angle
+   * @param trackedRotation
    * @param xOffset
    * @param yOffset
    * @param trackedScale
    * @param opensAdded
    */
-  private MapLayer(ArrayList<Waypoint> layer, int angle, double xOffset, double yOffset, double trackedScale,
+  private MapLayer(ArrayList<Waypoint> layer, double trackedRotation, double xOffset, double yOffset, double trackedScale,
       boolean opensAdded) {
     this.liDARRead = layer;
     this.trackedCentre = new Waypoint(xOffset, yOffset);
-    this.trackedRotation = angle;
+    this.trackedRotation = trackedRotation;
     this.trackedScale = trackedScale;
     this.trackedOpens = opensAdded;
 
@@ -80,7 +80,7 @@ public class MapLayer implements Iterable<Waypoint> {
    * 
    * @return A new MapLayer with the applied compound transformations
    */
-  public MapLayer transform(int angle, double currentX, double currentY, double d) {
+  public MapLayer transform(double angle, double currentX, double currentY, double d) {
     return rotate(angle).translate(currentX, currentY).scale(d);
   }
 
@@ -96,19 +96,19 @@ public class MapLayer implements Iterable<Waypoint> {
    * 
    * @return A new MapLayer with the applied transformation
    */
-  private MapLayer rotate(int a) {
+  private MapLayer rotate(double angle) {
 
     ArrayList<Waypoint> res = new ArrayList<Waypoint>();
 
-    double sinA = Math.sin(Math.toRadians(a));
-    double cosA = Math.cos(Math.toRadians(a));
+    double sinA = Math.sin(Math.toRadians(angle));
+    double cosA = Math.cos(Math.toRadians(angle));
 
     double oldX;
     double oldY;
     double newX;
     double newY;
 
-    trackedRotation = trackedRotation + a;
+    trackedRotation = trackedRotation + angle;
 
     for (Waypoint w : liDARRead) {
       oldX = w.getX();
