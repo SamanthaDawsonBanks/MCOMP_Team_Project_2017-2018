@@ -121,9 +121,31 @@ public class GriddedMap {
 
 
   public ArrayList<Vertex> toArrayList() {
-    // TODO Auto-generated method stub
+    ArrayList<Vertex> res = new ArrayList<Vertex>();
     // FIXME some retrieval code
-    return null;
+    for (int h = 0; h < Math.pow(gridSize, 3); h++) {
+      for (int i = 0; i < gridSize; i++) {
+        if (regions[i][0] == null) {
+          continue;
+        }
+
+        for (int j = 0; j < gridSize; j++) {
+          if (regions[i][0].getGrid()[j][0] == null) {
+            continue;
+          }
+
+          for (int k = 0; k < gridSize; k++) {
+            if (regions[i][0].getGrid()[j][0].getGrid()[k][0] == null) {
+              continue;
+            }
+
+            res.add(regions[i][0].getGrid()[j][0].getGrid()[k][0]);
+          }
+        }
+      }
+    }
+
+    return res;
   }
 
 
