@@ -142,9 +142,12 @@ public class GriddedMap {
                   continue;
                 }
                 if (regions[ix][iy].getGrid()[jx][jy].getGrid()[kx][ky].equals(blocked)) {
-                  int a = (int) ((ix * Math.pow(gridSize, 2)) + (jx * Math.pow(gridSize, 1)) + (jx) - gridOffset);
-                  int b = (int) ((iy * Math.pow(gridSize, 2)) + (jy * Math.pow(gridSize, 1)) + (jy) - gridOffset);
-                  
+                  long rMul = (long) Math.pow(gridSize, 2);
+                  long cMul = (long) Math.pow(gridSize, 1);
+
+                  long a = ((ix * rMul) + (jx * cMul) + (kx)) - gridOffset;
+                  long b = ((iy * rMul) + (jy * cMul) + (ky)) - gridOffset;
+
                   res.add(new Vertex(new Waypoint(a, b), this));
                 }
               }
@@ -153,8 +156,6 @@ public class GriddedMap {
         }
       }
 
-
-    
     return res;
   }
 
