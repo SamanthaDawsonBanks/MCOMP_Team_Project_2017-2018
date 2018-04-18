@@ -22,8 +22,8 @@ public class MapLayer implements Iterable<Waypoint> {
 
   private ArrayList<Waypoint> liDARRead = new ArrayList<Waypoint>();
   private Waypoint trackedCentre = new Waypoint(0, 0);
-  private int trackedRotation = 0;
-  private int trackedScale = 1;
+  private double trackedRotation = 0;
+  private double trackedScale = 1;
   private boolean trackedOpens = false;
 
   /**
@@ -53,7 +53,7 @@ public class MapLayer implements Iterable<Waypoint> {
    * @param scale
    * @param opensAdded
    */
-  private MapLayer(ArrayList<Waypoint> layer, int angle, double xOffset, double yOffset, int scale,
+  private MapLayer(ArrayList<Waypoint> layer, double angle, double xOffset, double yOffset, double scale,
       boolean opensAdded) {
     this.liDARRead = layer;
     this.trackedCentre = new Waypoint(xOffset, yOffset);
@@ -80,7 +80,7 @@ public class MapLayer implements Iterable<Waypoint> {
    * 
    * @return A new MapLayer with the applied compound transformations
    */
-  public MapLayer transform(int angle, int xOffset, int yOffset, int scale) {
+  public MapLayer transform(double angle, double xOffset, double yOffset, double scale) {
     return rotate(angle).translate(xOffset, yOffset).scale(scale);
   }
 
@@ -96,19 +96,19 @@ public class MapLayer implements Iterable<Waypoint> {
    * 
    * @return A new MapLayer with the applied transformation
    */
-  private MapLayer rotate(int a) {
+  private MapLayer rotate(double angle) {
 
     ArrayList<Waypoint> res = new ArrayList<Waypoint>();
 
-    double sinA = Math.sin(Math.toRadians(a));
-    double cosA = Math.cos(Math.toRadians(a));
+    double sinA = Math.sin(Math.toRadians(angle));
+    double cosA = Math.cos(Math.toRadians(angle));
 
     double oldX;
     double oldY;
     double newX;
     double newY;
 
-    trackedRotation = trackedRotation + a;
+    trackedRotation = trackedRotation + angle;
 
     for (Waypoint w : liDARRead) {
       oldX = w.getX();
@@ -135,7 +135,7 @@ public class MapLayer implements Iterable<Waypoint> {
    * 
    * @return A new MapLayer with the applied transformation
    */
-  private MapLayer translate(int xOffset, int yOffset) {
+  private MapLayer translate(double xOffset, double yOffset) {
 
     ArrayList<Waypoint> res = new ArrayList<Waypoint>();
 
@@ -168,7 +168,7 @@ public class MapLayer implements Iterable<Waypoint> {
    * 
    * @return A new MapLayer with the applied transformation
    */
-  public MapLayer scale(int scale) {
+  public MapLayer scale(double scale) {
     ArrayList<Waypoint> res = new ArrayList<Waypoint>();
 
     trackedScale = trackedScale + scale;
