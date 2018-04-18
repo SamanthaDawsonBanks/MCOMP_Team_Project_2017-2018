@@ -10,6 +10,7 @@ import common.datatypes.map.Map;
  * Encompasses: the local BlockedVertex, and the GridDesign along with the Region Chunk Vertices
  * 
  * @author David Avery 15823926
+ * @author Ryan Shoobert 15812407
  * 
  * @version 1.0
  * @since 2018-04-07
@@ -122,29 +123,38 @@ public class GriddedMap {
 
   public ArrayList<Vertex> toArrayList() {
     ArrayList<Vertex> res = new ArrayList<Vertex>();
-    // FIXME some retrieval code
-    for (int h = 0; h < Math.pow(gridSize, 3); h++) {
-      for (int i = 0; i < gridSize; i++) {
-        if (regions[i][0] == null) {
+
+    for (int iy = 0; iy < gridSize; iy++)
+      for (int ix = 0; ix < gridSize; ix++) {
+        if (regions[ix][iy] == null) {
           continue;
         }
 
-        for (int j = 0; j < gridSize; j++) {
-          if (regions[i][0].getGrid()[j][0] == null) {
-            continue;
-          }
-
-          for (int k = 0; k < gridSize; k++) {
-            if (regions[i][0].getGrid()[j][0].getGrid()[k][0] == null) {
+        for (int jy = 0; jy < gridSize; jy++) {
+          for (int jx = 0; jx < gridSize; jx++) {
+            if (regions[ix][iy].getGrid()[jx][jy] == null) {
               continue;
             }
 
-            res.add(regions[i][0].getGrid()[j][0].getGrid()[k][0]);
+            for (int ky = 0; ky < gridSize; ky++) {
+              for (int kx = 0; kx < gridSize; kx++) {
+                if (regions[ix][iy].getGrid()[jx][jy].getGrid()[kx][ky] == null) {
+                  continue;
+                }
+                if (regions[ix][iy].getGrid()[jx][jy].getGrid()[kx][ky].equals(blocked)) {
+                  int a = (int) ((ix * Math.pow(gridSize, 2)) + (jx * Math.pow(gridSize, 1)) + (jx) - gridOffset);
+                  int b = (int) ((iy * Math.pow(gridSize, 2)) + (jy * Math.pow(gridSize, 1)) + (jy) - gridOffset);
+                  
+                  res.add(new Vertex(new Waypoint(a, b), this));
+                }
+              }
+            }
           }
         }
       }
-    }
 
+
+    
     return res;
   }
 
