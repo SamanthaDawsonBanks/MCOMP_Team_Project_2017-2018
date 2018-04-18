@@ -71,17 +71,17 @@ public class MapLayer implements Iterable<Waypoint> {
    *
    * @param angle The angle (in degrees) to rotate the Waypoints in a clockwise (positive)
    *        counterclockwise (negative) aspect
-   * @param currentX The value to translate (move) the Waypoints in a 'East' (positive) 'West'
+   * @param xOffset The value to translate (move) the Waypoints in a 'East' (positive) 'West'
    *        (negative) axis
-   * @param currentY The value to translate (move) the Waypoints in a 'North' (positive) 'South'
+   * @param yOffset The value to translate (move) the Waypoints in a 'North' (positive) 'South'
    *        (negative) axis
    * @param d The value to scale the Waypoints in a 'larger' (positive) 'smaller' (negative)
    *        aspect relative to 1.0
    * 
    * @return A new MapLayer with the applied compound transformations
    */
-  public MapLayer transform(double angle, double currentX, double currentY, double d) {
-    return rotate(angle).translate(currentX, currentY).scale(d);
+  public MapLayer transform(double angle, double xOffset, double yOffset, double d) {
+    return rotate(angle).translate(xOffset, yOffset).scale(d);
   }
 
 
