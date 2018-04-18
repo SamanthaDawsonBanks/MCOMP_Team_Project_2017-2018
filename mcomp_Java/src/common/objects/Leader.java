@@ -201,7 +201,8 @@ public class Leader extends UnicastRemoteObject
             leaderHerd.map.addLayer(((LSenseable) cb).lSense());// take LiDAR Read
           }
         } catch (RemoteException e) {
-          // TODO Auto-generated catch block
+          //deregister member
+          deregister((RemoteMember) cb);
           e.printStackTrace();
         } ;
       }
