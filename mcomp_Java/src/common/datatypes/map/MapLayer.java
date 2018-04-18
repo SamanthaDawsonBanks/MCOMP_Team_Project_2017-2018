@@ -47,18 +47,18 @@ public class MapLayer implements Iterable<Waypoint> {
    * @see common.objects.Member#lSense()
    * 
    * @param layer
-   * @param trackedRotation
+   * @param angle
    * @param xOffset
    * @param yOffset
-   * @param trackedScale
+   * @param scale
    * @param opensAdded
    */
-  private MapLayer(ArrayList<Waypoint> layer, double trackedRotation, double xOffset, double yOffset, double trackedScale,
+  private MapLayer(ArrayList<Waypoint> layer, double angle, double xOffset, double yOffset, double scale,
       boolean opensAdded) {
     this.liDARRead = layer;
     this.trackedCentre = new Waypoint(xOffset, yOffset);
-    this.trackedRotation = trackedRotation;
-    this.trackedScale = trackedScale;
+    this.trackedRotation = angle;
+    this.trackedScale = scale;
     this.trackedOpens = opensAdded;
 
   }
@@ -75,13 +75,13 @@ public class MapLayer implements Iterable<Waypoint> {
    *        (negative) axis
    * @param yOffset The value to translate (move) the Waypoints in a 'North' (positive) 'South'
    *        (negative) axis
-   * @param d The value to scale the Waypoints in a 'larger' (positive) 'smaller' (negative)
+   * @param scale The value to scale the Waypoints in a 'larger' (positive) 'smaller' (negative)
    *        aspect relative to 1.0
    * 
    * @return A new MapLayer with the applied compound transformations
    */
-  public MapLayer transform(double angle, double xOffset, double yOffset, double d) {
-    return rotate(angle).translate(xOffset, yOffset).scale(d);
+  public MapLayer transform(double angle, double xOffset, double yOffset, double scale) {
+    return rotate(angle).translate(xOffset, yOffset).scale(scale);
   }
 
 
@@ -163,18 +163,18 @@ public class MapLayer implements Iterable<Waypoint> {
    * @see common.datatypes.Waypoint
    * @see common.objects.Member#lSense()
    *
-   * @param d The value to scale the Waypoints in a 'larger' (positive) 'smaller' (negative)
+   * @param scale The value to scale the Waypoints in a 'larger' (positive) 'smaller' (negative)
    *        aspect relative to 1.0
    * 
    * @return A new MapLayer with the applied transformation
    */
-  public MapLayer scale(double d) {
+  public MapLayer scale(double scale) {
     ArrayList<Waypoint> res = new ArrayList<Waypoint>();
 
-    trackedScale = trackedScale + d;
+    trackedScale = trackedScale + scale;
 
     for (Waypoint w : liDARRead) {
-      res.add(new Waypoint(w.getX() * d, w.getY() * d));
+      res.add(new Waypoint(w.getX() * scale, w.getY() * scale));
     }
     return new MapLayer(res, trackedRotation, trackedCentre.getX(), trackedCentre.getY(),
         trackedScale, trackedOpens);
