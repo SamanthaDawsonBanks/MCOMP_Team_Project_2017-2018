@@ -128,14 +128,14 @@ public class MapLayer implements Iterable<Waypoint> {
    * @see common.datatypes.Waypoint
    * @see common.objects.Member#lSense()
    *
-   * @param currentX The value to translate (move) the Waypoints in a 'East' (positive) 'West'
+   * @param xOffset The value to translate (move) the Waypoints in a 'East' (positive) 'West'
    *        (negative) axis
-   * @param currentY The value to translate (move) the Waypoints in a 'North' (positive) 'South'
+   * @param yOffset The value to translate (move) the Waypoints in a 'North' (positive) 'South'
    *        (negative) axis
    * 
    * @return A new MapLayer with the applied transformation
    */
-  private MapLayer translate(double currentX, double currentY) {
+  private MapLayer translate(double xOffset, double yOffset) {
 
     ArrayList<Waypoint> res = new ArrayList<Waypoint>();
 
@@ -144,13 +144,13 @@ public class MapLayer implements Iterable<Waypoint> {
     double newX;
     double newY;
 
-    trackedCentre = new Waypoint(trackedCentre.getX() + currentX, trackedCentre.getY() + currentY);
+    trackedCentre = new Waypoint(trackedCentre.getX() + xOffset, trackedCentre.getY() + yOffset);
 
     for (Waypoint w : liDARRead) {
       oldX = w.getX();
       oldY = w.getY();
-      newX = oldX - currentX;
-      newY = oldY - currentY;
+      newX = oldX - xOffset;
+      newY = oldY - yOffset;
       res.add(new Waypoint(newX, newY));
     }
     return new MapLayer(res, trackedRotation, trackedCentre.getX(), trackedCentre.getY(),
