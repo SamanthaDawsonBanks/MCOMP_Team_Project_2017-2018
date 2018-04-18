@@ -33,6 +33,8 @@ public interface RemoteView
   // General
   public void RMITest() throws RemoteException;
 
+  boolean kill(String log) throws RemoteException;
+
   // Drawable
 
   // Notifiable

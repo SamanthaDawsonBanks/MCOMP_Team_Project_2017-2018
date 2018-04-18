@@ -5,6 +5,8 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import common.datatypes.Waypoint;
 import common.datatypes.map.Map;
 import common.datatypes.map.MapLayer;
@@ -15,6 +17,7 @@ import common.interfaces.RemoteLeader;
 import common.interfaces.RemoteView;
 import common.objects.Herd;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.Rectangle2D;
@@ -35,6 +38,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import leader.LeaderMain;
 import pathfinding.AStar;
 import pathfinding.PathOptimisation;
 import unitTesting.testData.*;
@@ -50,6 +54,8 @@ import unitTesting.testData.*;
  * 
  */
 public class View extends Application implements RemoteView {
+  
+  private static final Logger LOGGER = Logger.getLogger(View.class.getName());
 
   private RemoteLeader localLeaderRef = null;
   private Herd localHerdData;
@@ -728,6 +734,12 @@ public class View extends Application implements RemoteView {
     return res;
   }
 
+  @Override
+  public boolean kill(String log) throws RemoteException {
+    LOGGER.log(Level.SEVERE, log);
+    Platform.exit();
+    return true;// TODO some logic
+  }
 
   @Override
   public void RMITest() {

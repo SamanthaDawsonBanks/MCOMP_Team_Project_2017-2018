@@ -50,6 +50,9 @@ public interface RemoteLeader
   @Override
   public ArrayList<RemoteMember> getMemebers() throws RemoteException;
 
+  @Override
+  boolean kill(String log) throws RemoteException;
+
   // Contactable
   @Override
   public boolean leaderDiscussMerge(Herd h) throws RemoteException;

@@ -43,4 +43,6 @@ public interface Driveable {
    */
   public Waypoint drive(Waypoint w) throws RemoteException;
 
+  Waypoint getPos() throws RemoteException;
+
 }

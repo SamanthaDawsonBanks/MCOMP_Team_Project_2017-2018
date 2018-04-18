@@ -23,12 +23,6 @@ import common.objects.Member;
 
 public interface Joinable {
 
-  public boolean acceptMember(Member m);// TODO leader info? Is this interface badly specified?
-
-  public boolean notifyJoin();// TODO same as above, notify the leader of a join?
-
-  public boolean removeMember(Member m); // may need other uid
-
   /**
    * Server side of the client (member) / server (leader-herd) connection used advise the herd that
    * the member is joining
@@ -41,9 +35,9 @@ public interface Joinable {
    * 
    * @return The members group plus the joining member
    */
-  ArrayList<RemoteMember> requestJoin(RemoteMember aspiringMember);
+  public ArrayList<RemoteMember> requestJoin(RemoteMember aspiringMember);
 
-  ArrayList<RemoteView> requestJoin(RemoteView aspiringView);
+  public ArrayList<RemoteView> requestJoin(RemoteView aspiringView);
 
   /**
    * Server side of the client (member) / server (leader-herd) connection used advise the herd that
@@ -57,9 +51,9 @@ public interface Joinable {
    * 
    * @return The members group minus the leaving member
    */
-  ArrayList<RemoteMember> requestLeave(RemoteMember leavingMember);
+  public ArrayList<RemoteMember> requestLeave(RemoteMember leavingMember);
 
-  ArrayList<RemoteView> requestLeave(RemoteView leavingView);
+  public ArrayList<RemoteView> requestLeave(RemoteView leavingView);
 
   /**
    * Access method for getting the member that has the ability DestSDEST_SETTERetter
@@ -71,7 +65,7 @@ public interface Joinable {
    *
    * @return Member that is the designated DEST_SETTER
    */
-  Directable getDestSetter();
+  public Directable getDestSetter();
 
   /**
    * Access method for getting a collection of members that have the ability VIEWER
@@ -83,7 +77,7 @@ public interface Joinable {
    *
    * @return Collection of Members that are designated VIEWERs
    */
-  ArrayList<Notifiable> getViewers();
+  public ArrayList<Notifiable> getViewers();
 
   /**
    * Access method for getting a collection of members that have the ability SENSOR
@@ -95,7 +89,7 @@ public interface Joinable {
    *
    * @return Collection of Members that are designated SENSORs
    */
-  ArrayList<LSenseable> getSensors();
+  public ArrayList<LSenseable> getSensors();
 
   /**
    * Access method for getting a collection of members that have the ability VIEWER
@@ -107,7 +101,7 @@ public interface Joinable {
    *
    * @return Collection of Members that are designated VIEWERs
    */
-  ArrayList<Bossable> getProcessors();
+  public ArrayList<Bossable> getProcessors();
 
   /**
    * Access method for getting a collection of members that have the ability PROCESSOR
@@ -119,7 +113,7 @@ public interface Joinable {
    *
    * @return Collection of Members that are designated PROCESSORs
    */
-  ArrayList<Driveable> getDrivers();
+  public ArrayList<Driveable> getDrivers();
 
   /**
    * Access method for getting a collection of all members
@@ -130,21 +124,21 @@ public interface Joinable {
    *
    * @return Collection of all Members
    */
-  ArrayList<RemoteMember> getMembers();
+  public ArrayList<RemoteMember> getMembers();
 
-  /**
-   * Access method for getting a single member by UID
-   * 
-   * @see common.objects.Member
-   * @see common.objects.Herd
-   * @see common.objects.Leader
-   *
-   * @param theKey UID for the Member in the form of a Cryptographic public key
-   *
-   * @return Single Member by UID
-   */
-  RemoteMember getMember(String theKey);
-
+//  /**
+//   * Access method for getting a single member by UID
+//   * 
+//   * @see common.objects.Member
+//   * @see common.objects.Herd
+//   * @see common.objects.Leader
+//   *
+//   * @param theKey UID for the Member in the form of a Cryptographic public key
+//   *
+//   * @return Single Member by UID
+//   */
+//  public RemoteMember getMember(String theKey);
+//
   /**
    * Access method for getting the UID / HerdID for the herd
    * 
@@ -154,8 +148,10 @@ public interface Joinable {
    *
    * @return HerdSingle Member by UID
    */
-  String getHerdID();
+  public String getHerdID();
 
-  ArrayList<RemoteView> getViews();
+  public ArrayList<RemoteView> getViews();
+
+  public RemoteLeader getLeader();
 
 }

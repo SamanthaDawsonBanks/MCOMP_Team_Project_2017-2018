@@ -27,6 +27,8 @@ import common.objects.Leader;
 public class LeaderMain {
   private static final Logger LOGGER = Logger.getLogger(LeaderMain.class.getName());
 
+  public static boolean stayingAlive;
+
   private static RemoteLeader l;
 
   private static int portNumber = 1099;
@@ -64,7 +66,7 @@ public class LeaderMain {
 
     LOGGER.log(Level.INFO, "End of LeaderMain");
     
-    while (true) { //FIXME some form of go to sleep cmd??
+    while (stayingAlive) {
       
     }
 
