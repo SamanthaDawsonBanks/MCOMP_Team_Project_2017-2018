@@ -114,6 +114,10 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
     if (abilities.contains(Ability.VIEWER)) {
       startGUI();
     }
+<<<<<<< HEAD
+=======
+    
+>>>>>>> branch 'ui_move_to_objects' of https://github.com/DavidAveryUoB/Team_Project
   }
 
 
