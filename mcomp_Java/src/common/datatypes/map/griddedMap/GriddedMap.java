@@ -10,6 +10,7 @@ import common.datatypes.map.Map;
  * Encompasses: the local BlockedVertex, and the GridDesign along with the Region Chunk Vertices
  * 
  * @author David Avery 15823926
+ * @author Ryan Shoobert 15812407
  * 
  * @version 1.0
  * @since 2018-04-07
@@ -121,9 +122,41 @@ public class GriddedMap {
 
 
   public ArrayList<Vertex> toArrayList() {
-    // TODO Auto-generated method stub
-    // FIXME some retrieval code
-    return null;
+    ArrayList<Vertex> res = new ArrayList<Vertex>();
+
+    for (int iy = 0; iy < gridSize; iy++)
+      for (int ix = 0; ix < gridSize; ix++) {
+        if (regions[ix][iy] == null) {
+          continue;
+        }
+
+        for (int jy = 0; jy < gridSize; jy++) {
+          for (int jx = 0; jx < gridSize; jx++) {
+            if (regions[ix][iy].getGrid()[jx][jy] == null) {
+              continue;
+            }
+
+            for (int ky = 0; ky < gridSize; ky++) {
+              for (int kx = 0; kx < gridSize; kx++) {
+                if (regions[ix][iy].getGrid()[jx][jy].getGrid()[kx][ky] == null) {
+                  continue;
+                }
+                if (regions[ix][iy].getGrid()[jx][jy].getGrid()[kx][ky].equals(blocked)) {
+                  long rMul = (long) Math.pow(gridSize, 2);
+                  long cMul = (long) Math.pow(gridSize, 1);
+
+                  long a = ((ix * rMul) + (jx * cMul) + (kx)) - gridOffset;
+                  long b = ((iy * rMul) + (jy * cMul) + (ky)) - gridOffset;
+
+                  res.add(new Vertex(new Waypoint(a, b), this));
+                }
+              }
+            }
+          }
+        }
+      }
+
+    return res;
   }
 
 
