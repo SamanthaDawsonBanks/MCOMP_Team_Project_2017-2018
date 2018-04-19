@@ -19,8 +19,8 @@ import common.datatypes.Waypoint;
  */
 public class Vertex {
 
-  private int x;
-  private int y;
+  private long x;
+  private long y;
   public Vertex[] edges;
   
   private GriddedMap root;
@@ -111,7 +111,7 @@ public class Vertex {
    * 
    * @return The X Cartesian location of the vertex
    */
-  public int getX() {
+  public long getX() {
     return x;
   }
 
@@ -122,7 +122,7 @@ public class Vertex {
    * 
    * @return The Y Cartesian location of the vertex
    */
-  public int getY() {
+  public long getY() {
     return y;
   }
 

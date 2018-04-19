@@ -26,6 +26,7 @@ import common.interfaces.RemoteLeader;
 import common.interfaces.RemoteMember;
 import common.interfaces.Transferable;
 import member.MemberMain;
+import member.coms.Pipe;
 import pathfinding.AStar;
 import unitTesting.testData.TestData;
 
@@ -54,6 +55,9 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
 
   private ArrayList<Ability> abilities;
   private Herd localHerd;
+
+  private Pipe pipe = new Pipe("COM5"); // need to know for certain which COM port the arduino will
+                                        // be on
 
   private double currentX;
   private double currentY;
@@ -110,7 +114,6 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
     if (abilities.contains(Ability.VIEWER)) {
       startGUI();
     }
-    
   }
 
 
@@ -260,33 +263,22 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
 
   @Override
   public Waypoint drive(Waypoint w) throws RemoteException {
-    // TODO Auto-generated method stub
-    // Assume there is already a serial connection
-    // serial.send() drive command
-    // pipe.send(encode("drive", w))
-    // wait for response
-    // while(!pipe.available())
-    // return whatever given
+    Waypoint res = pipe.drive(new Waypoint((w.getX() - currentX), (w.getY() - currentY)));
 
-    // FIXME update this.x and this.y
-
-    // return decode(pipe.read())
-    return null;
+    // update this.x and this.y
+    currentX = currentX + res.getX();
+    currentY = currentY + res.getY();
+    return res;
   }
 
 
   @Override
   public MapLayer lSense() throws RemoteException {
-    // TODO Auto-generated method stub
-    // Assume there is already a serial connection
-    // serial.send() l sense command
-    // pipe.send(encode("lsense", null))
-    // wait for response
-    // while(!pipe.available())
-    // return whatever given
-    // return decode(pipe.read())
+    MapLayer r = pipe.lSense();
 
-    return null;
+    r = r.transform(0, -currentX, -currentY, 0.2); 
+
+    return r;
   }
 
   @Override
