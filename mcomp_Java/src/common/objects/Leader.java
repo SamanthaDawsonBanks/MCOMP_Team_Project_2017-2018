@@ -53,9 +53,10 @@ public class Leader extends UnicastRemoteObject
    * @param serverName The assigned name to the running instance //This may later change to the
    *        HerdID
    */
-  public Leader() throws RemoteException { 
-    //init datatypes?
-    //pull herd data
+  public Leader() throws RemoteException {
+    // FIXME needs initialisation loop from member process via RMI?
+    // make herd etc
+
   }
 
   /**
@@ -136,17 +137,20 @@ public class Leader extends UnicastRemoteObject
    * DOCME
    */
   @Override
-  public boolean pathfind() throws RemoteException {
-    
-    // sanity check (herd has a dest and map)
-    // stub for splitting work for parallel
+  public ArrayList<RemoteView> deregister(RemoteView leavingView) throws RemoteException {
+    // TODO Auto-generated method stub
+    return null;
+  }
 
-    // An internal call to actual pathfinding
-    herd.path = herd.getProcessors().get(0).processPathLump(herd);// dumbly get first until parallel
-    if (herd.path != null) {
-      return true;
-    }
-    return false;
+  /**
+   * DOCME
+   */
+  @Override
+  public boolean pathfind() throws RemoteException {
+
+    leaderHerd.unoptimizedPath = leaderHerd.getProcessors().get(0).processPathLump();
+    // dumbly get first until parallel
+    return (leaderHerd.unoptimizedPath != null);
   }
 
   @Override
@@ -203,7 +207,7 @@ public class Leader extends UnicastRemoteObject
 
   @Override
   public boolean setDestination(Waypoint w) throws RemoteException {
-    herd.dest = w;
+    leaderHerd.dest = w;
     return true;// TODO some logic
   }
 
