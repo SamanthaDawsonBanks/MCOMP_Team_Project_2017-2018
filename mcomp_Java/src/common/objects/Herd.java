@@ -130,7 +130,6 @@ public class Herd implements Serializable, Joinable, Organisable {
    */
   @Override
   public ArrayList<RemoteMember> requestJoin(RemoteMember aspiringMember) {
-    // TODO Find a test to validate the Key of a Member/Herd
     herdMembers.add(aspiringMember);
     try {
       for (Ability a : aspiringMember.getAbilities()) {
@@ -148,15 +147,7 @@ public class Herd implements Serializable, Joinable, Organisable {
             herdViewers.add(aspiringMember);
             break;
           case DEST_SETTER:
-            // TODO Need code to check the old destSetter and remove it if it only has the one
-            // ability.
             if (herdDestSetter == null) { // first wins
-              // if (herdDestSetter.getAbilities().size() > 1) {
-              // herdDestSetter.getAbilities().remove(Ability.DEST_SETTER);
-              // } else {
-              // // No longer a leave method
-              // // herdDestSetter.leaveHerd(this);
-              // }
               herdDestSetter = aspiringMember;
             }
             break;
@@ -196,31 +187,12 @@ public class Herd implements Serializable, Joinable, Organisable {
      * destroyed? What happens to it's discoveries about the surrounding world?
      */
     herdMembers.remove(leavingMember);
-    try {
-      for (Ability b : leavingMember.getAbilities()) {
-        switch (b) {// TODO do we need the switch or just call remove with it
-          case DRIVER:
-            herdDrivers.remove(leavingMember);
-            break;
-          case PROCESSOR:
-            herdProcessors.remove(leavingMember);
-            break;
-          case SENSOR:
-            herdSensors.remove(leavingMember);
-            break;
-          case VIEWER:
-            herdViewers.remove(leavingMember);
-            break;
-          case DEST_SETTER:
-            if (herdDestSetter.equals(leavingMember))
-              ;
-            herdDestSetter = null;// TODO then check for secondary dest setters?
-            break;
-        }
-      }
-    } catch (RemoteException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+    herdDrivers.remove(leavingMember);
+    herdProcessors.remove(leavingMember);
+    herdSensors.remove(leavingMember);
+    herdViewers.remove(leavingMember);
+    if (herdDestSetter.equals(leavingMember)) {
+      herdDestSetter = null;// TODO then check for secondary dest setters?
     }
     return herdMembers;
   }
