@@ -25,18 +25,6 @@ import common.objects.Herd;
 public interface Updateable {
 
   /**
-   * Update method for setting the current state of the model
-   * 
-   * @see common.objects.Herd
-   * @see common.objects.Leader
-   * 
-   * @param newHerdData Herd object containing the Member/Ability collections, Map, Destination, and Path with new info
-   * 
-   * @throws RemoteException RMI between Member-Leader
-   */
-  public void updateModel(Herd newHerdData) throws RemoteException;
-
-  /**
    * Access method for getting the current state of the model typically called in response to a
    * notify call
    * 

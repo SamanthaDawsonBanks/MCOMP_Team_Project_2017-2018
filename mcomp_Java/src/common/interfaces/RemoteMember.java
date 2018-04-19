@@ -37,10 +37,13 @@ public interface RemoteMember extends Remote, Serializable, Bossable, Drawable, 
 
   // Bossable
   @Override
-  public Map processMapLump(Herd h) throws RemoteException;
+  public Map processMapLump() throws RemoteException;
 
   @Override
-  public Path processPathLump(Herd h) throws RemoteException;
+  public Path processPathLump() throws RemoteException;
+  
+  @Override
+  public Path optimizePathLump() throws RemoteException;
 
   // Drawable
 
@@ -72,7 +75,7 @@ public interface RemoteMember extends Remote, Serializable, Bossable, Drawable, 
 
   // Promotable
   @Override
-  public RemoteLeader becomeLeader(Herd h) throws RemoteException;
+  public boolean becomeLeader(Herd h) throws RemoteException;
 
   // Transferable
 

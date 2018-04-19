@@ -79,9 +79,6 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
   public Member(Ability[] can) throws RemoteException {
     LOGGER.log(Level.INFO, "Member Starting");
     abilities = new ArrayList<Ability>();
-    LOGGER.log(Level.INFO, "Calling Herd Constructor");
-    localHerd = new Herd(this);
-    LOGGER.log(Level.INFO, "Herd Constructed");
     for (Ability a : can) {
       switch (a) {
         case PROCESSOR:
@@ -106,19 +103,17 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
           break;
       }
     }
+    LOGGER.log(Level.INFO, "Calling Herd Constructor");
+    localHerd = new Herd(this);
+    LOGGER.log(Level.INFO, "Herd Constructed");
 
 
-    // TODO needs a call to RMI connect for cases where it is not the leader (only due to
-    // abilities?)
-
+    // connect to rmi
+    localHerd.setLeader(connectRMI());
 
     if (abilities.contains(Ability.VIEWER)) {
       startGUI();
     }
-
-
-    // ADD Test Map
-    localHerd.getTheLeader().getState().map.addLayer(new MapLayer(TestData.getEmptyCentreMaze()));
   }
 
 
@@ -127,7 +122,7 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
     try {
       // build and start GUI process
       LOGGER.log(Level.INFO, "EXECing GUIMain");
-      ProcessBuilder GUIMainPB = new ProcessBuilder("java", "-cp", "./bin/", "member.ui.View");
+      ProcessBuilder GUIMainPB = new ProcessBuilder("java", "-cp", "./bin/", "common.objects.View");
       GUIMainPB.redirectErrorStream(true);
       @SuppressWarnings("unused")
       Process GUIMainP = GUIMainPB.start();
@@ -224,23 +219,26 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
 
 
   @Override
-  public Map processMapLump(Herd h) throws RemoteException {
+  public Map processMapLump() throws RemoteException {
     // TODO Auto-generated method stub
 
     // FIXME some form of call to map. almag layer
     return null;
   }
 
-
   @Override
-  public Path processPathLump(Herd h) throws RemoteException {
-
+  public Path processPathLump() throws RemoteException {
     Driveable robot = localHerd.getDrivers().get(0);// TODO should be specific bot
     Waypoint start = new Waypoint(robot.getPos().getX(), robot.getPos().getY());
     return new AStar().pathfind(start, localHerd.dest, localHerd.map);
-
   }
 
+  @Override
+  public Path optimizePathLump() throws RemoteException {
+    // TODO Auto-generated method stub
+    // FIXME some call to optimise path??
+    return null;
+  }
 
   @Override
   public boolean setDestination(Waypoint w) throws RemoteException {
@@ -284,47 +282,38 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
   }
 
   @Override
-  public RemoteLeader becomeLeader(Herd h) throws RemoteException {
+  public boolean becomeLeader(Herd h) throws RemoteException {
     // TODO Auto-generated method stub
     LOGGER.log(Level.INFO, "Becoming Leader");
 
     // change WiFi mode (ready to become leader)
 
-    // exec the RMI Process -
+    // exec the Process
     startLeader();
     // start the leader
-    // wait?
-    // connect to rmi
-    RemoteLeader res = connectRMI();
-    // return the leader on the RMI link
-    return res;// FIXME NPE change sig?
+
+    // store the herd ready for hand off??
+    return true;
   }
 
 
   private RemoteLeader connectRMI() {
+    RemoteLeader res = null;
     try {
-      localHerd.setLeader((RemoteLeader) Naming.lookup("rmi://192.168.25.42" + "/HerdLeader"));// FIXME
-                                                                                               // lookup
-                                                                                               // IP
-    } catch (MalformedURLException e) {
+      res = (RemoteLeader) Naming.lookup("rmi://192.168.25.42" + "/HerdLeader");
+      // FIXME lookup IP
+      res.register(this);
+    } catch (RemoteException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
-    } catch (RemoteException e) {
+    } catch (MalformedURLException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
     } catch (NotBoundException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
-    } // needs to be var vs hardcode
-      // wait
-      // send the RMI leader the herd info
-    try {
-      localHerd.getLeader().register(this);
-    } catch (RemoteException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
     }
-    return localHerd.getLeader();
+    return res;
   }
 
   @Override

@@ -1,5 +1,7 @@
 package common.objects;
 
+import java.io.Serializable;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -37,7 +39,12 @@ import common.interfaces.RemoteView;
  * 
  */
 
-public class Herd implements Joinable, Organisable {
+public class Herd implements Serializable, Joinable, Organisable {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 3973559806177088667L;
+
   private static final Logger LOGGER = Logger.getLogger(Herd.class.getName());
 
   private String herdID;
@@ -87,7 +94,7 @@ public class Herd implements Joinable, Organisable {
     requestJoin(a);
 
     try {
-      theLeader = electLeader().becomeLeader(this);// on that robot, start the leader process
+      electLeader().becomeLeader(this);// on that robot, start the leader process
     } catch (RemoteException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();

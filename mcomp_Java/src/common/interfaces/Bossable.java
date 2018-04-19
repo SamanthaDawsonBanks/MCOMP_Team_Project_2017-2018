@@ -42,7 +42,7 @@ public interface Bossable {
    * 
    * @throws RemoteException RMI between Member-Leader
    */
-  public Map processMapLump(Herd h) throws RemoteException;
+  public Map processMapLump() throws RemoteException;
 
   /**
    * Processes a section of the path for pathfinding as part of a distributed call to the members
@@ -57,6 +57,8 @@ public interface Bossable {
    * 
    * @throws RemoteException RMI between Member-Leader
    */
-  public Path processPathLump(Herd h) throws RemoteException;
+  public Path processPathLump() throws RemoteException;
+
+  public Path optimizePathLump() throws RemoteException;
 
 }

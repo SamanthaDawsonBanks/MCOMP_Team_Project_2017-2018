@@ -192,7 +192,7 @@ String Pipe::encodeWaypoint(Waypoint w) {
  * When shutting down, this method can be called to terminate the established serial
  * connection.
  */
-Pipe::close() {
+void Pipe::close() {
   Serial.end();
 }
 
