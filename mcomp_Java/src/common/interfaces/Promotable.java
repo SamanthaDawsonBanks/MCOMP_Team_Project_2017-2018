@@ -36,11 +36,11 @@ public interface Promotable {
    *
    * @param h A Herd object holding the members and herd to become leader of
    * 
-   * @return The Member that was chosen to become the leader
+   * @return True if the leader started
    * 
    * @throws RemoteException RMI between Member-Leader
    */
-  public RemoteLeader becomeLeader(Herd h) throws RemoteException;
+  public boolean becomeLeader(Herd h) throws RemoteException;
   // object to the Herd?
 
 }

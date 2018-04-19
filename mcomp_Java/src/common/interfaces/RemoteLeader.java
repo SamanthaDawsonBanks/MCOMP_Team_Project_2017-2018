@@ -9,7 +9,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import common.datatypes.Waypoint;
 import common.objects.Herd;
-import member.ui.View;
+import common.objects.View;
 
 /**
  * Unification of the 'Leader' methods for purposes of RMI/Remote identification

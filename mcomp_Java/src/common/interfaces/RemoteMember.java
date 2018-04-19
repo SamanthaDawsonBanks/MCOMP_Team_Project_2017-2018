@@ -75,7 +75,7 @@ public interface RemoteMember extends Remote, Serializable, Bossable, Drawable, 
 
   // Promotable
   @Override
-  public RemoteLeader becomeLeader(Herd h) throws RemoteException;
+  public boolean becomeLeader(Herd h) throws RemoteException;
 
   // Transferable
 
