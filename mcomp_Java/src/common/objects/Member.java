@@ -114,7 +114,6 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
     if (abilities.contains(Ability.VIEWER)) {
       startGUI();
     }
-    
   }
 
 
