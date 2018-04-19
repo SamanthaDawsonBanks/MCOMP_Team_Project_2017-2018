@@ -37,6 +37,8 @@ public interface Connectable {
    */
   public ArrayList<RemoteMember> register(RemoteMember joiningMember) throws RemoteException;
 
+  public ArrayList<RemoteView> register(RemoteView view) throws RemoteException;
+
   /**
    * When leaving a herd (normally in a herd merge), the member must first unregister itself with
    * the current leader so that it can no longer receive instruction from it.
@@ -50,6 +52,8 @@ public interface Connectable {
    */
   public ArrayList<RemoteMember> deregister(RemoteMember leavingMember) throws RemoteException;
 
+  public ArrayList<RemoteView> deregister(RemoteView leavingView) throws RemoteException;
+  
   /**
    * Access method for getting a collection of all members
    * 
@@ -62,5 +66,7 @@ public interface Connectable {
    * @throws RemoteException RMI between Member-Leader
    */
   public ArrayList<RemoteMember> getMemebers() throws RemoteException;
+
+  boolean kill(String log) throws RemoteException;
 
 }

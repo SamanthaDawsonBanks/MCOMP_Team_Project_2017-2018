@@ -27,21 +27,6 @@ import common.objects.Herd;
 public interface Groupable {
 
   /**
-   * Client side of the client (member) / server (leader-herd) connection used to instruct a member to
-   * request to join the provided herd
-   * 
-   * @see common.objects.Herd
-   * @see common.objects.Leader
-   *
-   * @param newHerd A Herd object holding the leader to be contacted / joined to
-   * 
-   * @return Boolean stating the result; True = success
-   * 
-   * @throws RemoteException RMI between Member-Leader
-   */
-  public boolean joinHerd(Herd newHerd) throws RemoteException;// FIXME herd object or leader ref??
-
-  /**
    * Access method for getting the list of abilities from the member instance
    * 
    * @see common.objects.Herd
@@ -54,30 +39,5 @@ public interface Groupable {
    */
   ArrayList<Ability> getAbilities() throws RemoteException;
 
-  /**
-   * Access method for getting the local member copy of the herd data
-   * 
-   * @see common.objects.Herd
-   * @see common.objects.Leader
-   *
-   * @return Herd data including path, map, members and destination
-   * 
-   * @throws RemoteException RMI between Member-Leader
-   */
-  Herd getLocalHerdData() throws RemoteException;
-
-  /**
-   * Access method for setting the local member copy of the herd data
-   * 
-   * @see common.objects.Herd
-   * @see common.objects.Leader
-   * @see common.datatypes.Ability
-   *
-   * @param leaderHerd The Leaders copy of Herd data including path, map, members and destination
-   *
-   * @return Herd data including path, map, members and destination
-   * 
-   * @throws RemoteException RMI between Member-Leader
-   */
-  Herd updateLocalHerdInfo(Herd leaderHerd) throws RemoteException;
+  boolean kill(String log) throws RemoteException;
 }

@@ -37,10 +37,13 @@ public interface RemoteMember extends Remote, Serializable, Bossable, Drawable, 
 
   // Bossable
   @Override
-  public Map processMapLump(Herd h) throws RemoteException;
+  public Map processMapLump() throws RemoteException;
 
   @Override
-  public Path processPathLump(Herd h) throws RemoteException;
+  public Path processPathLump() throws RemoteException;
+  
+  @Override
+  public Path optimizePathLump() throws RemoteException;
 
   // Drawable
 
@@ -51,19 +54,16 @@ public interface RemoteMember extends Remote, Serializable, Bossable, Drawable, 
   // Driveable
   @Override
   public Waypoint drive(Waypoint w) throws RemoteException;
-
-  // Groupable
+  
   @Override
-  public boolean joinHerd(Herd newHerd) throws RemoteException;
-
+  public Waypoint getPos() throws RemoteException;
+  
+  // Groupable
   @Override
   ArrayList<Ability> getAbilities() throws RemoteException;
 
   @Override
-  Herd getLocalHerdData() throws RemoteException;
-
-  @Override
-  Herd updateLocalHerdInfo(Herd leaderHerd) throws RemoteException;
+  boolean kill(String log) throws RemoteException;
 
   // LSenseable
   @Override
@@ -75,12 +75,7 @@ public interface RemoteMember extends Remote, Serializable, Bossable, Drawable, 
 
   // Promotable
   @Override
-  public RemoteLeader becomeLeader(Herd h) throws RemoteException;
-
-  // ????Securable / Keyable????
-  // @Override
-  // FIXME adjust for security interface
-  public Object getPublicKey() throws RemoteException;
+  public boolean becomeLeader(Herd h) throws RemoteException;
 
   // Transferable
 

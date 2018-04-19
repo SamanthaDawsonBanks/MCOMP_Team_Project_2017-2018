@@ -4,6 +4,7 @@ import java.net.InetAddress;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import common.datatypes.Waypoint;
 import common.interfaces.Connectable;
@@ -14,6 +15,7 @@ import common.interfaces.Instructable;
 import common.interfaces.LSenseable;
 import common.interfaces.RemoteLeader;
 import common.interfaces.RemoteMember;
+import common.interfaces.RemoteView;
 import common.interfaces.Updateable;
 import leader.LeaderMain;
 
@@ -30,16 +32,15 @@ import leader.LeaderMain;
 public class Leader extends UnicastRemoteObject
     implements RemoteLeader, Instructable, Connectable, Directable, Updateable, Contactable {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 9095319900672719682L;
+
   private static final Logger LOGGER = Logger.getLogger(LeaderMain.class.getName());
 
-  private Herd herd;
+  private Herd leaderHerd;
 
-  // private int portNumber;
-  // private String serverName;
-  // private Registry r;
-
-  InetAddress[] addresses;
-  InetAddress loopback;
 
   /**
    * Constructor for the leader object. This will take a port number and a name and store these in
@@ -59,48 +60,38 @@ public class Leader extends UnicastRemoteObject
 
   /**
    * When called this method will return a list of all registered members currently known to the
-   * leader of the herd.
+   * leader of the leaderHerd.
    * 
    * @return The current state of the members list
    */
   @Override
-  public ArrayList<RemoteMember> getMemebers() throws RemoteException {// TODO refactor to herd
+  public ArrayList<RemoteMember> getMemebers() throws RemoteException {// TODO refactor to
+                                                                       // leaderHerd
     // potentially depreciated
-    return herd.getMembers();
+    return leaderHerd.getMembers();
   }
 
   /**
    * When two leaders come into contact with each other and want to merge herds, **stuff** will
-   * happen that results in an elected leader for the "new" herd as well as the transitioning of
-   * current members from the "old" one.
+   * happen that results in an elected leader for the "new" leaderHerd as well as the transitioning
+   * of current members from the "old" one.
    */
   @Override
-  public boolean leaderDiscussMerge(Herd h) throws RemoteException {// TODO send herd data so decision can be
-                                                           // made?
+  public boolean leaderDiscussMerge(Herd h) throws RemoteException {// TODO send leaderHerd data so
+                                                                    // decision can be
+    // made?
     // TODO Auto-generated method stub
-    // Will be related to herd merging
+    // Will be related to leaderHerd merging
     throw new UnsupportedOperationException("method not implemented");
-    //return true;
+    // return true;
   }
 
-  /**
-   * DOCME
-   */
-  @Override
-  public void updateModel(Herd newHerdData) throws RemoteException {// TODO is the input a herd DT?
-    
-    //something here for the initial herd stuff
-    
-    // TODO Auto-generated method stub
-    // Won't be update model
-  }
-  
-  //all the methods for updating the state??
-  
-  
   @Override
   public Herd getState() throws RemoteException {
-    return herd;
+    return leaderHerd;
+    // TODO Auto-generated method stub
+    // bundle up all state and send it to the client
+    // displayable needs current map and destination
   }
 
   /**
@@ -108,20 +99,26 @@ public class Leader extends UnicastRemoteObject
    */
   @Override
   public ArrayList<RemoteMember> register(RemoteMember joiningMember) throws RemoteException {
-    if (herd == null) {
-      herd = new Herd(joiningMember);
+    if (leaderHerd == null) {
+      leaderHerd = new Herd(joiningMember);
     }
-    if (herd.theLeader == null) {
-      herd.theLeader = this;
+    if (leaderHerd.getTheLeader() == null) {
+      leaderHerd.setLeader(this);
     }
-    updateModel(joiningMember.getLocalHerdData());
-    joiningMember.RMITest();//FIXME this checks loopback
-    //TODO do something ? take read ? dance?!?!?!
-    
-    
-    return herd.requestJoin(joiningMember);// FIXME adjust for herd
+    // TODO some form of notify all??
+    // updateModel(joiningMember.getLocalHerdData()); //FIXME do we need this??
+    joiningMember.RMITest();// FIXME this checks loopback
+    // TODO do something ? take read ? dance?!?!?!
+    return leaderHerd.requestJoin(joiningMember);
+    // FIXME adjust for leaderHerd
     // used to register a client for server/client/mvc
     // Likely to take a member and add them to the 'registered' list??
+  }
+
+  @Override
+  public ArrayList<RemoteView> register(RemoteView joiningView) throws RemoteException {
+    // TODO Auto-generated method stub
+    return null;
   }
 
   /**
@@ -129,8 +126,8 @@ public class Leader extends UnicastRemoteObject
    */
   @Override
   public ArrayList<RemoteMember> deregister(RemoteMember leavingMember) throws RemoteException {
-    // updateModel(herd.requestLeave(leavingMember));//FIXME check logic
-    return herd.requestLeave(leavingMember);// FIXME adjust for herd
+    // updateModel(leaderHerd.requestLeave(leavingMember));//FIXME check logic
+    return leaderHerd.requestLeave(leavingMember);// FIXME adjust for leaderHerd
     // not sure that's right - will look into
     // As with register but removing??
   }
@@ -153,24 +150,47 @@ public class Leader extends UnicastRemoteObject
   }
 
   @Override
-  public Boolean go() throws RemoteException {//FIXME called by the GUI/cont?
+  public boolean optimizePath() throws RemoteException {
+    leaderHerd.optimizedPath = leaderHerd.getProcessors().get(0).optimizePathLump();
+    // dumbly get first until parallel
+    return (leaderHerd.optimizedPath != null);
+  }
+
+  @Override
+  public Boolean go() throws RemoteException {// FIXME called by the GUI/cont?
     // if there is a dest and path //else clean up
-    
+    boolean res = true; // assume ok
+    if (leaderHerd.dest == null) {
+      // some form of error?
+      res = false;
+    }
+    if (leaderHerd.unoptimizedPath == null) {
+      if (!pathfind()) {
+        res = false;
+      }
+    }
+    if (leaderHerd.optimizedPath == null) {
+      if (!optimizePath()) {
+        res = false;
+      }
+    }
+
     // actual method that makes bots drive through the path calc'ed
     // for each reg'ed bot //FIXME needs some form of 'queue' so that bots can follow (or all bots
     // will go to the first WP and crash)
-    for (Driveable cb : herd.getDrivers()) { // TODO RM should be drivable and in h.drivers
-      while (herd.path.getLength() > 0) {// TODO GT or GT|E
-        Waypoint w = herd.path.poll();
+    for (Driveable cb : leaderHerd.getDrivers()) { // TODO RM should be drivable and in h.drivers
+      while (leaderHerd.optimizedPath.getLength() > 0) {// TODO GT or GT|E
+        Waypoint w = leaderHerd.optimizedPath.poll();
         try {
           if (!cb.drive(w).equals(w)) {
             // FIXME do something!! //ultrasound blocked
           }
-          if (herd.getSensors().contains(cb)) {// FIXME unsafe cast? drivables are lsensibles?
-            herd.map.addLayer(((LSenseable) cb).lSense());// take LiDAR Read
+          if (leaderHerd.getSensors().contains(cb)) {// FIXME unsafe cast!
+            leaderHerd.map.addLayer(((LSenseable) cb).lSense());// take LiDAR Read
           }
         } catch (RemoteException e) {
-          // TODO Auto-generated catch block
+          //deregister member
+          deregister((RemoteMember) cb);
           e.printStackTrace();
         } ;
       }
@@ -178,7 +198,7 @@ public class Leader extends UnicastRemoteObject
     // for each wp in path
     // drive that bot to that wp
     // return "it got there"
-    return null;
+    return res;
   }
 
   @Override
@@ -187,10 +207,18 @@ public class Leader extends UnicastRemoteObject
     return true;// TODO some logic
   }
 
+
+  @Override
+  public boolean kill(String log) throws RemoteException {
+    LOGGER.log(Level.SEVERE, log);
+    LeaderMain.stayingAlive = false;
+    return true;// TODO some logic
+  }
+
+
   @Override
   public void RMITest() throws RemoteException {
     System.out.println("Leader RMITest was called");
   }
-
 
 }

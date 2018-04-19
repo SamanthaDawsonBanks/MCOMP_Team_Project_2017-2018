@@ -1,5 +1,7 @@
 package common.objects;
 
+import java.io.Serializable;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -16,8 +18,10 @@ import common.interfaces.Joinable;
 import common.interfaces.LSenseable;
 import common.interfaces.Notifiable;
 import common.interfaces.Organisable;
+import common.interfaces.Promotable;
 import common.interfaces.RemoteLeader;
 import common.interfaces.RemoteMember;
+import common.interfaces.RemoteView;
 
 /**
  * 
@@ -35,21 +39,33 @@ import common.interfaces.RemoteMember;
  * 
  */
 
-public class Herd implements Joinable, Organisable {
+public class Herd implements Serializable, Joinable, Organisable {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 3973559806177088667L;
+
   private static final Logger LOGGER = Logger.getLogger(Herd.class.getName());
 
   private String herdID;
-  protected RemoteLeader theLeader;
+
+  private RemoteLeader theLeader;
+
   private ArrayList<RemoteMember> herdMembers;
   private ArrayList<Driveable> herdDrivers;
   private ArrayList<LSenseable> herdSensors;
   private ArrayList<Bossable> herdProcessors;
   private ArrayList<Notifiable> herdViewers;
+  private ArrayList<RemoteView> herdViews;
   private Directable herdDestSetter;
 
   protected Map map;
   protected Waypoint dest;
-  protected Path path;
+
+  protected Path unoptimizedPath;
+  protected ArrayList<Vertex> searchedNodes;
+  protected Path optimizedPath;
+
 
   /**
    * The Herd constructor.
@@ -73,10 +89,12 @@ public class Herd implements Joinable, Organisable {
     herdProcessors = new ArrayList<Bossable>();
     herdViewers = new ArrayList<Notifiable>();
 
+    herdViews = new ArrayList<RemoteView>();
+
     requestJoin(a);
 
     try {
-      theLeader = electLeader().becomeLeader(this);// on that robot, start the leader process
+      electLeader().becomeLeader(this);// on that robot, start the leader process
     } catch (RemoteException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
@@ -90,9 +108,10 @@ public class Herd implements Joinable, Organisable {
    * @return The leader of the Herd.
    */
   @Override
-  public RemoteMember electLeader() {
+  public Promotable electLeader() {
+    // TODO Auto-generated method stub
     LOGGER.log(Level.INFO, "Choosing Leader");
-    return herdMembers.get(0);// TODO get oldist from all or subtype?
+    return (Promotable) herdProcessors.get(0);// FIXME fix after interface squash
   }
 
   /*
@@ -141,6 +160,14 @@ public class Herd implements Joinable, Organisable {
     return herdMembers;
   }
 
+  @Override
+  public ArrayList<RemoteView> requestJoin(RemoteView aspiringView) {
+    // TODO Find a test to validate the Key of a Member/Herd
+    herdViews.add(aspiringView);
+    return herdViews;
+  }
+
+
   /**
    * This where requests to leave the Herd are handled. In order to leave, a member must be removed
    * from the Herds lists of specialists. All remaining members must be notified of the new state of
@@ -170,6 +197,36 @@ public class Herd implements Joinable, Organisable {
     return herdMembers;
   }
 
+
+  /**
+   * This where requests to leave the Herd are handled. In order to leave, a member must be removed
+   * from the Herds lists of specialists. All remaining members must be notified of the new state of
+   * the Herd. If the leaving member is a Leader, then an election must be held.
+   * 
+   * @param The member object leaving the Herd.
+   * @return The list of remaining members.
+   */
+  @Override
+  public ArrayList<RemoteView> requestLeave(RemoteView leavingView) {
+    /*
+     * TODO Consider the return type. If a member leaves, do they need returned the state of the
+     * herd? Perhaps this should be a void, or return an enum.
+     */
+    /*
+     * TODO Implement a test for leave. If a member is the last Herd member, should the Herd be
+     * destroyed? What happens to it's discoveries about the surrounding world?
+     */
+    herdViews.remove(leavingView);
+    return herdViews;
+  }
+
+  // TODO Finish this
+  // public ArrayList<String> publishMembers() {
+  // for(String a: herdMembers){
+  // //TODO for each member in the herdMembers list publish the new list to them
+  // }
+  // }
+
   /**
    * Retrieves the unique ID of the Herd.
    * 
@@ -191,24 +248,10 @@ public class Herd implements Joinable, Organisable {
   }
 
   /**
-   * Retrieve a single member from the List
-   * 
-   * @param The Public Key of a member in the Herd.
-   * @return The Member object if it exists, null if not.
+   * @return the theLeader
    */
-  @Override
-  public RemoteMember getMember(String theKey) {//TODO remove key
-    for (RemoteMember a : herdMembers) {
-      try {
-        if (a.getPublicKey().equals(theKey)) {
-          return a;
-        }
-      } catch (RemoteException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      }
-    }
-    return null;
+  public RemoteLeader getTheLeader() {
+    return theLeader;
   }
 
   /**
@@ -252,6 +295,16 @@ public class Herd implements Joinable, Organisable {
   }
 
   /**
+   * Retrieve a list of all the Herds GUI-Capable Members.
+   * 
+   * @return The list of Viewers.
+   */
+  @Override
+  public ArrayList<RemoteView> getViews() {
+    return herdViews;
+  }
+
+  /**
    * Retrieve the Member of the Herd responsible for setting destinations.
    * 
    * @return The Destination Setter.
@@ -261,48 +314,11 @@ public class Herd implements Joinable, Organisable {
     return herdDestSetter;
   }
 
-  @Override
-  public boolean acceptMember(Member m) {
-    // TODO Auto-generated method stub
-    return false;
+  protected void setLeader(RemoteLeader leader) {// only used for RMIConnect
+    theLeader = leader;
   }
 
-  @Override
-  public boolean notifyJoin() {
-    // TODO Auto-generated method stub
-    return false;
+  public RemoteLeader getLeader() {
+    return theLeader;
   }
-
-  @Override
-  public boolean removeMember(Member m) {
-    // TODO Auto-generated method stub
-    return false;
-  }
-
-  public Map getMap() {
-    // TODO Auto-generated method stub
-    return map;
-  }
-
-  public Path getPath() {
-    // TODO Auto-generated method stub
-    return path;
-  }
-
-  public ArrayList<Vertex> getUnoptimizedPath() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  public ArrayList<Vertex> getSearchedNodes() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  public ArrayList<Vertex> getOptimizedPath() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-
 }

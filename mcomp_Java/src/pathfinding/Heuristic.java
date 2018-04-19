@@ -1,6 +1,6 @@
 package pathfinding;
 
-import common.datatypes.Waypoint;
+import common.datatypes.map.griddedMap.Vertex;
 
 public class Heuristic {
       
@@ -18,9 +18,9 @@ public class Heuristic {
     //Takes in start node and goal node (a and b)
     //Find non negative difference in x values and y values between nodes;
     //Calculate hx using Manhattan distance heuristic.
-    public Double manhattanHeuristic(Waypoint a, Waypoint b){
-        double xDiff = Math.abs(a.getX() - b.getX());
-        double yDiff = Math.abs(a.getY() - b.getY());
+    public Double manhattanHeuristic(Vertex current, Vertex dest){
+        double xDiff = Math.abs(current.getX() - dest.getX());
+        double yDiff = Math.abs(current.getY() - dest.getY());
         
         double hx = D * (xDiff + yDiff);
         return hx;
@@ -30,7 +30,7 @@ public class Heuristic {
     //Takes in start node and goal node (a and b)
     //Find non negative difference in x values and y values between nodes;
     //Calculate hx using Diagonal distance heuristic.
-    public Double DiagonalHeuristic(Waypoint a, Waypoint b){
+    public Double DiagonalHeuristic(Vertex a, Vertex b){
         double xDiff = Math.abs(a.getX() - b.getX());
         double yDiff = Math.abs(a.getY() - b.getY());
         
@@ -42,7 +42,7 @@ public class Heuristic {
     //Takes in start node and goal node (a and b)
     //Find non negative difference in x values and y values between nodes;
     //Calculate hx using Euclidean distance heuristic.
-    public Double euclideanHeuristic(Waypoint a, Waypoint b){
+    public Double euclideanHeuristic(Vertex a, Vertex b){
         double xDiff = Math.abs(a.getX() - b.getX());
         double yDiff = Math.abs(a.getY() - b.getY());
         
@@ -51,12 +51,12 @@ public class Heuristic {
     }
     
         
-    public Double distanceX(Waypoint a, Waypoint b){
+    public Double distanceX(Vertex a, Vertex b){
         double xDiff = Math.abs(a.getX() - b.getX());
         return xDiff;
     }
     
-    public Double distanceY(Waypoint a, Waypoint b){
+    public Double distanceY(Vertex a, Vertex b){
         double yDiff = Math.abs(a.getY() - b.getY());
         return yDiff;
     }

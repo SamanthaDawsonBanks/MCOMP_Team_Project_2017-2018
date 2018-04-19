@@ -5,28 +5,36 @@
  *      Author: Ryan Shoobert 15812407
  */
 
-#ifndef COMMUNICATION_PIPE_H_
-#define COMMUNICATION_PIPE_H_
+#ifndef COMMUNICATION_PIPE_H1_
+#define COMMUNICATION_PIPE_H1_
 
+//library includes
 #include "Arduino.h"
+#include "../common/datatypes/Waypoint.h"
+#include "../movement/Propulsion.h"
+#include "../lsensor/LSensor.h"
+
+//Definition of the default baud rate for the serial connection
+#define BAUD_RATE 115200
 
 class Pipe {
  public:
   Pipe();
   virtual ~Pipe();
 
-  int available();
-  bool write(String toWrite);
-  //TODO overloaded write methods
+  String call();
 
-  byte[] read();
-  String decode(byte[] readBytes);
-  void encode(String s);
+  void recieveCommand();
+  void writeString(String s);
+
+  String* decode(String readData);
+
+  String encodeInlineWaypoint(Waypoint w);
+  String encodeWaypoint(Waypoint w);
+  String encodeDouble(double d);
+  String encodeLRead(Waypoint reading[]);
+
   void close();
-
- private:
-  const int BAUD_RATE;
-
 };
 
-#endif /* COMMUNICATION_PIPE_H_ */
+#endif /* COMMUNICATION_PIPE_H1_ */

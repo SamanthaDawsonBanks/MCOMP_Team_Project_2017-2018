@@ -8,6 +8,7 @@
 #include "../common/datatypes/AngleDistance.h"
 #include "../common/datatypes/Waypoint.h"
 #include "../libraries/Adafruit_MotorShield.h"
+#include <math.h>
 
 
 #ifndef LSENSOR_LSENSOR_H_
@@ -16,30 +17,25 @@
 class LSensor {
 
  private:
-  int targetPWM;
-  int currentPWM;
+  unsigned int targetPWM;
   Adafruit_MotorShield AFMS1;
   Adafruit_DCMotor lidarMotor;
-  //some form of state?
-  //shared buffer or data being passed?
-  //incoming buffer? object or in method? UART?
-
-  void syncAndStoreLiDAR();  //blocking or ready? //NOTE this will return a pointer to the top of a 90 element array
-
-  AngleDistance decodeReturn();  //90 packets to 360 AD reads //also RPM data and error data //NOTE this will return a pointer to the top of a 360 element array
-
-  Waypoint convertReturn();  //method or just part of decode? AD>rWP //NOTE this will return a pointer to the top of a 360 element array
+  unsigned int* pDistances;
+  byte inByte;                         //incoming byte on serial2
+  unsigned int avgRPM;
+  unsigned int targetRPM;
 
  public:
   LSensor();
   virtual ~LSensor();
-
   bool isGood();  //better name?
-
-  void processCommand();  //do we need?
-
-  Waypoint takeRead();  //overall? //NOTE this will return a pointer to the top of a 360 element array
-
+  unsigned int getAvgRPM();
+  Waypoint* sense();
+  unsigned int getRead(int);
+  unsigned int* decodeRead();
+  bool adjustRPM();
+  void getEncodedRead();
+  Waypoint* toWaypoint();
 };
 
 #endif /* LSENSOR_LSENSOR_H_ */

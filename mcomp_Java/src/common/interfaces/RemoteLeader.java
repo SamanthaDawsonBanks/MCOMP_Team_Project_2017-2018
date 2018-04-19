@@ -9,6 +9,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import common.datatypes.Waypoint;
 import common.objects.Herd;
+import common.objects.View;
 
 /**
  * Unification of the 'Leader' methods for purposes of RMI/Remote identification
@@ -38,10 +39,19 @@ public interface RemoteLeader
   public ArrayList<RemoteMember> register(RemoteMember joiningMember) throws RemoteException;
 
   @Override
+  public ArrayList<RemoteView> register(RemoteView view) throws RemoteException;
+
+  @Override
   public ArrayList<RemoteMember> deregister(RemoteMember leavingMember) throws RemoteException;
 
   @Override
+  public ArrayList<RemoteView> deregister(RemoteView leavingView) throws RemoteException;
+
+  @Override
   public ArrayList<RemoteMember> getMemebers() throws RemoteException;
+
+  @Override
+  boolean kill(String log) throws RemoteException;
 
   // Contactable
   @Override
@@ -56,12 +66,12 @@ public interface RemoteLeader
   public boolean pathfind() throws RemoteException;
 
   @Override
+  boolean optimizePath() throws RemoteException;
+
+  @Override
   public Boolean go() throws RemoteException;
 
   // Updateable
-  @Override
-  public void updateModel(Herd newHerdData) throws RemoteException;
-
   @Override
   public Herd getState() throws RemoteException;
 

@@ -30,6 +30,6 @@ public interface Organisable {
    * @see common.objects.Leader
    *
    * @return The *Member* object that is to later *become* the Leader
-   */  public RemoteMember electLeader();
+   */  public Promotable electLeader();
 
 }

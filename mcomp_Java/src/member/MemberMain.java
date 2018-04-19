@@ -4,11 +4,13 @@
 package member;
 
 import common.objects.Member;
+import unitTesting.testData.TestData;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import common.datatypes.Ability;
+import common.datatypes.map.MapLayer;
 
 /**
  * @author Stephen Pope 15836791
@@ -33,6 +35,9 @@ import common.datatypes.Ability;
  */
 public class MemberMain {
   private static final Logger LOGGER = Logger.getLogger(MemberMain.class.getName());
+  
+  public static boolean stayingAlive = true;
+
   private static Member me;
 
   public static void main(String[] args) throws RemoteException {
@@ -72,11 +77,14 @@ public class MemberMain {
       LOGGER.log(Level.INFO, "Calling Member Constructor");
       me = new Member(abilities);
       LOGGER.log(Level.INFO, "Member Constructed");
+            
     }
     
-    while (true) { //FIXME some form of go to sleep cmd??
+    while (stayingAlive) {
       
     }
+    LOGGER.log(Level.SEVERE, "Killed, Exiting");
+
 
   }
 
