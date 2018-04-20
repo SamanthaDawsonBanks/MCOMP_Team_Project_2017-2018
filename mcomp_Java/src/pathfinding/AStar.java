@@ -81,7 +81,7 @@ public class AStar {
           openList.add(z);
         }
 
-        double childGx = z.getGx() + 1;
+        double childGx = current.getGx() + 1;
 
         if (childGx < z.getGx()) {
           continue;
