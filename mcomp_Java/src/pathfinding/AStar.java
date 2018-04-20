@@ -27,7 +27,7 @@ public class AStar {
 
     BlockedVertex blocked = m.getAmalgamatedMap().blocked;
 
-    int counter = 0; //for debugging
+    int counter = 0; // for debugging
 
     svStart.setGx(0.0);
     svStart.setHx(h.manhattanHeuristic(svStart, svDest));
@@ -44,11 +44,11 @@ public class AStar {
         if (v.getFx() < current.getFx()) {
           current = v;
         }
-         if (v.getFx() == current.getFx()) {
-         if (v.getHx() < current.getHx()) {
-         current = v;
-         }
-         }
+        if (v.getFx() == current.getFx()) {
+          if (v.getHx() < current.getHx()) {
+            current = v;
+          }
+        }
       }
 
       if (isEquals(current, svDest)) {
@@ -57,7 +57,7 @@ public class AStar {
         return returnPath(svStart, current, m);
       }
 
-      //counter++; uncomment to debug
+      // counter++; uncomment to debug
 
 
       openList.remove(current);
