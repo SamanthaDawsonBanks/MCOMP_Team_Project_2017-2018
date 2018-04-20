@@ -3,7 +3,6 @@ package common.interfaces;
 import java.rmi.RemoteException;
 import common.datatypes.map.Map;
 import common.datatypes.path.Path;
-import common.objects.Herd;
 
 /**
  * A bossable object is one that can receive instructions from the Leader of a Herd to process a
