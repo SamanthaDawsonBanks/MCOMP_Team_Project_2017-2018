@@ -42,6 +42,7 @@ void setup() {
 //  testPath();
     testMove();
     LSensor l = LSensor();
+    l.lSensorTest();
   //setup serial to pi 115200??
   //setup serial to LiDAR BAUD? //TODO refactor into sense()
 
