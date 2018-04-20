@@ -146,7 +146,7 @@ Waypoint* LSensor::toWaypoint(){
   //the hyp and the opp gives us 2 sides of a triangle so we can SOHCAHTOA to find x
   //Waypoint constructor does this when handed an AngleDistance
   for (int i = 0; i < 360; i++){
-    AngleDistance ad = AngleDistance ((double) i, (long) (*pDistances/10));
+    AngleDistance ad = AngleDistance ((double) i, (long) (*(pDistances+i)/10));
     Waypoint a  = Waypoint(ad);
     wp[i] = a;
   }
