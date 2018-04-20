@@ -21,38 +21,43 @@ public class AStar {
     PathOptimisation pOpt = new PathOptimisation();
 
     ScoredVertex svStart =
-        new ScoredVertex(m.getAmalgamatedMap().getVertex(dest), m.getAmalgamatedMap());
-    ScoredVertex svDest =
         new ScoredVertex(m.getAmalgamatedMap().getVertex(start), m.getAmalgamatedMap());
+    ScoredVertex svDest =
+        new ScoredVertex(m.getAmalgamatedMap().getVertex(dest), m.getAmalgamatedMap());
 
     BlockedVertex blocked = m.getAmalgamatedMap().blocked;
 
+    int counter = 0; //for debugging
 
     svStart.setGx(0.0);
     svStart.setHx(h.manhattanHeuristic(svStart, svDest));
 
     openList.add(svStart);
 
-    while (!openList.isEmpty()) {
+    ScoredVertex current = svStart;
 
-      ScoredVertex current = svStart;
+    while (!openList.isEmpty() && counter < 15) {
+
+      current = openList.get(0);
 
       for (ScoredVertex v : openList) {
         if (v.getFx() < current.getFx()) {
           current = v;
         }
-        if (v.getFx() == current.getFx()) {
-          if (v.getHx() < current.getHx()) {
-            current = v;
-          }
-        }
+         if (v.getFx() == current.getFx()) {
+         if (v.getHx() < current.getHx()) {
+         current = v;
+         }
+         }
       }
 
       if (isEquals(current, svDest)) {
-        System.out.print("goal reached");
+        System.out.print("goal reached ");
         System.out.print(closedList.size());
         return returnPath(svStart, current, m);
       }
+
+      //counter++; uncomment to debug
 
 
       openList.remove(current);
@@ -64,8 +69,8 @@ public class AStar {
 
       for (Vertex v : current.edges) {
 
-        if (v == null || v.equals(blocked) || myContains(closedList, v)) {// FIXME null should be
-                                                                          // open?
+        if (v == null || v.equals(blocked) || myContains(closedList, v)) {
+          // FIXME null should be open?
           continue;
         }
 
