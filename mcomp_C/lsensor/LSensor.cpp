@@ -111,13 +111,13 @@ unsigned int* LSensor::decodeRead(){
 bool LSensor::adjustRPM(){
   getAvgRPM();
   if (avgRPM > targetRPM+20){ //if RPM is more than 10RPM off target, adjust it
-    targetPWM = targetPWM--;
+    targetPWM--;
     lidarMotor.setSpeed(targetPWM);
     lidarMotor.run(FORWARD);
     return false;
   }
   else if (avgRPM < targetRPM-20){
-    targetPWM = targetPWM++;
+    targetPWM++;
     lidarMotor.setSpeed(targetPWM);
     lidarMotor.run(FORWARD);
     return false;
