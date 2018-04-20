@@ -43,7 +43,7 @@ unsigned int LSensor::getAvgRPM(){
     rpmLe = 0;
     rpmBe = 0;
     lowerB = buffer[counter];
-    upperB = buffer [counter++];
+    upperB = buffer [counter+1];
     rpmLe = rpmLe | lowerB;              //rpmLe (0) bitwise OR with b2 = b2 but in a 16 bit in not 8 bit byte
     rpmLe <<= 8;                       //shift bits 8 left to make space for b3
     rpmLe = rpmLe | upperB;            //rpmLe (b2+8 zeros) logical OR with b3 = b2 concat b3 in one 16 bit value
@@ -76,7 +76,7 @@ unsigned int LSensor::getRead(int location){
   unsigned int le = 0;
   unsigned int be = 0;
   unsigned int lowerByte = buffer[location];
-  unsigned int upperByte = buffer[location++];
+  unsigned int upperByte = buffer[location+1];
   if (upperByte & 0x01){              //Bitwise compare to see if did not calc flag was high
     return 0;
   }
@@ -96,10 +96,10 @@ unsigned int LSensor::getRead(int location){
 
 unsigned int* LSensor::decodeRead(){
   int counter = 0;
-  for(int i = 4; i < 360; i = i + 4){
+  for(int i = 0; i < 90; i = i + 4){
     counter += 4;
     for(int j = 0;  j < 4; j++){
-      distances[i+j] = getRead(counter);
+      distances[i*4+j] = getRead(counter);
       counter += 4;
     }
     counter = counter + 2; //To jump over the checksum bytes!
@@ -110,14 +110,14 @@ unsigned int* LSensor::decodeRead(){
 
 bool LSensor::adjustRPM(){
   getAvgRPM();
-  if (avgRPM > targetRPM+10){ //if RPM is more than 10RPM off target, adjust it
-    targetPWM = targetPWM-5;
+  if (avgRPM > targetRPM+20){ //if RPM is more than 10RPM off target, adjust it
+    targetPWM--;
     lidarMotor.setSpeed(targetPWM);
     lidarMotor.run(FORWARD);
     return false;
   }
-  else if (avgRPM < targetRPM-10){
-    targetPWM = targetPWM+5;
+  else if (avgRPM < targetRPM-20){
+    targetPWM++;
     lidarMotor.setSpeed(targetPWM);
     lidarMotor.run(FORWARD);
     return false;
@@ -146,7 +146,7 @@ Waypoint* LSensor::toWaypoint(){
   //the hyp and the opp gives us 2 sides of a triangle so we can SOHCAHTOA to find x
   //Waypoint constructor does this when handed an AngleDistance
   for (int i = 0; i < 360; i++){
-    AngleDistance ad = AngleDistance ((double) i, (long) (*pDistances/10));
+    AngleDistance ad = AngleDistance ((double) i, (long) (*(pDistances+i)/10));
     Waypoint a  = Waypoint(ad);
     wp[i] = a;
   }
@@ -162,6 +162,12 @@ Waypoint* LSensor::sense(){
   }
   getEncodedRead(); //The proper read
   decodeRead();//Reverse reads so they are BigEndian and return pointer to head of array
+  return toWaypoint();
+}
+
+Waypoint* LSensor::lSensorTest(){
+  buffer = {}; //TODO fill with LiDAR return for first mapLayer
+  decodeRead();
   return toWaypoint();
 }
 
