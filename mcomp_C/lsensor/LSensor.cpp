@@ -165,3 +165,9 @@ Waypoint* LSensor::sense(){
   return toWaypoint();
 }
 
+Waypoint* LSensor::lSensorTest(){
+  buffer = {}; //TODO fill with LiDAR return for first mapLayer
+  decodeRead();
+  return toWaypoint();
+}
+
