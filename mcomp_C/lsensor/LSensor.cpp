@@ -172,6 +172,7 @@ Waypoint* LSensor::sense(){
 }
 
 Waypoint* LSensor::lSensorTest(){
+  //TODO have a test buff
   decodeRead();
   return toWaypoint();
 }
