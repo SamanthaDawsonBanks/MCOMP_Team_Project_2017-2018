@@ -340,8 +340,8 @@ Waypoint* LSensor::lSensorTest() {
   return toWaypoint();
 }
 
-Waypoint* LSensor::lSensorTest(){
-  buffer = {}; //TODO fill with LiDAR return for first mapLayer
+Waypoint* LSensor::lSensorTest() {
+  buffer = {};  //TODO fill with LiDAR return for first mapLayer
   decodeRead();
   return toWaypoint();
 }
