@@ -34,24 +34,24 @@ public class MapTest2 {
    */
   @Test
   void testAddLayer() {
-    @SuppressWarnings("unused")//only for data-typing
+    @SuppressWarnings("unused") // only for data-typing
     ArrayList<Waypoint> l = new ArrayList<Waypoint>();
-    l.add((new Waypoint(-1,-1)));
+    l.add((new Waypoint(-1, -1)));
     Map n = new Map(64, new MapLayer(l));
-    Map m = new Map(64, new MapLayer(TestData.getPresentationMaze())); //TODO expand to full test
+    Map m = new Map(64, new MapLayer(TestData.getPresentationMaze())); // TODO expand to full test
 
     System.out.printf("");// breakpoint
 
     // fail("Not yet implemented");
-    
-    Waypoint start = new Waypoint(2,8);
-    Waypoint dest = new Waypoint(14,10);
-    Waypoint prev = new Waypoint(2,8);
-    
-    
+
+    Waypoint start = new Waypoint(2, 8);
+    Waypoint dest = new Waypoint(14, 10);
+    Waypoint prev = new Waypoint(2, 8);
+
+
     AStar a = new AStar();
     a.pathfind(start, dest, m);
     SearchMap b = new SearchMap();
-   // b.search(start, dest, m);
+    // b.search(start, dest, m);
   }
 }
