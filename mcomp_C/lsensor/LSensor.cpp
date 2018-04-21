@@ -245,7 +245,6 @@ unsigned int LSensor::getRead(int location) {
     res = res | upperByte;
     res <<= 8;
     res = res | lowerByte;
-    //Serial.println(res, DEC);
     return res;
   }
 }
@@ -253,7 +252,7 @@ unsigned int LSensor::getRead(int location) {
 unsigned int* LSensor::decodeRead() {
   int counter = 0;
   for (int i = 0; i < 90; i = i + 1) {
-    counter = counter + 4; //advance to first read
+    counter = counter + 4;  //advance to first read
     for (int j = 0; j < 4; j++) {
       distances[i * 4 + j] = getRead(counter);
       counter = counter + 4;
@@ -278,8 +277,9 @@ bool LSensor::adjustRPM() {
     lidarMotor.setSpeed(targetPWM);
     lidarMotor.run(FORWARD);
     return false;
-  } else
+  } else {
     return true;
+  }
 }
 
 void LSensor::getEncodedRead() {
@@ -335,11 +335,7 @@ Waypoint* LSensor::sense() {
 Waypoint* LSensor::lSensorTest() {
   //TODO have a test buff
 
-//  for (int i = 0; i < 1980; i++) {
-//    buffer[i] = dummy[i];
-//  }
-
-//  getAvgRPM();
+  getAvgRPM();
   decodeRead();
   return toWaypoint();
 }
