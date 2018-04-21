@@ -40,8 +40,9 @@ void setup() {
   // TODO method stub
 //  testWaypoint();
 //  testPath();
-    testMove();
+    //testMove();
     LSensor l = LSensor();
+    l.adjustRPM();
     l.lSensorTest();
   //setup serial to pi 115200??
   //setup serial to LiDAR BAUD? //TODO refactor into sense()
