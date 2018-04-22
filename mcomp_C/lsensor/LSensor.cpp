@@ -239,7 +239,7 @@ unsigned int LSensor::getRead(int location) {
   unsigned int lowerByte = buffer[location];
   unsigned int upperByte = buffer[location + 1];
   if (upperByte & 0x80) {  //Bitwise compare to see if did not calc flag was high
-    return 0;
+    return 16383;
   } else {
     upperByte = upperByte & 0x7F;  //Removes weak signal flag
     res = res | upperByte;
@@ -283,66 +283,71 @@ bool LSensor::adjustRPM() {
 }
 
 void LSensor::getEncodedRead() {
-  if (SENSOR.available()) {
+  bool complete = false;
+  while (!complete) {
+
+    while (!SENSOR.available()) {  //wait for data
+    }
+
     inByte = SENSOR.read();
-  }
-  if (inByte == 0xFA) {            //Read a byte from Serial
-    for (int i = 0; i < 1980; i++) {           //The head of a LiDAR packet read
-      buffer[i] = SENSOR.read();  //Read the next bit in the serial and write it to next position in buffer
+    if (inByte == 0xFA) {            //Read a byte from Serial
+      buffer[0] = 0xFA;  //Read the next bit in the serial and write it to next position in buffer
+      Serial.println("Found 0xFA");
+      inByte = SENSOR.read();
+      if (inByte == 0xA0) {            //Read a byte from Serial
+        buffer[1] = 0xA0;  //Read the next bit in the serial and write it to next position in buffer
+        Serial.println("Found 0xA0");
+        for (int i = 2; i < 1980; i++) {       //The head of a LiDAR packet read
+          buffer[i] = SENSOR.read();  //Read the next bit in the serial and write it to next position in buffer
+        }
+        complete = true;
+      }
     }
   }
 }
 
-Waypoint* LSensor::toWaypoint() {
-  //distance is 14bits
-  //distance is in mm so max =16,383mm
-  //convert to cm so dave can just div by 5 to make grid squares
-  //so div by 10
-  //then pos is array is theta, so the we can calc the y value using trig
-  //the hyp and the opp gives us 2 sides of a triangle so we can SOHCAHTOA to find x
-  //Waypoint constructor does this when handed an AngleDistance
-  Serial.println("Start DATA: (T , D) - (X , Y)");
-  for (int i = 0; i < 360; i++) {
-    AngleDistance ad = AngleDistance((double) i,
-                                     (long) (*(pDistances + i) / 10));
+Waypoint * LSensor::toWaypoint() {
+//distance is 14bits
+//distance is in mm so max =16,383mm
+//convert to cm so dave can just div by 5 to make grid squares
+//so div by 10
+//then pos is array is theta, so the we can calc the y value using trig
+//the hyp and the opp gives us 2 sides of a triangle so we can SOHCAHTOA to find x
+//Waypoint constructor does this when handed an AngleDistance
+Serial.println("Start DATA: (T , D) - (X , Y)");
+for (int i = 0; i < 360; i++) {
+  AngleDistance ad = AngleDistance((double) i, (long) (*(pDistances + i) / 10));
 
-    Serial.print(ad.getTheta());
-    Serial.print(" , ");
-    Serial.print(ad.getDistance());
-    Serial.print(" - ");
+  Serial.print(ad.getTheta());
+  Serial.print(" , ");
+  Serial.print(ad.getDistance());
+  Serial.print(" - ");
 
-    Waypoint a = Waypoint(ad);
-    wp[i] = a;
-    Serial.print(a.getX());
-    Serial.print(" , ");
-    Serial.println(a.getY());
-  }
-  Waypoint* wpPtr = &wp[0];  //point to head of WP array
-  return wpPtr;
+  Waypoint a = Waypoint(ad);
+  wp[i] = a;
+  Serial.print(a.getX());
+  Serial.print(" , ");
+  Serial.println(a.getY());
+}
+Waypoint* wpPtr = &wp[0];  //point to head of WP array
+return wpPtr;
 }
 
-Waypoint* LSensor::sense() {
-  getEncodedRead();  //So we can dig out an accurate avgRPM
-  while (adjustRPM() == false) {  //Keep adjusting RPM until within 10 of target
-    getEncodedRead();
-    adjustRPM();
-  }
-  getEncodedRead();  //The proper read
-  decodeRead();  //Reverse reads so they are BigEndian and return pointer to head of array
-  return toWaypoint();
+Waypoint * LSensor::sense() {
+getEncodedRead();  //So we can dig out an accurate avgRPM
+while (adjustRPM() == false) {  //Keep adjusting RPM until within 10 of target
+  getEncodedRead();
+  adjustRPM();
+}
+getEncodedRead();  //The proper read
+decodeRead();  //Reverse reads so they are BigEndian and return pointer to head of array
+return toWaypoint();
 }
 
-Waypoint* LSensor::lSensorTest() {
-  //TODO have a test buff
-
-  getAvgRPM();
-  decodeRead();
-  return toWaypoint();
+Waypoint * LSensor::lSensorTest() {
+//TODO have a test buff
+//getAvgRPM();
+//getEncodedRead();
+decodeRead();
+return toWaypoint();
 }
-
-Waypoint* LSensor::lSensorTest() {
-  buffer = {};  //TODO fill with LiDAR return for first mapLayer
-  decodeRead();
-  return toWaypoint();
-}
-
