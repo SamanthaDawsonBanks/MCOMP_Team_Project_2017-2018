@@ -240,13 +240,12 @@ unsigned int LSensor::getRead(int location) {
   unsigned int upperByte = buffer[location + 1];
   if (upperByte & 0x80) {  //Bitwise compare to see if did not calc flag was high
     return 16383;
-  } else {
-    upperByte = upperByte & 0x7F;  //Removes weak signal flag
-    res = res | upperByte;
-    res <<= 8;
-    res = res | lowerByte;
-    return res;
   }
+  upperByte = upperByte & 0x3F;  //Removes weak signal flag
+  res = res | upperByte;
+  res <<= 8;
+  res = res | lowerByte;
+  return res;
 }
 
 unsigned int* LSensor::decodeRead() {
@@ -314,40 +313,41 @@ Waypoint * LSensor::toWaypoint() {
 //then pos is array is theta, so the we can calc the y value using trig
 //the hyp and the opp gives us 2 sides of a triangle so we can SOHCAHTOA to find x
 //Waypoint constructor does this when handed an AngleDistance
-Serial.println("Start DATA: (T , D) - (X , Y)");
-for (int i = 0; i < 360; i++) {
-  AngleDistance ad = AngleDistance((double) i, (long) (*(pDistances + i) / 10));
+  Serial.println("Start DATA: (T , D) - (X , Y)");
+  for (int i = 0; i < 360; i++) {
+    AngleDistance ad = AngleDistance((double) i,
+                                     (long) (*(pDistances + i) / 10));
 
-  Serial.print(ad.getTheta());
-  Serial.print(" , ");
-  Serial.print(ad.getDistance());
-  Serial.print(" - ");
+    Serial.print(ad.getTheta());
+    Serial.print(" , ");
+    Serial.print(ad.getDistance());
+    Serial.print(" - ");
 
-  Waypoint a = Waypoint(ad);
-  wp[i] = a;
-  Serial.print(a.getX());
-  Serial.print(" , ");
-  Serial.println(a.getY());
-}
-Waypoint* wpPtr = &wp[0];  //point to head of WP array
-return wpPtr;
+    Waypoint a = Waypoint(ad);
+    wp[i] = a;
+    Serial.print(a.getX());
+    Serial.print(" , ");
+    Serial.println(a.getY());
+  }
+  Waypoint* wpPtr = &wp[0];  //point to head of WP array
+  return wpPtr;
 }
 
 Waypoint * LSensor::sense() {
-getEncodedRead();  //So we can dig out an accurate avgRPM
-while (adjustRPM() == false) {  //Keep adjusting RPM until within 10 of target
-  getEncodedRead();
-  adjustRPM();
-}
-getEncodedRead();  //The proper read
-decodeRead();  //Reverse reads so they are BigEndian and return pointer to head of array
-return toWaypoint();
+  getEncodedRead();  //So we can dig out an accurate avgRPM
+  while (adjustRPM() == false) {  //Keep adjusting RPM until within 10 of target
+    getEncodedRead();
+    adjustRPM();
+  }
+  getEncodedRead();  //The proper read
+  decodeRead();  //Reverse reads so they are BigEndian and return pointer to head of array
+  return toWaypoint();
 }
 
 Waypoint * LSensor::lSensorTest() {
 //TODO have a test buff
-//getAvgRPM();
-//getEncodedRead();
-decodeRead();
-return toWaypoint();
+  getEncodedRead();
+  getAvgRPM();
+  decodeRead();
+  return toWaypoint();
 }
