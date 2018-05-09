@@ -204,8 +204,8 @@ unsigned int LSensor::getAvgRPM() {
   avgRPM = 0;
   unsigned int res;            //RPM result
   int counter = 2;
-  unsigned int lowerB;  //nth byte in the buffer, lower half of 16 bit little-endian value
-  unsigned int upperB;  //n + 1 byte in the buffer, upper half of 16 bit little-endian value
+  byte lowerB;  //nth byte in the buffer, lower half of 16 bit little-endian value
+  byte upperB;  //n + 1 byte in the buffer, upper half of 16 bit little-endian value
   for (int i = 0; i < 90; i++) {
     res = 0;
     lowerB = buffer[counter];
@@ -236,10 +236,10 @@ unsigned int LSensor::getAvgRPM() {
  */
 unsigned int LSensor::getRead(int location) {
   unsigned int res = 0;
-  unsigned int lowerByte = buffer[location];
-  unsigned int upperByte = buffer[location + 1];
+  byte lowerByte = buffer[location];
+  byte upperByte = buffer[location + 1];
   if (upperByte & 0x80) {  //Bitwise compare to see if did not calc flag was high
-    return 16383;
+    return 0;
   }
   upperByte = upperByte & 0x3F;  //Removes weak signal flag
   res = res | upperByte;
@@ -249,7 +249,7 @@ unsigned int LSensor::getRead(int location) {
 }
 
 unsigned int* LSensor::decodeRead() {
-  int counter = 0;
+  int counter = -2;//first 2 are missed
   for (int i = 0; i < 90; i = i + 1) {
     counter = counter + 4;  //advance to first read
     for (int j = 0; j < 4; j++) {
@@ -301,9 +301,12 @@ void LSensor::getEncodedRead() {
       if (inByte == 0xA0) {            //Read a byte from Serial
         buffer[1] = 0xA0;  //Read the next bit in the serial and write it to next position in buffer
         Serial.println("Found 0xA0");
-        for (int i = 2; i < 1980; i++) {       //The head of a LiDAR packet read
-          buffer[i] = SENSOR.read();  //Read the next bit in the serial and write it to next position in buffer
-        }
+        SENSOR.readBytes(buffer, 1978);//fix for first?
+//        for (int i = 2; i < 1980; i++) {       //The head of a LiDAR packet read
+//          while (!SENSOR.available()) {  //wait for data
+//          }
+//          buffer[i] = SENSOR.read();  //Read the next bit in the serial and write it to next position in buffer
+//        }
         complete = true;
       }
     }
@@ -351,8 +354,8 @@ Waypoint * LSensor::sense() {
 
 Waypoint * LSensor::lSensorTest() {
 //TODO have a test buff
-  getEncodedRead();
-  //getAvgRPM();
-  decodeRead();
+//  getEncodedRead();
+//  decodeRead();
+  sense();
   return toWaypoint();
 }
