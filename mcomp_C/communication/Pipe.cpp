@@ -58,17 +58,17 @@ void Pipe::recieveCommand() {
 String Pipe::call() {
   String sb = "";
 
-  while (Serial.available() == 0) {
+  while (CONSOLE.available() == 0) {
 
   }
 
   char incomingChar = Serial.read();
 
   while (incomingChar != '\n') {
-    while (Serial.available() == 0) {
+    while (CONSOLE.available() == 0) {
     }
 
-    incomingChar = Serial.read();
+    incomingChar = CONSOLE.read();
 
     if (incomingChar != '\n') {
       sb.concat(incomingChar);
@@ -86,7 +86,7 @@ String Pipe::call() {
  */
 void Pipe::writeString(String s) {
   for (int i = 0; i < s.length(); i++) {
-    Serial.write(s.charAt(i));
+    CONSOLE.write(s.charAt(i));
   }
 }
 
@@ -196,7 +196,7 @@ String Pipe::encodeWaypoint(Waypoint w) {
  * connection.
  */
 void Pipe::close() {
-//  Serial.end();
+//  CONSOLE.end();
 }
 
 /**
