@@ -13,7 +13,6 @@ import common.datatypes.map.MapLayer;
 import common.datatypes.map.griddedMap.Vertex;
 import common.datatypes.path.Path;
 import pathfinding.AStar;
-import pathfinding.SearchMap;
 import unitTesting.testData.TestData;
 
 
@@ -46,12 +45,10 @@ public class MapTest2 {
 
     Waypoint start = new Waypoint(2, 8);
     Waypoint dest = new Waypoint(14, 10);
-    Waypoint prev = new Waypoint(2, 8);
 
 
     AStar a = new AStar();
     a.pathfind(start, dest, m);
-    SearchMap b = new SearchMap();
     // b.search(start, dest, m);
   }
 }

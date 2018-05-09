@@ -11,7 +11,6 @@ import common.datatypes.Waypoint;
 import common.datatypes.map.Map;
 import common.datatypes.map.MapLayer;
 import pathfinding.AStar;
-import pathfinding.SearchMap;
 import unitTesting.testData.TestData;
 
 /**
@@ -47,9 +46,6 @@ class MapTestEmpty
 
     AStar a = new AStar();
     a.pathfind(start, dest, m);
-    
-    SearchMap b = new SearchMap();
-   // b.search(start, dest, m);
-  }
+    }
 
 }
