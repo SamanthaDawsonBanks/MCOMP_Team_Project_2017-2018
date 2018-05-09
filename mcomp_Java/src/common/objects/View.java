@@ -225,7 +225,7 @@ public class View extends Application implements RemoteView {
       if (lidarBtn.isSelected()) {
         toggleOnStyle(lidarBtn);
         pane.getChildren()
-            .add(drawLidarLayer(localHerdData.map.getLayer(spinner.getValue()).getWaypoints()));
+            .add(drawLidarLayer(localHerdData.getMap().getLayer(spinner.getValue()).getWaypoints()));
       } else {
         toggleOffStyle(lidarBtn);
         pane.getChildren().remove(lidarGroup);
@@ -279,7 +279,7 @@ public class View extends Application implements RemoteView {
     mapBtn.setOnAction(event -> {
       if (mapBtn.isSelected()) {
         toggleOnStyle(mapBtn);
-        pane.getChildren().add(drawAmalgamatedMap(localHerdData.map.getAmalgamatedMap()));
+        pane.getChildren().add(drawAmalgamatedMap(localHerdData.getMap().getAmalgamatedMap()));
       } else {
         toggleOffStyle(mapBtn);
         pane.getChildren().remove(amalgamateGroup);
@@ -888,7 +888,7 @@ public class View extends Application implements RemoteView {
   private RemoteLeader connectRMI() {
     RemoteLeader res = null;
     try {
-      res = (RemoteLeader) Naming.lookup("rmi://192.168.25.42" + "/HerdLeader");// FIXME lookup IP
+      res = (RemoteLeader) Naming.lookup("rmi://192.168.25.102" + "/HerdLeader");// FIXME lookup IP
     } catch (MalformedURLException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();

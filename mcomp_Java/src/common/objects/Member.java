@@ -1,6 +1,8 @@
 package common.objects;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
@@ -177,20 +179,20 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
       @SuppressWarnings("unused")
       Process leaderMainP = leaderMainPB.start();
 
-      // BufferedReader br = new BufferedReader(new
-      // InputStreamReader(leaderMainP.getInputStream()));
-      // String output = "";
-      // String line;
-      // output = output + "\n >>>>>> BEGIN LeaderMain process output <<<<<< \n\n";
-      // while ((line = br.readLine()) != null) {// FIXME this loop will need to be threaded (if we
-      // // keep it) to fix the blocking nature
-      // output = output + line + "\n";
-      // if (line.equals("INFO: End of LeaderMain")) {// line is never null in this context
-      // break;
-      // }
-      // }
-      // output = output + "\n >>>>>> END LeaderMain process output <<<<<<" + "\n";
-      // LOGGER.log(Level.INFO, output);
+//       BufferedReader br = new BufferedReader(new
+//       InputStreamReader(leaderMainP.getInputStream()));
+//       String output = "";
+//       String line;
+//       output = output + "\n >>>>>> BEGIN LeaderMain process output <<<<<< \n\n";
+//       while ((line = br.readLine()) != null) {// FIXME this loop will need to be threaded (if we
+//       // keep it) to fix the blocking nature
+//       output = output + line + "\n";
+//       if (line.equals("INFO: End of LeaderMain")) {// line is never null in this context
+//       break;
+//       }
+//       }
+//       output = output + "\n >>>>>> END LeaderMain process output <<<<<<" + "\n";
+//       LOGGER.log(Level.INFO, output);
 
     } catch (RemoteException e) {
       // TODO Auto-generated catch block
@@ -230,7 +232,7 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
   public Path processPathLump() throws RemoteException {
     Driveable robot = localHerd.getDrivers().get(0);// TODO should be specific bot
     Waypoint start = new Waypoint(robot.getPos().getX(), robot.getPos().getY());
-    return new AStar().pathfind(start, localHerd.dest, localHerd.map);
+    return new AStar().pathfind(start, localHerd.dest, localHerd.getMap());
   }
 
   @Override
@@ -300,7 +302,8 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
   private RemoteLeader connectRMI() {
     RemoteLeader res = null;
     try {
-      res = (RemoteLeader) Naming.lookup("rmi://192.168.25.42" + "/HerdLeader");
+      res = (RemoteLeader) Naming.lookup("rmi://192.168.25.102" + "/HerdLeader");
+      localHerd.setLeader(res);
       // FIXME lookup IP
       res.register(this);
     } catch (RemoteException e) {

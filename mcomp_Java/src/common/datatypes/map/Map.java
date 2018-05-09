@@ -27,6 +27,16 @@ public class Map {
   private int gridSize;
 
   /**
+   * Default Constructor
+   * 
+   * @param layer The initial LiDAR return (never created empty)
+   * 
+   */
+  public Map(MapLayer layer) {
+    this(64, layer); //if no gridsize is defines, assume default of 64
+  } 
+  
+  /**
    * Constructor
    * 
    * @param gridSize The number of subitem (Vertices) to store in both x and y dimensions

@@ -824,7 +824,7 @@ public class View extends Application implements RemoteView {
   private RemoteLeader connectRMI() {
     RemoteLeader res = null;
     try {
-      res = (RemoteLeader) Naming.lookup("rmi://192.168.25.42" + "/HerdLeader");//FIXME lookup IP
+      res = (RemoteLeader) Naming.lookup("rmi://192.168.25.102" + "/HerdLeader");//FIXME lookup IP
     } catch (MalformedURLException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();

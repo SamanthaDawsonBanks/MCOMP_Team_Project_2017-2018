@@ -109,6 +109,13 @@ public class Leader extends UnicastRemoteObject
     // TODO some form of notify all??
     // updateModel(joiningMember.getLocalHerdData()); //FIXME do we need this??
     joiningMember.RMITest();// FIXME this checks loopback
+
+    joiningMember.notifyOfChange();
+    
+    if (leaderHerd.getSensors().contains(joiningMember)) {
+      leaderHerd.addMapLayer(joiningMember.lSense());// take LiDAR Read
+    }
+    
     // TODO do something ? take read ? dance?!?!?!
     return leaderHerd.requestJoin(joiningMember);
     // FIXME adjust for leaderHerd
@@ -190,7 +197,7 @@ public class Leader extends UnicastRemoteObject
             // FIXME do something!! //ultrasound blocked
           }
           if (leaderHerd.getSensors().contains(cb)) {// FIXME unsafe cast!
-            leaderHerd.map.addLayer(((LSenseable) cb).lSense());// take LiDAR Read
+            leaderHerd.addMapLayer(((LSenseable) cb).lSense());// take LiDAR Read
           }
         } catch (RemoteException e) {
           //deregister member
