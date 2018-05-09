@@ -2,7 +2,6 @@ package common.interfaces;
 
 import java.rmi.RemoteException;
 import common.objects.Herd;
-import common.objects.Leader;
 
 /**
  * An object is promotable if it has the ability to stand in an election and become the Leader of a

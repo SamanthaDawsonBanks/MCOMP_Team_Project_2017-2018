@@ -3,10 +3,6 @@ package common.interfaces;
 import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import common.datatypes.Ability;
-import common.datatypes.Waypoint;
-import common.objects.Herd;
 
 /**
  * Unification of the 'View' methods for purposes of RMI/Remote identification
@@ -27,8 +23,7 @@ import common.objects.Herd;
  * @see common.interfaces.RemoteLeader
  *
  */
-public interface RemoteView
-    extends Remote, Serializable, Drawable, Notifiable, Transferable {
+public interface RemoteView extends Remote, Serializable, Drawable, Notifiable, Transferable {
 
   // General
   public void RMITest() throws RemoteException;

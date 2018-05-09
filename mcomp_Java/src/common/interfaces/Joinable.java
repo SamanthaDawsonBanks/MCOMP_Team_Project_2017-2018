@@ -1,7 +1,6 @@
 package common.interfaces;
 
 import java.util.ArrayList;
-import common.objects.Member;
 
 /**
  * An object is joinable if it has the ability to accept new Members to its Collection (typically

@@ -10,10 +10,7 @@ import org.junit.jupiter.api.Test;
 import common.datatypes.Waypoint;
 import common.datatypes.map.Map;
 import common.datatypes.map.MapLayer;
-import common.datatypes.map.griddedMap.Vertex;
-import common.datatypes.path.Path;
 import pathfinding.AStar;
-import pathfinding.SearchMap;
 import unitTesting.testData.TestData;
 
 
@@ -37,6 +34,7 @@ public class MapTest2 {
     @SuppressWarnings("unused") // only for data-typing
     ArrayList<Waypoint> l = new ArrayList<Waypoint>();
     l.add((new Waypoint(-1, -1)));
+    @SuppressWarnings("unused")
     Map n = new Map(64, new MapLayer(l));
     Map m = new Map(64, new MapLayer(TestData.getPresentationMaze())); // TODO expand to full test
 
@@ -46,12 +44,11 @@ public class MapTest2 {
 
     Waypoint start = new Waypoint(2, 8);
     Waypoint dest = new Waypoint(14, 10);
-    Waypoint prev = new Waypoint(2, 8);
 
 
     AStar a = new AStar();
     a.pathfind(start, dest, m);
-    SearchMap b = new SearchMap();
+    //SearchMap b = new SearchMap();
     // b.search(start, dest, m);
   }
 }

@@ -6,8 +6,8 @@
  *      Author: Stephen Pope 15836791
  */
 
-#include "LSensor.h"
 #include "../config/robot_config.h"
+#include "LSensor.h"
 
 byte buffer[1980];
 

@@ -3,7 +3,6 @@ package common.interfaces;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import common.datatypes.Ability;
-import common.objects.Herd;
 
 /**
  * An object is groupable if it can be collected together into a herd

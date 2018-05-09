@@ -11,8 +11,8 @@
 //library includes
 #include "Arduino.h"
 #include "../common/datatypes/Waypoint.h"
-#include "../movement/Propulsion.h"
 #include "../lsensor/LSensor.h"
+#include "../movement/Propulsion.h"
 
 class Pipe {
  public:

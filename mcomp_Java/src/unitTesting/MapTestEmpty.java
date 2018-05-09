@@ -11,7 +11,6 @@ import common.datatypes.Waypoint;
 import common.datatypes.map.Map;
 import common.datatypes.map.MapLayer;
 import pathfinding.AStar;
-import pathfinding.SearchMap;
 import unitTesting.testData.TestData;
 
 /**
@@ -35,6 +34,7 @@ class MapTestEmpty
     @SuppressWarnings("unused")//only for data-typing
     ArrayList<Waypoint> l = new ArrayList<Waypoint>();
     l.add((new Waypoint(-1,-1)));
+    @SuppressWarnings("unused")
     Map n = new Map(64, new MapLayer(l));
     Map m = new Map(64, new MapLayer(TestData.getEmptyMaze())); //TODO expand to full test
 
@@ -48,7 +48,7 @@ class MapTestEmpty
     AStar a = new AStar();
     a.pathfind(start, dest, m);
     
-    SearchMap b = new SearchMap();
+    //SearchMap b = new SearchMap();
    // b.search(start, dest, m);
   }
 

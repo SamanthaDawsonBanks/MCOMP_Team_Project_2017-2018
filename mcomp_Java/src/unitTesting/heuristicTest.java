@@ -3,14 +3,15 @@ package unitTesting;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import common.datatypes.Waypoint;
+import common.datatypes.map.griddedMap.Vertex;
 import pathfinding.Heuristic;
 
 class heuristicTest {
 
   @Test
   void test() {
-    Waypoint current = new Waypoint(0,0);
-    Waypoint dest = new Waypoint(3,3);
+    Vertex current = new Vertex(new Waypoint(0,0), null);
+    Vertex dest = new Vertex(new Waypoint(3,3), null);
     
     
     Heuristic h = new Heuristic();

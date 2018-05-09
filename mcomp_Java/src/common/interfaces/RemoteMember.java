@@ -10,7 +10,6 @@ import common.datatypes.map.Map;
 import common.datatypes.map.MapLayer;
 import common.datatypes.path.Path;
 import common.objects.Herd;
-import common.objects.Leader;
 
 /**
  * Unification of the 'Member' methods for purposes of RMI/Remote identification
