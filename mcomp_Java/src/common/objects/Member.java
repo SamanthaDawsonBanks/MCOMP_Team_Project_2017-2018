@@ -58,7 +58,7 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
   private ArrayList<Ability> abilities;
   private Herd localHerd;
 
-  private Pipe pipe = new Pipe("COM5"); // need to know for certain which COM port the arduino will
+  private Pipe pipe = new Pipe("ttyACM0"); // need to know for certain which COM port the arduino will
                                         // be on
 
   private double currentX;
