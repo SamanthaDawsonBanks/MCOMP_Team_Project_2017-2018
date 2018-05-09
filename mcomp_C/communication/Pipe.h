@@ -5,17 +5,14 @@
  *      Author: Ryan Shoobert 15812407
  */
 
-#ifndef COMMUNICATION_PIPE_H1_
-#define COMMUNICATION_PIPE_H1_
+#ifndef PIPE_H_
+#define PIPE_H_
 
 //library includes
 #include "Arduino.h"
 #include "../common/datatypes/Waypoint.h"
-#include "../movement/Propulsion.h"
 #include "../lsensor/LSensor.h"
-
-//Definition of the default baud rate for the serial connection
-#define BAUD_RATE 115200
+#include "../movement/Propulsion.h"
 
 class Pipe {
  public:
@@ -37,4 +34,4 @@ class Pipe {
   void close();
 };
 
-#endif /* COMMUNICATION_PIPE_H1_ */
+#endif /* PIPE_H_ */

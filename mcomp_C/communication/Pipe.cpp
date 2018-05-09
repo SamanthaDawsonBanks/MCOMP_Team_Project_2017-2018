@@ -14,12 +14,15 @@
 
 #include "Pipe.h"
 
-LSensor ls;
-Propulsion p;
+#include "../config/robot_config.h"
+
+
+//LSensor ls;
+//Propulsion p;
 
 Pipe::Pipe() {
   //Configure and start serial connection
-  Serial.begin(BAUD_RATE);
+//  Serial.begin(SerialRate);
 }
 
 /**
@@ -39,9 +42,9 @@ void Pipe::recieveCommand() {
     //writeString(encodeDouble(compassRead()));
   } else if (res[0] == "DRIVE") {
     Waypoint w = Waypoint(res[1].toDouble(), res[2].toDouble());
-    writeString(encodeWaypoint(p.Drive(w)));
+    //writeString(encodeWaypoint(p.Drive(w)));
   } else if (res[0] == "LSENSE") {
-    writeString(encodeLRead(ls.sense()));
+    //writeString(encodeLRead(ls.sense()));
   }
 }
 
@@ -55,17 +58,17 @@ void Pipe::recieveCommand() {
 String Pipe::call() {
   String sb = "";
 
-  while (Serial.available() == 0) {
+  while (CONSOLE.available() == 0) {
 
   }
 
   char incomingChar = Serial.read();
 
   while (incomingChar != '\n') {
-    while (Serial.available() == 0) {
+    while (CONSOLE.available() == 0) {
     }
 
-    incomingChar = Serial.read();
+    incomingChar = CONSOLE.read();
 
     if (incomingChar != '\n') {
       sb.concat(incomingChar);
@@ -83,7 +86,7 @@ String Pipe::call() {
  */
 void Pipe::writeString(String s) {
   for (int i = 0; i < s.length(); i++) {
-    Serial.write(s.charAt(i));
+    CONSOLE.write(s.charAt(i));
   }
 }
 
@@ -193,7 +196,7 @@ String Pipe::encodeWaypoint(Waypoint w) {
  * connection.
  */
 void Pipe::close() {
-  Serial.end();
+//  CONSOLE.end();
 }
 
 /**

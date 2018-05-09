@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import common.datatypes.Ability;
 import common.datatypes.Waypoint;
 import common.datatypes.map.Map;
+import common.datatypes.map.MapLayer;
 import common.datatypes.map.griddedMap.Vertex;
 import common.datatypes.path.Path;
 import common.interfaces.Bossable;
@@ -58,7 +59,7 @@ public class Herd implements Serializable, Joinable, Organisable {
   private ArrayList<RemoteView> herdViews;
   private Directable herdDestSetter;
 
-  protected Map map;
+  private Map map;
   protected Waypoint dest;
 
   protected Path unoptimizedPath;
@@ -80,6 +81,7 @@ public class Herd implements Serializable, Joinable, Organisable {
   public Herd(RemoteMember a) {
     LOGGER.log(Level.INFO, "Herd Starting");
 
+    
     // Storage Initialisation
     herdID = "newHerd"; // TODO Needs to be a randomly generated name
     herdMembers = new ArrayList<RemoteMember>();
@@ -321,5 +323,16 @@ public class Herd implements Serializable, Joinable, Organisable {
     return theLeader;
   }
 
+  public void addMapLayer(MapLayer lSense) {
+    // TODO Auto-generated method stub
+    if(map == null) {
+      map = new Map(lSense);
+    } else {
+      map.addLayer(lSense);
+    }
+  }
 
+  public Map getMap() {
+    return map;
+  }
 }

@@ -6,8 +6,8 @@
  *      Author: David Avery 15823926
  */
 
-#ifndef MOVEMENT_PROPULSION_H_
-#define MOVEMENT_PROPULSION_H_
+#ifndef PROPULSION_H_
+#define PROPULSION_H_
 
 #include "..\libraries\Adafruit_MotorShield.h"
 #include "..\common\datatypes\Waypoint.h"
@@ -30,4 +30,4 @@ class Propulsion {
   long forward(long);
 };
 
-#endif /* MOVEMENT_PROPULSION_H_ */
+#endif /* PROPULSION_H_ */

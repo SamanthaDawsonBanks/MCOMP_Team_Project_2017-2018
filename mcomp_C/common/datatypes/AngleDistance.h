@@ -5,8 +5,8 @@
  *      Author: David Avery 15823926
  */
 
-#ifndef COMMON_DATATYPES_ANGLEDISTANCE_H_
-#define COMMON_DATATYPES_ANGLEDISTANCE_H_
+#ifndef ANGLEDISTANCE_H_
+#define ANGLEDISTANCE_H_
 
 class AngleDistance {
  private:
@@ -22,4 +22,4 @@ class AngleDistance {
 
 };
 
-#endif /* COMMON_DATATYPES_ANGLEDISTANCE_H_ */
+#endif /* ANGLEDISTANCE_H_ */

@@ -5,14 +5,14 @@
  *      Author: David Avery 15823926
  */
 
+
+#ifndef LSENSOR_LSENSOR_H1_
+#define LSENSOR_LSENSOR_H1_
+
 #include "../common/datatypes/AngleDistance.h"
 #include "../common/datatypes/Waypoint.h"
 #include "../libraries/Adafruit_MotorShield.h"
 #include <math.h>
-
-
-#ifndef LSENSOR_LSENSOR_H_
-#define LSENSOR_LSENSOR_H_
 
 class LSensor {
 
@@ -36,6 +36,7 @@ class LSensor {
   bool adjustRPM();
   void getEncodedRead();
   Waypoint* toWaypoint();
+  Waypoint* lSensorTest();
 };
 
-#endif /* LSENSOR_LSENSOR_H_ */
+#endif /* LSENSOR_LSENSOR_H1_ */

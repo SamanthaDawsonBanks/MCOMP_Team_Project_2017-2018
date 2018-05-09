@@ -69,8 +69,8 @@ public class Waypoint {
    */
   public Waypoint(AngleDistance a) {
     a.getDistance();
-    y = a.getDistance() * Math.sin(a.getTheta());
-    x = a.getDistance() * Math.cos(a.getTheta());
+    y = a.getDistance() * Math.sin(Math.toRadians(a.getTheta()));
+    x = a.getDistance() * Math.cos(Math.toRadians(a.getTheta()));
   }
 
   /**
