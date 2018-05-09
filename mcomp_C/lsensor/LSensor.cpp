@@ -184,7 +184,7 @@ LSensor::LSensor() {
   pDistances = nullptr;
   inByte = 0;
   avgRPM = 0;
-  targetRPM = 240;
+  targetRPM = LiDAROptimalRPM;
   targetPWM = 71;  //71 rpm to hit as close as we can to the target rpm of 240
   AFMS1 = Adafruit_MotorShield(0x61);
   lidarMotor = (*AFMS1.getMotor(1));
@@ -192,6 +192,7 @@ LSensor::LSensor() {
   lidarMotor.setSpeed(targetPWM);
   lidarMotor.run(FORWARD);
   SENSOR.begin(115200);             //init the input from LiDAR serial2
+  SENSOR.setTimeout(2000);
   Serial.begin(115200);
   Serial.println("Started");
 }
@@ -203,7 +204,7 @@ LSensor::~LSensor() {
 unsigned int LSensor::getAvgRPM() {
   avgRPM = 0;
   unsigned int res;            //RPM result
-  int counter = 2;
+  int counter = (2-2);//buffer is always missing first 2 bytes
   byte lowerB;  //nth byte in the buffer, lower half of 16 bit little-endian value
   byte upperB;  //n + 1 byte in the buffer, upper half of 16 bit little-endian value
   for (int i = 0; i < 90; i++) {
@@ -266,12 +267,12 @@ unsigned int* LSensor::decodeRead() {
 
 bool LSensor::adjustRPM() {
   getAvgRPM();
-  if (avgRPM > targetRPM + 20) {  //if RPM is more than 10RPM off target, adjust it
+  if (avgRPM > targetRPM + 5) {  //if RPM is more than 10RPM off target, adjust it
     targetPWM = targetPWM - 1;
     lidarMotor.setSpeed(targetPWM);
     lidarMotor.run(FORWARD);
     return false;
-  } else if (avgRPM < targetRPM - 20) {
+  } else if (avgRPM < targetRPM - 5) {
     targetPWM = targetPWM + 1;
     lidarMotor.setSpeed(targetPWM);
     lidarMotor.run(FORWARD);
@@ -355,7 +356,9 @@ Waypoint * LSensor::sense() {
 Waypoint * LSensor::lSensorTest() {
 //TODO have a test buff
 //  getEncodedRead();
-//  decodeRead();
-  sense();
-  return toWaypoint();
+//  getAvgRPM();
+////  getEncodedRead();
+////  decodeRead();
+//  sense();
+  return 0;//toWaypoint();
 }
