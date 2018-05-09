@@ -17,7 +17,7 @@
 #define SENSORRATE 115200
 #define SENSORTIMEOUT 2000
 
-#define DEBUG Serial3 //Serial comms via pins 14 and 15 for debug spam
+#define DEBUG Serial //Serial comms via pins 14 and 15 for debug spam
 #define DEBUGRATE 115200
 #define DEBUGTIMEOUT 2000
 
