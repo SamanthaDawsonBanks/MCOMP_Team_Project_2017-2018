@@ -6,8 +6,8 @@
  */
 
 
-#ifndef LSENSOR_LSENSOR_H1_
-#define LSENSOR_LSENSOR_H1_
+#ifndef LSENSOR_LSENSOR_H_
+#define LSENSOR_LSENSOR_H_
 
 #include "../common/datatypes/AngleDistance.h"
 #include "../common/datatypes/Waypoint.h"
@@ -39,4 +39,4 @@ class LSensor {
   Waypoint* lSensorTest();
 };
 
-#endif /* LSENSOR_LSENSOR_H1_ */
+#endif /* LSENSOR_LSENSOR_H_ */
