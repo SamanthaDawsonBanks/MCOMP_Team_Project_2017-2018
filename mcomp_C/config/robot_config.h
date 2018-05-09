@@ -9,9 +9,18 @@
 #ifndef CONFIG_H_
 #define CONFIG_H_
 
-#define SerialRate 115200
+#define CONSOLE Serial //Serial comms via pins 0 and 1 and also USB
+#define CONSOLERATE 115200
+#define CONSOLETIMEOUT 2000
 
-#define SENSOR Serial2              //board to TX2 RX2 on Mega 2560 LiDAR Sensor
+#define SENSOR Serial1 //Serial comms via pins 18 and 19 for LSensor
+#define SENSORRATE 115200
+#define SENSORTIMEOUT 2000
+
+#define DEBUG Serial //Serial comms via pins 14 and 15 for debug spam
+#define DEBUGRATE 115200
+#define DEBUGTIMEOUT 2000
+
 const double wheelTrack = 36;  //The TOTAL distance between the center point of the wheels in cm
 const double wheelSize = 47.8779;  //The circumference of the fitted wheel and tire in cm
 const double stepsInRev = 200;  //The number of steps to make a full turn of the stepper
@@ -19,6 +28,5 @@ const double stepsInRev = 200;  //The number of steps to make a full turn of the
 const double LiDAROffset = 0;  //The number of degress the LiDAR sensor is offset from true forward
 const double LiDARReadsPerRev = 360;  //The number of degress the LiDAR sensor is offset from true forward
 const double LiDAROptimalRPM = 240;  //The optimal RPM for the LiDAR motor
-
 
 #endif /* CONFIG_H_ */
