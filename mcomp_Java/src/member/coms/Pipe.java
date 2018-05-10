@@ -36,7 +36,7 @@ public class Pipe {
   private final int NUM_OF_STOP_BITS = 1;
   private final int NUM_OF_PARITY_BITS = 0;
   
-  private static final Logger LOGGER = Logger.getLogger(Member.class.getName());
+  private static final Logger LOGGER = Logger.getLogger(Pipe.class.getName());
 
   /**
    * Constructor for the Pipe Class. This will be responsible for opening a Serial connection on the
