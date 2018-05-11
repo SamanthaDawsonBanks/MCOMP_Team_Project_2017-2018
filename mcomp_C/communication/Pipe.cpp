@@ -29,7 +29,8 @@ Pipe::Pipe() {
  */
 void Pipe::recieveCommand() {
   String* res = new String[3];
-
+  Propulsion prop = Propulsion();
+  LSensor lSen = LSensor();
   res = decode(call());
 
   //check the data read and build a response if it contains any matching commands
@@ -38,10 +39,10 @@ void Pipe::recieveCommand() {
 //  }
   if (res[0] == "DRIVE") {
     Waypoint w = Waypoint(res[1].toDouble(), res[2].toDouble());
-    writeString(encodeWaypoint(Propulsion().Drive(w)));
+    writeString(encodeWaypoint(prop.Drive(w)));
   }
   if (res[0] == "LSENSE") {
-    writeString(encodeLRead(LSensor().sense()));
+    writeString(encodeLRead(lSen.sense()));
   }
 }
 

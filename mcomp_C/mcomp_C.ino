@@ -25,7 +25,7 @@
 //--------------------------------Global Variables---------------------------------
 // Remember you ONLY have 2k system RAM
 // eg. boolean personWaiting = true;
-//Pipe p;
+Pipe p = Pipe();
 
 //----------------------------Global Volatile Variables----------------------------
 // Volatile variables used by interrupts
@@ -40,7 +40,6 @@
 void setup() {
   //DEBUG.begin(115200);
 //  p = Pipe();
-  //testMove();
 }  //End Setup
 
 //-----------------------------Functions / Subroutines-----------------------------
@@ -54,5 +53,6 @@ void setup() {
 
 void loop() {
   //DEBUG.println("Moo");
-  Pipe().recieveCommand();
+  p.recieveCommand();
+  testMove();
 }  // End Loop
