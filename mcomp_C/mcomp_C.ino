@@ -8,6 +8,7 @@
 
 //------------------------------------Includes-------------------------------------
 // any required libraries
+#include "config\robot_config.h"
 #include "Arduino.h"
 #include "tests/tests.h"
 //#include "lsensor/Lsensor.h"
@@ -24,7 +25,7 @@
 //--------------------------------Global Variables---------------------------------
 // Remember you ONLY have 2k system RAM
 // eg. boolean personWaiting = true;
-Pipe p;
+//Pipe p;
 
 //----------------------------Global Volatile Variables----------------------------
 // Volatile variables used by interrupts
@@ -37,7 +38,8 @@ Pipe p;
 // eg. pinMode(RED, OUTPUT);
 
 void setup() {
-  p = Pipe();
+  //DEBUG.begin(115200);
+//  p = Pipe();
   //testMove();
 }  //End Setup
 
@@ -51,5 +53,6 @@ void setup() {
 // The loop function is called in an endless loop
 
 void loop() {
-  p.recieveCommand();
+  //DEBUG.println("Moo");
+  Pipe().recieveCommand();
 }  // End Loop

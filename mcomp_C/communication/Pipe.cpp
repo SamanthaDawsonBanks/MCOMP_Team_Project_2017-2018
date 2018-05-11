@@ -17,6 +17,7 @@
 #include "../config/robot_config.h"
 
 Pipe::Pipe() {
+  CONSOLE.begin(CONSOLERATE);
 }
 
 /**
