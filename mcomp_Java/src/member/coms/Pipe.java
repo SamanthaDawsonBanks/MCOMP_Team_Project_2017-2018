@@ -1,11 +1,15 @@
 package member.coms;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import common.datatypes.Waypoint;
 import common.datatypes.map.MapLayer;
+import common.objects.Member;
 // serial communication library import
 import jssc.SerialPort;
 import jssc.SerialPortException;
+import jssc.SerialPortList;
 
 /**
  * A communication class for handling transmission and receiving of data over a serial connection
@@ -13,14 +17,16 @@ import jssc.SerialPortException;
  * 
  * @author Ryan Shoobert 15812407
  * 
- * @version 2.0
- * @since 2018-04-17
+ * @version 2.1
+ * @since 2018-05-10
  * 
  */
 public class Pipe {
   // global definitions
   private SerialPort p;
   private String comPortName;
+  
+  String[] availablePorts;
 
   // Connection Parameters - Should never change these once Pipe instance created
   // assume default baud rate for Arduino board, eight data bits, two stop bits, 1 bit for
@@ -29,6 +35,8 @@ public class Pipe {
   private final int NUM_OF_DATA_BITS = 8;
   private final int NUM_OF_STOP_BITS = 1;
   private final int NUM_OF_PARITY_BITS = 0;
+  
+  private static final Logger LOGGER = Logger.getLogger(Pipe.class.getName());
 
   /**
    * Constructor for the Pipe Class. This will be responsible for opening a Serial connection on the
@@ -36,11 +44,22 @@ public class Pipe {
    * 
    * @param comPortName The COM port that the connection will be set up on
    */
-  public Pipe(String comPortName) {
-    this.comPortName = comPortName;
+  public Pipe() {
+    availablePorts = SerialPortList.getPortNames();
+    
+    if(availablePorts.length == 0) {
+      LOGGER.log(Level.SEVERE, "There are no serial-ports available");
+    }
+    
+    //Print out list of available ports
+    LOGGER.log(Level.INFO, "Available Ports:");
+    for (int i = 0; i < availablePorts.length; i++) {
+      LOGGER.log(Level.INFO, availablePorts[i]);
+    }
 
+    p = new SerialPort(availablePorts[0]);
+    
     try {
-      p = new SerialPort(comPortName);
       p.openPort();
       p.setParams(BAUD_RATE, NUM_OF_DATA_BITS, NUM_OF_STOP_BITS, NUM_OF_PARITY_BITS);
     } catch (SerialPortException e) {

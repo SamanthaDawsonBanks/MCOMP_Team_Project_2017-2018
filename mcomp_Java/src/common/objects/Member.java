@@ -1,8 +1,6 @@
 package common.objects;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
@@ -30,7 +28,6 @@ import common.interfaces.Transferable;
 import member.MemberMain;
 import member.coms.Pipe;
 import pathfinding.AStar;
-import unitTesting.testData.TestData;
 
 /**
  * 
@@ -58,8 +55,7 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
   private ArrayList<Ability> abilities;
   private Herd localHerd;
 
-  private Pipe pipe = new Pipe("ttyACM0"); // need to know for certain which COM port the arduino will
-                                        // be on
+  private Pipe pipe = new Pipe(); 
 
   private double currentX;
   private double currentY;
