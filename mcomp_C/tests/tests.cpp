@@ -6,13 +6,13 @@
  */
 
 #include "tests.h"
-
+#include "..\config\robot_config.h"
 
 //--------------------------------------Tests--------------------------------------
 void testPath() {
-  Serial.begin(9600);
+  DEBUG.begin(9600);
   delay(1000);
-  Serial.println("Begin testPath");
+  DEBUG.println("Begin testPath");
 
   Waypoint q;
 
@@ -20,39 +20,39 @@ void testPath() {
   Path p(d);
 
   q = p.poll();
-  Serial.print(q.getX());
-  Serial.print(",");
-  Serial.print(q.getY());
-  Serial.println("");
+  DEBUG.print(q.getX());
+  DEBUG.print(",");
+  DEBUG.print(q.getY());
+  DEBUG.println("");
 
   p.addNode(Waypoint(200, 200));
 
   q = p.poll();
-  Serial.print(q.getX());
-  Serial.print(",");
-  Serial.print(q.getY());
-  Serial.println("");
+  DEBUG.print(q.getX());
+  DEBUG.print(",");
+  DEBUG.print(q.getY());
+  DEBUG.println("");
 
   q = p.poll();
-  Serial.print(q.getX());
-  Serial.print(",");
-  Serial.print(q.getY());
-  Serial.println("");
+  DEBUG.print(q.getX());
+  DEBUG.print(",");
+  DEBUG.print(q.getY());
+  DEBUG.println("");
 
   p.addNode(Waypoint(250, 250));
   p.addNode(Waypoint(350, 350));
 
   q = p.poll();
-  Serial.print(q.getX());
-  Serial.print(",");
-  Serial.print(q.getY());
-  Serial.println("");
+  DEBUG.print(q.getX());
+  DEBUG.print(",");
+  DEBUG.print(q.getY());
+  DEBUG.println("");
 
   q = p.poll();
-  Serial.print(q.getX());
-  Serial.print(",");
-  Serial.print(q.getY());
-  Serial.println("");
+  DEBUG.print(q.getX());
+  DEBUG.print(",");
+  DEBUG.print(q.getY());
+  DEBUG.println("");
 
   for (int i = 0; i < 10; i++) {
     for (int j = 0; j < 10; j++) {
@@ -64,88 +64,103 @@ void testPath() {
   for (int k = 0; k < 10; k++) {
     for (int l = 0; l < 10; l++) {
       q = p.poll();
-      Serial.print(q.getX());
-      Serial.print(",");
-      Serial.print(q.getY());
-      Serial.println("");
+      DEBUG.print(q.getX());
+      DEBUG.print(",");
+      DEBUG.print(q.getY());
+      DEBUG.println("");
     }
   }
 
-  Serial.println("end of data");
+  DEBUG.println("end of data");
   q = p.poll();
-  Serial.print(q.getX());
-  Serial.print(",");
-  Serial.print(q.getY());
-  Serial.println("");
+  DEBUG.print(q.getX());
+  DEBUG.print(",");
+  DEBUG.print(q.getY());
+  DEBUG.println("");
 
   q = p.poll();
-  Serial.print(q.getX());
-  Serial.print(",");
-  Serial.print(q.getY());
-  Serial.println("");
+  DEBUG.print(q.getX());
+  DEBUG.print(",");
+  DEBUG.print(q.getY());
+  DEBUG.println("");
 
   q = p.poll();
-  Serial.print(q.getX());
-  Serial.print(",");
-  Serial.print(q.getY());
-  Serial.println("");
+  DEBUG.print(q.getX());
+  DEBUG.print(",");
+  DEBUG.print(q.getY());
+  DEBUG.println("");
 
-  Serial.println("End testPath");
+  DEBUG.println("End testPath");
 }
 
 void testWaypoint() {
-  Serial.begin(9600);
+  DEBUG.begin(9600);
   delay(1000);
-  Serial.println("Begin testWaypoint");
+  DEBUG.println("Begin testWaypoint");
 
   Waypoint t(0, 0);  // = new Waypoint(0,0);
-  Serial.println("end of data input");
-  Serial.print(t.getX());
-  Serial.print(",");
-  Serial.print(t.getY());
-  Serial.println("");
+  DEBUG.println("end of data input");
+  DEBUG.print(t.getX());
+  DEBUG.print(",");
+  DEBUG.print(t.getY());
+  DEBUG.println("");
 
-  Serial.println("End testWaypoint");
+  DEBUG.println("End testWaypoint");
 }
 
-void testMove(){
-  Serial.begin(9600);
+void testMove() {
+  DEBUG.begin(9600);
   delay(1000);
-  Serial.println("Begin testMove");
-  Serial.println("Calling Drive...");
-  Waypoint target = Waypoint(32766.0, 32766.0); //Near theoretical max
+  Waypoint result;
   Propulsion p = Propulsion();
-  Waypoint result = p.Drive(target);
-  Serial.print(result.getX());
-  Serial.print(" , ");
-  Serial.print(result.getY());
-  Serial.print(" ");
-  Serial.println(p.getHeading());
-  Serial.println("Test 1 complete");
+  DEBUG.println("Begin testMove");
+//  DEBUG.println("Calling Drive...");
+//  Waypoint target = Waypoint(3276.0, 3276.0); //Near theoretical max
+//  result = p.Drive(target);
+//  DEBUG.print(result.getX());
+//  DEBUG.print(" , ");
+//  DEBUG.print(result.getY());
+//  DEBUG.print(" ");
+//  DEBUG.println(p.getHeading());
+//  DEBUG.println("Test 1 complete");
 
   delay(5000);
 
-  Serial.println("Calling Drive...");
+  DEBUG.println("Calling Drive...");
   Waypoint target2 = Waypoint(-50.0, -50.0);
   result = p.Drive(target2);
-  Serial.print(result.getX());
-  Serial.print(" , ");
-  Serial.print(result.getY());
-  Serial.print(" ");
-  Serial.println(p.getHeading());
-  Serial.println("Test 2 complete");
+  DEBUG.print(result.getX());
+  DEBUG.print(" , ");
+  DEBUG.print(result.getY());
+  DEBUG.print(" ");
+  DEBUG.println(p.getHeading());
+  DEBUG.println("Test 2 complete");
 
   delay(5000);
 
-  Serial.println("Calling Drive...");
+  DEBUG.println("Calling Drive...");
   Waypoint target3 = Waypoint(5.0, 0.0);
   result = p.Drive(target3);
-  Serial.print(result.getX());
-  Serial.print(" , ");
-  Serial.print(result.getY());
-  Serial.print(" ");
-  Serial.println(p.getHeading());
-  Serial.println("Test 3 complete");
+  DEBUG.print(result.getX());
+  DEBUG.print(" , ");
+  DEBUG.print(result.getY());
+  DEBUG.print(" ");
+  DEBUG.println(p.getHeading());
+  DEBUG.println("Test 3 complete");
+
+  DEBUG.println("Calling Drive...");
+  Waypoint target4 = Waypoint(-250.0, 0.0);
+  DEBUG.print(target4.toAngleDistance().getTheta());
+  DEBUG.print(" , ");
+  DEBUG.print(target4.toAngleDistance().getDistance());
+  DEBUG.print(" ");
+  result = p.Drive(target4);
+  DEBUG.print(result.getX());
+  DEBUG.print(" , ");
+  DEBUG.print(result.getY());
+  DEBUG.print(" ");
+  DEBUG.println(p.getHeading());
+  DEBUG.println("Test 4 complete");
 
 }
 

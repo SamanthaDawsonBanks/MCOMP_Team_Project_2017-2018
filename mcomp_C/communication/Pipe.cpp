@@ -16,13 +16,7 @@
 
 #include "../config/robot_config.h"
 
-
-//LSensor ls;
-//Propulsion p;
-
 Pipe::Pipe() {
-  //Configure and start serial connection
-//  Serial.begin(SerialRate);
 }
 
 /**
@@ -38,13 +32,15 @@ void Pipe::recieveCommand() {
   res = decode(call());
 
   //check the data read and build a response if it contains any matching commands
-  if (res[0] == "COMPASS") {
-    //writeString(encodeDouble(compassRead()));
-  } else if (res[0] == "DRIVE") {
+//  if (res[0] == "COMPASS") {
+//    writeString(encodeDouble(Compass().compassRead()));
+//  }
+  if (res[0] == "DRIVE") {
     Waypoint w = Waypoint(res[1].toDouble(), res[2].toDouble());
-    //writeString(encodeWaypoint(p.Drive(w)));
-  } else if (res[0] == "LSENSE") {
-    //writeString(encodeLRead(ls.sense()));
+    writeString(encodeWaypoint(Propulsion().Drive(w)));
+  }
+  if (res[0] == "LSENSE") {
+    writeString(encodeLRead(LSensor().sense()));
   }
 }
 
@@ -58,14 +54,14 @@ void Pipe::recieveCommand() {
 String Pipe::call() {
   String sb = "";
 
-  while (CONSOLE.available() == 0) {
+  while (!CONSOLE.available()) {
 
   }
 
-  char incomingChar = Serial.read();
+  char incomingChar = CONSOLE.read();
 
   while (incomingChar != '\n') {
-    while (CONSOLE.available() == 0) {
+    while (!CONSOLE.available()) {
     }
 
     incomingChar = CONSOLE.read();
@@ -85,7 +81,7 @@ String Pipe::call() {
  * will handle the writing of each character in a string to the serial port.
  */
 void Pipe::writeString(String s) {
-  for (int i = 0; i < s.length(); i++) {
+  for (unsigned int i = 0; i < s.length(); i++) {
     CONSOLE.write(s.charAt(i));
   }
 }
@@ -102,7 +98,7 @@ String* Pipe::decode(String readData) {
   int posCounter = 0;
   int num = 0;
 
-  for (int i = 0; i < readData.length(); i++) {
+  for (unsigned int i = 0; i < readData.length(); i++) {
     if (readData.charAt(i) == ';') {
       chunks[num] = readData.substring(posCounter, i);
       posCounter = i + 1;

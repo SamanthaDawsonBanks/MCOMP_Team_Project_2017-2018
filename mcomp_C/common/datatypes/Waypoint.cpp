@@ -25,8 +25,8 @@ Waypoint::Waypoint(double xIn, double yIn) {
 Waypoint::Waypoint(AngleDistance a) {
   // TODO Auto-generated constructor stub
   a.getDistance();
-  y = a.getDistance() * sin(a.getTheta()* (M_PI / 180));
-  x = a.getDistance() * cos(a.getTheta()* (M_PI / 180));
+  y = a.getDistance() * sin(a.getTheta() * (M_PI / 180));
+  x = a.getDistance() * cos(a.getTheta() * (M_PI / 180));
 }
 
 Waypoint::~Waypoint() {

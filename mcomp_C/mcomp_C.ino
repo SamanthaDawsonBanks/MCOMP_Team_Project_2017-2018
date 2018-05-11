@@ -9,8 +9,9 @@
 //------------------------------------Includes-------------------------------------
 // any required libraries
 #include "Arduino.h"
-//#include "tests/tests.h"
-#include "lsensor/Lsensor.h"
+#include "tests/tests.h"
+//#include "lsensor/Lsensor.h"
+#include "communication/Pipe.h"
 
 //-----------------------------------Definitions-----------------------------------
 // eg. #define RED 13
@@ -23,6 +24,7 @@
 //--------------------------------Global Variables---------------------------------
 // Remember you ONLY have 2k system RAM
 // eg. boolean personWaiting = true;
+Pipe p;
 
 //----------------------------Global Volatile Variables----------------------------
 // Volatile variables used by interrupts
@@ -35,36 +37,8 @@
 // eg. pinMode(RED, OUTPUT);
 
 void setup() {
-  Serial.begin(115200);
-  LSensor l = LSensor();
-  delay(5000);
-  l.sense();
-//  delay(5000);
-//  l.lSensorTest();
-//  delay(5000);
-//  l.lSensorTest();
-//  delay(5000);
-//  l.lSensorTest();
-//  delay(5000);
-//  l.lSensorTest();
-//  delay(5000);
-//  l.lSensorTest();
-//  delay(5000);
-//  l.lSensorTest();
-//  delay(5000);
-//  l.lSensorTest();
-//  delay(5000);
-//  l.lSensorTest();
-  // Add your initialisation code here
-  // TODO method stub
-//  testWaypoint();
-//  testPath();
-//  testMove();
-  //l.sense();
-//  delay(10000);
-  //setup serial to pi 115200??
-  //setup serial to LiDAR BAUD? //TODO refactor into sense()
-
+  p = Pipe();
+  //testMove();
 }  //End Setup
 
 //-----------------------------Functions / Subroutines-----------------------------
@@ -77,22 +51,5 @@ void setup() {
 // The loop function is called in an endless loop
 
 void loop() {
-
-
-  // Add your repeated code here
-  // TODO method stub
-  //Serial.println("moo25");
-  //l.lSensorTest();
-
-  //if serial available
-  //read serial
-  //base64 decode
-  //eval read to command/data
-  //switch (sense)
-  //switch (drive-data)
-
-  //if data waiting
-  //encode 64
-  //serial write
-
+  p.recieveCommand();
 }  // End Loop
