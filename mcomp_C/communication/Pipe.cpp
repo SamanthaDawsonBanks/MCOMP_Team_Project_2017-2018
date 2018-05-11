@@ -17,7 +17,6 @@
 #include "../config/robot_config.h"
 
 Pipe::Pipe() {
-  CONSOLE.begin(CONSOLERATE);
 }
 
 /**
@@ -28,9 +27,14 @@ Pipe::Pipe() {
  * the data that is returned will need to be encoded for returning to the sender.
  */
 void Pipe::recieveCommand() {
+
   String* res = new String[3];
   Propulsion prop = Propulsion();
   LSensor lSen = LSensor();
+
+  CONSOLE.begin(CONSOLERATE);
+  CONSOLE.setTimeout(CONSOLETIMEOUT);
+
   res = decode(call());
 
   //check the data read and build a response if it contains any matching commands
@@ -54,13 +58,14 @@ void Pipe::recieveCommand() {
  * will act as a blocking call until input is received.
  */
 String Pipe::call() {
+
   String sb = "";
 
   while (!CONSOLE.available()) {
-
   }
 
   char incomingChar = CONSOLE.read();
+  sb.concat(incomingChar);
 
   while (incomingChar != '\n') {
     while (!CONSOLE.available()) {
@@ -72,7 +77,6 @@ String Pipe::call() {
       sb.concat(incomingChar);
     }
   }
-
   return sb;
 }
 
@@ -96,18 +100,19 @@ void Pipe::writeString(String s) {
  * separated into pieces. If not, then anything in the read data will be returned whole.
  */
 String* Pipe::decode(String readData) {
+
+  int delims[2];
   String* chunks = new String[3];
-  int posCounter = 0;
-  int num = 0;
 
-  for (unsigned int i = 0; i < readData.length(); i++) {
-    if (readData.charAt(i) == ';') {
-      chunks[num] = readData.substring(posCounter, i);
-      posCounter = i + 1;
-      num++;
-    }
+  delims[0] = readData.indexOf(';');
+  delims[1] = readData.indexOf(';', delims[0]);
 
-    chunks[num] = readData.substring(posCounter, i);
+  if (delims[0] >= 0) {
+    chunks[0] = readData.substring(0,delims[0]);
+    chunks[1] = readData.substring(delims[0],delims[1]);
+    chunks[2] = readData.substring(delims[1]);
+  } else {
+    chunks[0] = readData;
   }
 
   //return separate parts of the read string

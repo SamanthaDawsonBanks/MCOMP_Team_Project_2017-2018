@@ -9,9 +9,8 @@
 #include "../config/robot_config.h"
 #include "LSensor.h"
 
-byte buffer[1980];
-
 //buffer of bytes that takes in a packet of four reads from the LiDAR sensor
+byte * buffer;
 unsigned int distances[360];
 Waypoint wp[360];
 
@@ -30,7 +29,6 @@ LSensor::LSensor() {
   SENSOR.setTimeout(SENSORTIMEOUT);
   DEBUG.begin(DEBUGRATE);
   DEBUG.setTimeout(DEBUGTIMEOUT);
-  DEBUG.println("Started");
 }
 
 LSensor::~LSensor() {
@@ -132,11 +130,11 @@ void LSensor::getEncodedRead() {
 
     inByte = SENSOR.read();
     if (inByte == 0xFA) {            //Read a byte from DEBUG
-      buffer[0] = 0xFA;  //Read the next bit in the serial and write it to next position in buffer
+      //buffer[0] = 0xFA;  //Read the next bit in the serial and write it to next position in buffer
       DEBUG.println("Found 0xFA");
       inByte = SENSOR.read();
       if (inByte == 0xA0) {            //Read a byte from DEBUG
-        buffer[1] = 0xA0;  //Read the next bit in the serial and write it to next position in buffer
+        //buffer[1] = 0xA0;  //Read the next bit in the serial and write it to next position in buffer
         DEBUG.println("Found 0xA0");
         SENSOR.readBytes(buffer, 1978);//fix for first?
 //        for (int i = 2; i < 1980; i++) {       //The head of a LiDAR packet read
@@ -179,6 +177,8 @@ Waypoint * LSensor::toWaypoint() {
 }
 
 Waypoint * LSensor::sense() {
+  buffer = new byte[1980];
+
   getEncodedRead();  //So we can dig out an accurate avgRPM
   while (adjustRPM() == false) {  //Keep adjusting RPM until within 10 of target
     getEncodedRead();
@@ -186,6 +186,7 @@ Waypoint * LSensor::sense() {
   }
   getEncodedRead();  //The proper read
   decodeRead();  //Reverse reads so they are BigEndian and return pointer to head of array
+  delete(buffer);
   return toWaypoint();
 }
 

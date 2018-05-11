@@ -1,5 +1,6 @@
 package common.datatypes.map;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -18,8 +19,12 @@ import common.datatypes.Waypoint;
  * @see common.objects.Member#lSense()
  *
  */
-public class MapLayer implements Iterable<Waypoint> {
+public class MapLayer implements Serializable, Iterable<Waypoint> {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 5888811553056335453L;
   private ArrayList<Waypoint> liDARRead = new ArrayList<Waypoint>();
   private Waypoint trackedCentre = new Waypoint(0, 0);
   private double trackedRotation = 0;

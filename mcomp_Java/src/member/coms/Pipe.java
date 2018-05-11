@@ -58,6 +58,7 @@ public class Pipe {
     }
 
     p = new SerialPort(availablePorts[0]);
+    LOGGER.log(Level.INFO, "Using Port: " + availablePorts[0]);
     
     try {
       p.openPort();
@@ -110,6 +111,8 @@ public class Pipe {
    * @return A Map Layer representing the lidar return just collected
    */
   public MapLayer lSense() {
+    LOGGER.log(Level.INFO, "Started penguin farming");
+
     MapLayer res = new MapLayer(null); // or new ArrayList<Waypoint>()
 
     try {
@@ -184,13 +187,18 @@ public class Pipe {
    *         successfully
    */
   private String call(String s) throws SerialPortException {
+    LOGGER.log(Level.INFO, s);
+
     p.writeString(s);
+
+    LOGGER.log(Level.INFO, "sent");
 
     StringBuilder sb = new StringBuilder();
 
-    while (p.getInputBufferBytesCount() == 0) {
+//    while (p.getInputBufferBytesCount() == 0) {
+//    }
 
-    }
+    LOGGER.log(Level.INFO, "returned");
 
     char incomingChar = (char) (p.readBytes(1))[0];
 
@@ -222,9 +230,11 @@ public class Pipe {
 
     switch (c) {
       case COMPASS:
+        LOGGER.log(Level.FINEST, "Adding COMPASS");
         sb.append("COMPASS");
         break;
       case DRIVE:
+        LOGGER.log(Level.FINEST, "Adding DRIVE");
         sb.append("DRIVE");
         sb.append(';');
         sb.append(((Waypoint) o).getX());
@@ -232,11 +242,13 @@ public class Pipe {
         sb.append(((Waypoint) o).getY());
         break;
       case L_SENSE:
+        LOGGER.log(Level.FINEST, "Adding LSENSE");
         sb.append("LSENSE");
         break;
     }
 
     sb.append('\n');
+    LOGGER.log(Level.INFO, sb.toString());
 
     return sb.toString();
   }

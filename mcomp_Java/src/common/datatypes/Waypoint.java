@@ -3,6 +3,7 @@
  */
 package common.datatypes;
 
+import java.io.Serializable;
 import common.datatypes.AngleDistance;
 
 /**
@@ -18,7 +19,11 @@ import common.datatypes.AngleDistance;
  * @see common.objects.Member#lSense()
  *
  */
-public class Waypoint {
+public class Waypoint implements Serializable {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -1035670677875553473L;
   private double x;
   private double y;
   private boolean toBeBlocked;
