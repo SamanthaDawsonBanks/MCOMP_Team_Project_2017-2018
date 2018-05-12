@@ -71,7 +71,7 @@ public class View extends Application implements RemoteView {
   private int counter = 0;
   private Pane pane;
   private Group lidarGroup, blockedGroup, lineGroup, amalgamateGroup, pathGroup, searchedGroup,
-      optimisedGroup;
+  optimisedGroup;
 
   /**
    * Takes in all methods that deal with drawing to the GUI and adds them to the new HBox. Adds the
@@ -84,13 +84,18 @@ public class View extends Application implements RemoteView {
   public void start(Stage primaryStage) throws Exception {
 
     // rmi connect stuff
+    /*
     localLeaderRef = connectRMI();
     if (localLeaderRef == null) {
+      Alert runtimeDialogue = new Alert(AlertType.CONFIRMATION);
+      runtimeDialogue.setContentText("Unable to connect!");
+      Optional<ButtonType> result = runtimeDialogue.showAndWait();
       throw new RuntimeException("Unable to connect to Leader");
       // FIXME needs some form of error box saying unable to connect or whatever?
     }
+    
     localHerdData = localLeaderRef.getState();
-
+    */
 
     Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
     primaryStage.setX(screenBounds.getMinX());
@@ -207,7 +212,7 @@ public class View extends Application implements RemoteView {
     SpinnerValueFactory<Integer> value = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 5);
     spinner.getStyleClass().add(Spinner.STYLE_CLASS_SPLIT_ARROWS_VERTICAL);
     spinner
-        .setStyle("-fx-body-color:#00bfff;" + "-fx-font-size: 10px; " + "-fx-font-weight: bold;");
+    .setStyle("-fx-body-color:#00bfff;" + "-fx-font-size: 10px; " + "-fx-font-weight: bold;");
 
     spinner.setMaxHeight(vboxMap.getPrefHeight() / 4);
     spinner.setMaxWidth(vboxMap.getPrefWidth() / 14);
@@ -225,7 +230,7 @@ public class View extends Application implements RemoteView {
       if (lidarBtn.isSelected()) {
         toggleOnStyle(lidarBtn);
         pane.getChildren()
-            .add(drawLidarLayer(localHerdData.map.getLayer(spinner.getValue()).getWaypoints()));
+        .add(drawLidarLayer(localHerdData.map.getLayer(spinner.getValue()).getWaypoints()));
       } else {
         toggleOffStyle(lidarBtn);
         pane.getChildren().remove(lidarGroup);
@@ -581,6 +586,20 @@ public class View extends Application implements RemoteView {
     b.setStyle("-fx-background-color: #00ff00;" + "-fx-font-size: 2em;" + "-fx-font-weight: bold;");
     b.setMaxWidth(vbox.getPrefWidth());
     b.setMinHeight(vbox.getPrefHeight());
+    b.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+      @Override
+      public void handle(MouseEvent event) {
+        // TODO Auto-generated method stub
+        try {
+          localHerdData.getLeader().go();
+        } catch (RemoteException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        }
+      }
+      
+    });
     vbox.getChildren().add(b);
     return vbox;
   }
@@ -601,7 +620,12 @@ public class View extends Application implements RemoteView {
 
         Optional<ButtonType> result = killMember.showAndWait();
         if (result.get() == ButtonType.OK) {
-          // TODO remove member.
+          try {
+            localHerdData.getMembers().get(Integer.parseInt(b.getText())).kill("Member: " + b.getText() + "removed");
+          } catch (NumberFormatException | RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+          }
           p.getChildren().remove(t);
         } else {
           killMember.close();
