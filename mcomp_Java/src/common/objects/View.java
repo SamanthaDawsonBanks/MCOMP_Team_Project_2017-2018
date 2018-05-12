@@ -84,18 +84,17 @@ public class View extends Application implements RemoteView {
   public void start(Stage primaryStage) throws Exception {
 
     // rmi connect stuff
-    /*
     localLeaderRef = connectRMI();
     if (localLeaderRef == null) {
+      
       Alert runtimeDialogue = new Alert(AlertType.CONFIRMATION);
       runtimeDialogue.setContentText("Unable to connect!");
       Optional<ButtonType> result = runtimeDialogue.showAndWait();
       throw new RuntimeException("Unable to connect to Leader");
-      // FIXME needs some form of error box saying unable to connect or whatever?
     }
     
     localHerdData = localLeaderRef.getState();
-    */
+    
 
     Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
     primaryStage.setX(screenBounds.getMinX());
