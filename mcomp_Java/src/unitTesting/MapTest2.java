@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 import common.datatypes.Waypoint;
 import common.datatypes.map.Map;
 import common.datatypes.map.MapLayer;
+import common.datatypes.map.griddedMap.Vertex;
+import common.datatypes.path.Path;
 import pathfinding.AStar;
 import unitTesting.testData.TestData;
 

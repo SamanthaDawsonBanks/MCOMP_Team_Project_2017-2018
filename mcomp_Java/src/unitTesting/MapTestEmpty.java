@@ -47,9 +47,6 @@ class MapTestEmpty
 
     AStar a = new AStar();
     a.pathfind(start, dest, m);
-    
-    //SearchMap b = new SearchMap();
-   // b.search(start, dest, m);
   }
 
 }
