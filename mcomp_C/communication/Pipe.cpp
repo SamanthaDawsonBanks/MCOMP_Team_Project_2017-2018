@@ -3,6 +3,8 @@
  *
  *  Created on: 4 Apr 2018
  *      Author: Ryan Shoobert 15812407
+ *      Author: David Avery 15823926
+ *
  *
  *  Pipe Class
  *
@@ -46,7 +48,7 @@ void Pipe::recieveCommand() {
     writeString(encodeWaypoint(prop.Drive(w)));
   }
   if (res[0] == "LSENSE") {
-    writeString(encodeLRead(lSen.sense()));
+    writeLRead(lSen.sense());
   }
 }
 
@@ -87,9 +89,12 @@ String Pipe::call() {
  * will handle the writing of each character in a string to the serial port.
  */
 void Pipe::writeString(String s) {
+
   for (unsigned int i = 0; i < s.length(); i++) {
     CONSOLE.write(s.charAt(i));
+    delay(1);
   }
+
 }
 
 /**
@@ -143,17 +148,24 @@ String Pipe::encodeDouble(double d) {
  * seperated chunks.
  *
  */
-String Pipe::encodeLRead(Waypoint* reading) {
-  String sb = "";
+void Pipe::writeLRead(Waypoint* reading) {
+  String s = "";
   int i;
 
   for (i = 0; i < 359; i++) {
-    sb.concat(encodeInlineWaypoint(*(reading + i)));
+    s = encodeInlineWaypoint(*(reading + i));
+    for (unsigned int j = 0; j < s.length(); j++) {
+      CONSOLE.write(s.charAt(j));
+      delay(1);
+    }
   }
 
-  sb.concat(encodeWaypoint(*(reading + i)));
+  s = encodeWaypoint(*(reading + i));
 
-  return sb;
+  for (unsigned int k = 0; k < s.length(); k++) {
+    CONSOLE.write(s.charAt(k));
+    delay(1);
+  }
 }
 
 /**

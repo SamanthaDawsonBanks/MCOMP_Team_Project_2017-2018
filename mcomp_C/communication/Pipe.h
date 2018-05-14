@@ -29,7 +29,7 @@ class Pipe {
   String encodeInlineWaypoint(Waypoint w);
   String encodeWaypoint(Waypoint w);
   String encodeDouble(double d);
-  String encodeLRead(Waypoint reading[]);
+  void writeLRead(Waypoint reading[]);
 
   void close();
 };
