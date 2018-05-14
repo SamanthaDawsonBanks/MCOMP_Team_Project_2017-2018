@@ -229,7 +229,7 @@ public class View extends Application implements RemoteView {
       if (lidarBtn.isSelected()) {
         toggleOnStyle(lidarBtn);
         pane.getChildren()
-        .add(drawLidarLayer(localHerdData.map.getLayer(spinner.getValue()).getWaypoints()));
+        .add(drawLidarLayer(localHerdData.getMap().getLayer(spinner.getValue()).getWaypoints()));
       } else {
         toggleOffStyle(lidarBtn);
         pane.getChildren().remove(lidarGroup);
@@ -283,7 +283,7 @@ public class View extends Application implements RemoteView {
     mapBtn.setOnAction(event -> {
       if (mapBtn.isSelected()) {
         toggleOnStyle(mapBtn);
-        pane.getChildren().add(drawAmalgamatedMap(localHerdData.map.getAmalgamatedMap()));
+        pane.getChildren().add(drawAmalgamatedMap(localHerdData.getMap().getAmalgamatedMap()));
       } else {
         toggleOffStyle(mapBtn);
         pane.getChildren().remove(amalgamateGroup);
