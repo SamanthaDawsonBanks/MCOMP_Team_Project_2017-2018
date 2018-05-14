@@ -86,9 +86,13 @@ public class View extends Application implements RemoteView {
     // rmi connect stuff
     localLeaderRef = connectRMI();
     if (localLeaderRef == null) {
+
+      Alert runtimeDialogue = new Alert(AlertType.CONFIRMATION);
+      runtimeDialogue.setContentText("Unable to connect!");
+      Optional<ButtonType> result = runtimeDialogue.showAndWait();
       throw new RuntimeException("Unable to connect to Leader");
-      // FIXME needs some form of error box saying unable to connect or whatever?
     }
+
     localHerdData = localLeaderRef.getState();
 
 
@@ -581,6 +585,20 @@ public class View extends Application implements RemoteView {
     b.setStyle("-fx-background-color: #00ff00;" + "-fx-font-size: 2em;" + "-fx-font-weight: bold;");
     b.setMaxWidth(vbox.getPrefWidth());
     b.setMinHeight(vbox.getPrefHeight());
+    b.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+      @Override
+      public void handle(MouseEvent event) {
+        // TODO Auto-generated method stub
+        try {
+          localHerdData.getLeader().go();
+        } catch (RemoteException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        }
+      }
+
+    });
     vbox.getChildren().add(b);
     return vbox;
   }
@@ -601,7 +619,13 @@ public class View extends Application implements RemoteView {
 
         Optional<ButtonType> result = killMember.showAndWait();
         if (result.get() == ButtonType.OK) {
-          // TODO remove member.
+          try {
+            localHerdData.getMembers().get(Integer.parseInt(b.getText()))
+                .kill("Member: " + b.getText() + "removed");
+          } catch (NumberFormatException | RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+          }
           p.getChildren().remove(t);
         } else {
           killMember.close();
