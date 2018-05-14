@@ -24,7 +24,7 @@ class PipeTest {
    */
   @Before
   void setup() {
-    pipe = new Pipe("COM5");
+    pipe = new Pipe();
   }
 
   @Test
