@@ -27,6 +27,7 @@ import common.datatypes.path.Path;
  * 
  */
 public class AStar {
+  boolean devMode = false;
 
   //Intialise ArrayLists for handling ScoredVertex's.
   private ArrayList<ScoredVertex> routeToStart = new ArrayList<ScoredVertex>();
@@ -109,7 +110,7 @@ public class AStar {
        * Optimise the path object and return from the pathfind method.
        */
       if (isEquals(current, svDest)) {
-        if(pOpt.devMode() == false) {
+        if(devMode) {
           System.out.println("goal reached ");
           System.out.println("Closed List: " + closedList.size()); 
           System.out.print("Open List: " + openList.size()); 
@@ -123,7 +124,7 @@ public class AStar {
 
       openList.remove(current);
       closedList.add(current);
-      if(pOpt.devMode() == false) {
+      if(devMode) {
         System.out.println("current node: " + "(" + current.getX() + "," + current.getY() + ") ");
         System.out.print("Facing: " + current.getDirection() + " ");
         System.out.println();
@@ -163,14 +164,14 @@ public class AStar {
         z.parent = current;
 
         if (!closedList.contains(z)) {
-          if(pOpt.devMode() == false) {
+          if(devMode) {
             System.out.printf("child:(%d,%d)" + " gx = %.1f" + " hx = %.1f" + " fx = %.1f" + " dir = %s" + "\n",
                 z.getX(), z.getY(), z.getGx(), z.getHx(), z.getFx(), z.getDirection());
           }
         }
       }
 
-      if(pOpt.devMode() == false) {
+      if(devMode) {
         System.out.println();
         System.out.print("Open: ");
         for (ScoredVertex v : openList) {
@@ -216,7 +217,7 @@ public class AStar {
       current = (ScoredVertex) current.parent;
       routeToStart.add((ScoredVertex) current);
     }
-    if(pOpt.devMode() == false) {
+    if(devMode) {
       System.out.print("\n" + "Path to take:");
     }
     Collections.reverse(routeToStart);
@@ -224,11 +225,11 @@ public class AStar {
 
     for (Vertex w : routeToStart) {
       p.addNode(new Waypoint(w.getX(), w.getY()));
-      if(pOpt.devMode() == false) {
+      if(devMode) {
         System.out.printf("(%d,%d) ", w.getX(), w.getY());
       }
     }
-    if(pOpt.devMode() == false) {
+    if(devMode) {
       System.out.printf("\n" + "Total routeToStart length: %d" + "\n", p.getLength());
     }
     return p;

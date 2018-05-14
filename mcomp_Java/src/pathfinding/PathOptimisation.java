@@ -25,6 +25,7 @@ import common.datatypes.path.Path;
  * 
  */
 public class PathOptimisation {
+  boolean devMode = false;
 
   /**
    * Method for returning the total number of turns from the returned Path.
@@ -46,7 +47,7 @@ public class PathOptimisation {
         counter++;
       }
     }
-    if(devMode() == false) {
+    if(devMode) {
       System.out.printf("Turns in route: %d" + "\n" ,turnCounter);
     }
     return turnCounter;
@@ -81,7 +82,7 @@ public class PathOptimisation {
         }
       }
     }
-    if(devMode() == false) {
+    if(devMode) {
       System.out.print("New path to take: ");
       for(Vertex v: newPath) {
         System.out.printf("(%d,%d) ",v.getX(), v.getY());
@@ -92,16 +93,16 @@ public class PathOptimisation {
   }
   
   
-  /**
-   * Method for preventing information getting printed to the console.
-   * At runtime printing out all variables is useful for debugging.
-   * But not in a realtime situation/environment.
-   * 
-   * @return devMode a boolean check
-   */
-  public Boolean devMode() {
-    boolean devMode = true;
-    return devMode;
-  }
+//  /**
+//   * Method for preventing information getting printed to the console.
+//   * At runtime printing out all variables is useful for debugging.
+//   * But not in a realtime situation/environment.
+//   * 
+//   * @return devMode a boolean check
+//   */
+//  public Boolean devMode() {
+//    boolean devMode = false;
+//    return devMode;
+//  }
 
 }
