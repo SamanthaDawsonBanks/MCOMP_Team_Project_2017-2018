@@ -17,8 +17,7 @@ import unitTesting.testData.TestData;
  * @author Harry Jackson 14812630
  *
  */
-class MapTestEmpty
-{
+class MapTestEmpty {
 
   /**
    * @throws java.lang.Exception
@@ -31,19 +30,19 @@ class MapTestEmpty
    */
   @Test
   void testAddLayer() {
-    @SuppressWarnings("unused")//only for data-typing
+    @SuppressWarnings("unused") // only for data-typing
     ArrayList<Waypoint> l = new ArrayList<Waypoint>();
-    l.add((new Waypoint(-1,-1)));
+    l.add((new Waypoint(-1, -1)));
     @SuppressWarnings("unused")
     Map n = new Map(64, new MapLayer(l));
-    Map m = new Map(64, new MapLayer(TestData.getEmptyMaze())); //TODO expand to full test
+    Map m = new Map(64, new MapLayer(TestData.getEmptyMaze())); // TODO expand to full test
 
     System.out.printf("");// breakpoint
 
     // fail("Not yet implemented");
 
-    Waypoint start = new Waypoint(2,2);
-    Waypoint dest = new Waypoint(5,5);
+    Waypoint start = new Waypoint(2, 2);
+    Waypoint dest = new Waypoint(5, 5);
 
     AStar a = new AStar();
     a.pathfind(start, dest, m);

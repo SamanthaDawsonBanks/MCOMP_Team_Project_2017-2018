@@ -50,7 +50,7 @@ public class MapTest2 {
 
     AStar a = new AStar();
     a.pathfind(start, dest, m);
-    //SearchMap b = new SearchMap();
+    // SearchMap b = new SearchMap();
     // b.search(start, dest, m);
   }
 }

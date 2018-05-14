@@ -18,7 +18,7 @@ import common.datatypes.map.griddedMap.Vertex;
  */
 public class ScoredVertex extends Vertex {
 
-//  private double fx;
+  // private double fx;
   private double hx;
   private double gx;
   private double cost;
@@ -39,15 +39,15 @@ public class ScoredVertex extends Vertex {
    */
   public double getFx() {
     return hx + gx;
-    //return fx;
+    // return fx;
   }
 
-//  /**
-//   * @param fx the fx to set
-//   */
-//  public void setFx(double fx) {
-//    this.fx = fx;
-//  }
+  // /**
+  // * @param fx the fx to set
+  // */
+  // public void setFx(double fx) {
+  // this.fx = fx;
+  // }
 
   /**
    * @return the hx
@@ -85,23 +85,23 @@ public class ScoredVertex extends Vertex {
   }
 
   /**
-   * Method for calculating the direction a vertex is facing
-   * by comparing the current vertex with another (child/neighbour).
-   *  
+   * Method for calculating the direction a vertex is facing by comparing the current vertex with
+   * another (child/neighbour).
+   * 
    * @param Vertex current, the current vertex.
    * @param Vertex child, the adjacent Vertices to the current Vertex.
    */
   public void setDirection(Vertex current, Vertex child) {
-    if(child.getX() - current.getX() > 0) {
+    if (child.getX() - current.getX() > 0) {
       this.direction = "east";
     }
-    if(child.getX() - current.getX() < 0) {
+    if (child.getX() - current.getX() < 0) {
       this.direction = "west";
     }
-    if(child.getY() - current.getY() < 0) {
+    if (child.getY() - current.getY() < 0) {
       this.direction = "south";
     }
-    if(child.getY() - current.getY() > 0) {
+    if (child.getY() - current.getY() > 0) {
       this.direction = "north";
     }
   }

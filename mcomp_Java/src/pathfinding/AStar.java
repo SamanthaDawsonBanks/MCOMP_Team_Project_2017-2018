@@ -9,9 +9,9 @@ import common.datatypes.map.griddedMap.Vertex;
 import common.datatypes.path.Path;
 
 /**
- * The AStar must take a 'destination' Waypoint, 'Starting' Waypoint and a Map 
- * as part of its instantiation in order to pathfind. It will always return a Path
- * object given that the destination can be reached from the starting Waypoint.
+ * The AStar must take a 'destination' Waypoint, 'Starting' Waypoint and a Map as part of its
+ * instantiation in order to pathfind. It will always return a Path object given that the
+ * destination can be reached from the starting Waypoint.
  * 
  * @author Harry Jackson 14812630
  * @author David Avery 15823926
@@ -29,21 +29,20 @@ import common.datatypes.path.Path;
 public class AStar {
   boolean devMode = false;
 
-  //Intialise ArrayLists for handling ScoredVertex's.
+  // Intialise ArrayLists for handling ScoredVertex's.
   private ArrayList<ScoredVertex> routeToStart = new ArrayList<ScoredVertex>();
   private ArrayList<ScoredVertex> openList = new ArrayList<ScoredVertex>();
   private ArrayList<ScoredVertex> closedList = new ArrayList<ScoredVertex>();
 
-  //Initialise PathOptimisation object for dealing with the returned path.
+  // Initialise PathOptimisation object for dealing with the returned path.
   private PathOptimisation pOpt = new PathOptimisation();
 
-  //Initialise Heuristic Object for handling the hx cost.
+  // Initialise Heuristic Object for handling the hx cost.
   private Heuristic h = new Heuristic();
 
   /**
-   * This is the main method for pathfinding through a Map. It scores Vertices
-   * as it progressively works towards the destination by implementing the AStar 
-   * search Algorithm.
+   * This is the main method for pathfinding through a Map. It scores Vertices as it progressively
+   * works towards the destination by implementing the AStar search Algorithm.
    * 
    * @see common.datatypes.map.griddedMap.Map
    * @see common.datatypes.path.Path
@@ -58,7 +57,7 @@ public class AStar {
    * @param Map m the space to be searced by the Pathfinding algorithm.
    * 
    * @return Path the path object.
-   *  
+   * 
    */
   public Path pathfind(Waypoint start, Waypoint dest, Map m) {
 
@@ -77,19 +76,18 @@ public class AStar {
     ScoredVertex current = svStart;
 
     /**
-     * runs while the OpenList is not empty. This is because the if the OpenList 
-     * is empty and the destination has not been reached then there are no 
-     * more Vertices to be explored meaning the Destination is unreachable,
-     * and a runtime error occurs.
+     * runs while the OpenList is not empty. This is because the if the OpenList is empty and the
+     * destination has not been reached then there are no more Vertices to be explored meaning the
+     * Destination is unreachable, and a runtime error occurs.
      */
     while (!openList.isEmpty() && counter < 15) {
 
       current = openList.get(0);
 
       /**
-       * Iterates through openList and sets the current ScoredVertex equal 
-       * to the child with the Lowest fx cost. If the fx cost of two or more children
-       * are equal we then select the child with the lower hx cost. 
+       * Iterates through openList and sets the current ScoredVertex equal to the child with the
+       * Lowest fx cost. If the fx cost of two or more children are equal we then select the child
+       * with the lower hx cost.
        */
       for (ScoredVertex v : openList) {
         if (v.getFx() < current.getFx()) {
@@ -105,16 +103,16 @@ public class AStar {
       }
 
       /**
-       * Checks if the current ScoredVertex equals the destination ScoredVertex.
-       * If true the goal has been reached. We call the getPath() method and then
-       * Optimise the path object and return from the pathfind method.
+       * Checks if the current ScoredVertex equals the destination ScoredVertex. If true the goal
+       * has been reached. We call the getPath() method and then Optimise the path object and return
+       * from the pathfind method.
        */
       if (isEquals(current, svDest)) {
-        if(devMode) {
+        if (devMode) {
           System.out.println("goal reached ");
-          System.out.println("Closed List: " + closedList.size()); 
-          System.out.print("Open List: " + openList.size()); 
-        }  
+          System.out.println("Closed List: " + closedList.size());
+          System.out.print("Open List: " + openList.size());
+        }
         getPath(svStart, current, m);
         pOpt.getTurns(routeToStart);
         return pOpt.getShorterPath(routeToStart);
@@ -124,19 +122,17 @@ public class AStar {
 
       openList.remove(current);
       closedList.add(current);
-      if(devMode) {
+      if (devMode) {
         System.out.println("current node: " + "(" + current.getX() + "," + current.getY() + ") ");
         System.out.print("Facing: " + current.getDirection() + " ");
         System.out.println();
       }
 
       /**
-       * We iterate through the edges of the current ScoredVertex to get 
-       * the neighbours adjacent to current. We set each neighbours direction,
-       * the parent equal to current (used for returning the path in getPath() method. 
-       * hx cost (heuristic cost to destination), 
-       * gx cost (real cost from the start ScoredVertex to the child), 
-       * fx cost (fx = hx + gx).
+       * We iterate through the edges of the current ScoredVertex to get the neighbours adjacent to
+       * current. We set each neighbours direction, the parent equal to current (used for returning
+       * the path in getPath() method. hx cost (heuristic cost to destination), gx cost (real cost
+       * from the start ScoredVertex to the child), fx cost (fx = hx + gx).
        */
       for (Vertex v : current.edges) {
 
@@ -147,7 +143,7 @@ public class AStar {
 
         ScoredVertex z = new ScoredVertex(v, m.getAmalgamatedMap());
         z.setDirection(current, z);
-        //z.setHx(h.manhattanHeuristic(z, svDest));
+        // z.setHx(h.manhattanHeuristic(z, svDest));
         z.setHx(h.straightLineHeuristic(z, svDest, current, z));
 
         if (!myContains(openList, z)) {
@@ -164,14 +160,15 @@ public class AStar {
         z.parent = current;
 
         if (!closedList.contains(z)) {
-          if(devMode) {
-            System.out.printf("child:(%d,%d)" + " gx = %.1f" + " hx = %.1f" + " fx = %.1f" + " dir = %s" + "\n",
+          if (devMode) {
+            System.out.printf(
+                "child:(%d,%d)" + " gx = %.1f" + " hx = %.1f" + " fx = %.1f" + " dir = %s" + "\n",
                 z.getX(), z.getY(), z.getGx(), z.getHx(), z.getFx(), z.getDirection());
           }
         }
       }
 
-      if(devMode) {
+      if (devMode) {
         System.out.println();
         System.out.print("Open: ");
         for (ScoredVertex v : openList) {
@@ -207,7 +204,7 @@ public class AStar {
    * @param Map m an empty copy of the Map object used to return the found Path.
    * 
    * @return Path the path object.
-   *  
+   * 
    */
   public Path getPath(ScoredVertex start, ScoredVertex dest, Map m) {
     ScoredVertex current = dest;
@@ -217,7 +214,7 @@ public class AStar {
       current = (ScoredVertex) current.parent;
       routeToStart.add((ScoredVertex) current);
     }
-    if(devMode) {
+    if (devMode) {
       System.out.print("\n" + "Path to take:");
     }
     Collections.reverse(routeToStart);
@@ -225,11 +222,11 @@ public class AStar {
 
     for (Vertex w : routeToStart) {
       p.addNode(new Waypoint(w.getX(), w.getY()));
-      if(devMode) {
+      if (devMode) {
         System.out.printf("(%d,%d) ", w.getX(), w.getY());
       }
     }
-    if(devMode) {
+    if (devMode) {
       System.out.printf("\n" + "Total routeToStart length: %d" + "\n", p.getLength());
     }
     return p;
@@ -240,22 +237,22 @@ public class AStar {
    * 
    * @see common.datatypes.map.griddedMap.Vertex
    * 
-   * @param Vertex a 
+   * @param Vertex a
    * @param Vertex b
    * 
    * @return Boolean checking if Vertex a equals Vertex b
-   *  
+   * 
    */
   public boolean isEquals(Vertex a, Vertex b) {
     return (a.getX() == b.getX() && a.getY() == b.getY());
   }
 
   /**
-   * This method is a specialised version of the Java String class contains() method. 
-   * We iterate through the arrayList of ScoredVertex's and call the isEquals() method to
-   * check if the ArrayList contains a specific Vertex. This is required because we are
-   * dealing with ScoredVertex's and Vertex's which are not equivalent.
-   *  
+   * This method is a specialised version of the Java String class contains() method. We iterate
+   * through the arrayList of ScoredVertex's and call the isEquals() method to check if the
+   * ArrayList contains a specific Vertex. This is required because we are dealing with
+   * ScoredVertex's and Vertex's which are not equivalent.
+   * 
    * @see common.datatypes.map.griddedMap.Vertex
    * @see pathfinding.ScoredVertex
    * 
@@ -263,7 +260,7 @@ public class AStar {
    * @param Vertex v, the Vertex being checked if it exist within the Collection.
    * 
    * @return Boolean if arrayList<ScoredVertex> l contains Vertex v
-   *  
+   * 
    */
   public boolean myContains(ArrayList<ScoredVertex> l, Vertex v) {
     boolean res = false;
