@@ -35,7 +35,7 @@ import common.datatypes.map.MapLayer;
  */
 public class MemberMain {
   private static final Logger LOGGER = Logger.getLogger(MemberMain.class.getName());
-  
+
   public static boolean stayingAlive = true;
 
   private static Member me;
@@ -77,11 +77,11 @@ public class MemberMain {
       LOGGER.log(Level.INFO, "Calling Member Constructor");
       me = new Member(abilities);
       LOGGER.log(Level.INFO, "Member Constructed");
-            
+
     }
-    
+
     while (stayingAlive) {
-      
+
     }
     LOGGER.log(Level.SEVERE, "Killed, Exiting");
 

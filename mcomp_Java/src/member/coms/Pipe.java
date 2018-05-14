@@ -189,7 +189,7 @@ public class Pipe {
   private String call(String s) throws SerialPortException {
 
     LOGGER.log(Level.INFO, "String to send:" + s);
-    
+
     p.purgePort(SerialPort.PURGE_RXCLEAR | SerialPort.PURGE_TXCLEAR);
 
     try {
@@ -198,7 +198,7 @@ public class Pipe {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
-    
+
     p.writeString(s);
 
     LOGGER.log(Level.INFO, "sent");
@@ -211,7 +211,7 @@ public class Pipe {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
-    
+
     char incomingChar = (char) (p.readBytes(1))[0];
 
     LOGGER.log(Level.INFO, "successfully read first char");

@@ -113,8 +113,8 @@ String* Pipe::decode(String readData) {
   delims[1] = readData.indexOf(';', delims[0]);
 
   if (delims[0] >= 0) {
-    chunks[0] = readData.substring(0,delims[0]);
-    chunks[1] = readData.substring(delims[0],delims[1]);
+    chunks[0] = readData.substring(0, delims[0]);
+    chunks[1] = readData.substring(delims[0], delims[1]);
     chunks[2] = readData.substring(delims[1]);
   } else {
     chunks[0] = readData;
