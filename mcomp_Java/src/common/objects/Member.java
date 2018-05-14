@@ -55,7 +55,7 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
   private ArrayList<Ability> abilities;
   private Herd localHerd;
 
-  private Pipe pipe = new Pipe(); 
+  private Pipe pipe = new Pipe();
 
   private double currentX;
   private double currentY;
@@ -175,20 +175,20 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
       @SuppressWarnings("unused")
       Process leaderMainP = leaderMainPB.start();
 
-//       BufferedReader br = new BufferedReader(new
-//       InputStreamReader(leaderMainP.getInputStream()));
-//       String output = "";
-//       String line;
-//       output = output + "\n >>>>>> BEGIN LeaderMain process output <<<<<< \n\n";
-//       while ((line = br.readLine()) != null) {// FIXME this loop will need to be threaded (if we
-//       // keep it) to fix the blocking nature
-//       output = output + line + "\n";
-//       if (line.equals("INFO: End of LeaderMain")) {// line is never null in this context
-//       break;
-//       }
-//       }
-//       output = output + "\n >>>>>> END LeaderMain process output <<<<<<" + "\n";
-//       LOGGER.log(Level.INFO, output);
+      // BufferedReader br = new BufferedReader(new
+      // InputStreamReader(leaderMainP.getInputStream()));
+      // String output = "";
+      // String line;
+      // output = output + "\n >>>>>> BEGIN LeaderMain process output <<<<<< \n\n";
+      // while ((line = br.readLine()) != null) {// FIXME this loop will need to be threaded (if we
+      // // keep it) to fix the blocking nature
+      // output = output + line + "\n";
+      // if (line.equals("INFO: End of LeaderMain")) {// line is never null in this context
+      // break;
+      // }
+      // }
+      // output = output + "\n >>>>>> END LeaderMain process output <<<<<<" + "\n";
+      // LOGGER.log(Level.INFO, output);
 
     } catch (RemoteException e) {
       // TODO Auto-generated catch block
@@ -274,7 +274,7 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
   public MapLayer lSense() throws RemoteException {
     MapLayer r = pipe.lSense();
 
-    r = r.transform(0, -currentX, -currentY, 0.2); 
+    r = r.transform(0, -currentX, -currentY, 0.2);
 
     return r;
   }
@@ -298,7 +298,7 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
   private RemoteLeader connectRMI() {
     RemoteLeader res = null;
     try {
-      res = (RemoteLeader) Naming.lookup("rmi://192.168.25.102" + "/HerdLeader");
+      res = (RemoteLeader) Naming.lookup("rmi://192.168.25.42" + "/HerdLeader");
       localHerd.setLeader(res);
       // FIXME lookup IP
       res.register(this);

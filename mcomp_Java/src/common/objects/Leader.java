@@ -110,11 +110,11 @@ public class Leader extends UnicastRemoteObject
     joiningMember.RMITest();// FIXME this checks loopback
 
     joiningMember.notifyOfChange();
-    
+
     if (leaderHerd.getSensors().contains(joiningMember)) {
       leaderHerd.addMapLayer(joiningMember.lSense());// take LiDAR Read
     }
-    
+
     // TODO do something ? take read ? dance?!?!?!
     return leaderHerd.requestJoin(joiningMember);
     // FIXME adjust for leaderHerd
@@ -199,7 +199,7 @@ public class Leader extends UnicastRemoteObject
             leaderHerd.addMapLayer(((LSenseable) cb).lSense());// take LiDAR Read
           }
         } catch (RemoteException e) {
-          //deregister member
+          // deregister member
           deregister((RemoteMember) cb);
           e.printStackTrace();
         } ;

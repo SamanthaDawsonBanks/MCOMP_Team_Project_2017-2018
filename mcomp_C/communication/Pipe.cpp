@@ -3,6 +3,8 @@
  *
  *  Created on: 4 Apr 2018
  *      Author: Ryan Shoobert 15812407
+ *      Author: David Avery 15823926
+ *
  *
  *  Pipe Class
  *
@@ -16,13 +18,7 @@
 
 #include "../config/robot_config.h"
 
-
-//LSensor ls;
-//Propulsion p;
-
 Pipe::Pipe() {
-  //Configure and start serial connection
-//  Serial.begin(SerialRate);
 }
 
 /**
@@ -33,18 +29,26 @@ Pipe::Pipe() {
  * the data that is returned will need to be encoded for returning to the sender.
  */
 void Pipe::recieveCommand() {
+
   String* res = new String[3];
+  Propulsion prop = Propulsion();
+  LSensor lSen = LSensor();
+
+  CONSOLE.begin(CONSOLERATE);
+  CONSOLE.setTimeout(CONSOLETIMEOUT);
 
   res = decode(call());
 
   //check the data read and build a response if it contains any matching commands
-  if (res[0] == "COMPASS") {
-    //writeString(encodeDouble(compassRead()));
-  } else if (res[0] == "DRIVE") {
+//  if (res[0] == "COMPASS") {
+//    writeString(encodeDouble(Compass().compassRead()));
+//  }
+  if (res[0] == "DRIVE") {
     Waypoint w = Waypoint(res[1].toDouble(), res[2].toDouble());
-    //writeString(encodeWaypoint(p.Drive(w)));
-  } else if (res[0] == "LSENSE") {
-    //writeString(encodeLRead(ls.sense()));
+    writeString(encodeWaypoint(prop.Drive(w)));
+  }
+  if (res[0] == "LSENSE") {
+    writeLRead(lSen.sense());
   }
 }
 
@@ -56,16 +60,17 @@ void Pipe::recieveCommand() {
  * will act as a blocking call until input is received.
  */
 String Pipe::call() {
+
   String sb = "";
 
-  while (CONSOLE.available() == 0) {
-
+  while (!CONSOLE.available()) {
   }
 
-  char incomingChar = Serial.read();
+  char incomingChar = CONSOLE.read();
+  sb.concat(incomingChar);
 
   while (incomingChar != '\n') {
-    while (CONSOLE.available() == 0) {
+    while (!CONSOLE.available()) {
     }
 
     incomingChar = CONSOLE.read();
@@ -74,7 +79,6 @@ String Pipe::call() {
       sb.concat(incomingChar);
     }
   }
-
   return sb;
 }
 
@@ -85,9 +89,12 @@ String Pipe::call() {
  * will handle the writing of each character in a string to the serial port.
  */
 void Pipe::writeString(String s) {
-  for (int i = 0; i < s.length(); i++) {
+
+  for (unsigned int i = 0; i < s.length(); i++) {
     CONSOLE.write(s.charAt(i));
+    delay(1);
   }
+
 }
 
 /**
@@ -98,18 +105,19 @@ void Pipe::writeString(String s) {
  * separated into pieces. If not, then anything in the read data will be returned whole.
  */
 String* Pipe::decode(String readData) {
+
+  int delims[2];
   String* chunks = new String[3];
-  int posCounter = 0;
-  int num = 0;
 
-  for (int i = 0; i < readData.length(); i++) {
-    if (readData.charAt(i) == ';') {
-      chunks[num] = readData.substring(posCounter, i);
-      posCounter = i + 1;
-      num++;
-    }
+  delims[0] = readData.indexOf(';');
+  delims[1] = readData.indexOf(';', delims[0]);
 
-    chunks[num] = readData.substring(posCounter, i);
+  if (delims[0] >= 0) {
+    chunks[0] = readData.substring(0, delims[0]);
+    chunks[1] = readData.substring(delims[0], delims[1]);
+    chunks[2] = readData.substring(delims[1]);
+  } else {
+    chunks[0] = readData;
   }
 
   //return separate parts of the read string
@@ -140,17 +148,24 @@ String Pipe::encodeDouble(double d) {
  * seperated chunks.
  *
  */
-String Pipe::encodeLRead(Waypoint* reading) {
-  String sb = "";
+void Pipe::writeLRead(Waypoint* reading) {
+  String s = "";
   int i;
 
   for (i = 0; i < 359; i++) {
-    sb.concat(encodeInlineWaypoint(*(reading + i)));
+    s = encodeInlineWaypoint(*(reading + i));
+    for (unsigned int j = 0; j < s.length(); j++) {
+      CONSOLE.write(s.charAt(j));
+      delay(1);
+    }
   }
 
-  sb.concat(encodeWaypoint(*(reading + i)));
+  s = encodeWaypoint(*(reading + i));
 
-  return sb;
+  for (unsigned int k = 0; k < s.length(); k++) {
+    CONSOLE.write(s.charAt(k));
+    delay(1);
+  }
 }
 
 /**

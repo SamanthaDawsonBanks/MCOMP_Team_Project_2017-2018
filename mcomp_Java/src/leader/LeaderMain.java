@@ -52,7 +52,7 @@ public class LeaderMain {
     l = new Leader();// args - 1099, "HerdLeader");
 
     LOGGER.log(Level.INFO, "Binding l as: {0}", serverName);
-    Naming.rebind("rmi://192.168.25.102/" + serverName, l);
+    Naming.rebind("rmi://192.168.25.42/" + serverName, l);
 
 
     listAllBoundRMINames(registry);
@@ -65,9 +65,9 @@ public class LeaderMain {
 
 
     LOGGER.log(Level.INFO, "End of LeaderMain");
-    
+
     while (stayingAlive) {
-      
+
     }
 
   }

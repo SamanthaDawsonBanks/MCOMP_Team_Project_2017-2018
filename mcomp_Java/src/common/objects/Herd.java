@@ -81,7 +81,7 @@ public class Herd implements Serializable, Joinable, Organisable {
   public Herd(RemoteMember a) {
     LOGGER.log(Level.INFO, "Herd Starting");
 
-    
+
     // Storage Initialisation
     herdID = "newHerd"; // TODO Needs to be a randomly generated name
     herdMembers = new ArrayList<RemoteMember>();
@@ -325,7 +325,7 @@ public class Herd implements Serializable, Joinable, Organisable {
 
   public void addMapLayer(MapLayer lSense) {
     // TODO Auto-generated method stub
-    if(map == null) {
+    if (map == null) {
       map = new Map(lSense);
     } else {
       map.addLayer(lSense);

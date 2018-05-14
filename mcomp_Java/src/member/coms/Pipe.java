@@ -16,6 +16,7 @@ import jssc.SerialPortList;
  * between the Pi and the Arduino.
  * 
  * @author Ryan Shoobert 15812407
+ * @author David Avery 15823926
  * 
  * @version 2.1
  * @since 2018-05-10
@@ -24,8 +25,7 @@ import jssc.SerialPortList;
 public class Pipe {
   // global definitions
   private SerialPort p;
-  private String comPortName;
-  
+
   String[] availablePorts;
 
   // Connection Parameters - Should never change these once Pipe instance created
@@ -35,7 +35,7 @@ public class Pipe {
   private final int NUM_OF_DATA_BITS = 8;
   private final int NUM_OF_STOP_BITS = 1;
   private final int NUM_OF_PARITY_BITS = 0;
-  
+
   private static final Logger LOGGER = Logger.getLogger(Pipe.class.getName());
 
   /**
@@ -46,19 +46,20 @@ public class Pipe {
    */
   public Pipe() {
     availablePorts = SerialPortList.getPortNames();
-    
-    if(availablePorts.length == 0) {
+
+    if (availablePorts.length == 0) {
       LOGGER.log(Level.SEVERE, "There are no serial-ports available");
     }
-    
-    //Print out list of available ports
+
+    // Print out list of available ports
     LOGGER.log(Level.INFO, "Available Ports:");
     for (int i = 0; i < availablePorts.length; i++) {
       LOGGER.log(Level.INFO, availablePorts[i]);
     }
 
     p = new SerialPort(availablePorts[0]);
-    
+    LOGGER.log(Level.INFO, "Using Port: " + availablePorts[0]);
+
     try {
       p.openPort();
       p.setParams(BAUD_RATE, NUM_OF_DATA_BITS, NUM_OF_STOP_BITS, NUM_OF_PARITY_BITS);
@@ -110,6 +111,8 @@ public class Pipe {
    * @return A Map Layer representing the lidar return just collected
    */
   public MapLayer lSense() {
+    LOGGER.log(Level.INFO, "begin requesting lread");
+
     MapLayer res = new MapLayer(null); // or new ArrayList<Waypoint>()
 
     try {
@@ -134,7 +137,7 @@ public class Pipe {
     ArrayList<Waypoint> layer = new ArrayList<Waypoint>();
     String[] xys = s.split(";");
 
-    for (int i = 0; i < (xys.length - 2); i = i + 2) {
+    for (int i = 0; i <= (xys.length - 2); i = i + 2) {
       layer.add(new Waypoint(Double.parseDouble(xys[i]), Double.parseDouble(xys[i + 1])));
     }
 
@@ -184,25 +187,38 @@ public class Pipe {
    *         successfully
    */
   private String call(String s) throws SerialPortException {
+
+    LOGGER.log(Level.INFO, "String to send:" + s);
+
+    p.purgePort(SerialPort.PURGE_RXCLEAR | SerialPort.PURGE_TXCLEAR);
+
+    try {
+      Thread.sleep(1000);
+    } catch (InterruptedException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
     p.writeString(s);
+
+    LOGGER.log(Level.INFO, "sent");
 
     StringBuilder sb = new StringBuilder();
 
-    while (p.getInputBufferBytesCount() == 0) {
-
+    try {
+      Thread.sleep(1000);
+    } catch (InterruptedException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
     }
 
     char incomingChar = (char) (p.readBytes(1))[0];
 
+    LOGGER.log(Level.INFO, "successfully read first char");
+
     while (incomingChar != '\n') {
-      while (p.getInputBufferBytesCount() == 0) {
-      }
-
+      sb.append(incomingChar);
       incomingChar = (char) (p.readBytes(1))[0];
-
-      if (incomingChar != '\n') {
-        sb.append(incomingChar);
-      }
     }
 
     return sb.toString();
@@ -222,9 +238,11 @@ public class Pipe {
 
     switch (c) {
       case COMPASS:
+        LOGGER.log(Level.FINEST, "Adding COMPASS");
         sb.append("COMPASS");
         break;
       case DRIVE:
+        LOGGER.log(Level.FINEST, "Adding DRIVE");
         sb.append("DRIVE");
         sb.append(';');
         sb.append(((Waypoint) o).getX());
@@ -232,11 +250,13 @@ public class Pipe {
         sb.append(((Waypoint) o).getY());
         break;
       case L_SENSE:
+        LOGGER.log(Level.FINEST, "Adding LSENSE");
         sb.append("LSENSE");
         break;
     }
 
     sb.append('\n');
+    LOGGER.log(Level.INFO, sb.toString());
 
     return sb.toString();
   }
