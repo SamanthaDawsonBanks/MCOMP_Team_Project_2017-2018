@@ -64,14 +64,14 @@ public class View extends Application implements RemoteView {
 
   private RemoteLeader localLeaderRef = null;
   private Herd localHerdData;
-
+  private Boolean checkDest = false;
   private Label label;
   private Button killButton, killButton2, killButton3, killButton4;
   private VBox vbox;
   private int counter = 0;
   private Pane pane;
   private Group lidarGroup, blockedGroup, lineGroup, amalgamateGroup, pathGroup, searchedGroup,
-      optimisedGroup;
+  optimisedGroup;
 
   /**
    * Takes in all methods that deal with drawing to the GUI and adds them to the new HBox. Adds the
@@ -83,7 +83,7 @@ public class View extends Application implements RemoteView {
   @Override
   public void start(Stage primaryStage) throws Exception {
 
-    // rmi connect stuff
+    /* rmi connect stuff
     localLeaderRef = connectRMI();
     if (localLeaderRef == null) {
 
@@ -94,7 +94,7 @@ public class View extends Application implements RemoteView {
     }
 
     localHerdData = localLeaderRef.getState();
-
+     */
 
     Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
     primaryStage.setX(screenBounds.getMinX());
@@ -136,12 +136,28 @@ public class View extends Application implements RemoteView {
         if (counter == 0) {
           System.out.print(event.getSceneX() + "," + event.getSceneY());
           Waypoint w = new Waypoint(event.getSceneX(), event.getSceneY());
-          try {
-            localLeaderRef.setDestination(w);
-          } catch (RemoteException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-          }
+          //try {
+          //    localLeaderRef.setDestination(w);
+          // } catch (RemoteException e) {
+          //   // TODO Auto-generated catch block
+          //   e.printStackTrace();
+          //  }
+          Circle dest = new Circle();
+          Pane pane2 = new Pane();
+          dest.setCenterX(event.getSceneX());
+          dest.setCenterY(event.getSceneY());
+          dest.setRadius(5d);
+          dest.setFill(Color.RED);
+          Label label = new Label("(" + event.getSceneX() + "," + event.getSceneY() + ")");
+          label.setLayoutX(event.getSceneX());
+          label.setLayoutY(event.getSceneY());
+          pane2.getChildren().addAll(dest, label);
+          pane.getChildren().addAll(pane2);
+          checkDest = true;
+          counter++;
+        } else {
+          pane.getChildren().remove(1);
+          Pane pane2 = new Pane();
           Circle dest = new Circle();
           dest.setCenterX(event.getSceneX());
           dest.setCenterY(event.getSceneY());
@@ -150,10 +166,9 @@ public class View extends Application implements RemoteView {
           Label label = new Label("(" + event.getSceneX() + "," + event.getSceneY() + ")");
           label.setLayoutX(event.getSceneX());
           label.setLayoutY(event.getSceneY());
-          pane.getChildren().addAll(dest, label);
-          counter++;
-        } else {
-          System.out.print(event.getSceneX() + "," + event.getSceneY());
+          pane2.getChildren().addAll(dest, label);
+          pane.getChildren().addAll(pane2);
+ 
         }
       }
     });
@@ -173,7 +188,7 @@ public class View extends Application implements RemoteView {
     vbox.setPrefWidth((screenBounds.getWidth() / 5) - 30);
     vbox.setPrefHeight(screenBounds.getHeight() - 40);
     ObservableList<Node> list = vbox.getChildren();
-    list.addAll(getVBoxMap(), getVBoxPath(), getMembers(), startButton());
+    list.addAll(getVBoxMap(), getVBoxPath(), getMembers(), pathAndMove());
     return vbox;
   }
 
@@ -211,7 +226,7 @@ public class View extends Application implements RemoteView {
     SpinnerValueFactory<Integer> value = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 5);
     spinner.getStyleClass().add(Spinner.STYLE_CLASS_SPLIT_ARROWS_VERTICAL);
     spinner
-        .setStyle("-fx-body-color:#00bfff;" + "-fx-font-size: 10px; " + "-fx-font-weight: bold;");
+    .setStyle("-fx-body-color:#00bfff;" + "-fx-font-size: 10px; " + "-fx-font-weight: bold;");
 
     spinner.setMaxHeight(vboxMap.getPrefHeight() / 4);
     spinner.setMaxWidth(vboxMap.getPrefWidth() / 14);
@@ -429,7 +444,7 @@ public class View extends Application implements RemoteView {
     HBox hboxBtn2 = new HBox();
 
     vboxMember.setPrefWidth((vbox.getPrefWidth()));
-    vboxMember.setPrefHeight(vbox.getPrefHeight() / 2.5);
+    vboxMember.setPrefHeight(vbox.getPrefHeight() / 3);
     vboxMember.setStyle("-fx-background-color:#ffffff;" + "-fx-border-width: 4px 4px 4px 4px;"
         + "-fx-border-color: #000000;");
     vboxMember.setSpacing(2);
@@ -441,9 +456,9 @@ public class View extends Application implements RemoteView {
 
     Rectangle r = new Rectangle();
     r.setWidth(vboxMember.getPrefWidth() - 30);
-    r.setHeight((getMapBox().getHeight() / 12));
+    r.setHeight((vboxMember.getPrefHeight())/2.75);
     r.setX(11);
-    r.setY(8);
+    r.setY(0);
     r.setStroke(Color.BLACK);
     r.setStrokeWidth(4);
     r.setFill(Color.WHITE);
@@ -573,25 +588,85 @@ public class View extends Application implements RemoteView {
     return vboxMember;
   }
 
-  public VBox startButton() {
+  
+  /**
+   * Vbox layout for handling the GO and pathfinding buttons
+   * Pathfinding button deals with pathfinding and returning a path
+   * Go button tell the bots to start moving to the destination.
+   * 
+   * @return Vbox
+   */
+  public VBox pathAndMove() {
     VBox vbox = new VBox();
     Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
     vbox.setPrefWidth((screenBounds.getWidth() / 5) - 30);
     vbox.setMinHeight(screenBounds.getHeight() / 14);
     vbox.setStyle("-fx-background-color:#ffffff;" + "-fx-border-width: 4px 4px 4px 4px;"
         + "-fx-border-color: #000000;");
-    vbox.setSpacing(4);
-    Button b = new Button("GO");
-    b.setStyle("-fx-background-color: #00ff00;" + "-fx-font-size: 2em;" + "-fx-font-weight: bold;");
-    b.setMaxWidth(vbox.getPrefWidth());
-    b.setMinHeight(vbox.getPrefHeight());
-    b.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
+    Button pathfindBtn = new Button("Pathfind");
+    pathfindBtn.setStyle("-fx-background-color: #e8ff66;" + "-fx-font-size: 2em;" + "-fx-font-weight: bold;" + "-fx-border-width: 4px 4px 4px 4px;" + "-fx-border-color: #000000;");
+    pathfindBtn.setMaxWidth(vbox.getPrefWidth());
+    pathfindBtn.setMinHeight(vbox.getPrefHeight());
+    setTooltip(pathfindBtn, "Once clicked the pathfinding will begin to run");
+    pathfindBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
+      
+      // checks if a destination has been set on the Map. if true the algorithm starts pathfinding.
+      @Override
+      public void handle(MouseEvent event) { 
+        if(checkDest == false) {
+          Alert runtimeDialogue = new Alert(AlertType.WARNING);
+          runtimeDialogue.setContentText("No destination has been set! To set a location click on the Map.");
+          Optional<ButtonType> result = runtimeDialogue.showAndWait();
+        }else {
+          try {
+            localHerdData.getLeader().pathfind();
+          } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+          }
+        }
+      }
+    });
+
+    Button goBtn = new Button("GO");
+    goBtn.setStyle("-fx-background-color: #00ff00;" + "-fx-font-size: 2em;" + "-fx-font-weight: bold;" + "-fx-border-width: 4px 4px 4px 4px;" + "-fx-border-color: #000000;");
+    goBtn.setMaxWidth(vbox.getPrefWidth());
+    goBtn.setMaxHeight(10);
+    setTooltip(goBtn, "Once clicked the robots will start to move to destination");
+    goBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
       @Override
       public void handle(MouseEvent event) {
         // TODO Auto-generated method stub
         try {
-          localHerdData.getLeader().go();
+          if(localHerdData.destReached() == false) {   // if pathfinding could not reach destination
+            Alert dialogue = new Alert(AlertType.CONFIRMATION);
+            dialogue.setContentText("Destination was not reached! Would you like to Pathfind again?");      
+            Optional<ButtonType> result = dialogue.showAndWait(); 
+            if (result.get() == ButtonType.OK) {
+              try {
+                localHerdData.getLeader().pathfind();
+              } catch (NumberFormatException | RemoteException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+              }
+            } 
+            else if(result.get() == ButtonType.CANCEL) {
+              dialogue.close();
+            }
+          } 
+
+          else {                                        // if destination is reached start robot
+            Alert dialogue = new Alert(AlertType.CONFIRMATION);
+            dialogue.setContentText("Do you want to start the Robot?");      
+            Optional<ButtonType> result = dialogue.showAndWait();
+            if (result.get() == ButtonType.OK) {
+            localHerdData.getLeader().go();
+            } 
+            else if(result.get() == ButtonType.CANCEL) {
+              dialogue.close();
+            }
+          }
         } catch (RemoteException e) {
           // TODO Auto-generated catch block
           e.printStackTrace();
@@ -599,15 +674,36 @@ public class View extends Application implements RemoteView {
       }
 
     });
-    vbox.getChildren().add(b);
+    vbox.setSpacing(10);
+    vbox.setPadding(new Insets(8, 8, 8, 8));
+    vbox.getChildren().addAll(pathfindBtn, goBtn);
     return vbox;
   }
 
+
+  /**
+   * When called in it allows the user to move nodes around the stage.
+   * 
+   * @param event
+   */
   public void drag(MouseEvent event) {
     Node n = (Node) event.getSource();
     n.setTranslateY(n.getTranslateY() + event.getY());
   }
 
+
+  /**
+   * 
+   * Method handles the removal of a member from the herd
+   * GUI needs to be updated such that it reflects this change.
+   * Button for controlling member is removed as it no longer handles any functionality.
+   * 
+   * @param a
+   * @param b
+   * @param h
+   * @param p
+   * @param t
+   */
   public void killMember(Button a, ToggleButton b, HBox h, Pane p, Text t) {
     a.setOnMouseClicked(new EventHandler<MouseEvent>() {
       @Override
@@ -621,7 +717,7 @@ public class View extends Application implements RemoteView {
         if (result.get() == ButtonType.OK) {
           try {
             localHerdData.getMembers().get(Integer.parseInt(b.getText()))
-                .kill("Member: " + b.getText() + "removed");
+            .kill("Member: " + b.getText() + "removed");
           } catch (NumberFormatException | RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -634,6 +730,12 @@ public class View extends Application implements RemoteView {
     });
   }
 
+  /**
+   * Method for removing a button from the Horizontal layout pane
+   * 
+   * @param a 
+   * @param h
+   */
   public void removeFromHBox(Button a, HBox h) {
     h.getChildren().remove(a);
   }
@@ -679,7 +781,28 @@ public class View extends Application implements RemoteView {
     return o;
   }
 
+  /**
+   * Sets the tooltip on a Button.
+   * 
+   * @param b ToggleButton
+   * @param s String
+   * @return
+   */
   public Tooltip setTooltip(ToggleButton b, String s) {
+    Tooltip tooltip = new Tooltip();
+    tooltip.setText(s);
+    b.setTooltip(tooltip);
+    return tooltip;
+  }
+
+  /**
+   * Sets the tooltip on a Button.
+   * 
+   * @param b Button
+   * @param s String
+   * @return
+   */
+  public Tooltip setTooltip(Button b, String s) {
     Tooltip tooltip = new Tooltip();
     tooltip.setText(s);
     b.setTooltip(tooltip);
