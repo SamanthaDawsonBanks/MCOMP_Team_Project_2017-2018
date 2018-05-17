@@ -83,7 +83,7 @@ public class View extends Application implements RemoteView {
   @Override
   public void start(Stage primaryStage) throws Exception {
 
-    /* rmi connect stuff
+    // rmi connect stuff
     localLeaderRef = connectRMI();
     if (localLeaderRef == null) {
 
@@ -94,7 +94,7 @@ public class View extends Application implements RemoteView {
     }
 
     localHerdData = localLeaderRef.getState();
-     */
+
 
     Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
     primaryStage.setX(screenBounds.getMinX());
@@ -136,12 +136,12 @@ public class View extends Application implements RemoteView {
         if (counter == 0) {
           System.out.print(event.getSceneX() + "," + event.getSceneY());
           Waypoint w = new Waypoint(event.getSceneX(), event.getSceneY());
-          //try {
-          //    localLeaderRef.setDestination(w);
-          // } catch (RemoteException e) {
-          //   // TODO Auto-generated catch block
-          //   e.printStackTrace();
-          //  }
+          try {
+            localLeaderRef.setDestination(w);
+          } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+          }
           Circle dest = new Circle();
           Pane pane2 = new Pane();
           dest.setCenterX(event.getSceneX());
@@ -168,7 +168,7 @@ public class View extends Application implements RemoteView {
           label.setLayoutY(event.getSceneY());
           pane2.getChildren().addAll(dest, label);
           pane.getChildren().addAll(pane2);
- 
+
         }
       }
     });
@@ -588,7 +588,7 @@ public class View extends Application implements RemoteView {
     return vboxMember;
   }
 
-  
+
   /**
    * Vbox layout for handling the GO and pathfinding buttons
    * Pathfinding button deals with pathfinding and returning a path
@@ -610,7 +610,7 @@ public class View extends Application implements RemoteView {
     pathfindBtn.setMinHeight(vbox.getPrefHeight());
     setTooltip(pathfindBtn, "Once clicked the pathfinding will begin to run");
     pathfindBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
-      
+
       // checks if a destination has been set on the Map. if true the algorithm starts pathfinding.
       @Override
       public void handle(MouseEvent event) { 
@@ -661,7 +661,7 @@ public class View extends Application implements RemoteView {
             dialogue.setContentText("Do you want to start the Robot?");      
             Optional<ButtonType> result = dialogue.showAndWait();
             if (result.get() == ButtonType.OK) {
-            localHerdData.getLeader().go();
+              localHerdData.getLeader().go();
             } 
             else if(result.get() == ButtonType.CANCEL) {
               dialogue.close();
