@@ -10,7 +10,7 @@
 
 //--------------------------------------Tests--------------------------------------
 void testPath() {
-  DEBUG.begin(9600);
+  DEBUG.begin(DEBUGRATE);
   delay(1000);
   DEBUG.println("Begin testPath");
 
@@ -94,7 +94,7 @@ void testPath() {
 }
 
 void testWaypoint() {
-  DEBUG.begin(9600);
+  DEBUG.begin(DEBUGRATE);
   delay(1000);
   DEBUG.println("Begin testWaypoint");
 
@@ -109,11 +109,11 @@ void testWaypoint() {
 }
 
 void testMove() {
-  DEBUG.begin(9600);
+  DEBUG.begin(DEBUGRATE);
   delay(1000);
   Waypoint result;
   Propulsion p = Propulsion();
-  DEBUG.println("Begin testMove");
+//  DEBUG.println("Begin testMove");
 //  DEBUG.println("Calling Drive...");
 //  Waypoint target = Waypoint(3276.0, 3276.0); //Near theoretical max
 //  result = p.Drive(target);
