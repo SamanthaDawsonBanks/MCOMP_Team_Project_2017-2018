@@ -58,6 +58,26 @@ public class Leader extends UnicastRemoteObject
 
   }
 
+  private void notifyAllOfChange() {
+    // TODO Auto-generated method stub
+    for (RemoteMember rm : leaderHerd.getMembers()) {
+      try {
+        rm.notifyOfChange();
+      } catch (RemoteException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+    }
+    for (RemoteView rv : leaderHerd.getViews()) {
+      try {
+        rv.notifyOfChange();
+      } catch (RemoteException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+    }
+  }
+
   /**
    * When called this method will return a list of all registered members currently known to the
    * leader of the leaderHerd.
@@ -99,33 +119,40 @@ public class Leader extends UnicastRemoteObject
    */
   @Override
   public ArrayList<RemoteMember> register(RemoteMember joiningMember) throws RemoteException {
+    ArrayList<RemoteMember> res;
     if (leaderHerd == null) {
       leaderHerd = new Herd(joiningMember);
+      res = new ArrayList<RemoteMember>();
+      res.add(joiningMember);
+    } else {
+      res = leaderHerd.requestJoin(joiningMember);
     }
     if (leaderHerd.getTheLeader() == null) {
       leaderHerd.setLeader(this);
     }
-    // TODO some form of notify all??
-    // updateModel(joiningMember.getLocalHerdData()); //FIXME do we need this??
-    joiningMember.RMITest();// FIXME this checks loopback
-
-    joiningMember.notifyOfChange();
+//    joiningMember.RMITest();// FIXME this checks loopback
 
     if (leaderHerd.getSensors().contains(joiningMember)) {
       leaderHerd.addMapLayer(joiningMember.lSense());// take LiDAR Read
     }
 
+    notifyAllOfChange();
+
     // TODO do something ? take read ? dance?!?!?!
-    return leaderHerd.requestJoin(joiningMember);
-    // FIXME adjust for leaderHerd
+    return res;
     // used to register a client for server/client/mvc
-    // Likely to take a member and add them to the 'registered' list??
   }
 
   @Override
   public ArrayList<RemoteView> register(RemoteView joiningView) throws RemoteException {
-    // TODO Auto-generated method stub
-    return null;
+    ArrayList<RemoteView> res;
+ 
+    res = leaderHerd.requestJoin(joiningView);
+ 
+    notifyAllOfChange();
+
+    return res;
+    // used to register a client for server/client/mvc
   }
 
   /**
@@ -156,6 +183,7 @@ public class Leader extends UnicastRemoteObject
 
     leaderHerd.unoptimizedPath = leaderHerd.getProcessors().get(0).processPathLump();
     // dumbly get first until parallel
+    notifyAllOfChange();
     return (leaderHerd.unoptimizedPath != null);
   }
 
@@ -163,6 +191,7 @@ public class Leader extends UnicastRemoteObject
   public boolean optimizePath() throws RemoteException {
     leaderHerd.optimizedPath = leaderHerd.getProcessors().get(0).optimizePathLump();
     // dumbly get first until parallel
+    notifyAllOfChange();
     return (leaderHerd.optimizedPath != null);
   }
 
@@ -202,9 +231,11 @@ public class Leader extends UnicastRemoteObject
           // deregister member
           deregister((RemoteMember) cb);
           e.printStackTrace();
-        } ;
+        }
+        notifyAllOfChange();
       }
     }
+    notifyAllOfChange();
     // for each wp in path
     // drive that bot to that wp
     // return "it got there"
@@ -214,6 +245,7 @@ public class Leader extends UnicastRemoteObject
   @Override
   public boolean setDestination(Waypoint w) throws RemoteException {
     leaderHerd.dest = w;
+    notifyAllOfChange();
     return true;// TODO some logic
   }
 
