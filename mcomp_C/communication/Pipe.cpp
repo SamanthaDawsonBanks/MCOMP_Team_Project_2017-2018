@@ -36,6 +36,7 @@ void Pipe::recieveCommand() {
 
   CONSOLE.begin(CONSOLERATE);
   CONSOLE.setTimeout(CONSOLETIMEOUT);
+  DEBUG.println("Pipe Started");
 
   res = decode(call());
 
@@ -44,10 +45,12 @@ void Pipe::recieveCommand() {
 //    writeString(encodeDouble(Compass().compassRead()));
 //  }
   if (res[0] == "DRIVE") {
+    DEBUG.println("DRIVE");
     Waypoint w = Waypoint(res[1].toDouble(), res[2].toDouble());
     writeString(encodeWaypoint(prop.Drive(w)));
   }
   if (res[0] == "LSENSE") {
+    DEBUG.println("LSENSE");
     writeLRead(lSen.sense());
   }
 }

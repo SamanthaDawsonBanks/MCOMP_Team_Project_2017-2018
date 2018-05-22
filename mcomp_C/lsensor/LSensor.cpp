@@ -117,10 +117,12 @@ bool LSensor::adjustRPM() {
 }
 
 void LSensor::getEncodedRead() {
-
+  DEBUG.println("trying to read");
   while (SENSOR.available()) {  //empty the buffer
     SENSOR.read();
+    //DEBUG.println("emptying buffer");
   }
+  DEBUG.println("buffer empty");
 
   bool complete = false;
   while (!complete) {
@@ -178,9 +180,11 @@ Waypoint * LSensor::toWaypoint() {
 
 Waypoint * LSensor::sense() {
   buffer = new byte[1980];
+  DEBUG.println("sense");
 
   getEncodedRead();  //So we can dig out an accurate avgRPM
   while (adjustRPM() == false) {  //Keep adjusting RPM until within 10 of target
+    DEBUG.println("syncing");
     getEncodedRead();
     adjustRPM();
   }
