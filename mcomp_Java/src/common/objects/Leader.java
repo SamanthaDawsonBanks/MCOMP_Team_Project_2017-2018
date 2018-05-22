@@ -161,6 +161,7 @@ public class Leader extends UnicastRemoteObject
   @Override
   public ArrayList<RemoteMember> deregister(RemoteMember leavingMember) throws RemoteException {
     // updateModel(leaderHerd.requestLeave(leavingMember));//FIXME check logic
+    notifyAllOfChange();
     return leaderHerd.requestLeave(leavingMember);// FIXME adjust for leaderHerd
     // not sure that's right - will look into
     // As with register but removing??
@@ -172,6 +173,7 @@ public class Leader extends UnicastRemoteObject
   @Override
   public ArrayList<RemoteView> deregister(RemoteView leavingView) throws RemoteException {
     // TODO Auto-generated method stub
+    notifyAllOfChange();
     return null;
   }
 
