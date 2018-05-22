@@ -71,7 +71,7 @@ public class View extends Application implements RemoteView {
   private int counter = 0;
   private Pane pane;
   private Group lidarGroup, blockedGroup, lineGroup, amalgamateGroup, pathGroup, searchedGroup,
-  optimisedGroup;
+      optimisedGroup;
 
   /**
    * Takes in all methods that deal with drawing to the GUI and adds them to the new HBox. Adds the
@@ -226,7 +226,7 @@ public class View extends Application implements RemoteView {
     SpinnerValueFactory<Integer> value = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 5);
     spinner.getStyleClass().add(Spinner.STYLE_CLASS_SPLIT_ARROWS_VERTICAL);
     spinner
-    .setStyle("-fx-body-color:#00bfff;" + "-fx-font-size: 10px; " + "-fx-font-weight: bold;");
+        .setStyle("-fx-body-color:#00bfff;" + "-fx-font-size: 10px; " + "-fx-font-weight: bold;");
 
     spinner.setMaxHeight(vboxMap.getPrefHeight() / 4);
     spinner.setMaxWidth(vboxMap.getPrefWidth() / 14);
@@ -456,7 +456,7 @@ public class View extends Application implements RemoteView {
 
     Rectangle r = new Rectangle();
     r.setWidth(vboxMember.getPrefWidth() - 30);
-    r.setHeight((vboxMember.getPrefHeight())/2.75);
+    r.setHeight((vboxMember.getPrefHeight()) / 2.75);
     r.setX(11);
     r.setY(0);
     r.setStroke(Color.BLACK);
@@ -590,9 +590,8 @@ public class View extends Application implements RemoteView {
 
 
   /**
-   * Vbox layout for handling the GO and pathfinding buttons
-   * Pathfinding button deals with pathfinding and returning a path
-   * Go button tell the bots to start moving to the destination.
+   * Vbox layout for handling the GO and pathfinding buttons Pathfinding button deals with
+   * pathfinding and returning a path Go button tell the bots to start moving to the destination.
    * 
    * @return Vbox
    */
@@ -605,7 +604,9 @@ public class View extends Application implements RemoteView {
         + "-fx-border-color: #000000;");
 
     Button pathfindBtn = new Button("Pathfind");
-    pathfindBtn.setStyle("-fx-background-color: #e8ff66;" + "-fx-font-size: 2em;" + "-fx-font-weight: bold;" + "-fx-border-width: 4px 4px 4px 4px;" + "-fx-border-color: #000000;");
+    pathfindBtn.setStyle(
+        "-fx-background-color: #e8ff66;" + "-fx-font-size: 2em;" + "-fx-font-weight: bold;"
+            + "-fx-border-width: 4px 4px 4px 4px;" + "-fx-border-color: #000000;");
     pathfindBtn.setMaxWidth(vbox.getPrefWidth());
     pathfindBtn.setMinHeight(vbox.getPrefHeight());
     setTooltip(pathfindBtn, "Once clicked the pathfinding will begin to run");
@@ -613,12 +614,13 @@ public class View extends Application implements RemoteView {
 
       // checks if a destination has been set on the Map. if true the algorithm starts pathfinding.
       @Override
-      public void handle(MouseEvent event) { 
-        if(checkDest == false) {
+      public void handle(MouseEvent event) {
+        if (checkDest == false) {
           Alert runtimeDialogue = new Alert(AlertType.WARNING);
-          runtimeDialogue.setContentText("No destination has been set! To set a location click on the Map.");
+          runtimeDialogue
+              .setContentText("No destination has been set! To set a location click on the Map.");
           Optional<ButtonType> result = runtimeDialogue.showAndWait();
-        }else {
+        } else {
           try {
             localHerdData.getLeader().pathfind();
           } catch (RemoteException e) {
@@ -630,42 +632,27 @@ public class View extends Application implements RemoteView {
     });
 
     Button goBtn = new Button("GO");
-    goBtn.setStyle("-fx-background-color: #00ff00;" + "-fx-font-size: 2em;" + "-fx-font-weight: bold;" + "-fx-border-width: 4px 4px 4px 4px;" + "-fx-border-color: #000000;");
+    goBtn.setStyle(
+        "-fx-background-color: #00ff00;" + "-fx-font-size: 2em;" + "-fx-font-weight: bold;"
+            + "-fx-border-width: 4px 4px 4px 4px;" + "-fx-border-color: #000000;");
     goBtn.setMaxWidth(vbox.getPrefWidth());
     goBtn.setMaxHeight(10);
     setTooltip(goBtn, "Once clicked the robots will start to move to destination");
     goBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
       @Override
       public void handle(MouseEvent event) {
-        // TODO Auto-generated method stub
-        try {
-          if(localHerdData.destReached() == false) {   // if pathfinding could not reach destination
-            Alert dialogue = new Alert(AlertType.CONFIRMATION);
-            dialogue.setContentText("Destination was not reached! Would you like to Pathfind again?");      
-            Optional<ButtonType> result = dialogue.showAndWait(); 
-            if (result.get() == ButtonType.OK) {
-              try {
-                localHerdData.getLeader().pathfind();
-              } catch (NumberFormatException | RemoteException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-              }
-            } 
-            else if(result.get() == ButtonType.CANCEL) {
-              dialogue.close();
-            }
-          } 
 
-          else {                                        // if destination is reached start robot
-            Alert dialogue = new Alert(AlertType.CONFIRMATION);
-            dialogue.setContentText("Do you want to start the Robot?");      
-            Optional<ButtonType> result = dialogue.showAndWait();
-            if (result.get() == ButtonType.OK) {
-              localHerdData.getLeader().go();
-            } 
-            else if(result.get() == ButtonType.CANCEL) {
-              dialogue.close();
-            }
+        try {
+          if (localHerdData.getLeader().go()) {// pathfinding reached destination
+            Alert dialogue = new Alert(AlertType.INFORMATION);
+            dialogue.setContentText("Destination reached");
+            dialogue.showAndWait();
+            dialogue.close();
+          } else {// pathfinding could not reach destination
+            Alert dialogue = new Alert(AlertType.ERROR);
+            dialogue.setContentText("Destination was not reached!");
+            dialogue.showAndWait();
+            dialogue.close();
           }
         } catch (RemoteException e) {
           // TODO Auto-generated catch block
@@ -694,9 +681,9 @@ public class View extends Application implements RemoteView {
 
   /**
    * 
-   * Method handles the removal of a member from the herd
-   * GUI needs to be updated such that it reflects this change.
-   * Button for controlling member is removed as it no longer handles any functionality.
+   * Method handles the removal of a member from the herd GUI needs to be updated such that it
+   * reflects this change. Button for controlling member is removed as it no longer handles any
+   * functionality.
    * 
    * @param a
    * @param b
@@ -717,7 +704,7 @@ public class View extends Application implements RemoteView {
         if (result.get() == ButtonType.OK) {
           try {
             localHerdData.getMembers().get(Integer.parseInt(b.getText()))
-            .kill("Member: " + b.getText() + "removed");
+                .kill("Member: " + b.getText() + "removed");
           } catch (NumberFormatException | RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -733,7 +720,7 @@ public class View extends Application implements RemoteView {
   /**
    * Method for removing a button from the Horizontal layout pane
    * 
-   * @param a 
+   * @param a
    * @param h
    */
   public void removeFromHBox(Button a, HBox h) {
