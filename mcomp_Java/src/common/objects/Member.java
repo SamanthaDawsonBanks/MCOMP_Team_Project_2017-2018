@@ -25,6 +25,13 @@ import common.interfaces.Promotable;
 import common.interfaces.RemoteLeader;
 import common.interfaces.RemoteMember;
 import common.interfaces.Transferable;
+import javafx.geometry.Insets;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.Scene;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
 import member.MemberMain;
 import member.coms.Pipe;
 import pathfinding.AStar;
@@ -51,6 +58,8 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
   private static final long serialVersionUID = 8834142885550920107L;
 
   private static final Logger LOGGER = Logger.getLogger(Member.class.getName());
+  
+  Stage window = null;
 
   private ArrayList<Ability> abilities;
   private Herd localHerd;
@@ -110,7 +119,7 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
     localHerd.setLeader(connectRMI());
 
     if (abilities.contains(Ability.VIEWER)) {
-      startGUI();
+      //startGUI();
     }
   }
 
@@ -298,7 +307,7 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
   private RemoteLeader connectRMI() {
     RemoteLeader res = null;
     try {
-      res = (RemoteLeader) Naming.lookup("rmi://192.168.25.42" + "/HerdLeader");
+      res = (RemoteLeader) Naming.lookup("rmi://10.1.72.177" + "/HerdLeader");
       localHerd.setLeader(res);
       // FIXME lookup IP
       res.register(this);
@@ -332,6 +341,29 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
     // e.printStackTrace();
     // }
   }
+
+
+  public void setStage(Stage stage) {
+    // TODO Auto-generated method stub
+    
+    Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+    stage.setX(screenBounds.getMinX());
+    stage.setY(screenBounds.getMinY());
+    stage.setWidth(screenBounds.getWidth());
+    stage.setHeight(screenBounds.getHeight());
+
+    HBox hbox = new HBox();
+    hbox.getChildren().addAll(getMapBox(), getVBox());
+    Pane pane = new Pane();
+    hbox.setSpacing(8);
+    hbox.setPadding(new Insets(8, 8, 8, 8));
+    pane.getChildren().addAll(hbox);
+    Scene scene = new Scene(pane);
+    stage.setScene(scene);
+    this.window = stage;    
+    stage.show();
+  }
+  
 
 }
 

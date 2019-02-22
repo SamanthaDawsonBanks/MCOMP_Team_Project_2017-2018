@@ -4,6 +4,10 @@
 package member;
 
 import common.objects.Member;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
 import unitTesting.testData.TestData;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -11,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import common.datatypes.Ability;
 import common.datatypes.map.MapLayer;
+import common.interfaces.RemoteView;
 
 /**
  * @author Stephen Pope 15836791
@@ -33,14 +38,15 @@ import common.datatypes.map.MapLayer;
  * 
  * @param The abilities of the member as a String
  */
-public class MemberMain {
+public class MemberMain extends Application {
   private static final Logger LOGGER = Logger.getLogger(MemberMain.class.getName());
 
   public static boolean stayingAlive = true;
 
   private static Member me;
-
+  
   public static void main(String[] args) throws RemoteException {
+    
     ArrayList<Ability> skills = new ArrayList<Ability>();
     LOGGER.log(Level.INFO, "MemberMain Starting");
     for (String a : args) {
@@ -64,6 +70,7 @@ public class MemberMain {
           break;
       }
     }
+
     if (skills.isEmpty()) {
       LOGGER.log(Level.SEVERE, "No ABLITIES defined as launch arguments");
       System.out.println("Sorry, a Robot needs to have at least one ability!");
@@ -79,13 +86,29 @@ public class MemberMain {
       LOGGER.log(Level.INFO, "Member Constructed");
 
     }
-
+    
+    launch();
+    
     while (stayingAlive) {
 
     }
     LOGGER.log(Level.SEVERE, "Killed, Exiting");
 
 
+  }
+
+  @Override
+  public void start(Stage primaryStage) throws Exception {
+    // TODO Auto-generated method stub
+    LOGGER.log(Level.SEVERE, "moo");
+    
+    //window = primaryStage.getScene();
+    me.setStage(primaryStage);
+    
+    
+    
+    
+    
   }
 
 }
