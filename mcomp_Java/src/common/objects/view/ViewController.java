@@ -57,14 +57,14 @@ import javafx.stage.Stage;
  * @since 2018-04-11
  * 
  */
-public class View {
+public class ViewController {
 
   /**
    * 
    */
   private static final long serialVersionUID = -8788920841067227780L;
 
-  private static final Logger LOGGER = Logger.getLogger(View.class.getName());
+  private static final Logger LOGGER = Logger.getLogger(ViewController.class.getName());
 
 //  private RemoteLeader localLeaderRef = null;
 //  private Herd localHerdData;
@@ -1091,10 +1091,13 @@ private Herd localHerdData;
 //    }
 //  } 
 
-public void startGUI(Stage s, Herd h) {
+public ViewController (Herd h) {
+	this.localHerdData = h;
+}
+
+public void startGUI(Stage s) {
 	this.stage = s;
 	this.stage.setTitle("CI390 Herd GUI");
-	this.localHerdData = h;
 	Parent root;
 	try {
 		root = FXMLLoader.load(getClass().getResource("./gui.fxml"));

@@ -35,7 +35,7 @@ import javafx.stage.Stage;
 import member.MemberMain;
 import member.coms.Pipe;
 import pathfinding.AStar;
-import common.objects.view.View;
+import common.objects.view.ViewController;
 
 /**
  * 
@@ -70,7 +70,7 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
   private double currentX;
   private double currentY;
 
-  private View v;
+  private ViewController v;
   
   /**
    * The Constructor for a Member.
@@ -105,7 +105,6 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
           break;
         case VIEWER:
           abilities.add(a);
-          v = new View();
           break;
         case DEST_SETTER:
           abilities.add(a);
@@ -117,6 +116,9 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
     LOGGER.log(Level.INFO, "Calling Herd Constructor");
     localHerd = new Herd(this);
     LOGGER.log(Level.INFO, "Herd Constructed");
+    if(abilities.contains(Ability.VIEWER)) {
+    	v = new ViewController(localHerd);
+    }
 
 
     // connect to rmi
@@ -348,7 +350,7 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
 
 
   public void setStage(Stage stage) {
-	  v.startGUI(stage , localHerd);	  
+	  v.startGUI(stage);	  
   }
   
 
