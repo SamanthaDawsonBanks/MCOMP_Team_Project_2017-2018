@@ -35,6 +35,7 @@ import javafx.stage.Stage;
 import member.MemberMain;
 import member.coms.Pipe;
 import pathfinding.AStar;
+import common.objects.view.View;
 
 /**
  * 
@@ -69,6 +70,8 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
   private double currentX;
   private double currentY;
 
+  private View v;
+  
   /**
    * The Constructor for a Member.
    *
@@ -102,6 +105,7 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
           break;
         case VIEWER:
           abilities.add(a);
+          v = new View();
           break;
         case DEST_SETTER:
           abilities.add(a);
@@ -126,7 +130,7 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
 
   private void startGUI() {
     // TODO identical to start leader - factor out? startProc(leader/gui)???
-    try {
+   /* try {
       // build and start GUI process
       LOGGER.log(Level.INFO, "EXECing GUIMain");
       ProcessBuilder GUIMainPB = new ProcessBuilder("java", "-cp", "./bin/", "common.objects.View");
@@ -157,7 +161,7 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
     } catch (Exception e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
-    }
+    }*/
 
   }
 
@@ -344,24 +348,7 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
 
 
   public void setStage(Stage stage) {
-    // TODO Auto-generated method stub
-    
-    Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-    stage.setX(screenBounds.getMinX());
-    stage.setY(screenBounds.getMinY());
-    stage.setWidth(screenBounds.getWidth());
-    stage.setHeight(screenBounds.getHeight());
-
-    HBox hbox = new HBox();
-    hbox.getChildren().addAll(getMapBox(), getVBox());
-    Pane pane = new Pane();
-    hbox.setSpacing(8);
-    hbox.setPadding(new Insets(8, 8, 8, 8));
-    pane.getChildren().addAll(hbox);
-    Scene scene = new Scene(pane);
-    stage.setScene(scene);
-    this.window = stage;    
-    stage.show();
+	  v.startGUI(stage);	  
   }
   
 

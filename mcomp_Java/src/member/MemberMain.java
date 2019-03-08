@@ -39,76 +39,77 @@ import common.interfaces.RemoteView;
  * @param The abilities of the member as a String
  */
 public class MemberMain extends Application {
-  private static final Logger LOGGER = Logger.getLogger(MemberMain.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(MemberMain.class.getName());
 
-  public static boolean stayingAlive = true;
+	public static boolean stayingAlive = true;
 
-  private static Member me;
-  
-  public static void main(String[] args) throws RemoteException {
-    
-    ArrayList<Ability> skills = new ArrayList<Ability>();
-    LOGGER.log(Level.INFO, "MemberMain Starting");
-    for (String a : args) {
-      switch (a) {
-        case "PROCESSOR":
-          skills.add(Ability.PROCESSOR);
-          break;
-        case "DRIVER":
-          skills.add(Ability.DRIVER);
-          break;
-        case "SENSOR":
-          skills.add(Ability.SENSOR);
-          break;
-        case "VIEWER":
-          skills.add(Ability.VIEWER);
-          break;
-        case "DEST_SETTER":
-          skills.add(Ability.DEST_SETTER);
-          break;
-        default:
-          break;
-      }
-    }
+	private static Member me;
 
-    if (skills.isEmpty()) {
-      LOGGER.log(Level.SEVERE, "No ABLITIES defined as launch arguments");
-      System.out.println("Sorry, a Robot needs to have at least one ability!");
-    } else {
-      Ability[] abilities = new Ability[skills.size()];
+	public static void main(String[] args) throws RemoteException {
 
-      for (int i = 0; i < skills.size(); i++) {
-        abilities[i] = skills.get(i);
-      }
+		ArrayList<Ability> skills = new ArrayList<Ability>();
+		LOGGER.log(Level.INFO, "MemberMain Starting");
+		for (String a : args) {
+			switch (a) {
+			case "PROCESSOR":
+				skills.add(Ability.PROCESSOR);
+				break;
+			case "DRIVER":
+				skills.add(Ability.DRIVER);
+				break;
+			case "SENSOR":
+				skills.add(Ability.SENSOR);
+				break;
+			case "VIEWER":
+				skills.add(Ability.VIEWER);
+				break;
+			case "DEST_SETTER":
+				skills.add(Ability.DEST_SETTER);
+				break;
+			default:
+				break;
+			}
+		}
 
-      LOGGER.log(Level.INFO, "Calling Member Constructor");
-      me = new Member(abilities);
-      LOGGER.log(Level.INFO, "Member Constructed");
+		if (skills.isEmpty()) {
+			LOGGER.log(Level.SEVERE, "No ABLITIES defined as launch arguments");
+			System.out.println("Sorry, a Robot needs to have at least one ability!");
+		} else {
+			Ability[] abilities = new Ability[skills.size()];
 
-    }
-    
-    launch();
-    
-    while (stayingAlive) {
+			for (int i = 0; i < skills.size(); i++) {
+				abilities[i] = skills.get(i);
+			}
 
-    }
-    LOGGER.log(Level.SEVERE, "Killed, Exiting");
+			LOGGER.log(Level.INFO, "Calling Member Constructor");
+			me = new Member(abilities);
+			LOGGER.log(Level.INFO, "Member Constructed");
+
+		}
+
+		if (skills.contains(Ability.VIEWER)) {
+			launch();
+		}
+		while (stayingAlive) {
+
+		}
+		LOGGER.log(Level.SEVERE, "Killed, Exiting");
 
 
-  }
+	}
 
-  @Override
-  public void start(Stage primaryStage) throws Exception {
-    // TODO Auto-generated method stub
-    LOGGER.log(Level.SEVERE, "moo");
-    
-    //window = primaryStage.getScene();
-    me.setStage(primaryStage);
-    
-    
-    
-    
-    
-  }
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		// TODO Auto-generated method stub
+		LOGGER.log(Level.SEVERE, "moo");
+
+		//window = primaryStage.getScene();
+		me.setStage(primaryStage);
+
+
+
+
+
+	}
 
 }
