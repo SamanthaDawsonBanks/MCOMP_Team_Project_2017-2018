@@ -311,7 +311,7 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
   private RemoteLeader connectRMI() {
     RemoteLeader res = null;
     try {
-      res = (RemoteLeader) Naming.lookup("rmi://10.1.72.177" + "/HerdLeader");
+      res = (RemoteLeader) Naming.lookup("rmi://127.0.0.1" + "/HerdLeader");
       localHerd.setLeader(res);
       // FIXME lookup IP
       res.register(this);
