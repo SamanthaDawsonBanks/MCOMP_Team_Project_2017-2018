@@ -3,6 +3,7 @@
  */
 package common.datatypes.map.griddedMap;
 
+import java.io.Serializable;
 import common.datatypes.Waypoint;
 
 /**
@@ -17,8 +18,12 @@ import common.datatypes.Waypoint;
  * @see common.datatypes.map.griddedMap.Vertex
  *
  */
-public class Region {
+public class Region implements Serializable {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 6293794280751453134L;
   int gridSize;
   long gridOffset;
 

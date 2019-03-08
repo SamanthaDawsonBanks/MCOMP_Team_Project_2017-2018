@@ -1,5 +1,6 @@
 package common.datatypes.map.griddedMap;
 
+import java.io.Serializable;
 import common.datatypes.Waypoint;
 
 /**
@@ -14,8 +15,12 @@ import common.datatypes.Waypoint;
  * @see common.datatypes.map.griddedMap.Vertex
  *
  */
-public class Chunk {
+public class Chunk implements Serializable {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -1721206550805261431L;
   private Vertex[][] vertices;
   GriddedMap root;
   private int gridSize;

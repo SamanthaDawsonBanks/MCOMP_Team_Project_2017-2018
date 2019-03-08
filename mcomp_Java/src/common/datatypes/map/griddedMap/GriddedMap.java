@@ -1,5 +1,6 @@
 package common.datatypes.map.griddedMap;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import common.datatypes.Waypoint;
 import common.datatypes.map.Map;
@@ -20,7 +21,12 @@ import common.datatypes.map.Map;
  * @see common.datatypes.map.griddedMap.Region
  * 
  */
-public class GriddedMap {
+public class GriddedMap implements Serializable {
+
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 659949579922077522L;
 
   public BlockedVertex blocked;
 

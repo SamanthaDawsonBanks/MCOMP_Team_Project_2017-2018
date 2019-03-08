@@ -1,5 +1,6 @@
 package common.datatypes.map;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import common.datatypes.Waypoint;
 import common.datatypes.map.griddedMap.GridDesign;
@@ -20,8 +21,12 @@ import common.datatypes.map.griddedMap.GriddedMap;
  * @see common.datatypes.map.griddedMap.GridDesign
  * 
  */
-public class Map {
+public class Map implements Serializable {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -2190687313705793008L;
   private ArrayList<MapLayer> layers = new ArrayList<MapLayer>();
   private GriddedMap amalgamatedMap;
   private int gridSize;

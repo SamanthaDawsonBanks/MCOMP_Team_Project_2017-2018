@@ -1,5 +1,6 @@
 package common.datatypes.map.griddedMap;
 
+import java.io.Serializable;
 import common.datatypes.Waypoint;
 
 /**
@@ -17,8 +18,12 @@ import common.datatypes.Waypoint;
  * @see common.datatypes.map.griddedMap.Vertex
  * @see common.datatypes.map.griddedMap.BlockedVertex
  */
-public class Vertex {
+public class Vertex implements Serializable {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 7688895541614215077L;
   private long x;
   private long y;
   public Vertex[] edges;
