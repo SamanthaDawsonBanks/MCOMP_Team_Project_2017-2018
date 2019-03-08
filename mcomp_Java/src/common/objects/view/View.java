@@ -1,4 +1,4 @@
-package common.objects;
+package common.objects.view;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;
@@ -14,6 +14,7 @@ import common.datatypes.map.griddedMap.Vertex;
 import common.datatypes.path.Path;
 import common.interfaces.RemoteLeader;
 import common.interfaces.RemoteView;
+import common.objects.Herd;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;

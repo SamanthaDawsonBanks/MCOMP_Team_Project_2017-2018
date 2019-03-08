@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<SplitPane dividerPositions="0.7812187812187812" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1003.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+  <items>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+         <children>
+            <ScrollPane layoutX="2.0" layoutY="2.0" pannable="true" prefHeight="748.0" prefWidth="778.0">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+              </content>
+            </ScrollPane>
+         </children></AnchorPane>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+         <children>
+            <VBox prefHeight="748.0" prefWidth="215.0">
+               <children>
+                  <TitledPane animated="false" text="Map">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <FlowPane prefHeight="200.0" prefWidth="200.0">
+                                 <children>
+                                    <GridPane>
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                          <ToggleButton mnemonicParsing="false" text="LiDAR" />
+                                       </children>
+                                    </GridPane>
+                                    <ToggleButton mnemonicParsing="false" text="Blocked" />
+                                    <ToggleButton mnemonicParsing="false" text="Grid" />
+                                    <ToggleButton mnemonicParsing="false" text="Map" />
+                                 </children>
+                              </FlowPane>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </TitledPane>
+                  <TitledPane animated="false" text="Pathfinding">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <ToggleButton mnemonicParsing="false" text="Path" />
+                              <ToggleButton layoutY="93.0" mnemonicParsing="false" text="Heuristic" />
+                              <ToggleButton layoutY="62.0" mnemonicParsing="false" text="Optimised" />
+                              <ToggleButton layoutY="31.0" mnemonicParsing="false" text="Searched" />
+                           </children></AnchorPane>
+                    </content>
+                  </TitledPane>
+                  <TitledPane animated="false" text="Herd">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="322.0" prefWidth="213.0" />
+                    </content>
+                  </TitledPane>
+               </children>
+            </VBox>
+         </children></AnchorPane>
+  </items>
+</SplitPane>
