@@ -112,17 +112,19 @@ public class Pipe {
    */
   public MapLayer lSense() {
     LOGGER.log(Level.INFO, "begin requesting lread");
+    
+    return new MapLayer(unitTesting.testData.TestData.getPresentationMaze());
 
-    MapLayer res = new MapLayer(null); // or new ArrayList<Waypoint>()
-
-    try {
-      res = decodeLSense(call(encode(Commands.L_SENSE, null)));
-    } catch (SerialPortException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-
-    return res;
+//    MapLayer res = new MapLayer(null); // or new ArrayList<Waypoint>()
+//
+//    try {
+//      res = decodeLSense(call(encode(Commands.L_SENSE, null)));
+//    } catch (SerialPortException e) {
+//      // TODO Auto-generated catch block
+//      e.printStackTrace();
+//    }
+//
+//    return res;
   }
 
   /**
