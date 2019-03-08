@@ -104,6 +104,10 @@ public void startGUI(Stage s) {
     }
 }
 
+public void notifyOfChange() {
+	// TODO Auto-generated method stub
+}
+
 
 
 //  /**

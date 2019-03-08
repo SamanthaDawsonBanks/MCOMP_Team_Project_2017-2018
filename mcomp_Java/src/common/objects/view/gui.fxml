@@ -34,7 +34,7 @@
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                       </rowConstraints>
                                        <children>
-                                          <ToggleButton mnemonicParsing="false" text="LiDAR" />
+                                          <ToggleButton mnemonicParsing="false" text="LiDAR" onAction="#toggleLiDARLayer" />
                                        </children>
                                     </GridPane>
                                     <ToggleButton mnemonicParsing="false" text="Blocked" />

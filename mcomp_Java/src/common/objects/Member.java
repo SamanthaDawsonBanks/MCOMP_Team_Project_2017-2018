@@ -223,6 +223,7 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
   public void notifyOfChange() throws RemoteException {
     try {
       localHerd = localHerd.getLeader().getState();
+      v.notifyOfChange();
     } catch (RemoteException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
