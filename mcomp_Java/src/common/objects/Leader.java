@@ -109,14 +109,14 @@ public class Leader extends UnicastRemoteObject
     // updateModel(joiningMember.getLocalHerdData()); //FIXME do we need this??
     joiningMember.RMITest();// FIXME this checks loopback
 
-    joiningMember.notifyOfChange();
-
     if (leaderHerd.getSensors().contains(joiningMember)) {
       leaderHerd.addMapLayer(joiningMember.lSense());// take LiDAR Read
     }
+    ArrayList<RemoteMember> res =  leaderHerd.requestJoin(joiningMember);
+    joiningMember.notifyOfChange();
 
     // TODO do something ? take read ? dance?!?!?!
-    return leaderHerd.requestJoin(joiningMember);
+    return res;
     // FIXME adjust for leaderHerd
     // used to register a client for server/client/mvc
     // Likely to take a member and add them to the 'registered' list??

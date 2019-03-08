@@ -71,6 +71,8 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
   private double currentY;
 
   private ViewController v;
+
+  private Stage stage;
   
   /**
    * The Constructor for a Member.
@@ -124,9 +126,6 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
     // connect to rmi
     localHerd.setLeader(connectRMI());
 
-    if (abilities.contains(Ability.VIEWER)) {
-      //startGUI();
-    }
   }
 
 
@@ -223,7 +222,7 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
   public void notifyOfChange() throws RemoteException {
     try {
       localHerd = localHerd.getLeader().getState();
-      v.notifyOfChange();
+      v.notifyOfChange(localHerd);
     } catch (RemoteException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
@@ -350,8 +349,12 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
   }
 
 
-  public void setStage(Stage stage) {
-	  v.startGUI(stage);	  
+  public void setStage(Stage s) {
+    this.stage = s;
+    if (abilities.contains(Ability.VIEWER)) {
+      v.startGUI(this.stage);      
+      v.notifyOfChange(localHerd);
+    }
   }
   
 
