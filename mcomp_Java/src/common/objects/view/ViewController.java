@@ -19,7 +19,9 @@ import common.objects.Herd;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Rectangle2D;
@@ -32,11 +34,13 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -66,46 +70,56 @@ public class ViewController {
 
   private static final Logger LOGGER = Logger.getLogger(ViewController.class.getName());
 
-//  private RemoteLeader localLeaderRef = null;
-//  private Herd localHerdData;
-//  private Boolean checkDest = false;
-//  private Label label;
-//  private Button killButton, killButton2, killButton3, killButton4;
-//  private VBox vbox;
-//  private int counter = 0;
-//  private Pane pane;
-//  private Group lidarGroup, blockedGroup, lineGroup, amalgamateGroup, pathGroup, searchedGroup,
-//  optimisedGroup;
+  // private RemoteLeader localLeaderRef = null;
+  // private Herd localHerdData;
+  // private Boolean checkDest = false;
+  // private Label label;
+  // private Button killButton, killButton2, killButton3, killButton4;
+  // private VBox vbox;
+  // private int counter = 0;
+  // private Pane pane;
+  private Group lidarGroup, blockedGroup, lineGroup, amalgamateGroup, pathGroup, searchedGroup,
+      optimisedGroup;
 
-private Stage stage;
-private Herd localHerdData;
+  private Stage stage;
+  private Herd localHerdData;
+  
+@FXML AnchorPane anchorPane;
 
 
 
-public ViewController () {
-} //FIXME change scope?
+  public ViewController() {} // FIXME change scope?
 
-public ViewController (Herd h) {
-  this.localHerdData = h;
-}
+  public ViewController(Herd h) {
+    this.localHerdData = h;
+  }
 
-public void startGUI(Stage s) {
+  public void startGUI(Stage s) {
     this.stage = s;
     this.stage.setTitle("CI390 Herd GUI");
     Parent root;
     try {
-        root = FXMLLoader.load(getClass().getResource("./gui.fxml"));
-        Scene scene = new Scene(root);
-        this.stage.setScene(scene);
-        this.stage.show();
+      root = FXMLLoader.load(getClass().getResource("./gui.fxml"));
+      Scene scene = new Scene(root);
+      this.stage.setScene(scene);
+      this.stage.show();
     } catch (IOException e) {
-        e.printStackTrace();
-        LOGGER.log(Level.SEVERE,"Can't find the GUI FXML file!");
+      e.printStackTrace();
+      LOGGER.log(Level.SEVERE, "Can't find the GUI FXML file!");
+      anchorPane.getChildren().add(lidarGroup);
     }
-}
+  }
 
-public void notifyOfChange() {
-	// TODO Auto-generated method stub
+
+  @FXML
+  private void toggleLiDARLayer(Event e) {
+    for (Waypoint w : localHerdData.getMap().getLayer(0)) {// FIXME ref spinner val
+      lidarGroup.getChildren().add(new Circle(w.getX(), w.getY(), 20));
+    }
+  }
+
+public void notifyOfChange(Herd h) {
+	localHerdData = h;
 }
 
 
