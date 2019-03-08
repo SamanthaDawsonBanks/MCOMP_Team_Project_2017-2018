@@ -348,7 +348,7 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
 
 
   public void setStage(Stage stage) {
-	  v.startGUI(stage);	  
+	  v.startGUI(stage , localHerd);	  
   }
   
 

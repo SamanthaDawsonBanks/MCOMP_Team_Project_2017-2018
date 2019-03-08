@@ -66,18 +66,19 @@ public class View {
 
   private static final Logger LOGGER = Logger.getLogger(View.class.getName());
 
-  private RemoteLeader localLeaderRef = null;
-  private Herd localHerdData;
-  private Boolean checkDest = false;
-  private Label label;
-  private Button killButton, killButton2, killButton3, killButton4;
-  private VBox vbox;
-  private int counter = 0;
-  private Pane pane;
-  private Group lidarGroup, blockedGroup, lineGroup, amalgamateGroup, pathGroup, searchedGroup,
-  optimisedGroup;
+//  private RemoteLeader localLeaderRef = null;
+//  private Herd localHerdData;
+//  private Boolean checkDest = false;
+//  private Label label;
+//  private Button killButton, killButton2, killButton3, killButton4;
+//  private VBox vbox;
+//  private int counter = 0;
+//  private Pane pane;
+//  private Group lidarGroup, blockedGroup, lineGroup, amalgamateGroup, pathGroup, searchedGroup,
+//  optimisedGroup;
 
 private Stage stage;
+private Herd localHerdData;
 
 //  /**
 //   * Takes in all methods that deal with drawing to the GUI and adds them to the new HBox. Adds the
@@ -1090,9 +1091,10 @@ private Stage stage;
 //    }
 //  } 
 
-public void startGUI(Stage s) {
+public void startGUI(Stage s, Herd h) {
 	this.stage = s;
 	this.stage.setTitle("CI390 Herd GUI");
+	this.localHerdData = h;
 	Parent root;
 	try {
 		root = FXMLLoader.load(getClass().getResource("./gui.fxml"));
