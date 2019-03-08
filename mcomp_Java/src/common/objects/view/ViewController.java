@@ -80,6 +80,32 @@ public class ViewController {
 private Stage stage;
 private Herd localHerdData;
 
+
+
+public ViewController () {
+} //FIXME change scope?
+
+public ViewController (Herd h) {
+  this.localHerdData = h;
+}
+
+public void startGUI(Stage s) {
+    this.stage = s;
+    this.stage.setTitle("CI390 Herd GUI");
+    Parent root;
+    try {
+        root = FXMLLoader.load(getClass().getResource("./gui.fxml"));
+        Scene scene = new Scene(root);
+        this.stage.setScene(scene);
+        this.stage.show();
+    } catch (IOException e) {
+        e.printStackTrace();
+        LOGGER.log(Level.SEVERE,"Can't find the GUI FXML file!");
+    }
+}
+
+
+
 //  /**
 //   * Takes in all methods that deal with drawing to the GUI and adds them to the new HBox. Adds the
 //   * HBox to a new pane. Finally the pane is displayed as a new scene for the current stage.
@@ -1090,25 +1116,6 @@ private Herd localHerdData;
 //      e.printStackTrace();
 //    }
 //  } 
-
-public ViewController (Herd h) {
-	this.localHerdData = h;
-}
-
-public void startGUI(Stage s) {
-	this.stage = s;
-	this.stage.setTitle("CI390 Herd GUI");
-	Parent root;
-	try {
-		root = FXMLLoader.load(getClass().getResource("./gui.fxml"));
-		Scene scene = new Scene(root);
-		this.stage.setScene(scene);
-		this.stage.show();
-	} catch (IOException e) {
-		e.printStackTrace();
-		LOGGER.log(Level.SEVERE,"Can't find the GUI FXML file!");
-	}
-}
 
 
 }
