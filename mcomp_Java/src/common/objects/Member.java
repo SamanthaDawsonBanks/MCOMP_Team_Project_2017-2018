@@ -70,7 +70,7 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
   private double currentX;
   private double currentY;
 
-  private ViewController v;
+  private static ViewController v;
 
   private Stage stage;
   
