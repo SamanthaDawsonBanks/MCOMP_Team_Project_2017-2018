@@ -86,7 +86,7 @@ public class MapLayer implements Serializable, Iterable<Waypoint> {
    * @return A new MapLayer with the applied compound transformations
    */
   public MapLayer transform(double angle, double xOffset, double yOffset, double scale) {
-    return rotate(angle).translate(xOffset, yOffset).scale(scale);
+    return scale(scale).rotate(angle).translate(xOffset, yOffset);
   }
 
 
