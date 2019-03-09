@@ -47,24 +47,29 @@ public class Pipe {
   public Pipe() {
     availablePorts = SerialPortList.getPortNames();
 
+    int x = availablePorts.length;
+
     if (availablePorts.length == 0) {
       LOGGER.log(Level.SEVERE, "There are no serial-ports available");
-    }
+    } else {
 
-    // Print out list of available ports
-    LOGGER.log(Level.INFO, "Available Ports:");
-    for (int i = 0; i < availablePorts.length; i++) {
-      LOGGER.log(Level.INFO, availablePorts[i]);
-    }
+      // Print out list of available ports
+      LOGGER.log(Level.INFO, "Available Ports:");
+      for (int i = 0; i < availablePorts.length; i++) {
+        LOGGER.log(Level.INFO, availablePorts[i]);
+      }
 
-    p = new SerialPort(availablePorts[0]);
-    LOGGER.log(Level.INFO, "Using Port: " + availablePorts[0]);
+      p = new SerialPort(availablePorts[0]);
+      LOGGER.log(Level.INFO, "Using Port: " + availablePorts[0]);
 
-    try {
-      p.openPort();
-      p.setParams(BAUD_RATE, NUM_OF_DATA_BITS, NUM_OF_STOP_BITS, NUM_OF_PARITY_BITS);
-    } catch (SerialPortException e) {
-      e.printStackTrace();
+      try {
+        p.openPort();
+        p.setParams(BAUD_RATE, NUM_OF_DATA_BITS, NUM_OF_STOP_BITS, NUM_OF_PARITY_BITS);
+      } catch (SerialPortException e) {
+        e.printStackTrace();
+      }
+
+
     }
   }
 
@@ -112,19 +117,19 @@ public class Pipe {
    */
   public MapLayer lSense() {
     LOGGER.log(Level.INFO, "begin requesting lread");
-    
+
     return new MapLayer(unitTesting.testData.TestData.getPresentationMaze());
 
-//    MapLayer res = new MapLayer(null); // or new ArrayList<Waypoint>()
-//
-//    try {
-//      res = decodeLSense(call(encode(Commands.L_SENSE, null)));
-//    } catch (SerialPortException e) {
-//      // TODO Auto-generated catch block
-//      e.printStackTrace();
-//    }
-//
-//    return res;
+    // MapLayer res = new MapLayer(null); // or new ArrayList<Waypoint>()
+    //
+    // try {
+    // res = decodeLSense(call(encode(Commands.L_SENSE, null)));
+    // } catch (SerialPortException e) {
+    // // TODO Auto-generated catch block
+    // e.printStackTrace();
+    // }
+    //
+    // return res;
   }
 
   /**
