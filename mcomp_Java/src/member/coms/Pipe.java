@@ -118,7 +118,7 @@ public class Pipe {
   public MapLayer lSense() {
     LOGGER.log(Level.INFO, "begin requesting lread");
 
-    return new MapLayer(unitTesting.testData.TestData.getPresentationMaze()).scale(10);
+    return new MapLayer(unitTesting.testData.TestData.getPresentationMaze());
 
     // MapLayer res = new MapLayer(null); // or new ArrayList<Waypoint>()
     //
