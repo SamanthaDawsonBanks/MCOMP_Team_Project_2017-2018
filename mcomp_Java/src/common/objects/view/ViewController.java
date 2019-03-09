@@ -82,21 +82,29 @@ public class ViewController {
       optimisedGroup;
 
   private Stage stage;
-  private Herd localHerdData;
+  private static Herd localHerdData = null;
+  
+  private String title;
   
 @FXML AnchorPane anchorPane;
 
 
 
-  public ViewController() {} // FIXME change scope?
+  public ViewController() {
+    LOGGER.log(Level.SEVERE, "ViewController stub constructor called");
+    title = title + "stub";
+  } // FIXME change scope?
 
   public ViewController(Herd h) {
+    LOGGER.log(Level.SEVERE, "ViewController main constructor called");
+    title = title + "main";
     this.localHerdData = h;
   }
 
   public void startGUI(Stage s) {
     this.stage = s;
-    this.stage.setTitle("CI390 Herd GUI");
+    this.stage.setTitle(title);
+//    this.stage.setTitle("CI390 Herd GUI");
     Parent root;
     try {
       root = FXMLLoader.load(getClass().getResource("./gui.fxml"));
@@ -113,12 +121,17 @@ public class ViewController {
 
   @FXML
   private void toggleLiDARLayer(Event e) {
+    lidarGroup = new Group(); //init new empty group
+    Circle c;
     for (Waypoint w : localHerdData.getMap().getLayer(0)) {// FIXME ref spinner val
-      lidarGroup.getChildren().add(new Circle(w.getX(), w.getY(), 20));
+      c = new Circle(w.getX(), w.getY(), 20000, Color.RED);
+      lidarGroup.getChildren().add(c);
     }
+    LOGGER.log(Level.SEVERE, "Return added");
   }
 
 public void notifyOfChange(Herd h) {
+  LOGGER.log(Level.SEVERE, "Herd update pushed to " + title);
 	localHerdData = h;
 }
 
