@@ -87,9 +87,25 @@ public class ViewController {
 
   private String title;
 
-  @FXML AnchorPane anchorPane;
+  @FXML
+  AnchorPane anchorPane;
+//  @FXML
+//  Spinner<Integer> liDARSpinner = new Spinner<Integer>();
+  
+  @FXML
+  Spinner<Integer> liDARSpinner;
 
+  private void initSpinner() {
+    liDARSpinner.setValueFactory(
+          new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10)
+      );
+  }
+  
+  public void updateSpinnerValue(Integer newValue) {
+    liDARSpinner.getValueFactory().setValue(newValue);
+}
 
+  final int initialValue = 3;
 
   public ViewController() {
     LOGGER.log(Level.SEVERE, "ViewController stub constructor called");
@@ -120,11 +136,15 @@ public class ViewController {
   }
 
 
-  @FXML private void toggleLiDARLayer(Event e) {
+  @FXML
+  private void toggleLiDARLayer(Event e) {
     lidarGroup = new Group(); // init new empty group
     Circle c;
-    for (Waypoint w : localHerdData.getMap().getLayer(0).transform(180, 400, -400, 100)) {// FIXME ref spinner val
-      c = new Circle(-w.getX(), w.getY(), 2, Color.RED);
+    for (Waypoint w : localHerdData.getMap().getLayer(0).transform(0, 0, 0, 2)) {// FIXME
+                                                                                          // ref
+                                                                                          // spinner
+                                                                                          // val
+      c = new Circle((w.getX()+400), (w.getY()+400), 2, Color.RED);
       lidarGroup.getChildren().add(c);
     }
     LOGGER.log(Level.SEVERE, "Return added");
