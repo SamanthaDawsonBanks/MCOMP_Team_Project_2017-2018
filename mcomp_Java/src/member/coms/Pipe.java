@@ -47,8 +47,6 @@ public class Pipe {
   public Pipe() {
     availablePorts = SerialPortList.getPortNames();
 
-    int x = availablePorts.length;
-
     if (availablePorts.length == 0) {
       LOGGER.log(Level.SEVERE, "There are no serial-ports available");
     } else {
@@ -62,14 +60,13 @@ public class Pipe {
       p = new SerialPort(availablePorts[0]);
       LOGGER.log(Level.INFO, "Using Port: " + availablePorts[0]);
 
+
       try {
         p.openPort();
         p.setParams(BAUD_RATE, NUM_OF_DATA_BITS, NUM_OF_STOP_BITS, NUM_OF_PARITY_BITS);
       } catch (SerialPortException e) {
         e.printStackTrace();
       }
-
-
     }
   }
 
@@ -118,18 +115,18 @@ public class Pipe {
   public MapLayer lSense() {
     LOGGER.log(Level.INFO, "begin requesting lread");
 
-    return new MapLayer(unitTesting.testData.TestData.getPresentationMaze());
+    // return new MapLayer(unitTesting.testData.TestData.getPresentationMaze());
 
-    // MapLayer res = new MapLayer(null); // or new ArrayList<Waypoint>()
-    //
-    // try {
-    // res = decodeLSense(call(encode(Commands.L_SENSE, null)));
-    // } catch (SerialPortException e) {
-    // // TODO Auto-generated catch block
-    // e.printStackTrace();
-    // }
-    //
-    // return res;
+    MapLayer res = new MapLayer(null); // or new ArrayList<Waypoint>()
+
+    try {
+      res = decodeLSense(call(encode(Commands.L_SENSE, null)));
+    } catch (SerialPortException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
+    return res;
   }
 
   /**
@@ -144,8 +141,17 @@ public class Pipe {
     ArrayList<Waypoint> layer = new ArrayList<Waypoint>();
     String[] xys = s.split(";");
 
+    Waypoint w;
+    double x;
+    double y;
+
     for (int i = 0; i <= (xys.length - 2); i = i + 2) {
-      layer.add(new Waypoint(Double.parseDouble(xys[i]), Double.parseDouble(xys[i + 1])));
+      x = Double.parseDouble(xys[i]);
+      y = Double.parseDouble(xys[i + 1]);
+      w = new Waypoint(i, i);
+      layer.add(w);
+
+      // layer.add(new Waypoint(Double.parseDouble(xys[i]), Double.parseDouble(xys[i + 1])));
     }
 
     MapLayer res = new MapLayer(layer);
