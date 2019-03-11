@@ -54,5 +54,5 @@ void setup() {
 void loop() {
   //DEBUG.println("Moo");
   p.recieveCommand();
-  testMove();
+  //testMove();
 }  // End Loop
