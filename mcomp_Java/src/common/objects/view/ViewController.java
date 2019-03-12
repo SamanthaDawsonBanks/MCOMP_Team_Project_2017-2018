@@ -140,7 +140,7 @@ public class ViewController {
   private void toggleLiDARLayer(Event e) {
     lidarGroup = new Group(); // init new empty group
     Circle c;
-    for (Waypoint w : localHerdData.getMap().getLayer(0).transform(0, 0, 0, 2)) {// FIXME
+    for (Waypoint w : localHerdData.getMap().getLayer(0).transform(0, 0, 0, 4)) {// FIXME
                                                                                           // ref
                                                                                           // spinner
                                                                                           // val
