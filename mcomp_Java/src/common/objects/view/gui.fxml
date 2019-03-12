@@ -19,18 +19,13 @@
 	xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="common.objects.view.ViewController">
 	<items>
-		<AnchorPane minHeight="0.0" minWidth="0.0"
-			prefHeight="200.0" prefWidth="100.0">
-			<children>
-				<ScrollPane layoutX="2.0" layoutY="2.0" pannable="true"
-					prefHeight="800.0" prefWidth="800.0">
-					<content>
-						<AnchorPane fx:id="anchorPane" minHeight="0.0"
-							minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
-					</content>
-				</ScrollPane>
-			</children>
-		</AnchorPane>
+		<ScrollPane pannable="true" prefHeight="800.0"
+			prefWidth="800.0">
+			<content>
+				<AnchorPane fx:id="anchorPane" minHeight="0.0"
+					minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+			</content>
+		</ScrollPane>
 		<AnchorPane minHeight="0.0" minWidth="0.0"
 			prefHeight="160.0" prefWidth="100.0">
 			<children>
