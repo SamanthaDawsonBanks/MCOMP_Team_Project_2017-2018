@@ -156,78 +156,7 @@ public class ViewController {
     localHerdData = h;
   }
 
-  @FXML
-  private void togglePath(Event e) {
-	  anchorPane.getChildren().add(drawPathTest(10)); //Test
-      //anchorPane.getChildren().add(drawPath(pathToVerts(localHerdData.unoptimizedPath));
-  }
-  
-  private Node drawPathTest(int i) {
-	  pathGroup = new Group();
-	  Rectangle r;
-	  
-	  for(int j = 0; j < i; j++) {
-		  r = new Rectangle((j*10), (j*10), 10, 10);
-		  r.setFill(Color.GREEN);
-		  pathGroup.getChildren().add(r);
-	  }
-	  return pathGroup;
-  }
-  
-  private Node drawPath(ArrayList<Vertex> path) {
-	  pathGroup = new Group();
-	  Rectangle r;
-	  
-	  for(Vertex v : path) {
-		  r = new Rectangle(v.getX() + 10, v.getY() + 10, 10, 10);
-		  r.setFill(Color.GREEN);
-		  pathGroup.getChildren().add(r);
-	  }
-	  
-	  return pathGroup;
-  }
-  
-  @FXML
-  private void toggleOptimisedPath(Event e) {
-	anchorPane.getChildren().add(drawOptimisedPath(pathToVerts(localHerdData.optimizedPath));
-  }
-   
-  private void drawOptimisedPath(ArrayList<Vertex> path) {
-	  optimisedGroup = new Group();
-	  Rectangle r;
-	  
-	  for(Vertex v: path) {
-		  r = new Rectangle(v.getX() + 10, v.getY() + 10, 10, 10);
-		  r.setFill(Color.PURPLE);
-		  optimisedGroup.getChildren().add(r);
-	  }
-	  
-	  anchorPane.getChildren().add(optimisedGroup);
-  }
-  
-  @FXML
-  private void toggleSearched(Event e) {
-	  anchorPane.getChildren().add(drawSearchedNodes(localHerdData.searchedNodes);
-  }
-  
-  
-  private Node drawSearchedNodesTest(ArrayList<Vertex> searched) {
-	  searchedGroup = new Group();
-	  Rectangle r;
-	  
-	  for(Vertex v: searched) {
-		  r = new Rectangle(v.getX() + 10, v.getY() + 10., 10, 10);
-		  r.setFill(Color.PURPLE);
-		  searchedGroup.getChildren().add(r);
-	  }
-	return searchedGroup;  
-  }
- 
-  @FXML
-  private void runButton(Event e) {
-	  //TODO implement - run A*
-  }
-    
+
 
   // /**
   // * Takes in all methods that deal with drawing to the GUI and adds them to the new HBox. Adds

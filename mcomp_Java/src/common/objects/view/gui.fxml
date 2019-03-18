@@ -12,18 +12,18 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<SplitPane dividerPositions="0.7812187812187812" 
-	maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" 
+<SplitPane dividerPositions="0.7812187812187812"
+	maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
 	minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0"
-	xmlns="http://javafx.com/javafx/8.0.171" 
+	xmlns="http://javafx.com/javafx/8.0.171"
 	xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="common.objects.view.ViewController"
-  	<items>
+	fx:controller="common.objects.view.ViewController">
+	<items>
 		<ScrollPane pannable="true" prefHeight="800.0"
 			prefWidth="800.0">
-			 <content>
+			<content>
 				<AnchorPane fx:id="anchorPane" minHeight="0.0"
-					minWidth="0.0" prefHeight="200.0" prefWidth="200.0"/>
+					minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
 			</content>
 		</ScrollPane>
 		<AnchorPane minHeight="0.0" minWidth="0.0"
@@ -74,13 +74,13 @@
 								<AnchorPane minHeight="0.0" minWidth="0.0"
 									prefHeight="180.0" prefWidth="200.0">
 									<children>
-										<ToggleButton mnemonicParsing="false" onAction="#togglePath" text="Path" />
+										<ToggleButton mnemonicParsing="false" text="Path" />
+										<ToggleButton layoutY="93.0"
+											mnemonicParsing="false" text="Heuristic" />
 										<ToggleButton layoutY="62.0"
-											mnemonicParsing="false" onAction="#toggleOptimisedPath" text="Optimised" />
+											mnemonicParsing="false" text="Optimised" />
 										<ToggleButton layoutY="31.0"
-											mnemonicParsing="false" onAction="#toggleSearched" text="Searched" />
-										<ToggleButton layoutY="126.0"
-											mnemonicParsing="false" onAction="#runButton" text="Run" />
+											mnemonicParsing="false" text="Searched" />
 									</children>
 								</AnchorPane>
 							</content>
