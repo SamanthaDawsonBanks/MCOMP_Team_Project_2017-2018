@@ -35,7 +35,6 @@ import javafx.stage.Stage;
 import member.MemberMain;
 import member.coms.Pipe;
 import pathfinding.AStar;
-import common.objects.view.ViewController;
 
 /**
  * 

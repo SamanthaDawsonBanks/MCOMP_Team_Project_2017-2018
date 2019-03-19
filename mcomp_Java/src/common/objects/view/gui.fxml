@@ -17,7 +17,7 @@
 	minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0"
 	xmlns="http://javafx.com/javafx/8.0.171"
 	xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="common.objects.view.ViewController">
+	fx:controller="common.objects.ViewController">
 	<items>
 		<ScrollPane pannable="true" prefHeight="800.0"
 			prefWidth="800.0">
@@ -52,7 +52,7 @@
 													<children>
 														<ToggleButton mnemonicParsing="false"
 															onAction="#toggleLiDARLayer" text="LiDAR" />
-														<Spinner id="liDARSpinner" fx:id="liDARSpinner"
+														<Spinner id="spnLiDAR" fx:id="spnLiDAR"
 															GridPane.columnIndex="1">
 														</Spinner>
 													</children>
@@ -74,13 +74,15 @@
 								<AnchorPane minHeight="0.0" minWidth="0.0"
 									prefHeight="180.0" prefWidth="200.0">
 									<children>
-										<ToggleButton mnemonicParsing="false" text="Path" />
-										<ToggleButton layoutY="93.0"
-											mnemonicParsing="false" text="Heuristic" />
+										<ToggleButton mnemonicParsing="false" onAction="#togglePath" text="Path" />
 										<ToggleButton layoutY="62.0"
-											mnemonicParsing="false" text="Optimised" />
+											mnemonicParsing="false" onAction="#toggleOptimisedPath" text="Optimised" />
 										<ToggleButton layoutY="31.0"
-											mnemonicParsing="false" text="Searched" />
+											mnemonicParsing="false" onAction="#toggleSearched" text="Searched" />
+										<ToggleButton layoutY="31.0"
+											mnemonicParsing="false" text="Heuristic" />
+										<ToggleButton layoutY="126.0"
+											mnemonicParsing="false" onAction="#runButton" text="Run" />
 									</children>
 								</AnchorPane>
 							</content>

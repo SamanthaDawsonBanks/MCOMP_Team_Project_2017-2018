@@ -1,4 +1,4 @@
-package common.objects.view;
+package common.objects;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -15,7 +15,6 @@ import common.datatypes.map.griddedMap.Vertex;
 import common.datatypes.path.Path;
 import common.interfaces.RemoteLeader;
 import common.interfaces.RemoteView;
-import common.objects.Herd;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -89,21 +88,19 @@ public class ViewController {
 
   @FXML
   AnchorPane anchorPane;
-//  @FXML
-//  Spinner<Integer> liDARSpinner = new Spinner<Integer>();
-  
+  // @FXML
+  // Spinner<Integer> liDARSpinner = new Spinner<Integer>();
+
   @FXML
-  Spinner<Integer> liDARSpinner;
+  Spinner<Integer> spnLiDAR;
 
   private void initSpinner() {
-    liDARSpinner.setValueFactory(
-          new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10)
-      );
+    spnLiDAR.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10));
   }
-  
+
   public void updateSpinnerValue(Integer newValue) {
-    liDARSpinner.getValueFactory().setValue(newValue);
-}
+    spnLiDAR.getValueFactory().setValue(newValue);
+  }
 
   final int initialValue = 3;
 
@@ -115,7 +112,7 @@ public class ViewController {
   public ViewController(Herd h) {
     LOGGER.log(Level.SEVERE, "ViewController main constructor called");
     title = title + "main";
-    this.localHerdData = h;
+    ViewController.localHerdData = h;
   }
 
   public void startGUI(Stage s) {
@@ -140,15 +137,50 @@ public class ViewController {
   private void toggleLiDARLayer(Event e) {
     lidarGroup = new Group(); // init new empty group
     Circle c;
-    for (Waypoint w : localHerdData.getMap().getLayer(0).transform(0, 0, 0, 4)) {// FIXME
-                                                                                          // ref
-                                                                                          // spinner
-                                                                                          // val
-      c = new Circle((w.getX()+400), (w.getY()+400), 2, Color.RED);
+    for (Waypoint w : localHerdData.getMap().getLayer(0).transform(0, 0, 0, 20)) {
+      // FIXME ref spinner val
+      c = new Circle((w.getX() + 400), (w.getY() + 400), 2, Color.RED);
       lidarGroup.getChildren().add(c);
     }
     LOGGER.log(Level.SEVERE, "Return added");
     anchorPane.getChildren().add(lidarGroup);
+  }
+
+  @FXML
+  private void toggleOptimisedPath(Event e) {
+//    anchorPane.getChildren().add(drawOptimisedPathTest(10)); // Test
+     //anchorPane.getChildren().add(drawOptimisedPath(localHerdData.optimizedPath);
+     
+  }
+  
+  @FXML
+  private void togglePath(Event e) {
+//    anchorPane.getChildren().add(drawPathTest(10)); // Test
+     //anchorPane.getChildren().add(drawPath(localHerdData.path);
+  }
+
+  private Node drawPath(ArrayList<Vertex> path) {
+    pathGroup = new Group();
+    Rectangle r;
+    
+    for(Vertex v : path) {
+        r = new Rectangle(v.getX() + 10, v.getY() + 10, 10, 10);
+        r.setFill(Color.GREEN);
+        pathGroup.getChildren().add(r);
+    }
+    
+    return pathGroup;
+}
+
+  @FXML
+  public void toggleSearched(Event e) {
+//    anchorPane.getChildren().add(drawSearchedNodesTest(10)); // Test
+     //anchorPane.getChildren().add(drawSearchedNodes(localHerdData.searchedNodes);
+  }
+
+  @FXML
+  private void runButton(Event e) {
+    // TODO implement - run A*
   }
 
   public void notifyOfChange(Herd h) {
