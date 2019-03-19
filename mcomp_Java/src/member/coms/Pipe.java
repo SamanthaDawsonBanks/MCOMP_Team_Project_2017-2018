@@ -49,22 +49,24 @@ public class Pipe {
 
     if (availablePorts.length == 0) {
       LOGGER.log(Level.SEVERE, "There are no serial-ports available");
-    }
+    } else {
 
-    // Print out list of available ports
-    LOGGER.log(Level.INFO, "Available Ports:");
-    for (int i = 0; i < availablePorts.length; i++) {
-      LOGGER.log(Level.INFO, availablePorts[i]);
-    }
+      // Print out list of available ports
+      LOGGER.log(Level.INFO, "Available Ports:");
+      for (int i = 0; i < availablePorts.length; i++) {
+        LOGGER.log(Level.INFO, availablePorts[i]);
+      }
 
-    p = new SerialPort(availablePorts[0]);
-    LOGGER.log(Level.INFO, "Using Port: " + availablePorts[0]);
+      p = new SerialPort(availablePorts[2]);
+      LOGGER.log(Level.INFO, "Using Port: " + availablePorts[0]);
 
-    try {
-      p.openPort();
-      p.setParams(BAUD_RATE, NUM_OF_DATA_BITS, NUM_OF_STOP_BITS, NUM_OF_PARITY_BITS);
-    } catch (SerialPortException e) {
-      e.printStackTrace();
+
+      try {
+        p.openPort();
+        p.setParams(BAUD_RATE, NUM_OF_DATA_BITS, NUM_OF_STOP_BITS, NUM_OF_PARITY_BITS);
+      } catch (SerialPortException e) {
+        e.printStackTrace();
+      }
     }
   }
 
@@ -113,6 +115,9 @@ public class Pipe {
   public MapLayer lSense() {
     LOGGER.log(Level.INFO, "begin requesting lread");
 
+    // return new MapLayer(unitTesting.testData.TestData.getEmptyCentreMaze()).transform(0, 0, 0,50);
+    // above line used for 'no sensor' testing
+
     MapLayer res = new MapLayer(null); // or new ArrayList<Waypoint>()
 
     try {
@@ -130,6 +135,10 @@ public class Pipe {
    * of that return into a waypoint, add it to a new map layer and return it where it can then be
    * added to the map.
    * 
+   * scaling is due to RMI overflow
+   * 
+   * Y is negative because LiDAR sensor is on backwards
+   * 
    * @param s The lidar reading returned from the sense operation
    * @return A map layer representing the lidar read taken
    */
@@ -137,8 +146,17 @@ public class Pipe {
     ArrayList<Waypoint> layer = new ArrayList<Waypoint>();
     String[] xys = s.split(";");
 
+    Waypoint w;
+    double x;
+    double y;
+
     for (int i = 0; i <= (xys.length - 2); i = i + 2) {
-      layer.add(new Waypoint(Double.parseDouble(xys[i]), Double.parseDouble(xys[i + 1])));
+      x = Double.parseDouble(xys[i]);
+      y = Double.parseDouble(xys[i + 1]);
+      w = new Waypoint(x / 2, -y / 2); //scaled to prevent overflow and negating y 
+      layer.add(w);
+
+      // layer.add(new Waypoint(Double.parseDouble(xys[i]), Double.parseDouble(xys[i + 1])));
     }
 
     MapLayer res = new MapLayer(layer);

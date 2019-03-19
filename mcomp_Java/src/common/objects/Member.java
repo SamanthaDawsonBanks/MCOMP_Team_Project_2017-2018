@@ -25,6 +25,13 @@ import common.interfaces.Promotable;
 import common.interfaces.RemoteLeader;
 import common.interfaces.RemoteMember;
 import common.interfaces.Transferable;
+import javafx.geometry.Insets;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.Scene;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
 import member.MemberMain;
 import member.coms.Pipe;
 import pathfinding.AStar;
@@ -51,6 +58,8 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
   private static final long serialVersionUID = 8834142885550920107L;
 
   private static final Logger LOGGER = Logger.getLogger(Member.class.getName());
+  
+  Stage window = null;
 
   private ArrayList<Ability> abilities;
   private Herd localHerd;
@@ -60,6 +69,10 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
   private double currentX;
   private double currentY;
 
+  private static ViewController v;
+
+  private Stage stage;
+  
   /**
    * The Constructor for a Member.
    *
@@ -104,20 +117,20 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
     LOGGER.log(Level.INFO, "Calling Herd Constructor");
     localHerd = new Herd(this);
     LOGGER.log(Level.INFO, "Herd Constructed");
+    if(abilities.contains(Ability.VIEWER)) {
+    	v = new ViewController(localHerd);
+    }
 
 
     // connect to rmi
     localHerd.setLeader(connectRMI());
 
-    if (abilities.contains(Ability.VIEWER)) {
-      startGUI();
-    }
   }
 
 
   private void startGUI() {
     // TODO identical to start leader - factor out? startProc(leader/gui)???
-    try {
+   /* try {
       // build and start GUI process
       LOGGER.log(Level.INFO, "EXECing GUIMain");
       ProcessBuilder GUIMainPB = new ProcessBuilder("java", "-cp", "./bin/", "common.objects.View");
@@ -148,7 +161,7 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
     } catch (Exception e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
-    }
+    }*/
 
   }
 
@@ -208,6 +221,7 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
   public void notifyOfChange() throws RemoteException {
     try {
       localHerd = localHerd.getLeader().getState();
+      v.notifyOfChange(localHerd);
     } catch (RemoteException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
@@ -298,7 +312,7 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
   private RemoteLeader connectRMI() {
     RemoteLeader res = null;
     try {
-      res = (RemoteLeader) Naming.lookup("rmi://192.168.25.42" + "/HerdLeader");
+      res = (RemoteLeader) Naming.lookup("rmi://127.0.0.1" + "/HerdLeader");
       localHerd.setLeader(res);
       // FIXME lookup IP
       res.register(this);
@@ -332,6 +346,16 @@ public class Member extends UnicastRemoteObject implements RemoteMember, LSensea
     // e.printStackTrace();
     // }
   }
+
+
+  public void setStage(Stage s) {
+    this.stage = s;
+    if (abilities.contains(Ability.VIEWER)) {
+      v.startGUI(this.stage);      
+      v.notifyOfChange(localHerd);
+    }
+  }
+  
 
 }
 

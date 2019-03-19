@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<SplitPane dividerPositions="0.7812187812187812"
+	maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+	minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0"
+	xmlns="http://javafx.com/javafx/8.0.171"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="common.objects.ViewController">
+	<items>
+		<ScrollPane pannable="true" prefHeight="800.0"
+			prefWidth="800.0">
+			<content>
+				<AnchorPane fx:id="anchorPane" minHeight="0.0"
+					minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+			</content>
+		</ScrollPane>
+		<AnchorPane minHeight="0.0" minWidth="0.0"
+			prefHeight="160.0" prefWidth="100.0">
+			<children>
+				<VBox prefHeight="748.0" prefWidth="215.0">
+					<children>
+						<TitledPane animated="false" text="Map">
+							<content>
+								<AnchorPane minHeight="0.0" minWidth="0.0"
+									prefHeight="180.0" prefWidth="200.0">
+									<children>
+										<FlowPane prefHeight="200.0" prefWidth="200.0">
+											<children>
+												<GridPane>
+													<columnConstraints>
+														<ColumnConstraints hgrow="SOMETIMES"
+															minWidth="10.0" prefWidth="100.0" />
+														<ColumnConstraints hgrow="SOMETIMES"
+															minWidth="10.0" prefWidth="100.0" />
+													</columnConstraints>
+													<rowConstraints>
+														<RowConstraints minHeight="10.0"
+															prefHeight="30.0" vgrow="SOMETIMES" />
+													</rowConstraints>
+													<children>
+														<ToggleButton mnemonicParsing="false"
+															onAction="#toggleLiDARLayer" text="LiDAR" />
+														<Spinner id="spnLiDAR" fx:id="spnLiDAR"
+															GridPane.columnIndex="1">
+														</Spinner>
+													</children>
+												</GridPane>
+												<ToggleButton mnemonicParsing="false"
+													text="Blocked" />
+												<ToggleButton mnemonicParsing="false"
+													text="Grid" />
+												<ToggleButton mnemonicParsing="false"
+													text="Map" />
+											</children>
+										</FlowPane>
+									</children>
+								</AnchorPane>
+							</content>
+						</TitledPane>
+						<TitledPane animated="false" text="Pathfinding">
+							<content>
+								<AnchorPane minHeight="0.0" minWidth="0.0"
+									prefHeight="180.0" prefWidth="200.0">
+									<children>
+										<ToggleButton mnemonicParsing="false" onAction="#togglePath" text="Path" />
+										<ToggleButton layoutY="62.0"
+											mnemonicParsing="false" onAction="#toggleOptimisedPath" text="Optimised" />
+										<ToggleButton layoutY="31.0"
+											mnemonicParsing="false" onAction="#toggleSearched" text="Searched" />
+										<ToggleButton layoutY="31.0"
+											mnemonicParsing="false" text="Heuristic" />
+										<ToggleButton layoutY="126.0"
+											mnemonicParsing="false" onAction="#runButton" text="Run" />
+									</children>
+								</AnchorPane>
+							</content>
+						</TitledPane>
+						<TitledPane animated="false" text="Herd">
+							<content>
+								<AnchorPane minHeight="0.0" minWidth="0.0"
+									prefHeight="322.0" prefWidth="213.0" />
+							</content>
+						</TitledPane>
+					</children>
+				</VBox>
+			</children>
+		</AnchorPane>
+	</items>
+</SplitPane>

@@ -9,7 +9,7 @@
 #ifndef CONFIG_H_
 #define CONFIG_H_
 
-#define CONSOLE Serial //Serial comms via pins 0 and 1 and also USB
+#define CONSOLE Serial //Serial commas via pins 0 and 1 and also USB
 #define CONSOLERATE 115200
 #define CONSOLETIMEOUT 2000
 
@@ -17,7 +17,7 @@
 #define SENSORRATE 115200
 #define SENSORTIMEOUT 2000
 
-#define DEBUG Serial3 //Serial comms via pins 14 and 15 for debug spam
+#define DEBUG Serial2 //Serial comms via pins 14 and 15 for debug spam
 #define DEBUGRATE 115200
 #define DEBUGTIMEOUT 2000
 
